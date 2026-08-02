@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchTeacherHistoricalStats, fetchTeacherId, fetchTeacherPeriodStats, fetchTeacherPeriodCategoryStats, fetchCoordinatorReportsOverview } from '../../api/teachers';
+import { fetchTeacherHistoricalStats, fetchTeacherId, fetchTeacherPeriodStats, fetchTeacherPeriodCategoryStats } from '../../api/teachers';
+import { fetchCoordinatorReportsOverview } from '../../api/coordinador.api';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 

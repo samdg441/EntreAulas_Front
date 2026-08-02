@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import Card from '../components/Card'
-import Button from '../components/Button'
-import { UserType } from '../types'
-import { useAuth } from '../context/AuthContext'
+import Card from '../../components/Card'
+import Button from '../../components/Button'
+import { UserType } from '../../types'
+import { useAuth } from '../../context/AuthContext'
 import { 
   FaGraduationCap, 
   FaChalkboardTeacher, 
@@ -18,8 +18,8 @@ import {
 } from 'react-icons/fa'
 
 // Importación de assets
-import fondoImg from '../assets/fondo.webp'
-import logoUniversidadImg from '../assets/logo_conciencia.webp'
+import fondoImg from '../../assets/fondo.webp'
+import logoUniversidadImg from '../../assets/logo_conciencia.webp'
 
 export default function Login() {
   const [userType, setUserType] = useState<UserType>('student')

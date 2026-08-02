@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { fetchCoordinatorDashboardSummary, fetchCoordinatorProfessorStats } from '../api/teachers'
-import Header from '../components/Header'
-import Card, { CardHeader, CardContent, CardDescription, CardTitle } from '../components/Card'
-import Button from '../components/Button'
-import Badge from '../components/Badge'
+import { fetchCoordinatorDashboardSummary, fetchCoordinatorProfessorStats } from '../../api/coordinador.api'
+import Header from '../../components/Header'
+import Card, { CardHeader, CardContent, CardDescription, CardTitle } from '../../components/Card'
+import Button from '../../components/Button'
+import Badge from '../../components/Badge'
 import { motion } from 'framer-motion'
 import { Search, ArrowLeft, ChevronRight, GraduationCap, BookOpen, User as UserIcon, Star, BarChart3 } from 'lucide-react'
 
 export default function ManageProfessors() {
   const navigate = useNavigate()
-  const fondo = new URL('../assets/fondo.webp', import.meta.url).href
+  const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
   const [searchParams] = useSearchParams()
 
   const storedUser = (() => {

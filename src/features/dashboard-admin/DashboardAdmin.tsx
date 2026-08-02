@@ -5,12 +5,12 @@ import {
   CardContent, 
   CardDescription, 
   CardTitle 
-} from '../components/Card';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import Badge from '../components/Badge';
-import Header from '../components/Header';
-import { User } from '../types';
+} from '../../components/Card';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
+import Badge from '../../components/Badge';
+import Header from '../../components/Header';
+import { User } from '../../types';
 import { 
   Settings, 
   Calendar as CalendarIcon, 
@@ -49,10 +49,10 @@ import {
 import { useState } from 'react';
 
 // Importar el componente Calendar externo
-import Calendar from '../components/Calendar';
+import Calendar from '../../components/Calendar';
 
 // Importar la imagen de fondo
-const fondo = new URL('../assets/fondo.webp', import.meta.url).href;
+const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface DashboardAdminProps {
   user: User;

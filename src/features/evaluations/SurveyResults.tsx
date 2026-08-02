@@ -6,12 +6,12 @@ import {
   CardContent, 
   CardDescription, 
   CardTitle 
-} from '../components/Card';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import Badge from '../components/Badge';
-import Header from '../components/Header';
-import { User } from '../types';
+} from '../../components/Card';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
+import Badge from '../../components/Badge';
+import Header from '../../components/Header';
+import { User } from '../../types';
 import { 
   ArrowLeft, 
   Download, 
@@ -47,12 +47,12 @@ import {
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import AISummaryCard from '../components/AISummaryCard';
+import AISummaryCard from '../../components/AISummaryCard';
 import html2canvas from 'html2canvas';
 
 // Importar la imagen de fondo
-const fondo = new URL('../assets/fondo.webp', import.meta.url).href;
-import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../utils/export';
+const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
+import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../../utils/export';
 
 interface SurveyResultsProps {
   user: User;

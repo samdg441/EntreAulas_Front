@@ -5,12 +5,12 @@ import {
   CardContent, 
   CardDescription, 
   CardTitle 
-} from '../components/Card';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import Badge from '../components/Badge';
-import Header from '../components/Header';
-import { User } from '../types';
+} from '../../components/Card';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
+import Badge from '../../components/Badge';
+import Header from '../../components/Header';
+import { User } from '../../types';
 import { 
   ArrowLeft,
   GraduationCap,
@@ -27,11 +27,11 @@ import {
   BookOpen
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import { fetchCareerSubjects, fetchAllCareerResults, fetchCareerResults } from '../api/teachers';
-import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../utils/export';
+import { fetchCareerSubjects, fetchAllCareerResults, fetchCareerResults } from '../../api/teachers';
+import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../../utils/export';
 
 // Importar la imagen de fondo
-const fondo = new URL('../assets/fondo.webp', import.meta.url).href;
+const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface CareerResultsPageProps {
   user?: User | null;

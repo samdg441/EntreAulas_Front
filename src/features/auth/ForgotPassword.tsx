@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import Card from '../components/Card'
-import Button from '../components/Button'
-import { requestPasswordReset, resetPassword, validateResetToken } from '../api/passwordReset'
+import Card from '../../components/Card'
+import Button from '../../components/Button'
+import { requestPasswordReset, resetPassword, validateResetToken } from '../../api/passwordReset'
 import { 
   FaEnvelope,
   FaLock,
@@ -16,8 +16,8 @@ import {
 } from 'react-icons/fa'
 
 // Importación de assets
-import fondoImg from '../assets/fondo.webp'
-import logoUniversidadImg from '../assets/logo_conciencia.webp'
+import fondoImg from '../../assets/fondo.webp'
+import logoUniversidadImg from '../../assets/logo_conciencia.webp'
 
 const fondo = fondoImg
 const logoUniversidad = logoUniversidadImg

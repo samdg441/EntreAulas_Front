@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import Card from '../components/Card'
-import Button from '../components/Button'
-import { useAuth } from '../context/AuthContext'
+import Card from '../../components/Card'
+import Button from '../../components/Button'
+import { useAuth } from '../../context/AuthContext'
 
-import fondoImg from '../assets/fondo.webp'
-import logoUniversidadImg from '../assets/logo_conciencia.webp'
+import fondoImg from '../../assets/fondo.webp'
+import logoUniversidadImg from '../../assets/logo_conciencia.webp'
 
 export default function EvaluationGoodbye() {
   const navigate = useNavigate()

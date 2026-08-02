@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { usersApi, UserSummary } from '../api/users'
+import { usersApi, UserSummary } from '../../api/users'
 
 /**
  * Ejemplo: listado solo para administradores (GET /api/users).

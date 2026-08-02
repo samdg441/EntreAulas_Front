@@ -5,12 +5,12 @@ import {
   CardContent, 
   CardDescription, 
   CardTitle 
-} from '../components/Card';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import Badge from '../components/Badge';
-import Header from '../components/Header';
-import { User } from '../types';
+} from '../../components/Card';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
+import Badge from '../../components/Badge';
+import Header from '../../components/Header';
+import { User } from '../../types';
 import { 
   Calendar as CalendarIcon, 
   ClipboardCheck, 
@@ -23,13 +23,13 @@ import {
   Target
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { fetchTeacherStats, fetchTeacherCourses, fetchTeacherId } from '../api/teachers';
+import { fetchTeacherStats, fetchTeacherCourses, fetchTeacherId } from '../../api/teachers';
 
 // Importar el componente Calendar externo
-import Calendar from '../components/Calendar';
+import Calendar from '../../components/Calendar';
 
 // Importar la imagen de fondo
-const fondo = new URL('../assets/fondo.webp', import.meta.url).href;
+const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface DashboardProfesorProps {
   user: User;

@@ -6,21 +6,21 @@ import {
   CardContent, 
   CardDescription, 
   CardTitle 
-} from '../components/Card';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import Header from '../components/Header';
-import { User } from '../types';
+} from '../../components/Card';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
+import Header from '../../components/Header';
+import { User } from '../../types';
 import { 
   ArrowLeft,
   FileText,
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
-import { fetchTeacherInfo, fetchSurveyByCareer, debugUserInfo, debugAuth } from '../api/teachers';
+import { fetchTeacherInfo, fetchSurveyByCareer, debugUserInfo, debugAuth } from '../../api/teachers';
 
 // Importar la imagen de fondo
-const fondo = new URL('../assets/fondo.webp', import.meta.url).href;
+const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface SurveyViewProps {
   user: User;

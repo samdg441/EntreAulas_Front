@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import Header from '../components/Header'
-import Card, { CardHeader, CardContent, CardTitle, CardDescription } from '../components/Card'
-import Button from '../components/Button'
-import { CourseQrPoster } from '../components/CourseQrPoster'
-import apiClient from '../api/client'
-import { exportElementToPNG } from '../utils/export'
+import Header from '../../components/Header'
+import Card, { CardHeader, CardContent, CardTitle, CardDescription } from '../../components/Card'
+import Button from '../../components/Button'
+import { CourseQrPoster } from '../../components/CourseQrPoster'
+import { fetchCursosConProfesor } from '../../api/coordinador.api'
+import { createQrEvaluationsBatch, shareQrEvaluationsEmail } from '../../api/evaluations.api'
+import { exportElementToPNG } from '../../utils/export'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface CursoGrupo {
@@ -62,8 +63,8 @@ export default function ScheduleSurveys() {
     try {
       setLoadingCursos(true)
       // TODO: ajustar al endpoint real que devuelva los cursos/grupos del coordinador
-      const res = await apiClient.get('/api/coordinador/cursos-con-profesor')
-      setCursos(res.data as CursoGrupo[])
+      const data = await fetchCursosConProfesor()
+      setCursos(data as CursoGrupo[])
     } catch (err) {
       console.error('Error cargando cursos para QRs:', err)
     } finally {
@@ -139,9 +140,9 @@ export default function ScheduleSurveys() {
     const uniqueGrupoIds = Array.from(new Set(grupoIds))
     const missing = uniqueGrupoIds.filter(id => !qrTokensByGrupoId[id])
     if (missing.length === 0) return
-    const resp = await apiClient.post('/api/qr-evaluaciones/batch', { grupoIds: missing })
-    const created = (resp.data?.created || []) as Array<{ grupoId: number; token: string }>
-    const skipped = (resp.data?.skipped || []) as Array<{ grupoId: number; reason: string }>
+    const resp = await createQrEvaluationsBatch(missing)
+    const created = (resp?.created || []) as Array<{ grupoId: number; token: string }>
+    const skipped = (resp?.skipped || []) as Array<{ grupoId: number; reason: string }>
     if (created.length > 0) {
       setQrTokensByGrupoId(prev => {
         const next = { ...prev }
@@ -235,7 +236,7 @@ export default function ScheduleSurveys() {
 
     try {
       setSendingEmail(true)
-      await apiClient.post('/api/qr-evaluaciones/share-email', {
+      await shareQrEvaluationsEmail({
         to,
         subject,
         message: emailMessage,
@@ -273,7 +274,7 @@ export default function ScheduleSurveys() {
 
   const backToDashboard = () => navigate('/dashboard-coordinador')
 
-  const fondo = new URL('../assets/fondo.webp', import.meta.url).href
+  const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
   return (
     <div className="min-h-screen bg-gray-50 relative">

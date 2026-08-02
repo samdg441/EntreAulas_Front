@@ -5,12 +5,12 @@ import {
   CardContent, 
   CardDescription, 
   CardTitle 
-} from '../components/Card';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import Badge from '../components/Badge';
-import Header from '../components/Header';
-import { User } from '../types';
+} from '../../components/Card';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
+import Badge from '../../components/Badge';
+import Header from '../../components/Header';
+import { User } from '../../types';
 import { 
   BookOpen,
   ArrowLeft,
@@ -20,10 +20,10 @@ import {
   BarChart3
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { fetchCareerSubjects } from '../api/teachers';
+import { fetchCareerSubjects } from '../../api/teachers';
 
 // Importar la imagen de fondo
-const fondo = new URL('../assets/fondo.webp', import.meta.url).href;
+const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface CareerSubjectsPageProps {
   user?: User | null;

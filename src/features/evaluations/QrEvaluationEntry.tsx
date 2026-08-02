@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import apiClient from '../api/client'
-import { useAuth } from '../context/AuthContext'
-import Card, { CardContent, CardHeader, CardTitle, CardDescription } from '../components/Card'
-import Button from '../components/Button'
+import { getQrEvaluation, autoEnrollQrEvaluation } from '../../api/evaluations.api'
+import { useAuth } from '../../context/AuthContext'
+import Card, { CardContent, CardHeader, CardTitle, CardDescription } from '../../components/Card'
+import Button from '../../components/Button'
 
 export default function QrEvaluationEntry() {
   const navigate = useNavigate()
@@ -34,12 +34,11 @@ export default function QrEvaluationEntry() {
       try {
         setLoading(true)
         setError('')
-        const resp = await apiClient.get(`/api/qr-evaluaciones/${token}`)
-        const data = resp.data || {}
+        const data = (await getQrEvaluation(token)) || {}
 
         // Auto-matrícula del estudiante en el grupo asociado al QR.
         // Si ya estaba inscrito, el backend devuelve alreadyEnrolled=true.
-        await apiClient.post(`/api/qr-evaluaciones/${token}/auto-enroll`)
+        await autoEnrollQrEvaluation(token)
 
         // Construir objetos mínimos para EvaluationForm (usa teacher/course/group desde location.state)
         const teacher = {

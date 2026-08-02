@@ -5,12 +5,12 @@ import {
   CardContent, 
   CardDescription, 
   CardTitle 
-} from '../components/Card';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import Badge from '../components/Badge';
-import Header from '../components/Header';
-import { User } from '../types';
+} from '../../components/Card';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
+import Badge from '../../components/Badge';
+import Header from '../../components/Header';
+import { User } from '../../types';
 import { 
   UserIcon,
   ArrowLeft,
@@ -23,10 +23,10 @@ import {
   Search
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { fetchProfessorSubjects } from '../api/teachers';
+import { fetchProfessorSubjects } from '../../api/teachers';
 
 // Importar la imagen de fondo
-const fondo = new URL('../assets/fondo.webp', import.meta.url).href;
+const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface ProfessorsPageProps {
   user?: User | null;
