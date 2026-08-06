@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Card from '../../components/Card'
 import Button from '../../components/Button'
+import Input from '../../components/Input'
 import { requestPasswordReset, resetPassword, validateResetToken } from '../../api/passwordReset'
 import { 
   FaEnvelope,
   FaLock,
-  FaExclamationCircle,
   FaCheckCircle,
   FaArrowLeft,
   FaEye,
@@ -260,41 +260,16 @@ export default function ForgotPassword() {
                 transition={{ duration: 0.3 }}
               >
                 <form onSubmit={handleRequestReset} className="space-y-4">
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Correo Institucional
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaEnvelope className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        placeholder="tu.correo@universidad.edu"
-                        required
-                        className={`w-full pl-10 pr-3 py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm ${
-                          errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'
-                        }`}
-                      />
-                      {errors.email && (
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                          <FaExclamationCircle className="h-4 w-4 text-red-500" />
-                        </div>
-                      )}
-                    </div>
-                    {errors.email && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-sm text-red-600 flex items-center gap-1 mt-1"
-                      >
-                        <FaExclamationCircle className="h-3 w-3" />
-                        {errors.email}
-                      </motion.p>
-                    )}
-                  </div>
+                  <Input
+                    label="Correo Institucional"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder="tu.correo@universidad.edu"
+                    required
+                    error={errors.email}
+                    leftIcon={<FaEnvelope className="h-4 w-4 text-gray-500" />}
+                  />
 
                   {/* Mostrar error general si existe */}
                   {errors.general && (
@@ -338,47 +313,29 @@ export default function ForgotPassword() {
                 transition={{ duration: 0.3 }}
               >
                 <form onSubmit={handleResetPassword} className="space-y-4">
-                  {/* Email (solo lectura) */}
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Correo Institucional
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaEnvelope className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        disabled
-                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 text-sm"
-                      />
-                    </div>
-                  </div>
+                  <Input
+                    label="Correo Institucional"
+                    type="email"
+                    value={formData.email}
+                    disabled
+                    leftIcon={<FaEnvelope className="h-4 w-4 text-gray-500" />}
+                  />
 
-                  {/* Nueva contraseña */}
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Nueva Contraseña
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaLock className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <input
-                        type={showPassword ? 'text' : 'password'}
-                        value={formData.newPassword}
-                        onChange={(e) => handleInputChange('newPassword', e.target.value)}
-                        placeholder="••••••••"
-                        required
-                        className={`w-full pl-10 pr-10 py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm ${
-                          errors.newPassword ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'
-                        }`}
-                      />
+                  <Input
+                    label="Nueva Contraseña"
+                    type={showPassword ? 'text' : 'password'}
+                    value={formData.newPassword}
+                    onChange={(e) => handleInputChange('newPassword', e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    error={errors.newPassword}
+                    showErrorIcon={false}
+                    leftIcon={<FaLock className="h-4 w-4 text-gray-500" />}
+                    rightElement={
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                        className="flex items-center"
                       >
                         {showPassword ? (
                           <FaEyeSlash className="h-4 w-4 text-gray-500" />
@@ -386,42 +343,24 @@ export default function ForgotPassword() {
                           <FaEye className="h-4 w-4 text-gray-500" />
                         )}
                       </button>
-                    </div>
-                    {errors.newPassword && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-sm text-red-600 flex items-center gap-1 mt-1"
-                      >
-                        <FaExclamationCircle className="h-3 w-3" />
-                        {errors.newPassword}
-                      </motion.p>
-                    )}
-                  </div>
+                    }
+                  />
 
-                  {/* Confirmar contraseña */}
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Confirmar Nueva Contraseña
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaLock className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        value={formData.confirmPassword}
-                        onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                        placeholder="••••••••"
-                        required
-                        className={`w-full pl-10 pr-10 py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm ${
-                          errors.confirmPassword ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'
-                        }`}
-                      />
+                  <Input
+                    label="Confirmar Nueva Contraseña"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    value={formData.confirmPassword}
+                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    error={errors.confirmPassword}
+                    showErrorIcon={false}
+                    leftIcon={<FaLock className="h-4 w-4 text-gray-500" />}
+                    rightElement={
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                        className="flex items-center"
                       >
                         {showConfirmPassword ? (
                           <FaEyeSlash className="h-4 w-4 text-gray-500" />
@@ -429,18 +368,8 @@ export default function ForgotPassword() {
                           <FaEye className="h-4 w-4 text-gray-500" />
                         )}
                       </button>
-                    </div>
-                    {errors.confirmPassword && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-sm text-red-600 flex items-center gap-1 mt-1"
-                      >
-                        <FaExclamationCircle className="h-3 w-3" />
-                        {errors.confirmPassword}
-                      </motion.p>
-                    )}
-                  </div>
+                    }
+                  />
 
                   {/* Mostrar error general si existe */}
                   {errors.general && (

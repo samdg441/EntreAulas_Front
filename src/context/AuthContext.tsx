@@ -162,63 +162,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const getDashboardPath = () => {
     if (!user) return '/login'
-    
-    console.log('🔍 Debug getDashboardPath:', {
-      user: user,
-      dashboard: user.dashboard,
-      roles: user.roles,
-      tipo_usuario: user.tipo_usuario
-    })
-    
-    // Usar el dashboard del backend si está disponible
-    if (user.dashboard) {
-      console.log('📍 Usando dashboard del backend:', user.dashboard)
-      return user.dashboard
-    }
-    
-    // Si tiene roles múltiples, usar el de mayor prioridad
-    if (user.roles && user.roles.length > 0) {
-      console.log('🎭 Usando roles múltiples:', user.roles)
-      const rolePriority = ['admin', 'coordinador', 'profesor', 'docente', 'estudiante']
-      for (const role of rolePriority) {
-        if (user.roles.includes(role)) {
-          const userTypeMapping: { [key: string]: string } = {
-            'estudiante': '/dashboard-estudiante',
-            'profesor': '/dashboard-profesor',
-            'docente': '/dashboard-profesor',
-            'coordinador': '/dashboard-coordinador',
-            'admin': '/dashboard-admin'
-          }
-          const path = userTypeMapping[role] || '/dashboard'
-          console.log('📍 Dashboard por rol:', role, '->', path)
-          return path
-        }
-      }
-    }
-    
-    // Fallback basado en el tipo de usuario principal
-    const userTypeMapping: { [key: string]: string } = {
-      'estudiante': '/dashboard-estudiante',
-      'profesor': '/dashboard-profesor',
-      'docente': '/dashboard-profesor',
-      'coordinador': '/dashboard-coordinador',
-      'admin': '/dashboard-admin'
-    }
-    
-    const path = userTypeMapping[user.tipo_usuario] || '/dashboard'
-    console.log('📍 Dashboard por tipo_usuario:', user.tipo_usuario, '->', path)
-    return path
+    return getDashboardPathForUser(user)
   }
 
   const getDashboardPathForUser = (u: User) => {
     if (u.dashboard) return u.dashboard
     if (u.roles && u.roles.length > 0) {
-      const rolePriority = ['admin', 'coordinador', 'profesor', 'docente', 'estudiante']
+      const rolePriority = ['admin', 'decano', 'coordinador', 'profesor', 'docente', 'estudiante']
       const userTypeMapping: { [key: string]: string } = {
         'estudiante': '/dashboard-estudiante',
         'profesor': '/dashboard-profesor',
         'docente': '/dashboard-profesor',
         'coordinador': '/dashboard-coordinador',
+        'decano': '/dashboard-decano',
         'admin': '/dashboard-admin'
       }
       for (const role of rolePriority) {
@@ -230,6 +186,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       'profesor': '/dashboard-profesor',
       'docente': '/dashboard-profesor',
       'coordinador': '/dashboard-coordinador',
+      'decano': '/dashboard-decano',
       'admin': '/dashboard-admin'
     }
     const tipo = (u.tipo_usuario || '').toLowerCase()

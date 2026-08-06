@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User, LogOut, Shield, GraduationCap, Crown } from 'lucide-react';
 import Button from './Button';
+import { Avatar, AvatarFallback } from './Avatar';
 
 export default function UserMenu() {
   const { user, logout, hasRole, switchUserRole } = useAuth();
@@ -118,9 +119,12 @@ export default function UserMenu() {
               {/* Header con información del usuario */}
               <div className="p-5 border-b border-gray-100">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                    <User className="h-6 w-6 text-gray-600" />
-                  </div>
+                  <Avatar className="h-12 w-12">
+                    <AvatarFallback
+                      className="bg-gray-100 text-gray-700 text-sm"
+                      text={`${user.nombre || ''} ${user.apellido || ''}`.trim() || user.email}
+                    />
+                  </Avatar>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-gray-900 text-base leading-tight">
                       {user.nombre} {user.apellido}

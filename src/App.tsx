@@ -12,6 +12,8 @@ import ProfessorsPage from './features/dashboard-dean/ProfessorsPage'
 import CareerResultsPage from './features/dashboard-dean/CareerResultsPage'
 import DashboardAdmin from './features/dashboard-admin/DashboardAdmin'
 import AdminUsersPage from './features/dashboard-admin/AdminUsersPage'
+import AdminAcademicPage from './features/dashboard-admin/AdminAcademicPage'
+import AdminQrPage from './features/dashboard-admin/AdminQrPage'
 import TeacherSelection from './features/evaluations/TeacherSelection'
 import EvaluationForm from './features/evaluations/EvaluationForm'
 import QrEvaluationEntry from './features/evaluations/QrEvaluationEntry'
@@ -75,9 +77,29 @@ function App() {
         />
         <Route
           path="/users"
+          element={<Navigate to="/admin/users" replace />}
+        />
+        <Route
+          path="/admin/users"
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               <AdminUsersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/academic"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminAcademicPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/qr"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminQrPage />
             </ProtectedRoute>
           }
         />
@@ -144,10 +166,11 @@ function App() {
         <Route 
           path="/dashboard-admin" 
           element={
-            user ? <DashboardAdminWrapper /> : <Navigate to="/login" replace />
+            <ProtectedRoute allowedRoles={['admin']}>
+              <DashboardAdminWrapper />
+            </ProtectedRoute>
           } 
-        />
-        <Route 
+        />        <Route 
           path="/evaluate/selection" 
           element={
             <TeacherSelectionWrapper 

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import Card from '../../components/Card'
 import Button from '../../components/Button'
+import Input from '../../components/Input'
 import { UserType } from '../../types'
 import { useAuth } from '../../context/AuthContext'
 import { 
@@ -12,7 +13,6 @@ import {
   FaChevronDown,
   FaEnvelope,
   FaLock,
-  FaExclamationCircle,
   FaUserCheck,
   FaUserTie
 } from 'react-icons/fa'
@@ -155,6 +155,8 @@ export default function Login() {
         return 'Coordinador'
       case 'decano':
         return 'Decano'
+      case 'admin':
+        return 'Administrador'
       default:
         return 'Estudiante'
     }
@@ -170,6 +172,8 @@ export default function Login() {
         return <FaCog className={size} />
       case 'decano':
         return <FaUserTie className={size} />
+      case 'admin':
+        return <FaUserCheck className={size} />
       default:
         return <FaGraduationCap className={size} />
     }
@@ -290,7 +294,7 @@ export default function Login() {
                       transition={{ duration: 0.2 }}
                       className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
                     >
-                      {(['student', 'teacher', 'coordinator', 'decano'] as UserType[]).map((type) => (
+                      {(['student', 'teacher', 'coordinator', 'decano', 'admin'] as UserType[]).map((type) => (
                         <div
                           key={type}
                           className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer transition-colors text-base ${
@@ -312,60 +316,26 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Email con icono */}
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700">
-                {userType === 'student' ? 'Correo Institucional' : 'Email Institucional'}
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaEnvelope className="h-4 w-4 text-gray-500" />
-                </div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  placeholder={userType === 'student' ? 'estudiante@universidad.edu' : 'profesor@universidad.edu'}
-                  required
-                  className={`w-full pl-10 pr-3 py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm ${
-                    emailError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'
-                  }`}
-                />
-                {emailError && (
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <FaExclamationCircle className="h-4 w-4 text-red-500" />
-                  </div>
-                )}
-              </div>
-              {emailError && (
-                <motion.p
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-sm text-red-600 flex items-center gap-1 mt-1"
-                >
-                  <FaExclamationCircle className="h-3 w-3" />
-                  {emailError}
-                </motion.p>
-              )}
-            </div>
+            <Input
+              label={userType === 'student' ? 'Correo Institucional' : 'Email Institucional'}
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder={userType === 'student' ? 'estudiante@universidad.edu' : 'profesor@universidad.edu'}
+              required
+              error={emailError}
+              leftIcon={<FaEnvelope className="h-4 w-4 text-gray-500" />}
+            />
 
-            {/* Contraseña con icono */}
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700">Contraseña</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaLock className="h-4 w-4 text-gray-500" />
-                </div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm"
-                />
-              </div>
-            </div>
+            <Input
+              label="Contraseña"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              leftIcon={<FaLock className="h-4 w-4 text-gray-500" />}
+            />
 
             {/* Mostrar error si existe */}
             {error && (
