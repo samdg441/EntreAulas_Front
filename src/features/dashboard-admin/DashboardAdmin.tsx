@@ -13,6 +13,7 @@ import {
   Shield,
   Mail,
   User as UserIcon,
+  ClipboardPlus,
 } from 'lucide-react'
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
@@ -26,27 +27,48 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
   const [userCount, setUserCount] = useState<number | null>(null)
   const [facultadCount, setFacultadCount] = useState<number | null>(null)
   const [carreraCount, setCarreraCount] = useState<number | null>(null)
+  const [statsError, setStatsError] = useState<string | null>(null)
+  const [loadingStats, setLoadingStats] = useState(true)
 
   const currentUser = user
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
+      setLoadingStats(true)
+      setStatsError(null)
       try {
-        const [{ users }, { facultades }] = await Promise.all([
-          usersApi.list(),
-          usersApi.academicStructure(),
-        ])
+        const stats = await usersApi.stats()
         if (cancelled) return
-        setUserCount(users.length)
-        setFacultadCount(facultades.length)
-        setCarreraCount(facultades.reduce((acc, f) => acc + (f.carreras?.length || 0), 0))
-      } catch {
-        if (!cancelled) {
-          setUserCount(null)
-          setFacultadCount(null)
-          setCarreraCount(null)
+        setUserCount(stats.totalUsers)
+        setFacultadCount(stats.totalFacultades)
+        setCarreraCount(stats.totalCarreras)
+      } catch (e: any) {
+        // Fallback: cargar por separado para no dejar todo vacío
+        try {
+          const [{ users }, structure] = await Promise.all([
+            usersApi.list(),
+            usersApi.academicStructure().catch(() => ({ facultades: [] })),
+          ])
+          if (cancelled) return
+          setUserCount(users.length)
+          setFacultadCount(structure.facultades.length)
+          setCarreraCount(
+            structure.facultades.reduce((acc, f) => acc + (f.carreras?.length || 0), 0)
+          )
+          if (!structure.facultades.length) {
+            setStatsError(e?.response?.data?.error || 'Algunas métricas no pudieron cargarse')
+          }
+        } catch (err: any) {
+          if (!cancelled) {
+            setStatsError(err?.response?.data?.error || 'No se pudieron cargar las estadísticas')
+            setUserCount(null)
+            setFacultadCount(null)
+            setCarreraCount(null)
+          }
         }
+      } finally {
+        if (!cancelled) setLoadingStats(false)
       }
     })()
     return () => {
@@ -86,6 +108,14 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
       className: 'border-red-300 text-red-600 hover:bg-red-50',
       variant: 'outline' as const,
     },
+    {
+      icon: ClipboardPlus,
+      label: 'Agregar encuesta',
+      description: 'Crear preguntas y ampliar evaluaciones',
+      path: '/admin/surveys',
+      className: 'border-gray-300 text-gray-700 hover:bg-gray-50',
+      variant: 'outline' as const,
+    },
   ]
 
   return (
@@ -112,8 +142,10 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
                   {getGreeting()}, {currentUser.name.split(' ')[0]}
                 </h2>
                 <p className="text-lg text-gray-600">
-                  Panel de administración. Gestiona usuarios, estructura académica y accesos QR.
+                  Panel de administración. Gestiona usuarios, estructura académica, accesos QR y
+                  encuestas.
                 </p>
+                {statsError && <p className="text-sm text-amber-700">{statsError}</p>}
               </CardContent>
             </Card>
           </motion.div>
@@ -126,7 +158,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-red-600">
-                  {userCount === null ? '—' : userCount}
+                  {loadingStats ? '…' : userCount === null ? '—' : userCount}
                 </div>
               </CardContent>
             </Card>
@@ -137,7 +169,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-gray-800">
-                  {facultadCount === null ? '—' : facultadCount}
+                  {loadingStats ? '…' : facultadCount === null ? '—' : facultadCount}
                 </div>
               </CardContent>
             </Card>
@@ -148,7 +180,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-green-600">
-                  {carreraCount === null ? '—' : carreraCount}
+                  {loadingStats ? '…' : carreraCount === null ? '—' : carreraCount}
                 </div>
               </CardContent>
             </Card>
@@ -162,7 +194,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {modules.map((mod) => (
                   <motion.div key={mod.path} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button

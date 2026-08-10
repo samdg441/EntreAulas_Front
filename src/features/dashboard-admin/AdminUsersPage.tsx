@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Header from '../../components/Header'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
+import Card, { CardContent, CardHeader, CardTitle, CardDescription } from '../../components/Card'
 import ConfirmationModal from '../../components/ConfirmationModal'
 import Badge from '../../components/Badge'
 import { useAuth } from '../../context/AuthContext'
@@ -12,8 +13,10 @@ import {
   CreateUserPayload,
   UpdateUserPayload,
 } from '../../api/users'
-import { Pencil, Plus, Trash2, Search, X } from 'lucide-react'
+import { Pencil, Plus, Trash2, Search, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { User } from '../../types'
+
+const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
 const USER_TYPES = [
   'estudiante',
@@ -22,6 +25,8 @@ const USER_TYPES = [
   'decano',
   'admin',
 ] as const
+
+const PAGE_SIZE = 10
 
 const emptyCreate: CreateUserPayload = {
   email: '',
@@ -46,6 +51,9 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const [roleFilter, setRoleFilter] = useState<string>('all')
+  const [statusFilter, setStatusFilter] = useState<'all' | 'activo' | 'inactivo'>('all')
+  const [page, setPage] = useState(1)
   const [modalMode, setModalMode] = useState<ModalMode>(null)
   const [saving, setSaving] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
@@ -75,13 +83,24 @@ export default function AdminUsersPage() {
     loadUsers()
   }, [])
 
+  useEffect(() => {
+    setPage(1)
+  }, [search, roleFilter, statusFilter])
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
-    if (!q) return users
-    return users.filter((u) =>
-      `${u.email} ${u.nombre} ${u.apellido} ${u.tipo_usuario}`.toLowerCase().includes(q)
-    )
-  }, [users, search])
+    return users.filter((u) => {
+      if (roleFilter !== 'all' && u.tipo_usuario !== roleFilter) return false
+      if (statusFilter === 'activo' && !u.activo) return false
+      if (statusFilter === 'inactivo' && u.activo) return false
+      if (!q) return true
+      return `${u.email} ${u.nombre} ${u.apellido} ${u.tipo_usuario}`.toLowerCase().includes(q)
+    })
+  }, [users, search, roleFilter, statusFilter])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const currentPage = Math.min(page, totalPages)
+  const pageItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   const openCreate = () => {
     setCreateForm(emptyCreate)
@@ -163,108 +182,188 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header user={headerUser} title="Gestión de Usuarios" subtitle="Administración del sistema" />
+    <div className="min-h-screen bg-gray-50 relative">
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: `url(${fondo})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      />
+      <div className="absolute inset-0 bg-black bg-opacity-60 z-0" />
 
-      <main className="max-w-6xl mx-auto p-6 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <Link to="/dashboard-admin" className="text-sm text-red-600 hover:underline">
-              ← Volver al panel
-            </Link>
-            <h1 className="text-2xl font-semibold text-gray-900 mt-1">Usuarios del sistema</h1>
-          </div>
-          <Button onClick={openCreate} className="inline-flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Agregar usuario
-          </Button>
-        </div>
+      <div className="relative z-10">
+        <Header user={headerUser} title="Gestión de Usuarios" subtitle="Administración del sistema" />
 
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar por nombre, email o rol…"
-            className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none"
-          />
-        </div>
-
-        {loading && <p className="text-gray-600">Cargando usuarios…</p>}
-        {error && <p className="text-red-600">{error}</p>}
-
-        {!loading && !error && (
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-sm">
-                <thead className="bg-gray-100 text-left text-gray-700">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">Email</th>
-                    <th className="px-4 py-3 font-medium">Nombre</th>
-                    <th className="px-4 py-3 font-medium">Rol</th>
-                    <th className="px-4 py-3 font-medium">Estado</th>
-                    <th className="px-4 py-3 font-medium text-right">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((u) => (
-                    <tr key={u.id} className="border-t border-gray-100 hover:bg-gray-50">
-                      <td className="px-4 py-3">{u.email}</td>
-                      <td className="px-4 py-3">
-                        {u.nombre} {u.apellido}
-                      </td>
-                      <td className="px-4 py-3 capitalize">{u.tipo_usuario}</td>
-                      <td className="px-4 py-3">
-                        <Badge
-                          variant="outline"
-                          className={
-                            u.activo
-                              ? 'bg-green-50 text-green-700 border-green-200'
-                              : 'bg-gray-100 text-gray-600 border-gray-200'
-                          }
-                        >
-                          {u.activo ? 'Activo' : 'Inactivo'}
-                        </Badge>
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => openEdit(u)}
-                            className="inline-flex items-center gap-1"
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                            Editar
-                          </Button>
-                          {u.activo && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => setDeleteTarget(u)}
-                              className="inline-flex items-center gap-1 border-red-200 text-red-600 hover:bg-red-50"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                              Desactivar
-                            </Button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
+        <main className="max-w-6xl mx-auto p-6 space-y-6">
+          <Card className="bg-white shadow-md border border-gray-200 p-6">
+            <CardHeader className="pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <Link to="/dashboard-admin" className="text-sm text-red-600 hover:underline">
+                    ← Volver al panel
+                  </Link>
+                  <CardTitle className="text-2xl text-gray-900 mt-1">Usuarios del sistema</CardTitle>
+                  <CardDescription>
+                    {filtered.length} resultado(s) · página {currentPage} de {totalPages}
+                  </CardDescription>
+                </div>
+                <Button onClick={openCreate} className="inline-flex items-center gap-2">
+                  <Plus className="h-4 w-4" />
+                  Agregar usuario
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="relative md:col-span-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Buscar por nombre, email o rol…"
+                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none"
+                  />
+                </div>
+                <select
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                >
+                  <option value="all">Todos los roles</option>
+                  {USER_TYPES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
                   ))}
-                  {filtered.length === 0 && (
-                    <tr>
-                      <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                        No hay usuarios que coincidan con la búsqueda
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </main>
+                </select>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                >
+                  <option value="all">Todos los estados</option>
+                  <option value="activo">Activos</option>
+                  <option value="inactivo">Inactivos</option>
+                </select>
+              </div>
+
+              {loading && <p className="text-gray-600">Cargando usuarios…</p>}
+              {error && <p className="text-red-600">{error}</p>}
+
+              {!loading && !error && (
+                <>
+                  <div className="rounded-lg border border-gray-200 overflow-hidden">
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full text-sm">
+                        <thead className="bg-gray-100 text-left text-gray-700">
+                          <tr>
+                            <th className="px-4 py-3 font-medium">Email</th>
+                            <th className="px-4 py-3 font-medium">Nombre</th>
+                            <th className="px-4 py-3 font-medium">Rol</th>
+                            <th className="px-4 py-3 font-medium">Estado</th>
+                            <th className="px-4 py-3 font-medium text-right">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {pageItems.map((u) => (
+                            <tr key={u.id} className="border-t border-gray-100 hover:bg-gray-50">
+                              <td className="px-4 py-3">{u.email}</td>
+                              <td className="px-4 py-3">
+                                {u.nombre} {u.apellido}
+                              </td>
+                              <td className="px-4 py-3 capitalize">{u.tipo_usuario}</td>
+                              <td className="px-4 py-3">
+                                <Badge
+                                  variant="outline"
+                                  className={
+                                    u.activo
+                                      ? 'bg-green-50 text-green-700 border-green-200'
+                                      : 'bg-gray-100 text-gray-600 border-gray-200'
+                                  }
+                                >
+                                  {u.activo ? 'Activo' : 'Inactivo'}
+                                </Badge>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex justify-end gap-2">
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => openEdit(u)}
+                                    className="inline-flex items-center gap-1"
+                                  >
+                                    <Pencil className="h-3.5 w-3.5" />
+                                    Editar
+                                  </Button>
+                                  {u.activo && (
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => setDeleteTarget(u)}
+                                      className="inline-flex items-center gap-1 border-red-200 text-red-600 hover:bg-red-50"
+                                    >
+                                      <Trash2 className="h-3.5 w-3.5" />
+                                      Desactivar
+                                    </Button>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                          {pageItems.length === 0 && (
+                            <tr>
+                              <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                                No hay usuarios que coincidan con los filtros
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3 pt-2">
+                    <p className="text-sm text-gray-500">
+                      Mostrando {(currentPage - 1) * PAGE_SIZE + (pageItems.length ? 1 : 0)}–
+                      {(currentPage - 1) * PAGE_SIZE + pageItems.length} de {filtered.length}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={currentPage <= 1}
+                        onClick={() => setPage((p) => Math.max(1, p - 1))}
+                        className="inline-flex items-center gap-1"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                        Anterior
+                      </Button>
+                      <span className="text-sm text-gray-700 min-w-[4rem] text-center">
+                        {currentPage}/{totalPages}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={currentPage >= totalPages}
+                        onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                        className="inline-flex items-center gap-1"
+                      >
+                        Siguiente
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </main>
+      </div>
 
       {modalMode && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">

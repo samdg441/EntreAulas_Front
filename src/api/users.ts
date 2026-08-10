@@ -41,6 +41,7 @@ export interface FacultadConCarreras {
     id: number
     nombre: string
     codigo?: string
+    descripcion?: string
     facultad_id?: number
     activa?: boolean
   }>
@@ -54,9 +55,20 @@ export interface GrupoConProfesor {
   profesorNombre: string
 }
 
+export interface AdminDashboardStats {
+  totalUsers: number
+  totalFacultades: number
+  totalCarreras: number
+}
+
 export const usersApi = {
   list: async (): Promise<{ users: UserSummary[] }> => {
     const { data } = await apiClient.get<{ users: UserSummary[] }>('/api/users')
+    return data
+  },
+
+  stats: async (): Promise<AdminDashboardStats> => {
+    const { data } = await apiClient.get<AdminDashboardStats>('/api/users/stats')
     return data
   },
 

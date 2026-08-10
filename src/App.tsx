@@ -14,6 +14,7 @@ import DashboardAdmin from './features/dashboard-admin/DashboardAdmin'
 import AdminUsersPage from './features/dashboard-admin/AdminUsersPage'
 import AdminAcademicPage from './features/dashboard-admin/AdminAcademicPage'
 import AdminQrPage from './features/dashboard-admin/AdminQrPage'
+import AdminSurveysPage from './features/dashboard-admin/AdminSurveysPage'
 import TeacherSelection from './features/evaluations/TeacherSelection'
 import EvaluationForm from './features/evaluations/EvaluationForm'
 import QrEvaluationEntry from './features/evaluations/QrEvaluationEntry'
@@ -100,6 +101,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               <AdminQrPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/surveys"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminSurveysPage />
             </ProtectedRoute>
           }
         />
