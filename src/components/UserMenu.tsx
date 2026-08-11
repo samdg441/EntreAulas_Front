@@ -2,46 +2,39 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { User, LogOut, Shield, GraduationCap, Crown } from 'lucide-react';
+import { User, LogOut, Shield, GraduationCap, Crown, UserCircle } from 'lucide-react';
 import Button from './Button';
 import { Avatar, AvatarFallback } from './Avatar';
+
+type ViewRole = 'coordinador' | 'profesor' | 'estudiante' | 'decano' | 'admin';
+
+function resolveViewRole(selected?: string, tipo?: string): ViewRole {
+  const initial = (selected || tipo || 'estudiante').toLowerCase();
+  if (['coordinador', 'profesor', 'estudiante', 'decano', 'admin', 'administrator'].includes(initial)) {
+    return (initial === 'administrator' ? 'admin' : initial) as ViewRole;
+  }
+  return 'estudiante';
+}
 
 export default function UserMenu() {
   const { user, logout, hasRole, switchUserRole } = useAuth();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-  // Inicializar el rol de vista basado en el rol seleccionado o tipo_usuario
-  const [currentViewRole, setCurrentViewRole] = useState<'coordinador' | 'profesor' | 'estudiante' | 'decano'>(() => {
-    const initial = (user?.selected_role || user?.tipo_usuario || 'estudiante').toLowerCase();
-    return (['coordinador','profesor','estudiante','decano'].includes(initial) ? initial : 'estudiante') as 'coordinador' | 'profesor' | 'estudiante' | 'decano';
-  });
+  const [currentViewRole, setCurrentViewRole] = useState<ViewRole>(() =>
+    resolveViewRole(user?.selected_role, user?.tipo_usuario)
+  );
 
-  // Verificar si el usuario tiene múltiples roles usando la lógica del AuthContext
   const isCoordinator = hasRole('coordinador');
   const isProfessor = hasRole('profesor');
   const isDean = hasRole('decano');
-  const hasMultipleRoles = !!user?.multiple_roles || ((isCoordinator ? 1 : 0) + (isProfessor ? 1 : 0) + (isDean ? 1 : 0) > 1);
-  
-  // Determinar el rol actual basado en el tipo_usuario principal
-  const currentRole = user?.tipo_usuario || 'estudiante';
-  
-  // Debug: Log para verificar la detección de roles
-  console.log('🔍 UserMenu Debug:', {
-    user: user,
-    isCoordinator,
-    isProfessor,
-    hasMultipleRoles,
-    userRoles: user?.roles,
-    tipo_usuario: user?.tipo_usuario,
-    currentViewRole,
-    currentRole
-  });
+  const isAdmin = hasRole('admin') || currentViewRole === 'admin';
+  const hasMultipleRoles =
+    !!user?.multiple_roles ||
+    ((isCoordinator ? 1 : 0) + (isProfessor ? 1 : 0) + (isDean ? 1 : 0) + (isAdmin ? 1 : 0) > 1);
 
-  // Sincronizar el rol de vista cuando el usuario cambie
   useEffect(() => {
-    const next = (user?.selected_role || user?.tipo_usuario) as ('coordinador' | 'profesor' | 'estudiante' | 'decano' | undefined)
-    if (next) setCurrentViewRole(next)
+    setCurrentViewRole(resolveViewRole(user?.selected_role, user?.tipo_usuario));
   }, [user?.selected_role, user?.tipo_usuario]);
 
   const handleLogout = () => {
@@ -104,7 +97,7 @@ export default function UserMenu() {
           <>
             {/* Overlay */}
             <div
-              className="fixed inset-0 z-10"
+              className="fixed inset-0 z-40"
               onClick={() => setIsOpen(false)}
             />
             
@@ -114,7 +107,7 @@ export default function UserMenu() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
               transition={{ duration: 0.15 }}
-              className="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-20"
+              className="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
             >
               {/* Header con información del usuario */}
               <div className="p-5 border-b border-gray-100">
@@ -133,7 +126,9 @@ export default function UserMenu() {
                       {user.email}
                     </p>
                     <div className="flex items-center gap-1 mt-2">
-                      {currentViewRole === 'coordinador' ? (
+                      {currentViewRole === 'admin' ? (
+                        <Shield className="h-3 w-3 text-red-600" />
+                      ) : currentViewRole === 'coordinador' ? (
                         <Shield className="h-3 w-3 text-red-600" />
                       ) : currentViewRole === 'decano' ? (
                         <Crown className="h-3 w-3 text-red-600" />
@@ -143,9 +138,15 @@ export default function UserMenu() {
                         <GraduationCap className="h-3 w-3 text-red-600" />
                       )}
                       <span className="text-xs font-medium text-gray-600 capitalize">
-                        {currentViewRole === 'coordinador' ? 'Coordinador' : 
-                         currentViewRole === 'decano' ? 'Decano' :
-                         currentViewRole === 'estudiante' ? 'Estudiante' : 'Profesor'}
+                        {currentViewRole === 'admin'
+                          ? 'Administrador'
+                          : currentViewRole === 'coordinador'
+                          ? 'Coordinador'
+                          : currentViewRole === 'decano'
+                          ? 'Decano'
+                          : currentViewRole === 'estudiante'
+                          ? 'Estudiante'
+                          : 'Profesor'}
                       </span>
                       {hasMultipleRoles && (
                         <span className="text-xs text-red-500 font-medium">
@@ -159,14 +160,25 @@ export default function UserMenu() {
               
               {/* Opciones del menú */}
               <div className="p-2">
-                {/* Cambio de rol si tiene múltiples roles */}
-                {hasMultipleRoles && (
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setIsOpen(false);
+                    navigate('/profile');
+                  }}
+                  className="w-full justify-start text-gray-700 hover:text-gray-900 hover:bg-gray-50 mb-1"
+                >
+                  <UserCircle className="h-4 w-4 mr-3" />
+                  Mi perfil
+                </Button>
+
+                {/* Cambio de rol si tiene múltiples roles (no admin-only switch legacy) */}
+                {hasMultipleRoles && currentViewRole !== 'admin' && (
                   <Button
                     variant="ghost"
                     onClick={switchRole}
                     className="w-full justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50 mb-1 border border-blue-200 rounded-lg"
                   >
-                    {/* Icono del rol destino */}
                     {(() => {
                       const targetIsDean = isDean && currentViewRole !== 'decano'
                       const targetIsCoordinator = isCoordinator && currentViewRole !== 'coordinador' && !targetIsDean

@@ -231,7 +231,7 @@ export default function AdminQrPage() {
   return (
     <div className="min-h-screen bg-gray-50 relative">
       <div
-        className="fixed inset-0 z-0"
+        className="fixed inset-0 z-0 pointer-events-none"
         style={{
           backgroundImage: `url(${fondo})`,
           backgroundSize: 'cover',
@@ -239,7 +239,7 @@ export default function AdminQrPage() {
           backgroundAttachment: 'fixed',
         }}
       >
-        <div className="absolute inset-0 bg-black bg-opacity-60" />
+        <div className="absolute inset-0 bg-black bg-opacity-60 pointer-events-none" />
       </div>
 
       <div className="relative z-10">

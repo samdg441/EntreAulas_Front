@@ -130,7 +130,7 @@ export default function AdminSurveysPage() {
   return (
     <div className="min-h-screen bg-gray-50 relative">
       <div
-        className="fixed inset-0 z-0"
+        className="fixed inset-0 z-0 pointer-events-none"
         style={{
           backgroundImage: `url(${fondo})`,
           backgroundSize: 'cover',
@@ -138,7 +138,7 @@ export default function AdminSurveysPage() {
           backgroundAttachment: 'fixed',
         }}
       />
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0" />
+      <div className="absolute inset-0 bg-black bg-opacity-60 z-0 pointer-events-none" />
 
       <div className="relative z-10">
         <Header user={headerUser} title="Encuestas" subtitle="Crear y gestionar preguntas" />

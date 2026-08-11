@@ -121,7 +121,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
   return (
     <div className="min-h-screen bg-gray-50 relative">
       <div
-        className="fixed inset-0 z-0"
+        className="fixed inset-0 z-0 pointer-events-none"
         style={{
           backgroundImage: `url(${fondo})`,
           backgroundSize: 'cover',
@@ -129,7 +129,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
           backgroundAttachment: 'fixed',
         }}
       />
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0" />
+      <div className="absolute inset-0 bg-black bg-opacity-60 z-0 pointer-events-none" />
 
       <div className="relative z-10">
         <Header user={currentUser} />
@@ -190,7 +190,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
             <CardHeader className="pb-4">
               <CardTitle className="text-2xl text-gray-900">Módulos administrativos</CardTitle>
               <CardDescription className="text-base">
-                Accesos protegidos por rol administrador (JWT + RBAC)
+                Entornos de vital importancia para la administración del sistema.
               </CardDescription>
             </CardHeader>
             <CardContent>
