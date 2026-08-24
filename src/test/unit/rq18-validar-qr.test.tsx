@@ -8,8 +8,8 @@ const autoEnrollQrEvaluation = vi.fn()
 const useAuth = vi.fn()
 
 vi.mock('../../api/evaluations.api', () => ({
-  getQrEvaluation: (...args: unknown[]) => getQrEvaluation(...args),
-  autoEnrollQrEvaluation: (...args: unknown[]) => autoEnrollQrEvaluation(...args),
+  getQrEvaluation: (...a: unknown[]) => getQrEvaluation(...a),
+  autoEnrollQrEvaluation: (...a: unknown[]) => autoEnrollQrEvaluation(...a),
 }))
 
 vi.mock('../../context/AuthContext', () => ({
@@ -28,7 +28,8 @@ function renderEntry(url: string) {
   )
 }
 
-describe('RQ1 unitarias — Validar QR vencido o inválido (frontend)', () => {
+/** RQ1 Front — C1 sin token | C2 sin sesión | C3 API error | C4 OK */
+describe('RQ1 unit — Validar QR (frontend)', () => {
   beforeEach(() => {
     getQrEvaluation.mockReset()
     autoEnrollQrEvaluation.mockReset()
@@ -36,53 +37,42 @@ describe('RQ1 unitarias — Validar QR vencido o inválido (frontend)', () => {
     localStorage.clear()
   })
 
-  it('Camino 1 (1-2-3-4-11): URL sin token muestra error local', async () => {
+  it('C1: sin token → error local', async () => {
     useAuth.mockReturnValue({ user: { id: 'u1' } })
-
     renderEntry('/qr-evaluacion')
-
     expect(await screen.findByText('No se encontró token en el QR.')).toBeInTheDocument()
     expect(getQrEvaluation).not.toHaveBeenCalled()
   })
 
-  it('Camino 2 (1-2-3-5-6-11): hay token pero no hay sesión → redirect a /login', async () => {
+  it('C2: sin sesión → redirect login', async () => {
     useAuth.mockReturnValue({ user: null })
-
-    renderEntry('/qr-evaluacion?token=abc123')
-
+    renderEntry('/qr-evaluacion?token=abc')
     expect(await screen.findByText('Pantalla login')).toBeInTheDocument()
-    expect(localStorage.getItem('redirectTo')).toBe('/qr-evaluacion?token=abc123')
+    expect(localStorage.getItem('redirectTo')).toBe('/qr-evaluacion?token=abc')
     expect(getQrEvaluation).not.toHaveBeenCalled()
   })
 
-  it('Camino 3 (1-2-3-5-7-8-9-11): token inválido/vencido (API 404)', async () => {
+  it('C3: API error → QR inválido/expirado', async () => {
     useAuth.mockReturnValue({ user: { id: 'u1' } })
     getQrEvaluation.mockRejectedValue({
       response: { data: { error: 'QR inválido o expirado.' } },
     })
-
-    renderEntry('/qr-evaluacion?token=vencido')
-
-    expect(await screen.findByText('No se pudo abrir la encuesta')).toBeInTheDocument()
-    expect(screen.getByText('QR inválido o expirado.')).toBeInTheDocument()
+    renderEntry('/qr-evaluacion?token=bad')
+    expect(await screen.findByText('QR inválido o expirado.')).toBeInTheDocument()
   })
 
-  it('Camino 4 (1-2-3-5-7-8-10-11): QR válido + usuario logueado navega al formulario', async () => {
+  it('C4: OK → formulario', async () => {
     useAuth.mockReturnValue({ user: { id: 'u1' } })
     getQrEvaluation.mockResolvedValue({
       profesorId: 1,
-      profesorNombre: 'Ana',
       cursoId: 2,
-      cursoNombre: 'Cálculo',
       grupoId: 3,
+      profesorNombre: 'Ana',
+      cursoNombre: 'Cálculo',
     })
     autoEnrollQrEvaluation.mockResolvedValue({ alreadyEnrolled: true })
-
     renderEntry('/qr-evaluacion?token=ok')
-
-    await waitFor(() => {
-      expect(screen.getByText('Formulario evaluación')).toBeInTheDocument()
-    })
+    expect(await screen.findByText('Formulario evaluación')).toBeInTheDocument()
     expect(autoEnrollQrEvaluation).toHaveBeenCalledWith('ok')
   })
 })

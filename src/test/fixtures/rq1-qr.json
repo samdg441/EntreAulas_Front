@@ -1,0 +1,21 @@
+{
+  "sinToken": {
+    "url": "/qr-evaluacion",
+    "mensajeError": "No se encontró token en el QR."
+  },
+  "tokenValido": {
+    "url": "/qr-evaluacion?token=abc123",
+    "apiResponse": {
+      "profesorId": 10,
+      "cursoId": 20,
+      "grupoId": 30,
+      "profesorNombre": "Ana Pérez",
+      "cursoNombre": "Cálculo",
+      "cursoCodigo": "MAT101"
+    }
+  },
+  "tokenInvalido": {
+    "url": "/qr-evaluacion?token=vencido",
+    "apiError": { "response": { "data": { "error": "QR inválido o expirado." } } }
+  }
+}
