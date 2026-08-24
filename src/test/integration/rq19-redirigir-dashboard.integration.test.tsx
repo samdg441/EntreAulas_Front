@@ -59,4 +59,27 @@ describe('RQ19 integration — Login → dashboard del back', () => {
 
     expect(await screen.findByText('Dashboard estudiante')).toBeInTheDocument()
   })
+
+  it('C2: back 401 sin rol válido → el error se muestra en pantalla', async () => {
+    login.mockRejectedValue({
+      response: { data: { error: 'Tipo de usuario no válido' } },
+    })
+
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/login']}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    )
+
+    const user = userEvent.setup()
+    await user.type(screen.getByLabelText(/institucional/i), 'samuel@test.com')
+    await user.type(screen.getByLabelText(/contraseña/i), 'secret12')
+    await user.click(screen.getByRole('button', { name: /iniciar sesión como estudiante/i }))
+
+    expect(await screen.findByText('Tipo de usuario no válido')).toBeInTheDocument()
+  })
 })

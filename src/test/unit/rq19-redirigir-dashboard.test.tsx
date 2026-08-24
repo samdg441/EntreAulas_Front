@@ -1,12 +1,14 @@
 import { describe, expect, it, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from '../../context/AuthContext'
+import ProtectedRoute from '../../routes/ProtectedRoute'
 import { vi } from 'vitest'
 
 vi.mock('../../api/auth', () => ({
   authApi: {
-    getCurrentUser: () => null,
-    isAuthenticated: () => false,
+    getCurrentUser: () => (globalThis as { __rq19User?: unknown }).__rq19User ?? null,
+    isAuthenticated: () => Boolean((globalThis as { __rq19User?: unknown }).__rq19User),
     login: vi.fn(),
     loginWithRole: vi.fn(),
     logout: vi.fn(),
@@ -29,7 +31,10 @@ function renderPath(user: Record<string, unknown>) {
 
 /** RQ19 Front — solo getDashboardPathForUser (C1–C4) */
 describe('RQ19 unit — Redirigir dashboard (frontend)', () => {
-  beforeEach(() => localStorage.clear())
+  beforeEach(() => {
+    localStorage.clear()
+    ;(globalThis as { __rq19User?: unknown }).__rq19User = undefined
+  })
 
   it('C1: usa dashboard del back', async () => {
     renderPath({ dashboard: '/dashboard-admin' })
@@ -56,5 +61,41 @@ describe('RQ19 unit — Redirigir dashboard (frontend)', () => {
     // Coincidencia exacta: `toHaveTextContent('/dashboard')` también aceptaría
     // '/dashboard-admin' y daría verde con un resultado incorrecto.
     expect(await screen.findByTestId('path')).toHaveTextContent(/^\/dashboard$/)
+  })
+
+  it('C5: estudiante + allowedRoles admin → /forbidden', async () => {
+    const estudiante = {
+      id: 'u1',
+      email: 'est@test.com',
+      nombre: 'Estu',
+      apellido: 'Diante',
+      tipo_usuario: 'estudiante',
+      roles: ['estudiante'],
+    }
+    ;(globalThis as { __rq19User?: unknown }).__rq19User = estudiante
+    localStorage.setItem('token', 'jwt')
+    localStorage.setItem('user', JSON.stringify(estudiante))
+
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/dashboard-admin']}>
+          <Routes>
+            <Route
+              path="/dashboard-admin"
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <div>Panel admin</div>
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/forbidden" element={<div>Acceso no permitido</div>} />
+            <Route path="/login" element={<div>Login</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    )
+
+    expect(await screen.findByText('Acceso no permitido')).toBeInTheDocument()
+    expect(screen.queryByText('Panel admin')).not.toBeInTheDocument()
   })
 })

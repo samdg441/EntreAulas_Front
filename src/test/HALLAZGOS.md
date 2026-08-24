@@ -20,6 +20,10 @@ Los defectos del backend se registran en `EntreAulas_Back/src/test/HALLAZGOS.md`
 | DEF-10 | Paginación nula se muestra vacía en pantalla | RQ24 | Media | ABIERTO |
 | DEF-11 | QR sin datos abre la encuesta igual | RQ18 | Media | ABIERTO |
 | DEF-12 | La calificación no se valida contra la escala 0–5 | RQ22 | Baja | ABIERTO |
+| DEF-16 | Un estudiante abre dashboards de otro rol | RQ19 | **Alta** | ABIERTO |
+| DEF-17 | Programar encuesta no llama al backend | RQ18 | **Alta** | ABIERTO |
+| DEF-18 | Fechas de vigencia del QR no salen del cliente | RQ18 | **Alta** | ABIERTO |
+| DEF-19 | Rol `Admin` no abre el dashboard de admin | RQ19 | Media | ABIERTO |
 
 Técnica de detección: inyección de respuestas degradadas de la API (campos
 faltantes, valores nulos, valores fuera de rango) para comprobar la robustez del
@@ -125,6 +129,123 @@ evaluaciones".
 
 **Corrección propuesta.** Acotar el valor al rango y mostrar un indicador de dato
 inválido cuando quede fuera.
+
+---
+
+## DEF-16 — Un estudiante autenticado abre dashboards de otro rol
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ19 — Redirigir al dashboard según el rol |
+| Severidad | Alta |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-16-dashboard-sin-control-de-rol.test.tsx` |
+| Archivo | `src/App.tsx:125-148` |
+
+**Descripción.** RQ19 no termina al *calcular* la ruta: también hay que *impedir* que
+quien ya está dentro entre a un panel que no le toca. `ProtectedRoute` implementa
+eso con `allowedRoles`, y `/dashboard-admin` lo usa. Los otros cuatro paneles no:
+
+- `/dashboard-estudiante` — solo `user ? … : login`
+- `/dashboard-profesor` — igual
+- `/dashboard-coordinador` — igual
+- `/dashboard-decano` — `ProtectedRoute` sin `allowedRoles` (cualquier sesión pasa)
+
+El control de la prueba que **sí pasa** monta `/dashboard-admin` con
+`allowedRoles={['admin']}`: el estudiante es redirigido a "Acceso no permitido".
+Los otros dos casos esperan lo mismo y fallan: con la sesión hidratada, el
+estudiante ve "Panel coordinador" y "Panel profesor".
+
+**Pasos para reproducir.** Iniciar sesión como estudiante, escribir en la barra de
+direcciones `/dashboard-coordinador` (o navegar ahí desde un enlace).
+
+**Resultado esperado.** Redirección a `/forbidden`.
+**Resultado obtenido.** Se monta el dashboard del coordinador.
+
+**Corrección propuesta.** Envolver cada dashboard con
+`ProtectedRoute allowedRoles={[rol]}` como ya se hace en `/dashboard-admin`.
+
+---
+
+## DEF-17 — "Programar encuesta" no llama al backend
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ18 — Validar QR vencido o inválido |
+| Severidad | Alta |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-17-programar-encuesta-sin-api.test.tsx` |
+| Archivo | `src/features/evaluations/ScheduleSurveys.tsx:256` |
+
+**Descripción.** El botón "Programar encuesta" exige fecha de inicio, fecha de cierre
+y período. Si están llenos, muestra `Encuesta programada correctamente` y navega al
+dashboard. El `try` está vacío: el comentario dice "Aquí iría la llamada real a tu
+endpoint". No hay POST. El coordinador cree que dejó una ventana de vigencia y no
+se guardó nada. Encaja con DEF-14 del backend: el vencimiento no existe porque
+nunca se persiste.
+
+**Resultado esperado.** Llamada a la API de programación/QR y ningún mensaje de
+éxito si esa llamada no ocurrió.
+**Resultado obtenido.** `alert('Encuesta programada correctamente')` sin tocar el
+servidor.
+
+**Corrección propuesta.** Llamar a `createQrEvaluationsBatch` (o al endpoint de
+programación) con las fechas, y solo entonces mostrar el éxito.
+
+---
+
+## DEF-18 — Las fechas de vigencia del QR no salen del cliente
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ18 — Validar QR vencido o inválido |
+| Severidad | Alta |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-18-fechas-qr-no-se-envian.test.tsx` |
+| Archivo | `src/api/evaluations.api.ts:16` y `ScheduleSurveys.tsx:258` |
+| Relacionado | DEF-14 y DEF-15 (backend) |
+
+**Descripción.** Dos fallos en la misma ventana:
+
+1. `createQrEvaluationsBatch` solo envía `{ grupoIds }`. Las fechas que el
+   coordinador acaba de escribir no viajan.
+2. El formulario no compara inicio y cierre. `2026-12-31` → `2026-01-01` se
+   acepta y dispara el mensaje de éxito (encima de DEF-17).
+
+El input `type="date"` sí descarta un mes 13, pero eso es el navegador, no el
+producto. El rango invertido pasa.
+
+**Resultado esperado.** El POST lleva `startDate` y `endDate`; un cierre anterior
+al inicio se rechaza.
+**Resultado obtenido.** POST `{ grupoIds }` (o ningún POST, ver DEF-17) y éxito
+con el rango invertido.
+
+---
+
+## DEF-19 — El cálculo de dashboard en el front distingue mayúsculas
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ19 — Redirigir al dashboard según el rol |
+| Severidad | Media |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-19-rol-sensible-mayusculas.test.tsx` |
+| Archivo | `src/context/AuthContext.tsx:180` |
+| Relacionado | DEF-05 (backend) |
+
+**Descripción.** `getDashboardPathForUser` compara roles con `includes` exacto y
+`tipo_usuario` con `.toLowerCase()`. Un usuario con `roles: ['Admin']` termina
+en `/dashboard`. Es el mismo defecto que DEF-05, duplicado en el cliente: si el
+backend algún día normaliza y el front no (o al revés), las capas discrepan.
+
+`hasRole` sí normaliza a minúsculas, así que el guardia de `/dashboard-admin`
+podría dejar pasar a `Admin` mientras el cálculo de ruta lo manda a `/dashboard`.
+
+**Resultado esperado.** `/dashboard-admin`.
+**Resultado obtenido.** `/dashboard`.
+
+**Corrección propuesta.** Normalizar roles igual que `tipo_usuario` (y igual que
+`hasRole`), en un solo mapa compartido.
 
 ---
 

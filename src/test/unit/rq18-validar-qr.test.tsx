@@ -69,4 +69,8 @@ describe('RQ18 unit — Validar QR (frontend)', () => {
     expect(await screen.findByText('Formulario evaluación')).toBeInTheDocument()
     expect(autoEnrollQrEvaluation).toHaveBeenCalledWith(qrFixture.tokenValido.token)
   })
+
+  // La rama "vencido por fecha" no es alcanzable: el front no mira fechas y el
+  // back tampoco (DEF-14). Ver HALLAZGOS.md.
+  it.todo('C3b: QR fuera de su ventana de vigencia → error en pantalla (DEF-14)')
 })
