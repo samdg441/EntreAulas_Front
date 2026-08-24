@@ -1,8 +1,8 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor, within } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { screen, waitFor, within } from '@testing-library/react'
 import DashboardCoordinador from '../../features/dashboard-coordinator/DashboardCoordinador'
-import type { User } from '../../types'
+import { renderWithRouter } from '../helpers/render'
+import { mockCoordinador } from '../fixtures/users'
 
 vi.mock('../../components/Header', () => ({ default: () => null }))
 vi.mock('../../components/Calendar', () => ({ default: () => null }))
@@ -14,20 +14,8 @@ vi.mock('../../api/coordinador.api', () => ({
   fetchCoordinatorDashboardSummary: (...a: unknown[]) => fetchCoordinatorDashboardSummary(...a),
 }))
 
-const coordinador: User = {
-  id: 'c1',
-  name: 'David',
-  type: 'coordinator',
-  email: 'd@t.com',
-  roles: ['coordinador'],
-}
-
 function renderDash() {
-  return render(
-    <MemoryRouter>
-      <DashboardCoordinador user={coordinador} />
-    </MemoryRouter>
-  )
+  return renderWithRouter(<DashboardCoordinador user={mockCoordinador} />)
 }
 
 function cardByTitle(title: string) {

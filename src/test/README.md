@@ -16,6 +16,11 @@ src/test/
 ├── e2e/            → Qué va: flujos de sistema en navegador (Playwright/Cypress).
 │                     Hoy: marcador. NO se ejecuta con `npm test`.
 │
+├── defects/        → Qué va: una prueba por defecto encontrado, escrita contra el
+│                     comportamiento CORRECTO esperado. Falla mientras el defecto
+│                     siga abierto; pasa a verde cuando se corrige el código.
+│                     Se ejecuta aparte (`npm run test:defects`). Ver HALLAZGOS.md.
+│
 ├── fixtures/       → Qué va: JSON / usuarios estáticos para armar escenarios.
 │                     No va: asserts ni lógica de render.
 │
@@ -34,6 +39,7 @@ src/test/
 |-------|------------|----------------------|
 | **unit/** | Grafo completo del requisito (C1…Cn) en UI | Completa |
 | **integration/** | Flujos UI+API mockeada / login; smoke | Complementaria |
+| **defects/** | Defectos abiertos detectados durante la validación | Rojo esperado |
 
 Asserts específicos (p. ej. `within(card)`), sin números sueltos ambiguos ni datos de más.
 
@@ -69,6 +75,9 @@ npm run test:watch
 
 # Cobertura → ./coverage
 npm run test:coverage
+
+# Registro de defectos abiertos (SE ESPERA QUE FALLE; ver HALLAZGOS.md)
+npm run test:defects
 
 # Un archivo
 npx vitest run src/test/unit/rq18-validar-qr.test.tsx

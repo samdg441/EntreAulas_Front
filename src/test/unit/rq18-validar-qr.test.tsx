@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { screen } from '@testing-library/react'
 import QrEvaluationEntry from '../../features/evaluations/QrEvaluationEntry'
+import { renderWithRouter } from '../helpers/render'
 import qrFixture from '../fixtures/rq18-qr.json'
 
 const getQrEvaluation = vi.fn()
@@ -18,15 +18,14 @@ vi.mock('../../context/AuthContext', () => ({
 }))
 
 function renderEntry(url: string) {
-  return render(
-    <MemoryRouter initialEntries={[url]}>
-      <Routes>
-        <Route path="/qr-evaluacion" element={<QrEvaluationEntry />} />
-        <Route path="/login" element={<div>Pantalla login</div>} />
-        <Route path="/evaluate/form" element={<div>Formulario evaluación</div>} />
-      </Routes>
-    </MemoryRouter>
-  )
+  return renderWithRouter(<QrEvaluationEntry />, {
+    route: url,
+    path: '/qr-evaluacion',
+    extraRoutes: [
+      { path: '/login', element: <div>Pantalla login</div> },
+      { path: '/evaluate/form', element: <div>Formulario evaluación</div> },
+    ],
+  })
 }
 
 /** RQ18 Front — C1 sin token | C2 sin sesión | C3 API error | C4 OK */

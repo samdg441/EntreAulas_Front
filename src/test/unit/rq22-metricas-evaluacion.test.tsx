@@ -1,7 +1,8 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor, within } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { screen, waitFor } from '@testing-library/react'
 import DashboardProfesor from '../../features/dashboard-teacher/DashboardProfesor'
+import { renderWithRouter } from '../helpers/render'
+import { mockProfesor } from '../fixtures/users'
 import type { User } from '../../types'
 
 vi.mock('../../components/Header', () => ({ default: () => null }))
@@ -18,14 +19,8 @@ vi.mock('../../api/teachers', () => ({
   fetchTeacherCourses: (...a: unknown[]) => fetchTeacherCourses(...a),
 }))
 
-const teacher: User = { id: 'u1', name: 'Ana', type: 'teacher', email: 'a@t.com' }
-
 function renderDash(user: User) {
-  return render(
-    <MemoryRouter>
-      <DashboardProfesor user={user} />
-    </MemoryRouter>
-  )
+  return renderWithRouter(<DashboardProfesor user={user} />)
 }
 
 /** RQ22 Front — C1 sin user | C2 API falla | C3 OK métricas */
@@ -48,7 +43,7 @@ describe('RQ22 unit — Calcular métricas (frontend)', () => {
   it('C2: API falla → promedio 0.0/5.0', async () => {
     fetchTeacherId.mockResolvedValue('7')
     fetchTeacherStats.mockRejectedValue(new Error('fail'))
-    renderDash(teacher)
+    renderDash(mockProfesor)
     expect(await screen.findByText('0.0/5.0')).toBeInTheDocument()
   })
 
@@ -61,7 +56,7 @@ describe('RQ22 unit — Calcular métricas (frontend)', () => {
       totalGruposImpartidos: 2,
       evaluacionesPorCurso: [],
     })
-    renderDash(teacher)
+    renderDash(mockProfesor)
     expect(await screen.findByText('4.5/5.0')).toBeInTheDocument()
     expect(screen.getByText('12')).toBeInTheDocument()
   })

@@ -53,6 +53,8 @@ describe('RQ19 unit — Redirigir dashboard (frontend)', () => {
 
   it('C4b: tipo desconocido → /dashboard', async () => {
     renderPath({ tipo_usuario: 'desconocido' })
-    expect(await screen.findByTestId('path')).toHaveTextContent('/dashboard')
+    // Coincidencia exacta: `toHaveTextContent('/dashboard')` también aceptaría
+    // '/dashboard-admin' y daría verde con un resultado incorrecto.
+    expect(await screen.findByTestId('path')).toHaveTextContent(/^\/dashboard$/)
   })
 })

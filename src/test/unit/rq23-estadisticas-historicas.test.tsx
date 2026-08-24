@@ -1,7 +1,8 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { screen, waitFor } from '@testing-library/react'
 import ReportsPage from '../../features/evaluations/ReportsPage'
+import { renderWithRouter } from '../helpers/render'
+import { mockCoordinador, mockProfesor } from '../fixtures/users'
 import type { User } from '../../types'
 
 vi.mock('../../components/Header', () => ({ default: () => null }))
@@ -65,11 +66,7 @@ vi.mock('../../api/coordinador.api', () => ({
 }))
 
 function renderReports(user: User) {
-  return render(
-    <MemoryRouter>
-      <ReportsPage user={user} />
-    </MemoryRouter>
-  )
+  return renderWithRouter(<ReportsPage user={user} />)
 }
 
 /** RQ23 Front — C1 coord no histórico | C2 error→ceros | C3 OK ratings */
@@ -91,7 +88,7 @@ describe('RQ23 unit — Estadísticas históricas (frontend)', () => {
       categoryStats: [],
       distribution: [],
     })
-    renderReports({ id: 'c1', name: 'Coord', type: 'coordinator', email: 'c@t.com' })
+    renderReports(mockCoordinador)
     await waitFor(() => expect(fetchCoordinatorReportsOverview).toHaveBeenCalled())
     expect(fetchTeacherHistoricalStats).not.toHaveBeenCalled()
     expect(fetchTeacherId).not.toHaveBeenCalled()
@@ -100,7 +97,7 @@ describe('RQ23 unit — Estadísticas históricas (frontend)', () => {
   it('C2: error por período → serie con rating 0', async () => {
     fetchTeacherId.mockResolvedValue('7')
     fetchTeacherHistoricalStats.mockRejectedValue(new Error('sin datos'))
-    renderReports({ id: 'u1', name: 'Ana', type: 'teacher', email: 'a@t.com' })
+    renderReports(mockProfesor)
 
     // loadHistoricalData llama un GET por cada período; cada fallo → rating 0
     await waitFor(() => {
@@ -126,7 +123,7 @@ describe('RQ23 unit — Estadísticas históricas (frontend)', () => {
       calificacionPromedio: 4.2,
       totalEvaluaciones: 8,
     })
-    renderReports({ id: 'u1', name: 'Ana', type: 'teacher', email: 'a@t.com' })
+    renderReports(mockProfesor)
     await waitFor(() => expect(fetchTeacherHistoricalStats).toHaveBeenCalled())
     const chart = await screen.findByTestId('line-chart')
     const ratings = JSON.parse(chart.getAttribute('data-ratings') || '[]') as number[]
