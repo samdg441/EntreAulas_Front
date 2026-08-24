@@ -129,4 +129,20 @@ describe('RQ23 unit — Estadísticas históricas (frontend)', () => {
     const ratings = JSON.parse(chart.getAttribute('data-ratings') || '[]') as number[]
     expect(ratings.some((r) => r === 4.2 || r === 3.5)).toBe(true)
   })
+
+  it('C4: histórico vacío → ratings en 0 sin excepción', async () => {
+    fetchTeacherId.mockResolvedValue('7')
+    fetchTeacherHistoricalStats.mockResolvedValue({
+      period: '2026-1',
+      calificacionPromedio: 0,
+      totalEvaluaciones: 0,
+    })
+    renderReports(mockProfesor)
+    await waitFor(() => {
+      const chart = screen.getByTestId('line-chart')
+      const ratings = JSON.parse(chart.getAttribute('data-ratings') || '[]') as number[]
+      expect(ratings.length).toBeGreaterThan(0)
+      expect(ratings.every((r) => r === 0)).toBe(true)
+    })
+  })
 })
