@@ -60,4 +60,11 @@ describe('RQ22 unit — Calcular métricas (frontend)', () => {
     expect(await screen.findByText('4.5/5.0')).toBeInTheDocument()
     expect(screen.getByText('12')).toBeInTheDocument()
   })
+
+  it('C4: stats vacías → 0.0/5.0 sin excepción', async () => {
+    fetchTeacherId.mockResolvedValue('7')
+    fetchTeacherStats.mockResolvedValue({})
+    renderDash(mockProfesor)
+    expect(await screen.findByText('0.0/5.0')).toBeInTheDocument()
+  })
 })
