@@ -35,8 +35,8 @@ function cardByTitle(title: string) {
   return titleEl.closest('.bg-white') as HTMLElement
 }
 
-/** RQ5 Front — C1 error API | C2 OK stats+docentes */
-describe('RQ5 unit — Resumen coordinador (frontend)', () => {
+/** RQ24 Front — C1 error API | C2 OK stats+docentes */
+describe('RQ24 unit — Resumen coordinador (frontend)', () => {
   beforeEach(() => {
     fetchCoordinatorDashboardSummary.mockReset()
   })

@@ -1,6 +1,6 @@
 # Pruebas Frontend (ISTQB / V&V)
 
-Estructura alineada a niveles de prueba y a la matriz RQ1–RQ5 (Grafos / caminos).
+Estructura alineada a niveles de prueba y a la matriz de requisitos (Grafos / caminos).
 
 ## Para qué es cada carpeta
 
@@ -41,11 +41,11 @@ Asserts específicos (p. ej. `within(card)`), sin números sueltos ambiguos ni d
 
 | Requisito | Unit | Integration |
 |-----------|------|-------------|
-| RQ1 Validar QR | `unit/rq1-validar-qr.test.tsx` | `integration/rq1-validar-qr.integration.test.tsx` |
-| RQ2 Dashboard por rol | `unit/rq2-redirigir-dashboard.test.tsx` | `integration/rq2-redirigir-dashboard.integration.test.tsx` |
-| RQ3 Métricas evaluación | `unit/rq3-metricas-evaluacion.test.tsx` | `integration/rq3-metricas-evaluacion.integration.test.tsx` |
-| RQ4 Stats históricas | `unit/rq4-estadisticas-historicas.test.tsx` | `integration/rq4-estadisticas-historicas.integration.test.tsx` |
-| RQ5 Resumen coordinador | `unit/rq5-resumen-coordinador.test.tsx` | `integration/rq5-resumen-coordinador.integration.test.tsx` |
+| RQ18 Validar QR | `unit/rq18-validar-qr.test.tsx` | `integration/rq18-validar-qr.integration.test.tsx` |
+| RQ19 Dashboard por rol | `unit/rq19-redirigir-dashboard.test.tsx` | `integration/rq19-redirigir-dashboard.integration.test.tsx` |
+| RQ22 Métricas evaluación | `unit/rq22-metricas-evaluacion.test.tsx` | `integration/rq22-metricas-evaluacion.integration.test.tsx` |
+| RQ23 Stats históricas | `unit/rq23-estadisticas-historicas.test.tsx` | `integration/rq23-estadisticas-historicas.integration.test.tsx` |
+| RQ24 Resumen coordinador | `unit/rq24-resumen-coordinador.test.tsx` | `integration/rq24-resumen-coordinador.integration.test.tsx` |
 
 Framework: **Vitest** + **Testing Library**.  
 Cobertura: `coverage/` (excluida de Git).
@@ -71,7 +71,7 @@ npm run test:watch
 npm run test:coverage
 
 # Un archivo
-npx vitest run src/test/unit/rq1-validar-qr.test.tsx
+npx vitest run src/test/unit/rq18-validar-qr.test.tsx
 ```
 
 E2E (cuando exista runner): no usar Vitest; documentar en `e2e/` (p. ej. Playwright).

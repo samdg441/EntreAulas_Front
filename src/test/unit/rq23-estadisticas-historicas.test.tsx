@@ -72,8 +72,8 @@ function renderReports(user: User) {
   )
 }
 
-/** RQ4 Front — C1 coord no histórico | C2 error→ceros | C3 OK ratings */
-describe('RQ4 unit — Estadísticas históricas (frontend)', () => {
+/** RQ23 Front — C1 coord no histórico | C2 error→ceros | C3 OK ratings */
+describe('RQ23 unit — Estadísticas históricas (frontend)', () => {
   beforeEach(() => {
     fetchTeacherHistoricalStats.mockReset()
     fetchTeacherId.mockReset()

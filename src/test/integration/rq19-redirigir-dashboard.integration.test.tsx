@@ -20,8 +20,8 @@ vi.mock('../../api/auth', () => ({
   },
 }))
 
-/** RQ2 integration: login navega con dashboard que envía el back (sin inventar path en Front). */
-describe('RQ2 integration — Login → dashboard del back', () => {
+/** RQ19 integration: login navega con dashboard que envía el back (sin inventar path en Front). */
+describe('RQ19 integration — Login → dashboard del back', () => {
   beforeEach(() => {
     login.mockReset()
     localStorage.clear()

@@ -1,7 +1,8 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import QrEvaluationEntry from '../../features/evaluations/QrEvaluationEntry'
+import qrFixture from '../fixtures/rq18-qr.json'
 
 const getQrEvaluation = vi.fn()
 const autoEnrollQrEvaluation = vi.fn()
@@ -28,8 +29,8 @@ function renderEntry(url: string) {
   )
 }
 
-/** RQ1 Front — C1 sin token | C2 sin sesión | C3 API error | C4 OK */
-describe('RQ1 unit — Validar QR (frontend)', () => {
+/** RQ18 Front — C1 sin token | C2 sin sesión | C3 API error | C4 OK */
+describe('RQ18 unit — Validar QR (frontend)', () => {
   beforeEach(() => {
     getQrEvaluation.mockReset()
     autoEnrollQrEvaluation.mockReset()
@@ -39,40 +40,34 @@ describe('RQ1 unit — Validar QR (frontend)', () => {
 
   it('C1: sin token → error local', async () => {
     useAuth.mockReturnValue({ user: { id: 'u1' } })
-    renderEntry('/qr-evaluacion')
-    expect(await screen.findByText('No se encontró token en el QR.')).toBeInTheDocument()
+    renderEntry(qrFixture.sinToken.url)
+    expect(await screen.findByText(qrFixture.sinToken.mensajeError)).toBeInTheDocument()
     expect(getQrEvaluation).not.toHaveBeenCalled()
   })
 
   it('C2: sin sesión → redirect login', async () => {
     useAuth.mockReturnValue({ user: null })
-    renderEntry('/qr-evaluacion?token=abc')
+    renderEntry(qrFixture.tokenValido.url)
     expect(await screen.findByText('Pantalla login')).toBeInTheDocument()
-    expect(localStorage.getItem('redirectTo')).toBe('/qr-evaluacion?token=abc')
+    expect(localStorage.getItem('redirectTo')).toBe(qrFixture.tokenValido.url)
     expect(getQrEvaluation).not.toHaveBeenCalled()
   })
 
   it('C3: API error → QR inválido/expirado', async () => {
     useAuth.mockReturnValue({ user: { id: 'u1' } })
-    getQrEvaluation.mockRejectedValue({
-      response: { data: { error: 'QR inválido o expirado.' } },
-    })
-    renderEntry('/qr-evaluacion?token=bad')
-    expect(await screen.findByText('QR inválido o expirado.')).toBeInTheDocument()
+    getQrEvaluation.mockRejectedValue(qrFixture.tokenInvalido.apiError)
+    renderEntry(qrFixture.tokenInvalido.url)
+    expect(
+      await screen.findByText(qrFixture.tokenInvalido.apiError.response.data.error)
+    ).toBeInTheDocument()
   })
 
   it('C4: OK → formulario', async () => {
     useAuth.mockReturnValue({ user: { id: 'u1' } })
-    getQrEvaluation.mockResolvedValue({
-      profesorId: 1,
-      cursoId: 2,
-      grupoId: 3,
-      profesorNombre: 'Ana',
-      cursoNombre: 'Cálculo',
-    })
+    getQrEvaluation.mockResolvedValue(qrFixture.tokenValido.apiResponse)
     autoEnrollQrEvaluation.mockResolvedValue({ alreadyEnrolled: true })
-    renderEntry('/qr-evaluacion?token=ok')
+    renderEntry(qrFixture.tokenValido.url)
     expect(await screen.findByText('Formulario evaluación')).toBeInTheDocument()
-    expect(autoEnrollQrEvaluation).toHaveBeenCalledWith('ok')
+    expect(autoEnrollQrEvaluation).toHaveBeenCalledWith(qrFixture.tokenValido.token)
   })
 })

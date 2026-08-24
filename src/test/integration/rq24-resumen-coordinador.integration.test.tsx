@@ -14,7 +14,7 @@ vi.mock('../../api/coordinador.api', () => ({
 }))
 
 /** Smoke: grafo C1–C2 en unit. */
-describe('RQ5 integration — smoke resumen OK', () => {
+describe('RQ24 integration — smoke resumen OK', () => {
   beforeEach(() => {
     fetchCoordinatorDashboardSummary.mockResolvedValue({
       stats: {

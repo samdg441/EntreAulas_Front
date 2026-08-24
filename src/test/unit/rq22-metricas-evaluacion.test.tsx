@@ -28,8 +28,8 @@ function renderDash(user: User) {
   )
 }
 
-/** RQ3 Front — C1 sin user | C2 API falla | C3 OK métricas */
-describe('RQ3 unit — Calcular métricas (frontend)', () => {
+/** RQ22 Front — C1 sin user | C2 API falla | C3 OK métricas */
+describe('RQ22 unit — Calcular métricas (frontend)', () => {
   beforeEach(() => {
     fetchTeacherId.mockReset()
     fetchTeacherStats.mockReset()

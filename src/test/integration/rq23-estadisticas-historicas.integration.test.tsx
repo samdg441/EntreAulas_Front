@@ -52,7 +52,7 @@ vi.mock('../../api/coordinador.api', () => ({
 }))
 
 /** Smoke: grafo completo en unit. */
-describe('RQ4 integration — smoke histórico', () => {
+describe('RQ23 integration — smoke histórico', () => {
   beforeEach(() => {
     fetchTeacherId.mockResolvedValue('7')
     fetchTeacherPeriodCategoryStats.mockResolvedValue([])

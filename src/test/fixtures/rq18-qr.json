@@ -4,6 +4,7 @@
     "mensajeError": "No se encontró token en el QR."
   },
   "tokenValido": {
+    "token": "abc123",
     "url": "/qr-evaluacion?token=abc123",
     "apiResponse": {
       "profesorId": 10,
@@ -15,6 +16,7 @@
     }
   },
   "tokenInvalido": {
+    "token": "vencido",
     "url": "/qr-evaluacion?token=vencido",
     "apiError": { "response": { "data": { "error": "QR inválido o expirado." } } }
   }

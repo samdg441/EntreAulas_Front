@@ -18,7 +18,7 @@ vi.mock('../../api/teachers', () => ({
 }))
 
 /** Smoke: grafo completo en unit. */
-describe('RQ3 integration — smoke métricas OK', () => {
+describe('RQ22 integration — smoke métricas OK', () => {
   beforeEach(() => {
     fetchTeacherId.mockResolvedValue('7')
     fetchTeacherCourses.mockResolvedValue([])

@@ -27,8 +27,8 @@ function renderPath(user: Record<string, unknown>) {
   )
 }
 
-/** RQ2 Front — solo getDashboardPathForUser (C1–C4) */
-describe('RQ2 unit — Redirigir dashboard (frontend)', () => {
+/** RQ19 Front — solo getDashboardPathForUser (C1–C4) */
+describe('RQ19 unit — Redirigir dashboard (frontend)', () => {
   beforeEach(() => localStorage.clear())
 
   it('C1: usa dashboard del back', async () => {
