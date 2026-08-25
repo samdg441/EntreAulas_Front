@@ -52,15 +52,20 @@ Asserts específicos (p. ej. `within(card)`), sin números sueltos ambiguos ni d
 
 ## Matriz requisito → archivo
 
-| Requisito | Unit | Integration |
-|-----------|------|-------------|
-| RQ1 Crear usuario (admin) | — | `integration/rq1-crear-usuario-admin.integration.test.tsx` |
-| RQ2 Login | — | `integration/rq2-login.integration.test.tsx` |
-| RQ18 Validar QR | `unit/rq18-validar-qr.test.tsx` | `integration/rq18-validar-qr.integration.test.tsx` |
-| RQ19 Dashboard por rol | `unit/rq19-redirigir-dashboard.test.tsx` | `integration/rq19-redirigir-dashboard.integration.test.tsx` |
-| RQ22 Métricas evaluación | `unit/rq22-metricas-evaluacion.test.tsx` | `integration/rq22-metricas-evaluacion.integration.test.tsx` |
-| RQ23 Stats históricas | `unit/rq23-estadisticas-historicas.test.tsx` | `integration/rq23-estadisticas-historicas.integration.test.tsx` |
-| RQ24 Resumen coordinador | `unit/rq24-resumen-coordinador.test.tsx` | `integration/rq24-resumen-coordinador.integration.test.tsx` |
+| Requisito | Unit | Integration | Defecto (rojo) |
+|-----------|------|-------------|----------------|
+| RQ1 Crear usuario (admin) | — | `integration/rq1-crear-usuario-admin.integration.test.tsx` | — |
+| RQ2 Login | — | `integration/rq2-login.integration.test.tsx` | — |
+| RQ6 RBAC | `unit/rq6-rbac.test.tsx` | `integration/rq6-rbac.integration.test.ts` | `defects/DEF-21-403-sin-forbidden.test.ts` |
+| RQ14 Auto-inscripción QR | `unit/rq14-auto-inscripcion.test.tsx` | `integration/rq14-auto-inscripcion.integration.test.tsx` | `defects/DEF-27-401-auto-enroll-sin-login.test.tsx` |
+| RQ15 Generación masiva QR | `unit/rq15-generar-qr.test.tsx` | `integration/rq15-generar-qr.integration.test.tsx` | `defects/DEF-28-fechas-batch-admin-qr.test.tsx` |
+| RQ16 Correo QR | `unit/rq16-correo-qr.test.tsx` | `integration/rq16-correo-qr.integration.test.tsx` | `defects/DEF-29-email-invalido-se-envia.test.tsx` |
+| RQ17 Resolución token QR | `unit/rq17-resolucion-token.test.tsx` | `integration/rq17-resolucion-token.integration.test.tsx` | `defects/DEF-30-qr-payload-vacio-rq17.test.tsx` |
+| RQ18 Validar QR | `unit/rq18-validar-qr.test.tsx` | `integration/rq18-validar-qr.integration.test.tsx` | — |
+| RQ19 Dashboard por rol | `unit/rq19-redirigir-dashboard.test.tsx` | `integration/rq19-redirigir-dashboard.integration.test.tsx` | — |
+| RQ22 Métricas evaluación | `unit/rq22-metricas-evaluacion.test.tsx` | `integration/rq22-metricas-evaluacion.integration.test.tsx` | — |
+| RQ23 Stats históricas | `unit/rq23-estadisticas-historicas.test.tsx` | `integration/rq23-estadisticas-historicas.integration.test.tsx` | — |
+| RQ24 Resumen coordinador | `unit/rq24-resumen-coordinador.test.tsx` | `integration/rq24-resumen-coordinador.integration.test.tsx` | — |
 
 Framework: **Vitest** + **Testing Library**.  
 Cobertura: `coverage/` (excluida de Git).

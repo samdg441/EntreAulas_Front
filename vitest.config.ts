@@ -20,6 +20,8 @@ function mockStaticAssets() {
 export default defineConfig({
   plugins: [react(), mockStaticAssets()],
   test: {
+    // Equivale a NODE_OPTIONS=--no-experimental-webstorage (sin cross-env en Windows)
+    execArgv: ['--no-experimental-webstorage'],
     environment: 'jsdom',
     environmentOptions: {
       jsdom: {

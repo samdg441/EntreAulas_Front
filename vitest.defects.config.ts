@@ -24,6 +24,7 @@ function mockStaticAssets() {
 export default defineConfig({
   plugins: [react(), mockStaticAssets()],
   test: {
+    execArgv: ['--no-experimental-webstorage'],
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/test/defects/**/*.test.{ts,tsx}'],

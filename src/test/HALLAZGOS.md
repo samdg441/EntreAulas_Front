@@ -1,7 +1,7 @@
 # Registro de defectos — Frontend (V&V)
 
-Defectos detectados durante la validación de los requisitos RQ18–RQ24 en la capa
-de presentación. Cada uno tiene una prueba ejecutable que **falla mientras el
+Defectos detectados durante la validación de los requisitos RQ6, RQ14–RQ17 y RQ18–RQ24
+en la capa de presentación. Cada uno tiene una prueba ejecutable que **falla mientras el
 defecto siga abierto**.
 
 ```bash
@@ -24,6 +24,13 @@ Los defectos del backend se registran en `EntreAulas_Back/src/test/HALLAZGOS.md`
 | DEF-17 | Programar encuesta no llama al backend | RQ18 | **Alta** | ABIERTO |
 | DEF-18 | Fechas de vigencia del QR no salen del cliente | RQ18 | **Alta** | ABIERTO |
 | DEF-19 | Rol `Admin` no abre el dashboard de admin | RQ19 | Media | ABIERTO |
+| DEF-21 | Un 403 no redirige a `/forbidden` | RQ6 | Media | ABIERTO |
+| DEF-27 | Un 401 en auto-enroll no va a `/login` | RQ14 | Media | ABIERTO |
+| DEF-28 | Fechas/período no viajan en el lote de Admin QR | RQ15 | **Alta** | ABIERTO |
+| DEF-29 | Email inválido se envía igual | RQ16 | Baja | ABIERTO |
+| DEF-30 | GET de token vacío abre el formulario | RQ17 | Media | ABIERTO |
+
+Camino fallido por requisito asignado: RQ6 → DEF-21 · RQ14 → DEF-27 · RQ15 → DEF-28 · RQ16 → DEF-29 · RQ17 → DEF-30.
 
 Técnica de detección: inyección de respuestas degradadas de la API (campos
 faltantes, valores nulos, valores fuera de rango) para comprobar la robustez del
@@ -246,6 +253,129 @@ podría dejar pasar a `Admin` mientras el cálculo de ruta lo manda a `/dashboar
 
 **Corrección propuesta.** Normalizar roles igual que `tipo_usuario` (y igual que
 `hasRole`), en un solo mapa compartido.
+
+---
+
+## DEF-21 — Un 403 no redirige a `/forbidden`
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ6 — Control de acceso por roles |
+| Severidad | Media |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-21-403-sin-forbidden.test.ts` |
+| Archivo | `src/api/client.ts` (rama 403 del interceptor) |
+
+**Descripción.** El contrato de integración de RQ6 indica que un 403 debe llevar
+a `/forbidden`. El interceptor solo emite `console.warn` y deja la petición
+rechazada; no cambia la ruta.
+
+**Resultado esperado.** `window.location` incluye `/forbidden`; el token se conserva.
+**Resultado obtenido.** No hay redirección.
+
+**Corrección propuesta.** En el interceptor 403, redirigir a `/forbidden` (sin
+borrar `token`/`user`).
+
+---
+
+## DEF-27 — Un 401 en auto-enroll no lleva al login
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ14 — Auto-inscripción por QR |
+| Severidad | Media |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-27-401-auto-enroll-sin-login.test.tsx` |
+| Archivo | `src/features/evaluations/QrEvaluationEntry.tsx` (catch del `useEffect`) |
+
+**Descripción.** El grafo de RQ14 indica que un 401 debe ir a `/login` y
+conservar el retorno al QR. Si `autoEnrollQrEvaluation` falla con 401 (sesión
+caducada a mitad del flujo), el catch pinta «No se pudo abrir la encuesta» y
+un botón opcional. No redirige ni escribe `redirectTo`.
+
+**Resultado esperado.** Pantalla de login y `localStorage.redirectTo` con la URL del QR.
+**Resultado obtenido.** Error en la misma ruta `/qr-evaluacion`.
+
+**Causa raíz.** El `catch` no distingue `response.status === 401` del resto de errores.
+
+**Corrección propuesta.** Si el status es 401, guardar `redirectTo` y
+`navigate('/login', { replace: true })`, igual que el camino «sin sesión».
+
+---
+
+## DEF-28 — Fechas y período no viajan en el lote de Admin QR
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ15 — Generación masiva de QR |
+| Severidad | Alta |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-28-fechas-batch-admin-qr.test.tsx` |
+| Archivo | `src/features/dashboard-admin/AdminQrPage.tsx` (`ensureTokensForGrupoIds`) y `src/api/evaluations.api.ts` (`createQrEvaluationsBatch`) |
+| Relacionado | DEF-18 (misma causa en la pantalla de programar encuesta) |
+
+**Descripción.** El formulario de Admin QR obliga a llenar inicio, cierre y
+período, pero `ensureTokensForGrupoIds` llama `createQrEvaluationsBatch(missing)`
+y la API solo POSTea `{ grupoIds }`. El backend genera tokens sin vigencia
+(DEF-14 / DEF-15).
+
+**Resultado esperado.** El POST incluye `grupoIds`, `startDate`, `endDate` y `period`.
+**Resultado obtenido.** Solo se envía el array de ids.
+
+**Causa raíz.** La firma de `createQrEvaluationsBatch` no acepta fechas; la UI
+las valida y las descarta.
+
+**Corrección propuesta.** Ampliar el payload del cliente y usarlo desde
+`ensureTokensForGrupoIds` (y alinear el backend, ver DEF-14/15).
+
+---
+
+## DEF-29 — El modal de correo no valida el formato del destinatario
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ16 — Distribución de QR por correo |
+| Severidad | Baja |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-29-email-invalido-se-envia.test.tsx` |
+| Archivo | `src/features/dashboard-admin/AdminQrPage.tsx` (`sendShareEmail`) |
+
+**Descripción.** RQ16 C1 exige destinatario válido. La UI solo comprueba que
+`to.trim()` no esté vacío: `"hola-sin-arroba"` dispara `shareQrEvaluationsEmail`.
+El formato, si acaso, lo rechaza el 400 del backend.
+
+**Resultado esperado.** Alerta de correo inválido y **no** llamar a la API.
+**Resultado obtenido.** Se llama `shareQrEvaluationsEmail` con `to: 'hola-sin-arroba'`.
+
+**Causa raíz.** No hay regex ni `type="email"` efectivo antes del POST.
+
+**Corrección propuesta.** Validar el destinatario en cliente (mismo criterio que
+el backend) y abortar con alerta si no coincide.
+
+---
+
+## DEF-30 — Un GET de token vacío abre el formulario
+
+| Campo | Valor |
+|---|---|
+| Requisito afectado | RQ17 — Resolución de token QR |
+| Severidad | Media |
+| Estado | ABIERTO |
+| Evidencia | `defects/DEF-30-qr-payload-vacio-rq17.test.tsx` |
+| Archivo | `src/features/evaluations/QrEvaluationEntry.tsx` |
+| Relacionado | DEF-11 (mismo síntoma etiquetado RQ18) |
+
+**Descripción.** El grafo de RQ17 exige `profesorId`, `cursoId` y `grupoId` para
+continuar. El cliente hace `(await getQrEvaluation(token)) || {}` y navega a
+`/evaluate/form` con identificadores `undefined`.
+
+**Resultado esperado.** «No se pudo abrir la encuesta»; no entrar al formulario.
+**Resultado obtenido.** Navega a `/evaluate/form`.
+
+**Causa raíz.** No se valida el contrato del GET antes de `navigate`.
+
+**Corrección propuesta.** Si faltan `profesorId`, `cursoId` o `grupoId`,
+`setError` y no navegar (misma corrección que DEF-11).
 
 ---
 
