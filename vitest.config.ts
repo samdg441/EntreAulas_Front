@@ -21,6 +21,11 @@ export default defineConfig({
   plugins: [react(), mockStaticAssets()],
   test: {
     environment: 'jsdom',
+    environmentOptions: {
+      jsdom: {
+        url: 'http://localhost/',
+      },
+    },
     setupFiles: ['./src/test/setup.ts'],
     include: [
       'src/test/unit/**/*.test.{ts,tsx}',

@@ -9,9 +9,15 @@ src/test/
 ├── unit/           → Qué va: un componente o función UI aislada (RTL).
 │                     Mocks de API/contexto. Cubre caminos del grafo del Front.
 │
-├── integration/    → Qué va: flujo UI + llamadas API mockeadas (varias piezas).
-│                     Ej.: entrada QR → login/redirect → error o formulario.
-│                     No es navegador real ni backend real.
+├── integration/    → Qué va: flujo UI + API (varias piezas). Dos sabores:
+│                     (a) API mockeada a nivel de módulo (`vi.mock('../../api/...')`) —
+│                         Ej.: entrada QR → login/redirect → error o formulario.
+│                     (b) API real interceptada con MSW (`*.integration.test.tsx` de
+│                         RQ1/RQ2) — el `apiClient` (axios) real hace la petición,
+│                         incluidos sus interceptores, y MSW responde en el borde de
+│                         red como lo haría Express. Válida URL/headers/body enviados
+│                         y la reacción del Front a la respuesta real del backend.
+│                     No es navegador real ni base de datos real.
 │
 ├── e2e/            → Qué va: flujos de sistema en navegador (Playwright/Cypress).
 │                     Hoy: marcador. NO se ejecuta con `npm test`.
@@ -27,8 +33,9 @@ src/test/
 ├── helpers/        → Qué va: helpers de render (p. ej. renderWithRouter).
 │                     No va: casos describe/it.
 │
-├── mocks/          → Qué va: stubs de librerías/assets (framer-motion, .webp).
-│                     Solo para que Vitest pueda montar la UI sin ruido.
+├── mocks/          → Qué va: stubs de librerías/assets (framer-motion, .webp) y
+│                     `server.ts` (MSW `setupServer`, sin handlers por defecto —
+│                     cada test de integración con MSW registra los suyos).
 │
 └── setup.ts        → Qué va: jest-dom + cleanup de RTL / localStorage.
 ```
@@ -47,6 +54,8 @@ Asserts específicos (p. ej. `within(card)`), sin números sueltos ambiguos ni d
 
 | Requisito | Unit | Integration |
 |-----------|------|-------------|
+| RQ1 Crear usuario (admin) | — | `integration/rq1-crear-usuario-admin.integration.test.tsx` |
+| RQ2 Login | — | `integration/rq2-login.integration.test.tsx` |
 | RQ18 Validar QR | `unit/rq18-validar-qr.test.tsx` | `integration/rq18-validar-qr.integration.test.tsx` |
 | RQ19 Dashboard por rol | `unit/rq19-redirigir-dashboard.test.tsx` | `integration/rq19-redirigir-dashboard.integration.test.tsx` |
 | RQ22 Métricas evaluación | `unit/rq22-metricas-evaluacion.test.tsx` | `integration/rq22-metricas-evaluacion.integration.test.tsx` |
