@@ -14,86 +14,66 @@ export interface ResetPasswordRequest {
 export interface PasswordResetResponse {
   success: boolean
   message: string
-  data?: any
 }
 
-// Función para solicitar reset de contraseña
-export async function requestPasswordReset(data: ForgotPasswordRequest): Promise<PasswordResetResponse> {
+function extractErrorMessage(error: unknown, fallback: string): string {
+  const err = error as { response?: { data?: { error?: string; message?: string } } }
+  return err.response?.data?.error || err.response?.data?.message || fallback
+}
+
+export async function requestPasswordReset(
+  data: ForgotPasswordRequest
+): Promise<PasswordResetResponse> {
   try {
-    console.log('🔐 Solicitando reset de contraseña para:', data.email)
-    
     const response = await apiClient.post('/api/auth/forgot-password', data)
-    
-    console.log('✅ Reset solicitado exitosamente:', response.data)
     return {
       success: true,
-      message: 'Se ha enviado un enlace de recuperación a tu correo electrónico',
-      data: response.data
+      message:
+        response.data?.message ||
+        'Si el correo electrónico existe en nuestro sistema, recibirás un enlace de recuperación',
     }
-  } catch (error: any) {
-    console.error('❌ Error al solicitar reset de contraseña:', error)
-    
-    const errorMessage = error.response?.data?.error || 
-                        error.response?.data?.message || 
-                        'Error al enviar la solicitud de recuperación'
-    
+  } catch (error: unknown) {
     return {
       success: false,
-      message: errorMessage
+      message: extractErrorMessage(error, 'Error al enviar la solicitud de recuperación'),
     }
   }
 }
 
-// Función para resetear la contraseña
-export async function resetPassword(data: ResetPasswordRequest): Promise<PasswordResetResponse> {
+export async function resetPassword(
+  data: ResetPasswordRequest
+): Promise<PasswordResetResponse> {
   try {
-    console.log('🔐 Reseteando contraseña para:', data.email)
-    
     const response = await apiClient.post('/api/auth/reset-password', data)
-    
-    console.log('✅ Contraseña reseteada exitosamente:', response.data)
     return {
       success: true,
-      message: 'Tu contraseña ha sido actualizada exitosamente',
-      data: response.data
+      message: response.data?.message || 'Tu contraseña ha sido actualizada exitosamente',
     }
-  } catch (error: any) {
-    console.error('❌ Error al resetear contraseña:', error)
-    
-    const errorMessage = error.response?.data?.error || 
-                        error.response?.data?.message || 
-                        'Error al actualizar la contraseña'
-    
+  } catch (error: unknown) {
     return {
       success: false,
-      message: errorMessage
+      message: extractErrorMessage(error, 'Error al actualizar la contraseña'),
     }
   }
 }
 
-// Función para validar token de reset
-export async function validateResetToken(token: string, email: string): Promise<PasswordResetResponse> {
+export async function validateResetToken(
+  token: string,
+  email: string
+): Promise<PasswordResetResponse> {
   try {
-    console.log('🔐 Validando token de reset:', token, 'para:', email)
-    
-    const response = await apiClient.get(`/api/auth/validate-reset-token/${token}?email=${email}`)
-    
-    console.log('✅ Token validado exitosamente:', response.data)
+    const response = await apiClient.get(
+      `/api/auth/validate-reset-token/${encodeURIComponent(token)}`,
+      { params: { email } }
+    )
     return {
       success: true,
-      message: 'Token válido',
-      data: response.data
+      message: response.data?.message || 'Token válido',
     }
-  } catch (error: any) {
-    console.error('❌ Error al validar token:', error)
-    
-    const errorMessage = error.response?.data?.error || 
-                        error.response?.data?.message || 
-                        'Token inválido o expirado'
-    
+  } catch (error: unknown) {
     return {
       success: false,
-      message: errorMessage
+      message: extractErrorMessage(error, 'Token inválido o expirado'),
     }
   }
 }

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './features/auth/Login'
 import ForgotPassword from './features/auth/ForgotPassword'
+import ResetPassword from './features/auth/ResetPassword'
 import ProfilePage from './features/auth/ProfilePage'
 import Dashboard from './features/dashboard-student/Dashboard'
 import DashboardProfesor from './features/dashboard-teacher/DashboardProfesor'
@@ -67,6 +68,7 @@ function App() {
             user ? <Navigate to="/dashboard" replace /> : <ForgotPassword />
           } 
         />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forbidden" element={<ForbiddenPage />} />
         <Route
           path="/profile"
