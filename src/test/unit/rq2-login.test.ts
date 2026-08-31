@@ -16,12 +16,8 @@ class RQ2Login {
     expect(destinoTrasLogin({ requires_role_selection: true })).toBe('/login')
   }
 
-  FALLA_C1_emailInvalidoSeAcepta() {
-    expect(validarCredencialesLogin({ email: 'no-es-email', password: 'x' }).ok).toBe(true)
-  }
-
-  FALLA_C3_multiplesRolesVanAlAdmin() {
-    expect(destinoTrasLogin({ requires_role_selection: true })).toBe('/dashboard-admin')
+  C4_sinPassword() {
+    expect(validarCredencialesLogin({ email: 'ana@uni.edu', password: '' }).ok).toBe(false)
   }
 }
 
@@ -31,7 +27,5 @@ describe('RQ2 — Login', () => {
   it('C1: datos inválidos', () => pruebas.C1_datosInvalidos())
   it('C2: login exitoso redirige al dashboard', () => pruebas.C2_loginExitoso())
   it('C3: múltiples roles se queda en login', () => pruebas.C3_multiplesRoles())
-  it('FALLA C1: email inválido — se espera (mal) ok', () => pruebas.FALLA_C1_emailInvalidoSeAcepta())
-  it('FALLA C3: múltiples roles — se espera (mal) /dashboard-admin', () =>
-    pruebas.FALLA_C3_multiplesRolesVanAlAdmin())
+  it('C4: sin contraseña → inválido', () => pruebas.C4_sinPassword())
 })

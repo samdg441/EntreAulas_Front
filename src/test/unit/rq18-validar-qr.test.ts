@@ -26,12 +26,6 @@ class RQ18ValidarQr {
       'formulario'
     )
   }
-
-  FALLA_C3_apiErrorEntra() {
-    expect(decidirEntradaQr({ token: 'vencido', sesion: true, qrValido: false, autoEnrollOk: false })).toBe(
-      'formulario'
-    )
-  }
 }
 
 const pruebas = new RQ18ValidarQr()
@@ -41,5 +35,4 @@ describe('RQ18 — Validar QR (frontend)', () => {
   it('C2: sin sesión', () => pruebas.C2_sinSesion())
   it('C3: API error', () => pruebas.C3_apiError())
   it('C4: QR válido', () => pruebas.C4_ok())
-  it('FALLA C3: API error — se espera (mal) formulario', () => pruebas.FALLA_C3_apiErrorEntra())
 })

@@ -32,10 +32,6 @@ class RQ19RedirigirDashboard {
       })
     ).toBe('forbidden')
   }
-
-  FALLA_C4b_desconocidoVaAAdmin() {
-    expect(dashboardParaUsuario({ tipo_usuario: 'desconocido' })).toBe('/dashboard-admin')
-  }
 }
 
 const pruebas = new RQ19RedirigirDashboard()
@@ -47,6 +43,4 @@ describe('RQ19 — Redirigir dashboard (frontend)', () => {
   it('C4: sin roles → tipo_usuario', () => pruebas.C4_sinRolesUsaTipo())
   it('C4b: tipo desconocido → /dashboard', () => pruebas.C4b_tipoDesconocido())
   it('C5: estudiante en ruta admin → forbidden', () => pruebas.C5_estudianteEnRutaAdmin())
-  it('FALLA C4b: tipo desconocido — se espera (mal) /dashboard-admin', () =>
-    pruebas.FALLA_C4b_desconocidoVaAAdmin())
 })

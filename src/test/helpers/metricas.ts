@@ -1,6 +1,19 @@
-export function calcularPromedio(calificaciones: number[]): number {
-  if (calificaciones.length === 0) return 0
-  return calificaciones.reduce((suma, n) => suma + n, 0) / calificaciones.length
+export function calificacionEnEscala(calificacion: unknown): number | null {
+  const cal = Number(calificacion)
+  if (!Number.isFinite(cal) || cal < 1 || cal > 5) return null
+  return cal
+}
+
+export function calcularPromedio(calificaciones: Array<number | null | undefined>): number {
+  const lista = calificaciones
+    .map(calificacionEnEscala)
+    .filter((n): n is number => n != null)
+  if (lista.length === 0) return 0
+  return lista.reduce((suma, n) => suma + n, 0) / lista.length
+}
+
+export function esPeriodoValido(period: string): boolean {
+  return /^\d{4}-[12]$/.test(String(period).trim())
 }
 
 export function rangoFechasPeriodo(period: string): { start: string; end: string } {
@@ -11,13 +24,16 @@ export function rangoFechasPeriodo(period: string): { start: string; end: string
   }
 }
 
-export function resumenMetricasProfesor(evaluaciones: Array<{ calificacion_promedio: number }>): {
+export function resumenMetricasProfesor(
+  evaluaciones: Array<{ calificacion_promedio?: number | null }>
+): {
   calificacionPromedio: number
   totalEvaluaciones: number
 } {
+  const validas = evaluaciones.filter((e) => calificacionEnEscala(e.calificacion_promedio) != null)
   return {
-    calificacionPromedio: calcularPromedio(evaluaciones.map((e) => e.calificacion_promedio)),
-    totalEvaluaciones: evaluaciones.length,
+    calificacionPromedio: calcularPromedio(validas.map((e) => e.calificacion_promedio)),
+    totalEvaluaciones: validas.length,
   }
 }
 

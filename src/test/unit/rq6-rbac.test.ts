@@ -49,16 +49,6 @@ class RQ6Rbac {
     expect(usuarioTieneRol(admin, 'admin')).toBe(true)
     expect(mockEstudiante.tipo_usuario).toBe('estudiante')
   }
-
-  FALLA_C1_sinTokenEntra() {
-    expect(decidirAccesoRuta({ token: null, savedUser: null, user: null, allowedRoles: ['admin'] })).toBe(
-      'ok'
-    )
-  }
-
-  FALLA_C3_estudianteEsAdmin() {
-    expect(usuarioTieneRol({ tipo_usuario: 'estudiante', roles: ['estudiante'] }, 'admin')).toBe(true)
-  }
 }
 
 const pruebas = new RQ6Rbac()
@@ -68,6 +58,4 @@ describe('RQ6 — Control de acceso (frontend)', () => {
   it('C2: token pero sin user → login', () => pruebas.C2_tokenSinUser())
   it('C3: autenticado sin rol admin → forbidden', () => pruebas.C3_sinRolAdmin())
   it('C4: autenticado con rol admin → ok', () => pruebas.C4_conRolAdmin())
-  it('FALLA C1: sin token — se espera (mal) ok', () => pruebas.FALLA_C1_sinTokenEntra())
-  it('FALLA C3: estudiante — se espera (mal) rol admin', () => pruebas.FALLA_C3_estudianteEsAdmin())
 })

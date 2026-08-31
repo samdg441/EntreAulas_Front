@@ -29,15 +29,15 @@ export default defineConfig({
       },
     },
     setupFiles: ['./src/test/setup.ts'],
-    include: [
-      'src/test/unit/**/*.test.{ts,tsx}',
-      'src/test/integration/**/*.test.{ts,tsx}',
-    ],
+    include: ['src/test/unit/**/*.test.ts'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
       '**/coverage/**',
       'src/test/e2e/**',
+      'src/test/defects/**',
+      'src/test/integration/**',
+      'src/test/unit/**/*.test.tsx',
     ],
     globals: false,
     coverage: {

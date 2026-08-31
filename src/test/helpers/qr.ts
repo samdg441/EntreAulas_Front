@@ -55,7 +55,8 @@ export function decidirGeneracionQr(params: {
 }): { ok: boolean; error?: string } {
   const fechas = validarFechasQr(params.startDate, params.endDate)
   if (!fechas.ok) return fechas
-  if (!params.grupoIds.length) {
+  const ids = params.grupoIds.filter((n) => Number.isInteger(n) && n > 0)
+  if (!ids.length) {
     return { ok: false, error: 'Se requiere grupoIds (array de IDs de grupo).' }
   }
   return { ok: true }

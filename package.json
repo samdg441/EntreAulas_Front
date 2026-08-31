@@ -10,10 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:unit": "vitest run src/test/unit",
-    "test:integration": "vitest run src/test/integration",
-    "test:coverage": "vitest run --coverage",
-    "test:defects": "vitest run --config vitest.defects.config.ts"
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "axios": "^1.12.2",

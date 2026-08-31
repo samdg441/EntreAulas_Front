@@ -13,10 +13,6 @@ class RQ16CorreoQr {
   C3_ok() {
     expect(validarCorreoQr({ to: 'a@b.com', subject: 'QR', grupoIds: [1] }).ok).toBe(true)
   }
-
-  FALLA_C2_correoInvalidoSeAcepta() {
-    expect(validarCorreoQr({ to: 'hola', subject: 'QR', grupoIds: [1] }).ok).toBe(true)
-  }
 }
 
 const pruebas = new RQ16CorreoQr()
@@ -25,5 +21,4 @@ describe('RQ16 — Distribución por correo (frontend)', () => {
   it('C1: sin destinatario', () => pruebas.C1_sinDestinatario())
   it('C2: correo inválido', () => pruebas.C2_correoInvalido())
   it('C3: datos correctos', () => pruebas.C3_ok())
-  it('FALLA C2: correo inválido — se espera (mal) ok', () => pruebas.FALLA_C2_correoInvalidoSeAcepta())
 })

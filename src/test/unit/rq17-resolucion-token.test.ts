@@ -28,10 +28,6 @@ class RQ17ResolucionToken {
       decidirEntradaQr({ token: 'abc', sesion: true, qrValido: true, autoEnrollOk: true })
     ).toBe('formulario')
   }
-
-  FALLA_C1_sinTokenSeAcepta() {
-    expect(tokenDesdeUrl('')).toBe('abc123')
-  }
 }
 
 const pruebas = new RQ17ResolucionToken()
@@ -41,5 +37,4 @@ describe('RQ17 — Resolución de token QR (frontend)', () => {
   it('C2: sin sesión → login', () => pruebas.C2_sinSesion())
   it('C3: GET error', () => pruebas.C3_getError())
   it('C4: token válido', () => pruebas.C4_ok())
-  it('FALLA C1: URL sin token — se espera (mal) un token', () => pruebas.FALLA_C1_sinTokenSeAcepta())
 })

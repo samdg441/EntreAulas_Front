@@ -20,9 +20,9 @@ class RQ14AutoInscripcion {
     )
   }
 
-  FALLA_C1_sinSesionEntra() {
-    expect(decidirEntradaQr({ token: 'abc', sesion: false, qrValido: true, autoEnrollOk: true })).toBe(
-      'formulario'
+  C4_qrInvalido() {
+    expect(decidirEntradaQr({ token: 'abc', sesion: true, qrValido: false, autoEnrollOk: false })).toBe(
+      'error-api'
     )
   }
 }
@@ -33,5 +33,5 @@ describe('RQ14 — Auto-inscripción (frontend)', () => {
   it('C1: sin sesión → login', () => pruebas.C1_sinSesion())
   it('C2: auto-enroll falla → error', () => pruebas.C2_autoEnrollFalla())
   it('C3: auto-enroll OK → formulario', () => pruebas.C3_ok())
-  it('FALLA C1: sin sesión — se espera (mal) formulario', () => pruebas.FALLA_C1_sinSesionEntra())
+  it('C4: QR inválido → error', () => pruebas.C4_qrInvalido())
 })

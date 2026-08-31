@@ -47,27 +47,6 @@ class RQ1CrearUsuarioAdmin {
     })
     expect(r.ok).toBe(true)
   }
-
-  FALLA_C1_camposFaltantes() {
-    const r = validarCamposCreacionUsuario({
-      email: 'nuevo@test.com',
-      nombre: 'Ana',
-      apellido: 'Perez',
-      tipo_usuario: 'estudiante',
-    })
-    expect(r.ok).toBe(true)
-  }
-
-  FALLA_C3_contrasenaCorta() {
-    const r = validarCamposCreacionUsuario({
-      email: 'nuevo@test.com',
-      password: 'corta',
-      nombre: 'Ana',
-      apellido: 'Perez',
-      tipo_usuario: 'estudiante',
-    })
-    expect(r.ok).toBe(true)
-  }
 }
 
 const pruebas = new RQ1CrearUsuarioAdmin()
@@ -77,6 +56,4 @@ describe('RQ1 — Crear usuario como administrador', () => {
   it('C2: correo inválido', () => pruebas.C2_correoInvalido())
   it('C3: contraseña corta', () => pruebas.C3_contrasenaCorta())
   it('C4: datos correctos', () => pruebas.C4_caminoIdeal())
-  it('FALLA C1: campos faltantes — se espera (mal) ok', () => pruebas.FALLA_C1_camposFaltantes())
-  it('FALLA C3: contraseña corta — se espera (mal) ok', () => pruebas.FALLA_C3_contrasenaCorta())
 })
