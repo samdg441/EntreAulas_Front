@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { dashboardParaUsuario, decidirAccesoRuta } from '../helpers/dashboard'
+import { decidirAccesoRuta, getDashboardPathForUser as dashboardParaUsuario } from '../../features/auth/dashboard-path'
 
 class RQ19RedirigirDashboard {
   C1_usaDashboardDelBack() {

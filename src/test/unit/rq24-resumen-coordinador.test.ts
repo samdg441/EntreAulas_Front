@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { calificacionEnEscala, filtrarDocentes, statsVaciasCoordinador } from '../helpers/metricas'
+import { calificacionEnEscala } from '../../lib/calificaciones'
+import { filtrarDocentes, statsVaciasCoordinador } from '../../features/dashboard-coordinator/docentes'
 import { DOCENTES_EJEMPLO, NOTAS_INVALIDAS, SEARCH } from '../fixtures/casos-datos'
 
 class RQ24ResumenCoordinador {

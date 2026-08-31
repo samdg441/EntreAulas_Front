@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getQrEvaluation, autoEnrollQrEvaluation } from '../../api/evaluations.api'
 import { useAuth } from '../../context/AuthContext'
+import { decidirEntradaQr, mensajeTokenQr, tokenDesdeUrl } from './qr-entrada'
 import Card, { CardContent, CardHeader, CardTitle, CardDescription } from '../../components/Card'
 import Button from '../../components/Button'
 
@@ -9,23 +10,28 @@ export default function QrEvaluationEntry() {
   const navigate = useNavigate()
   const [params] = useSearchParams()
   const { user } = useAuth()
-  const token = params.get('token') || ''
+  const token = tokenDesdeUrl(params.toString())
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const redirectTo = useMemo(() => `/qr-evaluacion?token=${encodeURIComponent(token)}`, [token])
+  const redirectTo = useMemo(() => `/qr-evaluacion?token=${encodeURIComponent(token || '')}`, [token])
 
   useEffect(() => {
     const run = async () => {
-      if (!token) {
-        setError('No se encontró token en el QR.')
+      const destino = decidirEntradaQr({
+        token,
+        sesion: Boolean(user),
+        qrValido: true,
+        autoEnrollOk: true,
+      })
+      if (destino === 'error-local') {
+        setError(mensajeTokenQr(token) || 'No se encontró token en el QR.')
         setLoading(false)
         return
       }
 
-      // Si no hay sesión, mandar al login y volver aquí
-      if (!user) {
+      if (destino === 'login') {
         localStorage.setItem('redirectTo', redirectTo)
         navigate('/login', { replace: true })
         return

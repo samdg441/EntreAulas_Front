@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { esPeriodoValido, rangoFechasPeriodo, resumenMetricasProfesor } from '../helpers/metricas'
+import { esPeriodoValido, rangoFechasPeriodo, resumenMetricasProfesor } from '../../lib/calificaciones'
 
 class RQ23EstadisticasHistoricas {
   C3_promedio() {

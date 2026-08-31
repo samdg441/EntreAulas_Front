@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { fetchTeacherHistoricalStats, fetchTeacherId, fetchTeacherPeriodStats, fetchTeacherPeriodCategoryStats } from '../../api/teachers';
-import { fetchCoordinatorReportsOverview } from '../../api/coordinador.api';
+import { esPeriodoValido, rangoFechasPeriodo } from '../../lib/calificaciones'
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -236,6 +236,9 @@ export default function ReportsPage({ user }: ReportsPageProps) {
 
   // Cards basadas en datos reales del período
   const previousPeriod = (() => {
+    if (!esPeriodoValido(selectedPeriod)) return selectedPeriod
+    const rango = rangoFechasPeriodo(selectedPeriod)
+    if (!rango) return selectedPeriod
     const [yearStr, semStr] = selectedPeriod.split('-')
     const year = Number(yearStr)
     const sem = Number(semStr)

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { decidirAccesoRuta } from '../features/auth/dashboard-path';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -17,7 +18,7 @@ export default function ProtectedRoute({
   allowedRoles,
   forbiddenRedirect = '/forbidden'
 }: ProtectedRouteProps) {
-  const { user, loading, hasRole } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [isChecking, setIsChecking] = useState(true);
 
@@ -35,23 +36,20 @@ export default function ProtectedRoute({
       return;
     }
 
-    if (!user) {
+    const decision = decidirAccesoRuta({ token, savedUser, user, allowedRoles });
+    if (decision === 'login') {
       setIsChecking(false);
       navigate('/login', { replace: true });
       return;
     }
+    if (decision === 'forbidden') {
+      setIsChecking(false);
+      navigate(forbiddenRedirect, { replace: true });
+      return;
+    }
 
     setIsChecking(false);
-  }, [user, loading, navigate]);
-
-  useEffect(() => {
-    if (loading || isChecking || !user || !allowedRoles?.length) return;
-
-    const ok = allowedRoles.some((r) => hasRole(r));
-    if (!ok) {
-      navigate(forbiddenRedirect, { replace: true });
-    }
-  }, [user, loading, isChecking, allowedRoles, hasRole, navigate, forbiddenRedirect]);
+  }, [user, loading, navigate, allowedRoles, forbiddenRedirect]);
 
   if (loading || isChecking) {
     return (
@@ -72,8 +70,13 @@ export default function ProtectedRoute({
   }
 
   if (allowedRoles?.length) {
-    const ok = allowedRoles.some((r) => hasRole(r));
-    if (!ok) {
+    const decision = decidirAccesoRuta({
+      token: localStorage.getItem('token'),
+      savedUser: localStorage.getItem('user'),
+      user,
+      allowedRoles,
+    });
+    if (decision === 'forbidden') {
       return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <p className="text-gray-600">Redirigiendo…</p>

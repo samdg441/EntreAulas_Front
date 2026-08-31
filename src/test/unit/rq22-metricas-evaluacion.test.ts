@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { calificacionEnEscala, calcularPromedio, resumenMetricasProfesor } from '../helpers/metricas'
+import { calificacionEnEscala, calcularPromedio, resumenMetricasProfesor } from '../../lib/calificaciones'
 
 class RQ22MetricasEvaluacion {
   C1_sinEvaluaciones() {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decidirEntradaQr, mensajeTokenQr, tokenDesdeUrl } from '../helpers/qr'
+import { decidirEntradaQr, mensajeTokenQr, tokenDesdeUrl } from '../../features/evaluations/qr-entrada'
 import qrFixture from '../fixtures/rq18-qr.json'
 
 class RQ18ValidarQr {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decidirAccesoRuta, usuarioTieneRol } from '../helpers/dashboard'
+import { decidirAccesoRuta, usuarioTieneRol } from '../../features/auth/dashboard-path'
 import { mockEstudiante } from '../fixtures/users'
 
 class RQ6Rbac {

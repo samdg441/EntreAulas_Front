@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { authApi, AuthResponse } from '../api/auth'
+import { getDashboardPathForUser as getDashboardPathForUserFromModule } from '../features/auth/dashboard-path'
 
 interface User {
   id: string
@@ -165,33 +166,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return getDashboardPathForUser(user)
   }
 
-  const getDashboardPathForUser = (u: User) => {
-    if (u.dashboard) return u.dashboard
-    if (u.roles && u.roles.length > 0) {
-      const rolePriority = ['admin', 'decano', 'coordinador', 'profesor', 'docente', 'estudiante']
-      const userTypeMapping: { [key: string]: string } = {
-        'estudiante': '/dashboard-estudiante',
-        'profesor': '/dashboard-profesor',
-        'docente': '/dashboard-profesor',
-        'coordinador': '/dashboard-coordinador',
-        'decano': '/dashboard-decano',
-        'admin': '/dashboard-admin'
-      }
-      for (const role of rolePriority) {
-        if (u.roles.includes(role)) return userTypeMapping[role] || '/dashboard'
-      }
-    }
-    const userTypeMapping: { [key: string]: string } = {
-      'estudiante': '/dashboard-estudiante',
-      'profesor': '/dashboard-profesor',
-      'docente': '/dashboard-profesor',
-      'coordinador': '/dashboard-coordinador',
-      'decano': '/dashboard-decano',
-      'admin': '/dashboard-admin'
-    }
-    const tipo = (u.tipo_usuario || '').toLowerCase()
-    return userTypeMapping[tipo] || '/dashboard'
-  }
+  const getDashboardPathForUser = (u: User) => getDashboardPathForUserFromModule(u)
 
   // Función para verificar si el usuario tiene un rol específico
   const hasRole = (role: string): boolean => {
