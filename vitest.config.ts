@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 const fileMock = path.resolve(__dirname, 'src/test/mocks/file-mock.ts')
+const framerMotionMock = path.resolve(__dirname, 'src/test/mocks/framer-motion.tsx')
 
 /** Resuelve imágenes estáticas a mock (new URL(...webp) e imports). */
 function mockStaticAssets() {
@@ -19,6 +20,12 @@ function mockStaticAssets() {
 
 export default defineConfig({
   plugins: [react(), mockStaticAssets()],
+  resolve: {
+    alias: {
+      // framer-motion → passthrough sin animaciones en las pruebas
+      'framer-motion': framerMotionMock,
+    },
+  },
   test: {
     // Equivale a NODE_OPTIONS=--no-experimental-webstorage (sin cross-env en Windows)
     execArgv: ['--no-experimental-webstorage'],
@@ -29,7 +36,7 @@ export default defineConfig({
       },
     },
     setupFiles: ['./src/test/setup.ts'],
-    include: ['src/test/unit/**/*.test.ts'],
+    include: ['src/test/unit/**/*.test.{ts,tsx}'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
@@ -37,12 +44,21 @@ export default defineConfig({
       'src/test/e2e/**',
       'src/test/defects/**',
       'src/test/integration/**',
-      'src/test/unit/**/*.test.tsx',
     ],
     globals: false,
     coverage: {
       provider: 'v8',
       reportsDirectory: './coverage',
+      all: true,
+      include: [
+        'src/features/auth/Login.tsx',
+        'src/features/auth/ForgotPassword.tsx',
+        'src/context/AuthContext.tsx',
+        'src/api/auth.ts',
+        'src/api/users.ts',
+        'src/api/passwordReset.ts',
+        'src/features/dashboard-admin/AdminUsersPage.tsx',
+      ],
       exclude: [
         'coverage/**',
         'dist/**',
