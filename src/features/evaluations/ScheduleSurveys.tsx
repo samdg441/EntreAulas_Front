@@ -26,6 +26,7 @@ export default function ScheduleSurveys() {
       const u = localStorage.getItem('user')
       return u ? JSON.parse(u) : null
     } catch {
+      // user en localStorage no es JSON válido: se continúa sin sesión
       return null
     }
   })()
@@ -62,7 +63,6 @@ export default function ScheduleSurveys() {
   const loadCursos = async () => {
     try {
       setLoadingCursos(true)
-      // TODO: ajustar al endpoint real que devuelva los cursos/grupos del coordinador
       const data = await fetchCursosConProfesor()
       setCursos(data as CursoGrupo[])
     } catch (err) {
@@ -193,7 +193,7 @@ export default function ScheduleSurveys() {
     for (const c of pageCursos) {
       const el = document.getElementById(`qr-poster-${c.id}`) as HTMLElement | null
       if (!el) continue
-      const safeName = `${c.cursoCodigo || 'curso'}-grupo-${c.grupo || c.id}`.replace(/[^\w\-]+/g, '_')
+      const safeName = `${c.cursoCodigo || 'curso'}-grupo-${c.grupo || c.id}`.replace(/[^\w-]+/g, '_')
       // eslint-disable-next-line no-await-in-loop
       await exportElementToPNG(el, `QR_${safeName}.png`)
     }
@@ -267,6 +267,7 @@ export default function ScheduleSurveys() {
       alert('Encuesta programada correctamente')
       navigate('/dashboard-coordinador')
     } catch (err) {
+      console.error('Error al programar la encuesta:', err)
       setSubmitting(false)
       alert('Error al programar la encuesta')
     }
@@ -275,6 +276,47 @@ export default function ScheduleSurveys() {
   const backToDashboard = () => navigate('/dashboard-coordinador')
 
   const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
+
+  const mensajeTablaVacia =
+    cursos.length === 0
+      ? 'No hay cursos cargados. Haz clic en "Cargar cursos".'
+      : 'No hay resultados para tu búsqueda.'
+
+  let filasTabla
+  if (loadingCursos) {
+    filasTabla = (
+      <tr>
+        <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
+          Cargando cursos...
+        </td>
+      </tr>
+    )
+  } else if (filteredCursosTable.length === 0) {
+    filasTabla = (
+      <tr>
+        <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
+          {mensajeTablaVacia}
+        </td>
+      </tr>
+    )
+  } else {
+    filasTabla = filteredCursosTable.map((curso) => (
+      <tr key={curso.id} className="border-t hover:bg-gray-50 transition-colors">
+        <td className="px-4 py-2">
+          <input
+            type="checkbox"
+            checked={selectedIds.includes(curso.id)}
+            onChange={() => toggleSelect(curso.id)}
+            className="h-4 w-4 text-university-red rounded border-gray-300"
+          />
+        </td>
+        <td className="px-4 py-2">{curso.cursoNombre}</td>
+        <td className="px-4 py-2">{curso.cursoCodigo}</td>
+        <td className="px-4 py-2">{curso.grupo}</td>
+        <td className="px-4 py-2">{curso.profesorNombre}</td>
+      </tr>
+    ))
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
@@ -303,17 +345,17 @@ export default function ScheduleSurveys() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Fecha de inicio</label>
-                    <input type="date" name="startDate" value={form.startDate} onChange={handleChange} required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+                    <label htmlFor="survey-start-date" className="block text-sm font-medium text-gray-700 mb-2">Fecha de inicio</label>
+                    <input id="survey-start-date" type="date" name="startDate" value={form.startDate} onChange={handleChange} required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Fecha de cierre</label>
-                    <input type="date" name="endDate" value={form.endDate} onChange={handleChange} required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+                    <label htmlFor="survey-end-date" className="block text-sm font-medium text-gray-700 mb-2">Fecha de cierre</label>
+                    <input id="survey-end-date" type="date" name="endDate" value={form.endDate} onChange={handleChange} required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Período</label>
-                    <input name="period" value={form.period} onChange={handleChange} placeholder="2025-1" required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+                    <label htmlFor="survey-period" className="block text-sm font-medium text-gray-700 mb-2">Período</label>
+                    <input id="survey-period" name="period" value={form.period} onChange={handleChange} placeholder="2025-1" required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
                   </div>
 
                   <div>
@@ -377,38 +419,7 @@ export default function ScheduleSurveys() {
                         </tr>
                       </thead>
                       <tbody>
-                        {loadingCursos ? (
-                          <tr>
-                            <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
-                              Cargando cursos...
-                            </td>
-                          </tr>
-                        ) : filteredCursosTable.length === 0 ? (
-                          <tr>
-                            <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
-                              {cursos.length === 0
-                                ? 'No hay cursos cargados. Haz clic en "Cargar cursos".'
-                                : 'No hay resultados para tu búsqueda.'}
-                            </td>
-                          </tr>
-                        ) : (
-                          filteredCursosTable.map(curso => (
-                            <tr key={curso.id} className="border-t hover:bg-gray-50 transition-colors">
-                              <td className="px-4 py-2">
-                                <input
-                                  type="checkbox"
-                                  checked={selectedIds.includes(curso.id)}
-                                  onChange={() => toggleSelect(curso.id)}
-                                  className="h-4 w-4 text-university-red rounded border-gray-300"
-                                />
-                              </td>
-                              <td className="px-4 py-2">{curso.cursoNombre}</td>
-                              <td className="px-4 py-2">{curso.cursoCodigo}</td>
-                              <td className="px-4 py-2">{curso.grupo}</td>
-                              <td className="px-4 py-2">{curso.profesorNombre}</td>
-                            </tr>
-                          ))
-                        )}
+                        {filasTabla}
                       </tbody>
                     </table>
                   </div>
@@ -618,8 +629,9 @@ export default function ScheduleSurveys() {
                 <div className="p-5 space-y-4 overflow-auto">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Correo destino</label>
+                      <label htmlFor="survey-email-to" className="block text-sm font-medium text-gray-700 mb-2">Correo destino</label>
                       <input
+                        id="survey-email-to"
                         type="email"
                         value={emailTo}
                         onChange={(e) => setEmailTo(e.target.value)}
@@ -628,8 +640,9 @@ export default function ScheduleSurveys() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Asunto</label>
+                      <label htmlFor="survey-email-subject" className="block text-sm font-medium text-gray-700 mb-2">Asunto</label>
                       <input
+                        id="survey-email-subject"
                         value={emailSubject}
                         onChange={(e) => setEmailSubject(e.target.value)}
                         placeholder="Asunto del correo"
@@ -639,8 +652,9 @@ export default function ScheduleSurveys() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Mensaje</label>
+                    <label htmlFor="survey-email-message" className="block text-sm font-medium text-gray-700 mb-2">Mensaje</label>
                     <textarea
+                      id="survey-email-message"
                       value={emailMessage}
                       onChange={(e) => setEmailMessage(e.target.value)}
                       rows={4}
