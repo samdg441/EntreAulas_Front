@@ -51,14 +51,11 @@ export default defineConfig({
       reportsDirectory: './coverage',
       all: true,
       include: [
-        'src/features/auth/Login.tsx',
-        'src/features/auth/ForgotPassword.tsx',
-        'src/context/AuthContext.tsx',
-        'src/api/auth.ts',
-        'src/api/users.ts',
-        'src/api/passwordReset.ts',
-        'src/features/dashboard-admin/AdminUsersPage.tsx',
+        'src/features/auth/dashboard-path.ts',
+        'src/features/evaluations/qr-entrada.ts',
       ],
+      reporter: ['text', 'lcov'],
+      reportOnFailure: true,
       exclude: [
         'coverage/**',
         'dist/**',
