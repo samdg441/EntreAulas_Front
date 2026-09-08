@@ -181,7 +181,7 @@ export default function AdminQrPage() {
     for (const c of pageCursos) {
       const el = document.getElementById(`admin-qr-poster-${c.id}`) as HTMLElement | null
       if (!el) continue
-      const safeName = `${c.cursoCodigo || 'curso'}-grupo-${c.grupo || c.id}`.replace(/[^\w\-]+/g, '_')
+      const safeName = `${c.cursoCodigo || 'curso'}-grupo-${c.grupo || c.id}`.replace(/[^\w-]+/g, '_')
       // eslint-disable-next-line no-await-in-loop
       await exportElementToPNG(el, `QR_${safeName}.png`)
     }
@@ -228,6 +228,47 @@ export default function AdminQrPage() {
     }
   }
 
+  const mensajeTablaVacia =
+    grupos.length === 0
+      ? 'No hay cursos cargados. Elige carrera y pulsa "Cargar cursos".'
+      : 'No hay resultados para tu búsqueda.'
+
+  let filasTabla
+  if (loadingGrupos) {
+    filasTabla = (
+      <tr>
+        <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
+          Cargando cursos...
+        </td>
+      </tr>
+    )
+  } else if (filteredCursosTable.length === 0) {
+    filasTabla = (
+      <tr>
+        <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
+          {mensajeTablaVacia}
+        </td>
+      </tr>
+    )
+  } else {
+    filasTabla = filteredCursosTable.map((curso) => (
+      <tr key={curso.id} className="border-t hover:bg-gray-50">
+        <td className="px-4 py-2">
+          <input
+            type="checkbox"
+            checked={selectedIds.includes(curso.id)}
+            onChange={() => toggleSelect(curso.id)}
+            className="h-4 w-4 text-red-600 rounded border-gray-300"
+          />
+        </td>
+        <td className="px-4 py-2">{curso.cursoNombre}</td>
+        <td className="px-4 py-2">{curso.cursoCodigo}</td>
+        <td className="px-4 py-2">{curso.grupo}</td>
+        <td className="px-4 py-2">{curso.profesorNombre}</td>
+      </tr>
+    ))
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 relative">
       <div
@@ -261,8 +302,9 @@ export default function AdminQrPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Carrera</label>
+                    <label htmlFor="admin-qr-carrera" className="block text-sm font-medium text-gray-700 mb-2">Carrera</label>
                     <select
+                      id="admin-qr-carrera"
                       value={careerId}
                       onChange={(e) => setCareerId(e.target.value)}
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
@@ -276,8 +318,9 @@ export default function AdminQrPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Período</label>
+                    <label htmlFor="admin-qr-periodo" className="block text-sm font-medium text-gray-700 mb-2">Período</label>
                     <input
+                      id="admin-qr-periodo"
                       value={period}
                       onChange={(e) => setPeriod(e.target.value)}
                       placeholder="2026-1"
@@ -285,8 +328,9 @@ export default function AdminQrPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Fecha de inicio</label>
+                    <label htmlFor="admin-qr-inicio" className="block text-sm font-medium text-gray-700 mb-2">Fecha de inicio</label>
                     <input
+                      id="admin-qr-inicio"
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
@@ -294,8 +338,9 @@ export default function AdminQrPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Fecha de cierre</label>
+                    <label htmlFor="admin-qr-cierre" className="block text-sm font-medium text-gray-700 mb-2">Fecha de cierre</label>
                     <input
+                      id="admin-qr-cierre"
                       type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
@@ -359,38 +404,7 @@ export default function AdminQrPage() {
                         </tr>
                       </thead>
                       <tbody>
-                        {loadingGrupos ? (
-                          <tr>
-                            <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
-                              Cargando cursos...
-                            </td>
-                          </tr>
-                        ) : filteredCursosTable.length === 0 ? (
-                          <tr>
-                            <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
-                              {grupos.length === 0
-                                ? 'No hay cursos cargados. Elige carrera y pulsa "Cargar cursos".'
-                                : 'No hay resultados para tu búsqueda.'}
-                            </td>
-                          </tr>
-                        ) : (
-                          filteredCursosTable.map((curso) => (
-                            <tr key={curso.id} className="border-t hover:bg-gray-50">
-                              <td className="px-4 py-2">
-                                <input
-                                  type="checkbox"
-                                  checked={selectedIds.includes(curso.id)}
-                                  onChange={() => toggleSelect(curso.id)}
-                                  className="h-4 w-4 text-red-600 rounded border-gray-300"
-                                />
-                              </td>
-                              <td className="px-4 py-2">{curso.cursoNombre}</td>
-                              <td className="px-4 py-2">{curso.cursoCodigo}</td>
-                              <td className="px-4 py-2">{curso.grupo}</td>
-                              <td className="px-4 py-2">{curso.profesorNombre}</td>
-                            </tr>
-                          ))
-                        )}
+                        {filasTabla}
                       </tbody>
                     </table>
                   </div>
