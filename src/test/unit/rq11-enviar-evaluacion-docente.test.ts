@@ -9,7 +9,7 @@ import {
   hayProfesorYCurso,
   MENSAJE_GOODBYE,
   mensajeErrorEnvio,
-} from '../helpers/evaluacion-docente'
+} from '../../features/evaluations/evaluacion-docente'
 
 /**
  * RQ11 — Enviar la evaluación docente (frontend /evaluate/form)
@@ -243,8 +243,8 @@ describe('RQ11 — Enviar la evaluación docente (frontend)', () => {
     pruebas.N11_payloadSinGrupoNiRatings())
   it('Nodo 12-13: POST falla → alerta con error del back', () => pruebas.N13_postFallaMuestraAlerta())
   it('Nodo 14-15: POST 200 → /evaluate/goodbye', () => pruebas.N14_envioExitosoVaAGoodbye())
-  it('FALLA N4: sin sesión — se espera (mal) goodbye', () => pruebas.FALLA_N4_sinSesionSeEsperaFormulario())
-  it('FALLA N7: cancelar — se espera (mal) enviar', () => pruebas.FALLA_N7_cancelarIgualEnvia())
-  it('FALLA N10: sin profesor — se espera (mal) goodbye', () => pruebas.FALLA_N10_sinProfesorIgualEnvia())
-  it('FALLA N13: error POST — se espera (mal) goodbye', () => pruebas.FALLA_N13_errorPostSeEsperaGoodbye())
+  it.fails('FALLA N4: sin sesión — se espera (mal) goodbye', () => pruebas.FALLA_N4_sinSesionSeEsperaFormulario())
+  it.fails('FALLA N7: cancelar — se espera (mal) enviar', () => pruebas.FALLA_N7_cancelarIgualEnvia())
+  it.fails('FALLA N10: sin profesor — se espera (mal) goodbye', () => pruebas.FALLA_N10_sinProfesorIgualEnvia())
+  it.fails('FALLA N13: error POST — se espera (mal) goodbye', () => pruebas.FALLA_N13_errorPostSeEsperaGoodbye())
 })

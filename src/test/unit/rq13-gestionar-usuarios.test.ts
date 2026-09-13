@@ -11,7 +11,7 @@ import {
   mensajeErrorAccion,
   muestraBotonDesactivar,
   type UsuarioLista,
-} from '../helpers/gestionar-usuarios'
+} from '../../features/dashboard-admin/gestionar-usuarios'
 
 /**
  * RQ13 — Gestionar usuarios (frontend /admin/users)
@@ -220,9 +220,9 @@ describe('RQ13 — Gestionar usuarios (frontend)', () => {
   it('Nodo 11-15: PUT 200 → cierra modal y actualiza fila', () => pruebas.N15_cambioOk())
   it('Nodo 16: desactivar falla → sigue activo', () => pruebas.N16_desactivarFalla())
   it('Nodo 17: desactivar OK → inactivo y sin botón', () => pruebas.N17_desactivarOk())
-  it('FALLA N5: estudiante — se espera (mal) ok', () => pruebas.FALLA_N5_estudianteEntraAlPanel())
-  it('FALLA N9: alta fallida — se espera (mal) que agregue', () => pruebas.FALLA_N9_altaFallaIgualAgrega())
-  it('FALLA N14: PUT fallido — se espera (mal) que edite', () => pruebas.FALLA_N14_cambioFallaIgualEdita())
-  it('FALLA N16: desactivar fallido — se espera (mal) inactivo', () =>
+  it.fails('FALLA N5: estudiante — se espera (mal) ok', () => pruebas.FALLA_N5_estudianteEntraAlPanel())
+  it.fails('FALLA N9: alta fallida — se espera (mal) que agregue', () => pruebas.FALLA_N9_altaFallaIgualAgrega())
+  it.fails('FALLA N14: PUT fallido — se espera (mal) que edite', () => pruebas.FALLA_N14_cambioFallaIgualEdita())
+  it.fails('FALLA N16: desactivar fallido — se espera (mal) inactivo', () =>
     pruebas.FALLA_N16_autoDesactivarQuitaBoton())
 })

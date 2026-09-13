@@ -10,7 +10,7 @@ import {
   STATS_CERO,
   tarjetasEstudiante,
   TITULOS_TARJETAS_ESTUDIANTE,
-} from '../helpers/estudiante-stats'
+} from '../../features/dashboard-student/estudiante-stats'
 
 /**
  * RQ10 — Evaluaciones del estudiante (frontend /dashboard)
@@ -216,10 +216,10 @@ describe('RQ10 — Evaluaciones del estudiante (frontend)', () => {
     pruebas.N11_pintaTarjetasPendientesYCompletadas())
   it('Nodo 11: el estudiante ve qué encuestas responder', () =>
     pruebas.N11_estudianteVeQueEncuestasResponder())
-  it('FALLA N4: sin sesión — se espera (mal) pintar', () => pruebas.FALLA_N4_sinSesionSeEsperaPintar())
-  it('FALLA N6: profesor — se espera (mal) que cargue stats', () => pruebas.FALLA_N6_profesorCargaStats())
-  it('FALLA N9: error API — se espera (mal) cifras reales', () =>
+  it.fails('FALLA N4: sin sesión — se espera (mal) pintar', () => pruebas.FALLA_N4_sinSesionSeEsperaPintar())
+  it.fails('FALLA N6: profesor — se espera (mal) que cargue stats', () => pruebas.FALLA_N6_profesorCargaStats())
+  it.fails('FALLA N9: error API — se espera (mal) cifras reales', () =>
     pruebas.FALLA_N9_errorApiMuestraDatosReales())
-  it('FALLA N11: tarjetas — se espera (mal) títulos de profesor', () =>
+  it.fails('FALLA N11: tarjetas — se espera (mal) títulos de profesor', () =>
     pruebas.FALLA_N11_tarjetaConTituloDeProfesor())
 })

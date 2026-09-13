@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { decidirMontajeReportes, destinoTras401, endpointPorRol } from '../helpers/resumen-ia'
+import { decidirMontajeReportes, destinoTras401, endpointPorRol } from '../../features/evaluations/resumen-ia'
 import {
   decidirVistaAlerta,
   muestraBannerAcoso,
   muestraListaDocentesAcoso,
   tituloAlertaAcoso,
-} from '../helpers/alerta-acoso'
+} from '../../features/evaluations/alerta-acoso'
 
 /**
  * RQ31 — Recibir alerta ante indicios de acoso (frontend)
@@ -146,8 +146,8 @@ describe('RQ31 — Recibir alerta ante indicios de acoso (frontend)', () => {
     pruebas.N12_datosConIndiciosMuestraAlertaYResumen())
   it('Nodo 12: solo acosoProfesores también muestra alerta', () =>
     pruebas.N12_soloListaDocentesTambienEsAlerta())
-  it('FALLA N4: sin sesión — se espera (mal) alerta', () => pruebas.FALLA_N4_sinSesionSeEsperaAlerta())
-  it('FALLA N10: sin datos — se espera (mal) banner', () => pruebas.FALLA_N10_sinDatosSeEsperaBanner())
-  it('FALLA N13: sin indicios — se espera (mal) banner', () =>
+  it.fails('FALLA N4: sin sesión — se espera (mal) alerta', () => pruebas.FALLA_N4_sinSesionSeEsperaAlerta())
+  it.fails('FALLA N10: sin datos — se espera (mal) banner', () => pruebas.FALLA_N10_sinDatosSeEsperaBanner())
+  it.fails('FALLA N13: sin indicios — se espera (mal) banner', () =>
     pruebas.FALLA_N13_sinIndiciosSeEsperaBanner())
 })

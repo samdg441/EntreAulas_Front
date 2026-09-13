@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { validarCorreoQr } from '../helpers/qr'
+import { validarCorreoQr } from '../../features/evaluations/qr-entrada'
 
 class RQ16CorreoQr {
   C1_sinDestinatario() {

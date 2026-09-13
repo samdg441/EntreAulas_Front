@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decidirEntradaQr } from '../helpers/qr'
+import { decidirEntradaQr } from '../../features/evaluations/qr-entrada'
 
 class RQ14AutoInscripcion {
   C1_sinSesion() {

@@ -7,7 +7,7 @@ import {
   esAvisoSinRespuestas,
   hayResumenParaPintar,
   mensajeErrorResumen,
-} from '../helpers/resumen-ia'
+} from '../../features/evaluations/resumen-ia'
 
 /**
  * RQ29 — Generar resumen automático de comentarios (frontend)
@@ -134,7 +134,7 @@ describe('RQ29 — Generar resumen automático de comentarios (frontend)', () =>
   it('Nodo 9-10: 200 sin textos → aviso sin respuestas', () => pruebas.N10_avisoSinRespuestas())
   it('Nodo 9-11: textos abiertos → pinta resumen y temas', () => pruebas.N11_pintaResumenYTemas())
   it('Nodo 9-11: fallback cuantitativo también se pinta', () => pruebas.N11_pintaFallbackCuantitativo())
-  it('FALLA N4: sin sesión — se espera (mal) pintar', () => pruebas.FALLA_N4_sinSesionSeEsperaPintar())
-  it('FALLA N8: error API — se espera (mal) pintar', () => pruebas.FALLA_N8_errorSeEsperaPintar())
-  it('FALLA N10: sin datos — se espera (mal) pintar', () => pruebas.FALLA_N10_sinDatosSeEsperaPintar())
+  it.fails('FALLA N4: sin sesión — se espera (mal) pintar', () => pruebas.FALLA_N4_sinSesionSeEsperaPintar())
+  it.fails('FALLA N8: error API — se espera (mal) pintar', () => pruebas.FALLA_N8_errorSeEsperaPintar())
+  it.fails('FALLA N10: sin datos — se espera (mal) pintar', () => pruebas.FALLA_N10_sinDatosSeEsperaPintar())
 })

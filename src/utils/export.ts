@@ -105,8 +105,17 @@ function categoryColumnSortIndex(key: string): number {
   return 50
 }
 
-export function exportCoordinatorReportExcel(rows: any[], filename = 'reporte-coordinador.xlsx') {
-  const workbook = XLSX.utils.book_new()
+export function usuarioPuedeExportarReporte(tipo: string | undefined): boolean {
+  return ['coordinator', 'dean', 'teacher', 'admin'].includes(tipo || '')
+}
+
+export function nombreArchivoExcelReporte(period: string, coordinador = false): string {
+  const periodo = period?.trim() || 'todo'
+  return coordinador ? `reporte-coordinador-${periodo}.xlsx` : `reporte-${periodo}.xlsx`
+}
+
+/** RF-REP-25: arma el libro (sin descargar). */
+export function armarModeloExcelCoordinador(rows: any[]) {
   const safeRows = Array.isArray(rows) ? rows : []
 
   const fixedPrefix = ['DOCENTE', 'ASIGNATURA', 'GRUPO', 'ESTUDIANTES', 'ESTUDIANTES_EVALUADORES'] as const
@@ -136,6 +145,12 @@ export function exportCoordinatorReportExcel(rows: any[], filename = 'reporte-co
     if (v === null || v === undefined) return ''
     return v
   }))
+  return { safeRows, columns, headerRow, dataRows }
+}
+
+export function exportCoordinatorReportExcel(rows: any[], filename = 'reporte-coordinador.xlsx') {
+  const workbook = XLSX.utils.book_new()
+  const { safeRows, columns, headerRow, dataRows } = armarModeloExcelCoordinador(rows)
 
   const mainSheet = XLSX.utils.aoa_to_sheet([headerRow, ...dataRows])
   const lastCol = XLSX.utils.encode_col(Math.max(columns.length - 1, 0))
