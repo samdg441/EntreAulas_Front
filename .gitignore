@@ -2,5 +2,7 @@
 node_modules
 dist
 coverage
+.scannerwork/
+sonar-project.properties
 .DS_Store
 *.log
