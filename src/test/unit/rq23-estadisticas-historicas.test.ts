@@ -22,6 +22,7 @@ class RQ23EstadisticasHistoricas {
     expect(esPeriodoValido('2026')).toBe(false)
     expect(esPeriodoValido('2026-9')).toBe(false)
     expect(esPeriodoValido('abc')).toBe(false)
+    expect(rangoFechasPeriodo('2026')).toBeNull()
   }
 
   C8_notasInvalidas() {

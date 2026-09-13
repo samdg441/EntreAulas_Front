@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { calificacionEnEscala, calcularPromedio, resumenMetricasProfesor } from '../../lib/calificaciones'
+import { calificacionEnEscala, calcularPromedio, promedioVisible, resumenMetricasProfesor } from '../../lib/calificaciones'
 
 class RQ22MetricasEvaluacion {
   C1_sinEvaluaciones() {
@@ -26,6 +26,9 @@ class RQ22MetricasEvaluacion {
       calificacionPromedio: 4,
       totalEvaluaciones: 1,
     })
+    expect(calcularPromedio([null, 99])).toBe(0)
+    expect(promedioVisible(4)).toBe(4)
+    expect(promedioVisible(0)).toBe(0)
   }
 }
 

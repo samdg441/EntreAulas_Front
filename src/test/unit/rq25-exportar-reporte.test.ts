@@ -6,7 +6,7 @@ import {
   exportCoordinatorReportExcel,
   nombreArchivoExcelReporte,
   usuarioPuedeExportarReporte,
-} from '../../utils/export'
+} from '../../utils/reporte-exportacion'
 
 vi.mock('file-saver', () => ({
   saveAs: vi.fn(),
@@ -57,12 +57,29 @@ class RFREP25ExportarReporte {
 
   C4_sinFilasGeneraPlantilla() {
     const modelo = armarModeloExcelCoordinador([])
-    expect(modelo.headerRow.length).toBeGreaterThan(0)
+    expect(modelo.headerRow).not.toHaveLength(0)
     expect(modelo.dataRows).toEqual([])
     const wb = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([modelo.headerRow]), 'Evaluaciones')
     const bytes = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
     expect(bytes.byteLength).toBeGreaterThan(0)
+  }
+
+  C5_ramasDeNombreYCeldasVacias() {
+    expect(nombreArchivoExcelReporte('2026-1')).toBe('reporte-2026-1.xlsx')
+    expect(nombreArchivoExcelReporte('   ')).toBe('reporte-todo.xlsx')
+
+    const modelo = armarModeloExcelCoordinador([
+      {
+        DOCENTE: 'Ana',
+        METODOLOGIA: 5,
+        EVALUACION: null,
+        RELACION_ESTUDIANTE: undefined,
+      },
+    ])
+    expect(modelo.headerRow).toContain('METODOLOGÍA')
+    expect(modelo.headerRow).toContain('RELACIÓN CON LOS ESTUDIANTES')
+    expect(modelo.dataRows[0]).toContain('')
   }
 }
 
@@ -73,4 +90,5 @@ describe('RF-REP-25 — Exportación de reportes (frontend)', () => {
   it('C2: roles autorizados pueden exportar', () => pruebas.C2_autorizado())
   it('C3: genera xlsx descargable con la información', () => pruebas.C3_armaArchivoConInformacion())
   it('C4: sin datos igual genera archivo', () => pruebas.C4_sinFilasGeneraPlantilla())
+  it('C5: nombre, celdas vacías y categorías', () => pruebas.C5_ramasDeNombreYCeldasVacias())
 })

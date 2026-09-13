@@ -31,6 +31,17 @@ class RQ19RedirigirDashboard {
         allowedRoles: ['admin'],
       })
     ).toBe('forbidden')
+    expect(decidirAccesoRuta({ token: null, savedUser: '{}', user: { tipo_usuario: 'admin' } })).toBe(
+      'login'
+    )
+    expect(
+      decidirAccesoRuta({
+        token: 'jwt',
+        savedUser: '{}',
+        user: { tipo_usuario: 'admin' },
+        allowedRoles: ['admin'],
+      })
+    ).toBe('ok')
   }
 }
 

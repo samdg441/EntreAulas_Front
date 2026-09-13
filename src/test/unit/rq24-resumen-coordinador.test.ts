@@ -11,7 +11,7 @@ class RQ24ResumenCoordinador {
 
   C2_okStats() {
     expect(filtrarDocentes(DOCENTES_EJEMPLO, SEARCH.coincidencia).map((d) => d.nombre)).toEqual(['Ana Pérez'])
-    expect(filtrarDocentes(DOCENTES_EJEMPLO, SEARCH.vacio).length).toBe(2)
+    expect(filtrarDocentes(DOCENTES_EJEMPLO, SEARCH.vacio)).toHaveLength(2)
   }
 
   C3_searchSinCoincidencias() {

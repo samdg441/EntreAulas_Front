@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decidirGeneracionQr, validarFechasQr } from '../../features/evaluations/qr-entrada'
+import { decidirGeneracionQr, validarFechasQr } from '../../features/evaluations/qr-validacion'
 
 class RQ15GenerarQr {
   C1_fechasInvertidas() {

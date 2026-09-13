@@ -22,6 +22,10 @@ class RQ18ValidarQr {
 
   C4_ok() {
     expect(tokenDesdeUrl('?token=abc123')).toBe('abc123')
+    expect(mensajeTokenQr('abc123')).toBeNull()
+    expect(decidirEntradaQr({ token: null, sesion: true, qrValido: true, autoEnrollOk: true })).toBe(
+      'error-local'
+    )
     expect(decidirEntradaQr({ token: 'abc123', sesion: true, qrValido: true, autoEnrollOk: true })).toBe(
       'formulario'
     )
