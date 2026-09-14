@@ -36,10 +36,13 @@ export default function Login() {
   const navigate = useNavigate()
   const { login, loginWithRole, getDashboardPath, getDashboardPathForUser } = useAuth()
 
-  // Función para validar correo electrónico
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
+  const validateEmail = (value: string) => {
+    const at = value.indexOf('@')
+    if (at < 1 || at !== value.lastIndexOf('@')) return false
+    const local = value.slice(0, at)
+    const domain = value.slice(at + 1)
+    const dot = domain.lastIndexOf('.')
+    return Boolean(local) && dot > 0 && dot < domain.length - 1 && !value.includes(' ')
   }
 
   // Función para manejar cambios en el email con validación
@@ -61,85 +64,102 @@ export default function Login() {
     }
   }
 
+  const redirectAfterLogin = (fallback: () => void) => {
+    const redirectTo = localStorage.getItem('redirectTo')
+    if (redirectTo) {
+      localStorage.removeItem('redirectTo')
+      navigate(redirectTo)
+      return
+    }
+    fallback()
+  }
+
+  const applyRoleSelection = (name: string, roles: string[]) => {
+    setUserInfo({ name })
+    setAvailableRoles(roles)
+    setShowRoleSelection(true)
+    setError('')
+    setIsLoading(false)
+  }
+
+  const extractRolesFromError = (message: string) => {
+    const userKey = 'usuario: '
+    const rolesKey = ', roles: ['
+    const userIdx = message.indexOf(userKey)
+    const rolesIdx = message.indexOf(rolesKey)
+    if (userIdx === -1 || rolesIdx === -1) return null
+
+    const name = message.slice(userIdx + userKey.length, rolesIdx).trim()
+    const rolesEnd = message.indexOf(']', rolesIdx)
+    if (rolesEnd === -1) return null
+
+    const roles = message
+      .slice(rolesIdx + rolesKey.length, rolesEnd)
+      .split(',')
+      .map((role) => role.trim().replace(/['"]/g, ''))
+
+    return { name, roles }
+  }
+
+  const handleLoginError = (error: any) => {
+    console.error('Error en login:', error)
+
+    if (error.message?.includes('múltiples roles')) {
+      const parsed = extractRolesFromError(error.message)
+      if (parsed) {
+        applyRoleSelection(parsed.name, parsed.roles)
+        return
+      }
+    }
+
+    setError(error.response?.data?.error || error.message || 'Error en la autenticación')
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    // Validación del email antes de enviar
+
     if (!email || !validateEmail(email)) {
       setEmailError('Por favor, ingresa un correo electrónico válido')
       return
     }
-    
-    // Validación básica
-    if (!email || !password) {
+
+    if (!password) {
       setError('Por favor, completa todos los campos')
       return
     }
-    
+
     setIsLoading(true)
     setError('')
 
     try {
-      // Si estamos en modo selección de rol, hacer login con el rol seleccionado
       if (showRoleSelection && selectedRole) {
         await loginWithRole(email, password, selectedRole)
-        const redirectTo = localStorage.getItem('redirectTo')
-        if (redirectTo) {
-          localStorage.removeItem('redirectTo')
-          navigate(redirectTo)
-        } else {
+        redirectAfterLogin(() => {
           const savedUser = JSON.parse(localStorage.getItem('user') || '{}')
-          const dashboardPath = getDashboardPathForUser(savedUser)
-          navigate(dashboardPath)
-        }
+          navigate(getDashboardPathForUser(savedUser))
+        })
         return
       }
 
-      // Intentar login normal
       const response = await login(email, password, userType)
-      
-      // Si la respuesta indica que se requiere selección de rol
+
       if (response && 'requires_role_selection' in response && response.requires_role_selection) {
-        const authResponse = response as any // Type assertion para acceder a las propiedades
-        setUserInfo({ name: `${authResponse.user.nombre} ${authResponse.user.apellido}` })
-        setAvailableRoles(authResponse.available_roles || [])
-        setShowRoleSelection(true)
-        setError('')
-        setIsLoading(false)
+        const authResponse = response as any
+        applyRoleSelection(
+          `${authResponse.user.nombre} ${authResponse.user.apellido}`,
+          authResponse.available_roles || []
+        )
         return
       }
-      
-      // Redireccionar al dashboard correcto usando el usuario de la respuesta (evita estado desactualizado)
-      const redirectTo = localStorage.getItem('redirectTo')
-      if (redirectTo) {
-        localStorage.removeItem('redirectTo')
-        navigate(redirectTo)
-      } else {
-        const dashboardPath = response && 'user' in response ? getDashboardPathForUser((response as any).user) : getDashboardPath()
+
+      redirectAfterLogin(() => {
+        const dashboardPath = response && 'user' in response
+          ? getDashboardPathForUser((response as any).user)
+          : getDashboardPath()
         navigate(dashboardPath)
-      }
+      })
     } catch (error: any) {
-      console.error('Error en login:', error)
-      
-      // Si el error indica que el usuario tiene múltiples roles, mostrar selección
-      if (error.message && error.message.includes('múltiples roles')) {
-        // Extraer información del usuario y roles disponibles del mensaje de error
-        const userMatch = error.message.match(/usuario: (.+?), roles: \[(.+?)\]/)
-        if (userMatch) {
-          const userName = userMatch[1]
-          const rolesString = userMatch[2]
-          const roles = rolesString.split(',').map((role: string) => role.trim().replace(/['"]/g, ''))
-          
-          setUserInfo({ name: userName })
-          setAvailableRoles(roles)
-          setShowRoleSelection(true)
-          setError('')
-          setIsLoading(false)
-          return
-        }
-      }
-      
-      setError(error.response?.data?.error || error.message || 'Error en la autenticación')
+      handleLoginError(error)
     } finally {
       setIsLoading(false)
     }
@@ -193,6 +213,19 @@ export default function Login() {
       default:
         return role
     }
+  }
+
+  const getRoleDescription = (role: string) => {
+    if (role === 'profesor' || role === 'docente') {
+      return 'Acceso al dashboard de docentes'
+    }
+    if (role === 'coordinador') {
+      return 'Acceso al dashboard de coordinadores'
+    }
+    if (role === 'estudiante') {
+      return 'Acceso al dashboard de estudiantes'
+    }
+    return 'Acceso administrativo'
   }
 
   const getRoleIcon = (role: string, size = "h-4 w-4") => {
@@ -295,10 +328,11 @@ export default function Login() {
                       className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
                     >
                       {(['student', 'teacher', 'coordinator', 'decano', 'admin'] as UserType[]).map((type) => (
-                        <div
+                        <button
+                          type="button"
                           key={type}
-                          className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer transition-colors text-base ${
-                            userType === type ? 'bg-gray-100' : ''
+                          className={`flex items-center w-full p-3 hover:bg-gray-100 cursor-pointer transition-colors text-base text-left border-0 ${
+                            userType === type ? 'bg-gray-100' : 'bg-white'
                           }`}
                           onClick={() => {
                             console.log('👤 User type selected:', type);
@@ -308,7 +342,7 @@ export default function Login() {
                         >
                           <span className="mr-2 text-red-600">{getUserTypeIcon(type, "h-4 w-4")}</span>
                           <span className="text-gray-800">{getUserTypeLabel(type)}</span>
-                        </div>
+                        </button>
                       ))}
                     </motion.div>
                   )}
@@ -433,14 +467,7 @@ export default function Login() {
                         <div>
                           <div className="font-medium">{getRoleLabel(role)}</div>
                           <div className="text-sm text-gray-500">
-                            {role === 'profesor' || role === 'docente' 
-                              ? 'Acceso al dashboard de docentes'
-                              : role === 'coordinador'
-                              ? 'Acceso al dashboard de coordinadores'
-                              : role === 'estudiante'
-                              ? 'Acceso al dashboard de estudiantes'
-                              : 'Acceso administrativo'
-                            }
+                            {getRoleDescription(role)}
                           </div>
                         </div>
                       </div>

@@ -17,7 +17,7 @@ export function CourseQrPoster({
   nombreMateria,
   grupo,
   nombreProfesor,
-}: CourseQrPosterProps) {
+}: Readonly<CourseQrPosterProps>) {
   return (
     <div className="bg-white rounded-3xl shadow-xl border border-gray-200 w-[280px] min-h-[380px] relative overflow-hidden flex flex-col py-3">
       <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-university-red rounded-tl-3xl" />
