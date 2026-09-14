@@ -21,3 +21,5 @@ Desde **EntreAulas_Front**:
 npm test
 npm run test:unit
 ```
+
+RQ27 / RF-ACA-27 (relación estudiante–materia): `src/test/unit/rq27-relacion-estudiante-materia.test.ts`

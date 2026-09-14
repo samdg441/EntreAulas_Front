@@ -56,6 +56,7 @@ export default defineConfig({
         'src/lib/calificaciones.ts',
         'src/features/dashboard-coordinator/docentes.ts',
         'src/utils/reporte-exportacion.ts',
+        'src/features/dashboard-student/estudiante-materias.ts',
       ],
       reporter: ['text', 'lcov'],
       reportOnFailure: true,

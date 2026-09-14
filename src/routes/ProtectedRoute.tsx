@@ -17,7 +17,7 @@ export default function ProtectedRoute({
   fallback,
   allowedRoles,
   forbiddenRedirect = '/forbidden'
-}: ProtectedRouteProps) {
+}: Readonly<ProtectedRouteProps>) {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [isChecking, setIsChecking] = useState(true);
