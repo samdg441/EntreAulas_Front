@@ -5,6 +5,12 @@ import Card from '../../components/Card'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import { requestPasswordReset, resetPassword, validateResetToken } from '../../api/passwordReset'
+import { getApiErrorMessage } from '../../lib/apiError'
+import {
+  debeValidarToken,
+  validarFormularioRequest,
+  validarFormularioReset,
+} from './password-reset-flow'
 import { 
   FaEnvelope,
   FaLock,
@@ -55,52 +61,18 @@ export default function ForgotPassword() {
   const userEmail = searchParams.get('email')
 
   React.useEffect(() => {
-    if (resetToken && userEmail) {
+    if (debeValidarToken(resetToken, userEmail)) {
       // Validar el token antes de mostrar el formulario de reset
-      validateResetToken(resetToken, userEmail).then(response => {
+      validateResetToken(resetToken as string, userEmail as string).then(response => {
         if (response.success) {
           setStep('reset')
-          setFormData(prev => ({ ...prev, email: userEmail }))
+          setFormData(prev => ({ ...prev, email: userEmail as string }))
         } else {
           setErrors({ general: response.message })
         }
-      }).catch(error => {
-        setErrors({ general: 'Error al validar el token de recuperación' })
       })
     }
   }, [resetToken, userEmail])
-
-  // Función para validar correo electrónico
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
-
-  // Función para validar contraseña
-  const validatePassword = (password: string) => {
-    const minLength = 8
-    const hasUpperCase = /[A-Z]/.test(password)
-    const hasLowerCase = /[a-z]/.test(password)
-    const hasNumbers = /\d/.test(password)
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
-
-    if (password.length < minLength) {
-      return 'La contraseña debe tener al menos 8 caracteres'
-    }
-    if (!hasUpperCase) {
-      return 'La contraseña debe contener al menos una letra mayúscula'
-    }
-    if (!hasLowerCase) {
-      return 'La contraseña debe contener al menos una letra minúscula'
-    }
-    if (!hasNumbers) {
-      return 'La contraseña debe contener al menos un número'
-    }
-    if (!hasSpecialChar) {
-      return 'La contraseña debe contener al menos un carácter especial'
-    }
-    return null
-  }
 
   // Función para manejar cambios en los campos
   const handleInputChange = (field: keyof FormData, value: string) => {
@@ -114,30 +86,12 @@ export default function ForgotPassword() {
 
   // Función para validar formulario
   const validateForm = (): boolean => {
-    const newErrors: FormErrors = {}
-
-    if (step === 'request') {
-      if (!formData.email) {
-        newErrors.email = 'El correo electrónico es requerido'
-      } else if (!validateEmail(formData.email)) {
-        newErrors.email = 'Por favor, ingresa un correo electrónico válido'
-      }
-    } else if (step === 'reset') {
-      if (!formData.newPassword) {
-        newErrors.newPassword = 'La nueva contraseña es requerida'
-      } else {
-        const passwordError = validatePassword(formData.newPassword)
-        if (passwordError) {
-          newErrors.newPassword = passwordError
-        }
-      }
-
-      if (!formData.confirmPassword) {
-        newErrors.confirmPassword = 'Confirma tu contraseña'
-      } else if (formData.newPassword !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Las contraseñas no coinciden'
-      }
-    }
+    const newErrors: FormErrors =
+      step === 'request'
+        ? validarFormularioRequest(formData.email)
+        : step === 'reset'
+          ? validarFormularioReset(formData.newPassword, formData.confirmPassword)
+          : {}
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -154,15 +108,15 @@ export default function ForgotPassword() {
 
     try {
       const response = await requestPasswordReset({ email: formData.email })
-      
+
       if (response.success) {
         setSuccessMessage(response.message)
         setStep('success')
       } else {
         setErrors({ general: response.message })
       }
-    } catch (error: any) {
-      setErrors({ general: error.message || 'Error al enviar la solicitud' })
+    } catch (error: unknown) {
+      setErrors({ general: getApiErrorMessage(error, 'Error al enviar la solicitud') })
     } finally {
       setIsLoading(false)
     }
@@ -181,18 +135,17 @@ export default function ForgotPassword() {
       const response = await resetPassword({
         token: resetToken || '',
         email: formData.email,
-        newPassword: formData.newPassword,
-        confirmPassword: formData.confirmPassword
+        newPassword: formData.newPassword
       })
-      
+
       if (response.success) {
         setSuccessMessage(response.message)
         setStep('success')
       } else {
         setErrors({ general: response.message })
       }
-    } catch (error: any) {
-      setErrors({ general: error.message || 'Error al actualizar la contraseña' })
+    } catch (error: unknown) {
+      setErrors({ general: getApiErrorMessage(error, 'Error al actualizar la contraseña') })
     } finally {
       setIsLoading(false)
     }

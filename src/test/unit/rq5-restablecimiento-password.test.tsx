@@ -36,7 +36,9 @@ describe('RQ5 — Restablecimiento de contraseña', () => {
     api.get.mockResolvedValue({ data: { valid: true } })
     const r = await validateResetToken(TOKEN, EMAIL)
     expect(r.success).toBe(true)
-    expect(api.get).toHaveBeenCalledWith(`/api/auth/validate-reset-token/${TOKEN}?email=${EMAIL}`)
+    expect(api.get).toHaveBeenCalledWith(`/api/auth/validate-reset-token/${TOKEN}`, {
+      params: { email: EMAIL },
+    })
   })
 
   it('C2: validateResetToken con error sin cuerpo → "Token inválido o expirado"', async () => {
@@ -113,7 +115,6 @@ describe('RQ5 — Restablecimiento de contraseña', () => {
       token: TOKEN,
       email: EMAIL,
       newPassword: 'Password123!',
-      confirmPassword: 'Password123!',
     })
   })
 
@@ -123,7 +124,6 @@ describe('RQ5 — Restablecimiento de contraseña', () => {
       token: TOKEN,
       email: EMAIL,
       newPassword: 'Password123!',
-      confirmPassword: 'Password123!',
     })
     expect(r).toEqual({ success: false, message: 'El token expiró' })
   })
@@ -179,11 +179,11 @@ describe('RQ5 — Restablecimiento de contraseña', () => {
 
   it('C12c: resetPassword — mensaje por defecto y .message del backend', async () => {
     api.post.mockRejectedValueOnce(new Error('offline'))
-    expect((await resetPassword({ token: TOKEN, email: EMAIL, newPassword: 'x', confirmPassword: 'x' })).message).toBe(
+    expect((await resetPassword({ token: TOKEN, email: EMAIL, newPassword: 'x' })).message).toBe(
       'Error al actualizar la contraseña',
     )
     api.post.mockRejectedValueOnce({ response: { data: { message: 'Token de un solo uso' } } })
-    expect((await resetPassword({ token: TOKEN, email: EMAIL, newPassword: 'x', confirmPassword: 'x' })).message).toBe(
+    expect((await resetPassword({ token: TOKEN, email: EMAIL, newPassword: 'x' })).message).toBe(
       'Token de un solo uso',
     )
   })

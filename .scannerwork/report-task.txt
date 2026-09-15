@@ -1,6 +1,6 @@
-projectKey=EntreAulas_Front
+projectKey=EntreAulas-Front
 serverUrl=http://localhost:9000
 serverVersion=26.9.0.129388
-dashboardUrl=http://localhost:9000/dashboard?id=EntreAulas_Front
-ceTaskId=ae8cec95-ab32-4c03-bfb4-707e71ae93f0
-ceTaskUrl=http://localhost:9000/api/ce/task?id=ae8cec95-ab32-4c03-bfb4-707e71ae93f0
+dashboardUrl=http://localhost:9000/dashboard?id=EntreAulas-Front
+ceTaskId=5c66f943-3f7c-4e77-bca1-ea1a9ce72540
+ceTaskUrl=http://localhost:9000/api/ce/task?id=5c66f943-3f7c-4e77-bca1-ea1a9ce72540

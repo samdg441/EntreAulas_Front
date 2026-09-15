@@ -5,11 +5,16 @@ import Card from '../../components/Card'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import { UserType } from '../../types'
-import { useAuth } from '../../context/AuthContext'
-import { 
-  FaGraduationCap, 
-  FaChalkboardTeacher, 
-  FaCog, 
+import { useAuth, User } from '../../context/AuthContext'
+import { isValidEmail } from '../../lib/validation'
+import { authStorage } from '../../lib/storage'
+import { getApiErrorMessage } from '../../lib/apiError'
+import { getUserTypeLabel, getRoleLabel, getRoleDescription } from './login-flow'
+import { RoleMismatchError } from './errors'
+import {
+  FaGraduationCap,
+  FaChalkboardTeacher,
+  FaCog,
   FaChevronDown,
   FaEnvelope,
   FaLock,
@@ -32,32 +37,23 @@ export default function Login() {
   const [availableRoles, setAvailableRoles] = useState<string[]>([])
   const [selectedRole, setSelectedRole] = useState<string>('')
   const [showRoleSelection, setShowRoleSelection] = useState(false)
-  const [userInfo, setUserInfo] = useState<any>(null)
+  const [userInfo, setUserInfo] = useState<{ name: string } | null>(null)
   const navigate = useNavigate()
   const { login, loginWithRole, getDashboardPath, getDashboardPathForUser } = useAuth()
-
-  const validateEmail = (value: string) => {
-    const at = value.indexOf('@')
-    if (at < 1 || at !== value.lastIndexOf('@')) return false
-    const local = value.slice(0, at)
-    const domain = value.slice(at + 1)
-    const dot = domain.lastIndexOf('.')
-    return Boolean(local) && dot > 0 && dot < domain.length - 1 && !value.includes(' ')
-  }
 
   // Función para manejar cambios en el email con validación
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setEmail(value)
-    
+
     // Limpiar error si el campo está vacío
     if (!value) {
       setEmailError('')
       return
     }
-    
+
     // Validar formato de email
-    if (!validateEmail(value)) {
+    if (!isValidEmail(value)) {
       setEmailError('Por favor, ingresa un correo electrónico válido')
     } else {
       setEmailError('')
@@ -65,9 +61,8 @@ export default function Login() {
   }
 
   const redirectAfterLogin = (fallback: () => void) => {
-    const redirectTo = localStorage.getItem('redirectTo')
+    const redirectTo = authStorage.consumeRedirectTo()
     if (redirectTo) {
-      localStorage.removeItem('redirectTo')
       navigate(redirectTo)
       return
     }
@@ -82,43 +77,18 @@ export default function Login() {
     setIsLoading(false)
   }
 
-  const extractRolesFromError = (message: string) => {
-    const userKey = 'usuario: '
-    const rolesKey = ', roles: ['
-    const userIdx = message.indexOf(userKey)
-    const rolesIdx = message.indexOf(rolesKey)
-    if (userIdx === -1 || rolesIdx === -1) return null
-
-    const name = message.slice(userIdx + userKey.length, rolesIdx).trim()
-    const rolesEnd = message.indexOf(']', rolesIdx)
-    if (rolesEnd === -1) return null
-
-    const roles = message
-      .slice(rolesIdx + rolesKey.length, rolesEnd)
-      .split(',')
-      .map((role) => role.trim().replace(/['"]/g, ''))
-
-    return { name, roles }
-  }
-
-  const handleLoginError = (error: any) => {
-    console.error('Error en login:', error)
-
-    if (error.message?.includes('múltiples roles')) {
-      const parsed = extractRolesFromError(error.message)
-      if (parsed) {
-        applyRoleSelection(parsed.name, parsed.roles)
-        return
-      }
+  const handleLoginError = (error: unknown) => {
+    if (error instanceof RoleMismatchError) {
+      setError(error.message)
+      return
     }
-
-    setError(error.response?.data?.error || error.message || 'Error en la autenticación')
+    setError(getApiErrorMessage(error, 'Error en la autenticación'))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!email || !validateEmail(email)) {
+    if (!email || !isValidEmail(email)) {
       setEmailError('Por favor, ingresa un correo electrónico válido')
       return
     }
@@ -135,8 +105,8 @@ export default function Login() {
       if (showRoleSelection && selectedRole) {
         await loginWithRole(email, password, selectedRole)
         redirectAfterLogin(() => {
-          const savedUser = JSON.parse(localStorage.getItem('user') || '{}')
-          navigate(getDashboardPathForUser(savedUser))
+          const savedUser = authStorage.getUser<User>()
+          navigate(savedUser ? getDashboardPathForUser(savedUser) : '/dashboard')
         })
         return
       }
@@ -144,41 +114,23 @@ export default function Login() {
       const response = await login(email, password, userType)
 
       if (response && 'requires_role_selection' in response && response.requires_role_selection) {
-        const authResponse = response as any
         applyRoleSelection(
-          `${authResponse.user.nombre} ${authResponse.user.apellido}`,
-          authResponse.available_roles || []
+          `${response.user.nombre} ${response.user.apellido}`,
+          response.available_roles || []
         )
         return
       }
 
       redirectAfterLogin(() => {
         const dashboardPath = response && 'user' in response
-          ? getDashboardPathForUser((response as any).user)
+          ? getDashboardPathForUser(response.user)
           : getDashboardPath()
         navigate(dashboardPath)
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       handleLoginError(error)
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const getUserTypeLabel = (type: UserType) => {
-    switch (type) {
-      case 'student':
-        return 'Estudiante'
-      case 'teacher':
-        return 'Docente'
-      case 'coordinator':
-        return 'Coordinador'
-      case 'decano':
-        return 'Decano'
-      case 'admin':
-        return 'Administrador'
-      default:
-        return 'Estudiante'
     }
   }
 
@@ -197,35 +149,6 @@ export default function Login() {
       default:
         return <FaGraduationCap className={size} />
     }
-  }
-
-  const getRoleLabel = (role: string) => {
-    switch (role) {
-      case 'estudiante':
-        return 'Estudiante'
-      case 'profesor':
-      case 'docente':
-        return 'Docente'
-      case 'coordinador':
-        return 'Coordinador'
-      case 'admin':
-        return 'Administrador'
-      default:
-        return role
-    }
-  }
-
-  const getRoleDescription = (role: string) => {
-    if (role === 'profesor' || role === 'docente') {
-      return 'Acceso al dashboard de docentes'
-    }
-    if (role === 'coordinador') {
-      return 'Acceso al dashboard de coordinadores'
-    }
-    if (role === 'estudiante') {
-      return 'Acceso al dashboard de estudiantes'
-    }
-    return 'Acceso administrativo'
   }
 
   const getRoleIcon = (role: string, size = "h-4 w-4") => {
@@ -306,10 +229,7 @@ export default function Login() {
                 <button
                   type="button"
                   className="flex items-center justify-between w-full p-3 border border-gray-300 rounded-lg bg-white hover:border-red-500 transition-colors text-base"
-                  onClick={() => {
-                    console.log('🔽 Dropdown clicked, current state:', isDropdownOpen);
-                    setIsDropdownOpen(!isDropdownOpen);
-                  }}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <div className="flex items-center">
                     <span className="mr-2 text-red-600">{getUserTypeIcon(userType, "h-4 w-4")}</span>
@@ -335,7 +255,6 @@ export default function Login() {
                             userType === type ? 'bg-gray-100' : 'bg-white'
                           }`}
                           onClick={() => {
-                            console.log('👤 User type selected:', type);
                             setUserType(type)
                             setIsDropdownOpen(false)
                           }}

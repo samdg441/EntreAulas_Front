@@ -60,9 +60,9 @@ describe('RQ1 — Crear usuario como administrador', () => {
         tipo_usuario: 'estudiante',
       }),
     )
-    // se recarga el listado y se cierra el modal
-    await waitFor(() => expect(api.get).toHaveBeenCalledTimes(2))
     await waitFor(() => expect(screen.queryByRole('button', { name: 'Crear' })).not.toBeInTheDocument())
+    expect(api.get).toHaveBeenCalledTimes(1)
+    expect(await screen.findByText('ana@uni.edu')).toBeInTheDocument()
   })
 
   it('C2: la API responde error → se muestra el mensaje del backend y el modal permanece abierto', async () => {
