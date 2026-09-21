@@ -5,11 +5,16 @@ import Card from '../../components/Card'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import { UserType } from '../../types'
-import { useAuth } from '../../context/AuthContext'
-import { 
-  FaGraduationCap, 
-  FaChalkboardTeacher, 
-  FaCog, 
+import { useAuth, User } from '../../context/AuthContext'
+import { isValidEmail } from '../../lib/validation'
+import { authStorage } from '../../lib/storage'
+import { getApiErrorMessage } from '../../lib/apiError'
+import { getUserTypeLabel, getRoleLabel, getRoleDescription } from './login-flow'
+import { RoleMismatchError } from './errors'
+import {
+  FaGraduationCap,
+  FaChalkboardTeacher,
+  FaCog,
   FaChevronDown,
   FaEnvelope,
   FaLock,
@@ -32,133 +37,100 @@ export default function Login() {
   const [availableRoles, setAvailableRoles] = useState<string[]>([])
   const [selectedRole, setSelectedRole] = useState<string>('')
   const [showRoleSelection, setShowRoleSelection] = useState(false)
-  const [userInfo, setUserInfo] = useState<any>(null)
+  const [userInfo, setUserInfo] = useState<{ name: string } | null>(null)
   const navigate = useNavigate()
   const { login, loginWithRole, getDashboardPath, getDashboardPathForUser } = useAuth()
-
-  // Función para validar correo electrónico
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
 
   // Función para manejar cambios en el email con validación
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setEmail(value)
-    
+
     // Limpiar error si el campo está vacío
     if (!value) {
       setEmailError('')
       return
     }
-    
+
     // Validar formato de email
-    if (!validateEmail(value)) {
+    if (!isValidEmail(value)) {
       setEmailError('Por favor, ingresa un correo electrónico válido')
     } else {
       setEmailError('')
     }
   }
 
+  const redirectAfterLogin = (fallback: () => void) => {
+    const redirectTo = authStorage.consumeRedirectTo()
+    if (redirectTo) {
+      navigate(redirectTo)
+      return
+    }
+    fallback()
+  }
+
+  const applyRoleSelection = (name: string, roles: string[]) => {
+    setUserInfo({ name })
+    setAvailableRoles(roles)
+    setShowRoleSelection(true)
+    setError('')
+    setIsLoading(false)
+  }
+
+  const handleLoginError = (error: unknown) => {
+    if (error instanceof RoleMismatchError) {
+      setError(error.message)
+      return
+    }
+    setError(getApiErrorMessage(error, 'Error en la autenticación'))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    // Validación del email antes de enviar
-    if (!email || !validateEmail(email)) {
+
+    if (!email || !isValidEmail(email)) {
       setEmailError('Por favor, ingresa un correo electrónico válido')
       return
     }
-    
-    // Validación básica
-    if (!email || !password) {
+
+    if (!password) {
       setError('Por favor, completa todos los campos')
       return
     }
-    
+
     setIsLoading(true)
     setError('')
 
     try {
-      // Si estamos en modo selección de rol, hacer login con el rol seleccionado
       if (showRoleSelection && selectedRole) {
         await loginWithRole(email, password, selectedRole)
-        const redirectTo = localStorage.getItem('redirectTo')
-        if (redirectTo) {
-          localStorage.removeItem('redirectTo')
-          navigate(redirectTo)
-        } else {
-          const savedUser = JSON.parse(localStorage.getItem('user') || '{}')
-          const dashboardPath = getDashboardPathForUser(savedUser)
-          navigate(dashboardPath)
-        }
+        redirectAfterLogin(() => {
+          const savedUser = authStorage.getUser<User>()
+          navigate(savedUser ? getDashboardPathForUser(savedUser) : '/dashboard')
+        })
         return
       }
 
-      // Intentar login normal
       const response = await login(email, password, userType)
-      
-      // Si la respuesta indica que se requiere selección de rol
+
       if (response && 'requires_role_selection' in response && response.requires_role_selection) {
-        const authResponse = response as any // Type assertion para acceder a las propiedades
-        setUserInfo({ name: `${authResponse.user.nombre} ${authResponse.user.apellido}` })
-        setAvailableRoles(authResponse.available_roles || [])
-        setShowRoleSelection(true)
-        setError('')
-        setIsLoading(false)
+        applyRoleSelection(
+          `${response.user.nombre} ${response.user.apellido}`,
+          response.available_roles || []
+        )
         return
       }
-      
-      // Redireccionar al dashboard correcto usando el usuario de la respuesta (evita estado desactualizado)
-      const redirectTo = localStorage.getItem('redirectTo')
-      if (redirectTo) {
-        localStorage.removeItem('redirectTo')
-        navigate(redirectTo)
-      } else {
-        const dashboardPath = response && 'user' in response ? getDashboardPathForUser((response as any).user) : getDashboardPath()
+
+      redirectAfterLogin(() => {
+        const dashboardPath = response && 'user' in response
+          ? getDashboardPathForUser(response.user)
+          : getDashboardPath()
         navigate(dashboardPath)
-      }
-    } catch (error: any) {
-      console.error('Error en login:', error)
-      
-      // Si el error indica que el usuario tiene múltiples roles, mostrar selección
-      if (error.message && error.message.includes('múltiples roles')) {
-        // Extraer información del usuario y roles disponibles del mensaje de error
-        const userMatch = error.message.match(/usuario: (.+?), roles: \[(.+?)\]/)
-        if (userMatch) {
-          const userName = userMatch[1]
-          const rolesString = userMatch[2]
-          const roles = rolesString.split(',').map((role: string) => role.trim().replace(/['"]/g, ''))
-          
-          setUserInfo({ name: userName })
-          setAvailableRoles(roles)
-          setShowRoleSelection(true)
-          setError('')
-          setIsLoading(false)
-          return
-        }
-      }
-      
-      setError(error.response?.data?.error || error.message || 'Error en la autenticación')
+      })
+    } catch (error: unknown) {
+      handleLoginError(error)
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const getUserTypeLabel = (type: UserType) => {
-    switch (type) {
-      case 'student':
-        return 'Estudiante'
-      case 'teacher':
-        return 'Docente'
-      case 'coordinator':
-        return 'Coordinador'
-      case 'decano':
-        return 'Decano'
-      case 'admin':
-        return 'Administrador'
-      default:
-        return 'Estudiante'
     }
   }
 
@@ -176,22 +148,6 @@ export default function Login() {
         return <FaUserCheck className={size} />
       default:
         return <FaGraduationCap className={size} />
-    }
-  }
-
-  const getRoleLabel = (role: string) => {
-    switch (role) {
-      case 'estudiante':
-        return 'Estudiante'
-      case 'profesor':
-      case 'docente':
-        return 'Docente'
-      case 'coordinador':
-        return 'Coordinador'
-      case 'admin':
-        return 'Administrador'
-      default:
-        return role
     }
   }
 
@@ -273,10 +229,7 @@ export default function Login() {
                 <button
                   type="button"
                   className="flex items-center justify-between w-full p-3 border border-gray-300 rounded-lg bg-white hover:border-red-500 transition-colors text-base"
-                  onClick={() => {
-                    console.log('🔽 Dropdown clicked, current state:', isDropdownOpen);
-                    setIsDropdownOpen(!isDropdownOpen);
-                  }}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <div className="flex items-center">
                     <span className="mr-2 text-red-600">{getUserTypeIcon(userType, "h-4 w-4")}</span>
@@ -295,20 +248,20 @@ export default function Login() {
                       className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
                     >
                       {(['student', 'teacher', 'coordinator', 'decano', 'admin'] as UserType[]).map((type) => (
-                        <div
+                        <button
+                          type="button"
                           key={type}
-                          className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer transition-colors text-base ${
-                            userType === type ? 'bg-gray-100' : ''
+                          className={`flex items-center w-full p-3 hover:bg-gray-100 cursor-pointer transition-colors text-base text-left border-0 ${
+                            userType === type ? 'bg-gray-100' : 'bg-white'
                           }`}
                           onClick={() => {
-                            console.log('👤 User type selected:', type);
                             setUserType(type)
                             setIsDropdownOpen(false)
                           }}
                         >
                           <span className="mr-2 text-red-600">{getUserTypeIcon(type, "h-4 w-4")}</span>
                           <span className="text-gray-800">{getUserTypeLabel(type)}</span>
-                        </div>
+                        </button>
                       ))}
                     </motion.div>
                   )}
@@ -433,14 +386,7 @@ export default function Login() {
                         <div>
                           <div className="font-medium">{getRoleLabel(role)}</div>
                           <div className="text-sm text-gray-500">
-                            {role === 'profesor' || role === 'docente' 
-                              ? 'Acceso al dashboard de docentes'
-                              : role === 'coordinador'
-                              ? 'Acceso al dashboard de coordinadores'
-                              : role === 'estudiante'
-                              ? 'Acceso al dashboard de estudiantes'
-                              : 'Acceso administrativo'
-                            }
+                            {getRoleDescription(role)}
                           </div>
                         </div>
                       </div>

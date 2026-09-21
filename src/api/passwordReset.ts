@@ -1,4 +1,5 @@
 import { apiClient } from './client'
+import { getApiErrorMessage } from '../lib/apiError'
 
 export interface ForgotPasswordRequest {
   email: string
@@ -8,12 +9,12 @@ export interface ResetPasswordRequest {
   token: string
   email: string
   newPassword: string
-  confirmPassword: string
 }
 
 export interface PasswordResetResponse {
   success: boolean
   message: string
+  data?: unknown
 }
 
 function extractErrorMessage(error: unknown, fallback: string): string {
@@ -26,6 +27,7 @@ export async function requestPasswordReset(
 ): Promise<PasswordResetResponse> {
   try {
     const response = await apiClient.post('/api/auth/forgot-password', data)
+
     return {
       success: true,
       message:
@@ -35,7 +37,7 @@ export async function requestPasswordReset(
   } catch (error: unknown) {
     return {
       success: false,
-      message: extractErrorMessage(error, 'Error al enviar la solicitud de recuperación'),
+      message: getApiErrorMessage(error, 'Error al enviar la solicitud de recuperación')
     }
   }
 }
@@ -52,7 +54,7 @@ export async function resetPassword(
   } catch (error: unknown) {
     return {
       success: false,
-      message: extractErrorMessage(error, 'Error al actualizar la contraseña'),
+      message: getApiErrorMessage(error, 'Error al actualizar la contraseña')
     }
   }
 }
@@ -73,7 +75,7 @@ export async function validateResetToken(
   } catch (error: unknown) {
     return {
       success: false,
-      message: extractErrorMessage(error, 'Token inválido o expirado'),
+      message: getApiErrorMessage(error, 'Token inválido o expirado')
     }
   }
 }

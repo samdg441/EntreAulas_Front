@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { authApi, AuthResponse } from '../api/auth'
+import {
+  getDashboardPathForUser as getDashboardPathForUserFromModule,
+  usuarioTieneRol,
+} from '../features/auth/dashboard-path'
+import { RoleMismatchError } from '../features/auth/errors'
+import { authStorage } from '../lib/storage'
 
-interface User {
+export interface User {
   id: string
   email: string
   nombre: string
@@ -21,13 +27,6 @@ interface AuthContextType {
   user: User | null
   login: (email: string, password: string, expectedUserType?: string) => Promise<AuthResponse | void>
   loginWithRole: (email: string, password: string, selectedRole: string) => Promise<void>
-  register: (data: {
-    email: string
-    nombre: string
-    apellido: string
-    tipo_usuario: 'estudiante' | 'profesor' | 'coordinador' | 'admin'
-    password: string
-  }) => Promise<void>
   logout: () => void
   loading: boolean
   isAuthenticated: boolean
@@ -67,84 +66,54 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [])
 
   const login = async (email: string, password: string, expectedUserType?: string): Promise<AuthResponse | void> => {
-    try {
-      const response: AuthResponse = await authApi.login({ email, password })
-      
-      // Verificar que el usuario tiene el rol apropiado (si se especifica)
-      if (expectedUserType) {
-        const actualUserType = response.user.tipo_usuario
-        const userRoles = response.user.roles || []
-        
-        // Mapear tipos de frontend a backend
-        const typeMapping: { [key: string]: string[] } = {
-          'student': ['estudiante'],
-          'teacher': ['profesor', 'docente'],
-          'coordinator': ['coordinador'],
-          'decano': ['decano'],
-          'admin': ['admin']
-        }
-        
-        const expectedRoles = typeMapping[expectedUserType] || []
-        const hasExpectedRole = expectedRoles.some(role => 
-          role === actualUserType || userRoles.includes(role)
+    const response: AuthResponse = await authApi.login({ email, password })
+
+    // Verificar que el usuario tiene el rol apropiado (si se especifica)
+    if (expectedUserType) {
+      const actualUserType = response.user.tipo_usuario
+      const userRoles = response.user.roles || []
+
+      // Mapear tipos de frontend a backend
+      const typeMapping: { [key: string]: string[] } = {
+        'student': ['estudiante'],
+        'teacher': ['profesor', 'docente'],
+        'coordinator': ['coordinador'],
+        'decano': ['decano'],
+        'admin': ['admin']
+      }
+
+      const expectedRoles = typeMapping[expectedUserType] || []
+      const hasExpectedRole = expectedRoles.some(role =>
+        role === actualUserType || userRoles.includes(role)
+      )
+
+      if (!hasExpectedRole) {
+        throw new RoleMismatchError(
+          `El tipo de usuario seleccionado (${expectedUserType}) no coincide con los roles del usuario en el sistema (${actualUserType}, roles: ${userRoles.join(', ')})`
         )
-        
-        if (!hasExpectedRole) {
-          throw new Error(`El tipo de usuario seleccionado (${expectedUserType}) no coincide con los roles del usuario en el sistema (${actualUserType}, roles: ${userRoles.join(', ')})`)
-        }
       }
-      
-      // Si la respuesta indica que se requiere selección de rol, devolver la respuesta
-      if (response.requires_role_selection) {
-        return response
-      }
-      
-      // Guardar token y usuario (incluye coordinador.carrera_id si viene)
-      localStorage.setItem('token', response.token)
-      localStorage.setItem('user', JSON.stringify(response.user))
-      
-      setUser(response.user)
-      return response
-    } catch (error) {
-      console.error('Error en login:', error)
-      throw error
     }
+
+    // Si la respuesta indica que se requiere selección de rol, devolver la respuesta
+    if (response.requires_role_selection) {
+      return response
+    }
+
+    // Guardar token y usuario (incluye coordinador.carrera_id si viene)
+    authStorage.setToken(response.token)
+    authStorage.setUser(response.user)
+
+    setUser(response.user)
+    return response
   }
 
   const loginWithRole = async (email: string, password: string, selectedRole: string) => {
-    try {
-      const response: AuthResponse = await authApi.loginWithRole({ email, password, selectedRole })
-      
-      // Guardar token y usuario
-      localStorage.setItem('token', response.token)
-      localStorage.setItem('user', JSON.stringify(response.user))
-      
-      setUser(response.user)
-    } catch (error) {
-      console.error('Error en login con rol:', error)
-      throw error
-    }
-  }
+    const response: AuthResponse = await authApi.loginWithRole({ email, password, selectedRole })
 
-  const register = async (data: {
-    email: string
-    nombre: string
-    apellido: string
-    tipo_usuario: 'estudiante' | 'profesor' | 'coordinador' | 'admin'
-    password: string
-  }) => {
-    try {
-      const response: AuthResponse = await authApi.register(data)
-      
-      // Guardar token y usuario
-      localStorage.setItem('token', response.token)
-      localStorage.setItem('user', JSON.stringify(response.user))
-      
-      setUser(response.user)
-    } catch (error) {
-      console.error('Error en registro:', error)
-      throw error
-    }
+    authStorage.setToken(response.token)
+    authStorage.setUser(response.user)
+
+    setUser(response.user)
   }
 
   const logout = () => {
@@ -165,59 +134,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return getDashboardPathForUser(user)
   }
 
-  const getDashboardPathForUser = (u: User) => {
-    if (u.dashboard) return u.dashboard
-    if (u.roles && u.roles.length > 0) {
-      const rolePriority = ['admin', 'decano', 'coordinador', 'profesor', 'docente', 'estudiante']
-      const userTypeMapping: { [key: string]: string } = {
-        'estudiante': '/dashboard-estudiante',
-        'profesor': '/dashboard-profesor',
-        'docente': '/dashboard-profesor',
-        'coordinador': '/dashboard-coordinador',
-        'decano': '/dashboard-decano',
-        'admin': '/dashboard-admin'
-      }
-      for (const role of rolePriority) {
-        if (u.roles.includes(role)) return userTypeMapping[role] || '/dashboard'
-      }
-    }
-    const userTypeMapping: { [key: string]: string } = {
-      'estudiante': '/dashboard-estudiante',
-      'profesor': '/dashboard-profesor',
-      'docente': '/dashboard-profesor',
-      'coordinador': '/dashboard-coordinador',
-      'decano': '/dashboard-decano',
-      'admin': '/dashboard-admin'
-    }
-    const tipo = (u.tipo_usuario || '').toLowerCase()
-    return userTypeMapping[tipo] || '/dashboard'
-  }
+  const getDashboardPathForUser = (u: User) => getDashboardPathForUserFromModule(u)
 
   // Función para verificar si el usuario tiene un rol específico
-  const hasRole = (role: string): boolean => {
-    if (!user) return false
-    const normalize = (r?: string) => (r || '').toLowerCase()
-    const synonyms: Record<string, string[]> = {
-      coordinador: ['coordinador', 'coordinator'],
-      profesor: ['profesor', 'docente', 'teacher'],
-      estudiante: ['estudiante', 'student'],
-      decano: ['decano', 'dean'],
-      admin: ['admin', 'administrator']
-    }
-    const matches = (target: string, candidate?: string) => {
-      const t = normalize(target)
-      const c = normalize(candidate)
-      return t === c || (synonyms[t] && synonyms[t].includes(c))
-    }
-    // Preferir el rol activo/seleccionado si existe
-    if (matches(role, user.selected_role)) return true
-    if (matches(role, user.tipo_usuario)) return true
-    // Solo considerar lista de roles si realmente el usuario tiene múltiples roles
-    if (user.multiple_roles || (user.roles && user.roles.length > 1)) {
-      return (user.roles || []).some(r => matches(role, r))
-    }
-    return false
-  }
+  const hasRole = (role: string): boolean => usuarioTieneRol(user, role)
 
   // Función para verificar si el usuario tiene un permiso específico
   const hasPermission = (permission: string): boolean => {
@@ -228,9 +148,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Función para cambiar temporalmente el rol del usuario
   const switchUserRole = (newRole: 'coordinador' | 'profesor'): void => {
     if (!user) return
-    
-    console.log('🔄 Cambiando rol del usuario de', user.tipo_usuario, 'a', newRole)
-    
+
     // Crear una copia del usuario con el nuevo rol temporal
     const updatedUser = {
       ...user,
@@ -240,20 +158,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Mantener los roles originales para poder volver
       original_tipo_usuario: user.tipo_usuario
     }
-    
+
     setUser(updatedUser)
-    
+
     // Guardar en localStorage para persistir el cambio
-    localStorage.setItem('user', JSON.stringify(updatedUser))
-    
-    console.log('✅ Rol cambiado exitosamente a', newRole)
+    authStorage.setUser(updatedUser)
   }
 
   const value: AuthContextType = {
     user,
     login,
     loginWithRole,
-    register,
     logout,
     loading,
     isAuthenticated: !!user,

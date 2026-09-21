@@ -28,6 +28,8 @@ import {
 } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { fetchCoordinatorDashboardSummary, CoordinatorTeacherSummary } from '../../api/coordinador.api';
+import { statsVaciasCoordinador } from './docentes';
+import { promedioVisible } from '../../lib/calificaciones';
 
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
@@ -122,6 +124,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
       } catch (error) {
         console.error('Error cargando resumen del coordinador:', error);
         setTeachers([]);
+        setStats(statsVaciasCoordinador());
       } finally {
         setLoadingStats(false);
       }
@@ -177,7 +180,8 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
     visible: { opacity: 1, y: 0 }
   };
 
-  const riesgoGlobal = stats.promedioEvaluaciones > 0 && stats.promedioEvaluaciones < 4;
+  const promedioGeneral = promedioVisible(stats.promedioEvaluaciones)
+  const riesgoGlobal = promedioGeneral > 0 && promedioGeneral < 4;
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
@@ -299,7 +303,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                     {loadingStats ? (
                       <div className="animate-pulse bg-yellow-200 h-8 w-16 rounded"></div>
                     ) : (
-                      stats.promedioEvaluaciones || 0
+                      promedioGeneral
                     )}
                   </div>
                   <p className="text-sm text-gray-500 mt-2 text-left">
@@ -480,7 +484,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                                       ? 'bg-gray-100 text-gray-600'
                                       : 'bg-emerald-100 text-emerald-700'
                                 }`}>
-                                  {t.totalEvaluaciones === 0 ? 'Sin datos' : t.promedio.toFixed(2)}
+                                  {t.totalEvaluaciones === 0 ? 'Sin datos' : promedioVisible(t.promedio).toFixed(2)}
                                 </span>
                               </td>
                             </tr>

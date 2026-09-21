@@ -11,6 +11,7 @@ import Button from '../../components/Button';
 import Badge from '../../components/Badge';
 import Header from '../../components/Header';
 import { User } from '../../types';
+import { promedioVisible } from '../../lib/calificaciones';
 import { 
   Calendar as CalendarIcon, 
   ClipboardCheck, 
@@ -163,7 +164,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
 
   // Datos específicos para profesores
   const realStats = {
-    averageRating: teacherStats?.calificacionPromedio || 0,
+    averageRating: promedioVisible(teacherStats?.calificacionPromedio),
     totalEvaluations: teacherStats?.totalEvaluaciones || 0,
     coursesTeaching: teacherStats?.cursosImpartidos || teacherCourses?.length || 0,
     groupsTeaching: teacherStats?.totalGruposImpartidos || teacherCourses?.length || 0,
@@ -178,7 +179,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
     students: curso.total,
     completed: curso.total,
     answeredSurveys: curso.encuestasRespondidas ?? curso.total ?? 0,
-    average: curso.promedio,
+    average: promedioVisible(curso.promedio),
     period: `Semestre ${activePeriodCode}`,
     status: 'completed'
   })) || [];
@@ -510,7 +511,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                     {(() => {
                       const cursoStats = (teacherStats?.evaluacionesPorCurso || []).find((c: any) => (c.curso_id?.toString() === selectedCourseFilter));
-                      const promedio = cursoStats?.promedio ?? 0;
+                      const promedio = promedioVisible(cursoStats?.promedio);
                       const total = cursoStats?.total ?? 0;
                       const respondidas = cursoStats?.encuestasRespondidas ?? total;
                       const gruposDelCurso = groupsByCourseId[selectedCourseFilter] || 0;

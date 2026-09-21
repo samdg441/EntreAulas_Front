@@ -4,8 +4,24 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Card from '../../components/Card'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
-import { requestPasswordReset } from '../../api/passwordReset'
-import { FaEnvelope, FaCheckCircle, FaArrowLeft, FaSpinner } from 'react-icons/fa'
+import { requestPasswordReset, resetPassword, validateResetToken } from '../../api/passwordReset'
+import { getApiErrorMessage } from '../../lib/apiError'
+import {
+  debeValidarToken,
+  validarFormularioRequest,
+  validarFormularioReset,
+} from './password-reset-flow'
+import { 
+  FaEnvelope,
+  FaLock,
+  FaCheckCircle,
+  FaArrowLeft,
+  FaEye,
+  FaEyeSlash,
+  FaSpinner
+} from 'react-icons/fa'
+
+// Importación de assets
 import fondoImg from '../../assets/fondo.webp'
 import logoUniversidadImg from '../../assets/logo_conciencia.webp'
 
@@ -26,40 +42,81 @@ export default function ForgotPassword() {
   const emailFromLink = searchParams.get('email')
 
   React.useEffect(() => {
-    if (tokenFromLink) {
-      const params = new URLSearchParams()
-      params.set('token', tokenFromLink)
-      if (emailFromLink) params.set('email', emailFromLink)
-      navigate(`/reset-password?${params.toString()}`, { replace: true })
+    if (debeValidarToken(resetToken, userEmail)) {
+      // Validar el token antes de mostrar el formulario de reset
+      validateResetToken(resetToken as string, userEmail as string).then(response => {
+        if (response.success) {
+          setStep('reset')
+          setFormData(prev => ({ ...prev, email: userEmail as string }))
+        } else {
+          setErrors({ general: response.message })
+        }
+      })
     }
-  }, [tokenFromLink, emailFromLink, navigate])
+  }, [resetToken, userEmail])
 
-  const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+  // Función para manejar cambios en los campos
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+    
+    // Limpiar errores al escribir
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: undefined }))
+    }
+  }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Función para validar formulario
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors =
+      step === 'request'
+        ? validarFormularioRequest(formData.email)
+        : step === 'reset'
+          ? validarFormularioReset(formData.newPassword, formData.confirmPassword)
+          : {}
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  // Función para solicitar reset de contraseña
+  const handleRequestReset = async (e: React.FormEvent) => {
     e.preventDefault()
     setGeneralError('')
 
-    if (!email) {
-      setEmailError('El correo electrónico es requerido')
-      return
-    }
-    if (!validateEmail(email)) {
-      setEmailError('Por favor, ingresa un correo electrónico válido')
-      return
+    setIsLoading(true)
+    setErrors({})
+
+    try {
+      const response = await requestPasswordReset({ email: formData.email })
+
+      if (response.success) {
+        setSuccessMessage(response.message)
+        setStep('success')
+      } else {
+        setErrors({ general: response.message })
+      }
+    } catch (error: unknown) {
+      setErrors({ general: getApiErrorMessage(error, 'Error al enviar la solicitud') })
+    } finally {
+      setIsLoading(false)
     }
 
     setIsLoading(true)
     try {
-      const response = await requestPasswordReset({ email: email.trim() })
+      const response = await resetPassword({
+        token: resetToken || '',
+        email: formData.email,
+        newPassword: formData.newPassword
+      })
+
       if (response.success) {
         setSuccessMessage(response.message)
         setSent(true)
       } else {
         setGeneralError(response.message)
       }
-    } catch {
-      setGeneralError('Error al enviar la solicitud')
+    } catch (error: unknown) {
+      setErrors({ general: getApiErrorMessage(error, 'Error al actualizar la contraseña') })
     } finally {
       setIsLoading(false)
     }

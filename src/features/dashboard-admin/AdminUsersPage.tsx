@@ -15,6 +15,17 @@ import {
 } from '../../api/users'
 import { Pencil, Plus, Trash2, Search, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { User } from '../../types'
+import { getApiErrorMessage } from '../../lib/apiError'
+import { validatePasswordStrength } from '../../lib/validation'
+import {
+  decidirAltaUsuario,
+  decidirCambioUsuario,
+  decidirDesactivarUsuario,
+  aplicarAltaEnLista,
+  aplicarCambioEnLista,
+  aplicarDesactivarEnLista,
+  type UsuarioLista,
+} from './gestionar-usuarios'
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
@@ -130,14 +141,37 @@ export default function AdminUsersPage() {
 
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault()
+    const passwordCheck = validatePasswordStrength(createForm.password)
+    if (!passwordCheck.valid) {
+      setFormError(passwordCheck.message)
+      return
+    }
     setSaving(true)
     setFormError(null)
     try {
-      await usersApi.create(createForm)
-      closeModal()
-      await loadUsers()
-    } catch (err: any) {
-      setFormError(err?.response?.data?.error || err?.message || 'Error al crear usuario')
+      const created = (await usersApi.create(createForm)) as { id: string }
+      const decision = decidirAltaUsuario({ altaOk: true })
+      setUsers((prev) =>
+        aplicarAltaEnLista(
+          prev,
+          {
+            id: created.id,
+            email: createForm.email,
+            nombre: createForm.nombre,
+            apellido: createForm.apellido,
+            tipo_usuario: createForm.tipo_usuario,
+            activo: true,
+          },
+          true,
+        ),
+      )
+      if (decision.cierraModal) closeModal()
+    } catch (err: unknown) {
+      const decision = decidirAltaUsuario({
+        altaOk: false,
+        error: getApiErrorMessage(err, 'Error al crear usuario'),
+      })
+      setFormError(decision.formError)
     } finally {
       setSaving(false)
     }
@@ -146,24 +180,37 @@ export default function AdminUsersPage() {
   const handleUpdate = async (e: FormEvent) => {
     e.preventDefault()
     if (!editingUser) return
+    if (editForm.password && editForm.password.length > 0) {
+      const passwordCheck = validatePasswordStrength(editForm.password)
+      if (!passwordCheck.valid) {
+        setFormError(passwordCheck.message)
+        return
+      }
+    }
     setSaving(true)
     setFormError(null)
+    const camposVisibles: Partial<UsuarioLista> = {
+      email: editForm.email,
+      nombre: editForm.nombre,
+      apellido: editForm.apellido,
+      tipo_usuario: editForm.tipo_usuario,
+      activo: editForm.activo,
+    }
     try {
-      const payload: UpdateUserPayload = {
-        email: editForm.email,
-        nombre: editForm.nombre,
-        apellido: editForm.apellido,
-        tipo_usuario: editForm.tipo_usuario,
-        activo: editForm.activo,
-      }
+      const payload: UpdateUserPayload = { ...camposVisibles }
       if (editForm.password && editForm.password.length > 0) {
         payload.password = editForm.password
       }
       await usersApi.update(editingUser.id, payload)
-      closeModal()
-      await loadUsers()
-    } catch (err: any) {
-      setFormError(err?.response?.data?.error || err?.message || 'Error al actualizar')
+      const decision = decidirCambioUsuario({ cambioOk: true })
+      setUsers((prev) => aplicarCambioEnLista(prev, editingUser.id, camposVisibles, true))
+      if (decision.cierraModal) closeModal()
+    } catch (err: unknown) {
+      const decision = decidirCambioUsuario({
+        cambioOk: false,
+        error: getApiErrorMessage(err, 'Error al actualizar'),
+      })
+      setFormError(decision.formError)
     } finally {
       setSaving(false)
     }
@@ -171,12 +218,18 @@ export default function AdminUsersPage() {
 
   const confirmDeactivate = async () => {
     if (!deleteTarget) return
+    const targetId = deleteTarget.id
     try {
-      await usersApi.deactivate(deleteTarget.id)
+      await usersApi.deactivate(targetId)
+      decidirDesactivarUsuario({ desactivarOk: true })
+      setUsers((prev) => aplicarDesactivarEnLista(prev, targetId, true))
       setDeleteTarget(null)
-      await loadUsers()
-    } catch (err: any) {
-      setError(err?.response?.data?.error || 'No se pudo desactivar el usuario')
+    } catch (err: unknown) {
+      const decision = decidirDesactivarUsuario({
+        desactivarOk: false,
+        error: getApiErrorMessage(err, 'No se pudo desactivar el usuario'),
+      })
+      setError(decision.error)
       setDeleteTarget(null)
     }
   }
