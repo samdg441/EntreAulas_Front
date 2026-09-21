@@ -34,7 +34,7 @@ apiClient.interceptors.response.use(
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       const path = window.location.pathname || ''
-      const publicPaths = ['/login', '/forgot-password', '/qr-evaluacion']
+      const publicPaths = ['/login', '/forgot-password', '/reset-password', '/qr-evaluacion']
       const isPublic = publicPaths.some((p) => path === p || path.startsWith(p + '/'))
       if (!isPublic) {
         window.location.href = '/login'
