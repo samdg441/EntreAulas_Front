@@ -15,11 +15,7 @@ import {
   Star,
   BookOpen,
   Users,
-  Mail,
-  Phone,
-  MapPin,
   BarChart3,
-  User as UserIcon,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { fetchStudentStats, fetchStudentEnrolledSubjects } from '../../api/teachers';
@@ -30,15 +26,7 @@ const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface DashboardProps {
   user: User;
-  onStartEvaluation?: () => void;
   onViewReports?: () => void;
-}
-
-interface SectionCardProps {
-  title: string;
-  icon: React.ComponentType<{ className?: string }>;
-  children: React.ReactNode;
-  className?: string;
 }
 
 type StudentStats = {
@@ -123,12 +111,6 @@ function getGreeting() {
   if (hour < 12) return '¡Buenos días';
   if (hour < 18) return '¡Buenas tardes';
   return '¡Buenas noches';
-}
-
-function getUserRoleLabel(type: User['type']) {
-  if (type === 'student') return 'Estudiante';
-  if (type === 'teacher') return 'Profesor';
-  return 'Coordinador';
 }
 
 function getPrimaryStat(type: User['type'], stats: Record<string, unknown>) {
@@ -347,20 +329,6 @@ async function fetchDashboardData(
   }
 }
 
-const SectionCard = ({ title, icon: Icon, children, className = '' }: Readonly<SectionCardProps>) => {
-  return (
-    <Card className={`bg-white shadow-md border border-gray-200 p-6 ${className}`}>
-      <CardHeader className="pb-4">
-        <div className="flex items-center gap-2">
-          <Icon className="h-5 w-5 text-gray-700" />
-          <CardTitle className="text-xl text-gray-900">{title}</CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent>{children}</CardContent>
-    </Card>
-  );
-};
-
 function Shell({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="min-h-screen bg-gray-50 relative">
@@ -423,70 +391,26 @@ function WelcomeCard({ user }: Readonly<{ user: User }>) {
 
 function QuickActionsCard({ actions }: Readonly<{ actions: QuickAction[] }>) {
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-      <Card className="bg-white shadow-md border border-gray-200 p-6">
-        <CardHeader className="pb-4">
-          <div className="flex items-center gap-2">
-            <ClipboardCheck className="h-5 w-5 text-gray-700" />
-            <CardTitle className="text-2xl text-gray-900">Cosas por hacer:</CardTitle>
-          </div>
-          <CardDescription className="text-base">
-            Aca estan las opciones de lo que puedes realizar
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Acciones Rápidas</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {actions.map((action) => (
-                <motion.div key={action.label} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button
-                    onClick={action.onClick}
-                    variant={action.variant}
-                    className={`w-full h-auto py-5 flex flex-col items-center gap-3 ${action.className}`}
-                  >
-                    <action.icon className="h-8 w-8" />
-                    <div className="text-center">
-                      <div className="font-medium text-lg">{action.label}</div>
-                      <div className="text-sm opacity-80">{action.description}</div>
-                    </div>
-                  </Button>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-}
-
-function UserInfoCard({ user }: Readonly<{ user: User }>) {
-  return (
-    <SectionCard title="Información del Usuario" icon={UserIcon}>
-      <div className="space-y-4">
-        <div className="flex items-center gap-3">
-          <div>
-            <p className="font-medium text-gray-900">{user.name}</p>
-            <p className="text-sm text-gray-600 capitalize">{getUserRoleLabel(user.type)}</p>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Mail className="h-4 w-4 text-gray-500" />
-            <p className="text-sm text-gray-600">{user.email}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Phone className="h-4 w-4 text-gray-500" />
-            <p className="text-sm text-gray-600">+123 456 7890</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-gray-500" />
-            <p className="text-sm text-gray-600">Facultad de Ingeniería</p>
-          </div>
-        </div>
-      </div>
-    </SectionCard>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {actions.map((action) => (
+        <motion.button
+          key={action.label}
+          type="button"
+          onClick={action.onClick}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          className={`min-h-40 w-full rounded-xl shadow-md border px-6 py-8 flex flex-col items-center justify-center gap-2 text-center transition-colors ${
+            action.variant === 'default'
+              ? 'bg-red-600 border-red-600 text-white hover:bg-red-700'
+              : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50'
+          }`}
+        >
+          <action.icon className="h-8 w-8" />
+          <span className="text-xl font-semibold leading-tight">{action.label}</span>
+          <span className="text-base opacity-80">{action.description}</span>
+        </motion.button>
+      ))}
+    </div>
   );
 }
 
@@ -651,14 +575,7 @@ function DashboardReady({
 
           <div className="flex flex-col gap-8">
             <div className="order-1 lg:order-2">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-8">
-                  <QuickActionsCard actions={userData.quickActions} />
-                </div>
-                <div className="space-y-8">
-                  <UserInfoCard user={user} />
-                </div>
-              </div>
+              <QuickActionsCard actions={userData.quickActions} />
             </div>
 
             <div className="order-2 lg:order-1">
@@ -679,7 +596,6 @@ function DashboardReady({
 
 export default function Dashboard({
   user,
-  onStartEvaluation,
   onViewReports,
 }: Readonly<DashboardProps>) {
   const navigate = useNavigate();
@@ -706,7 +622,7 @@ export default function Dashboard({
   }, [currentUser.type]);
 
   const actions: DashboardActions = {
-    onStartEvaluation: onStartEvaluation ?? (() => navigate('/evaluate/selection')),
+    onStartEvaluation: () => navigate('/evaluate/selection'),
     onViewReports: onViewReports ?? (() => navigate('/reports')),
     onViewSurvey: () => navigate('/survey'),
     onToggleCalendar: () => setShowCalendar((open) => !open),

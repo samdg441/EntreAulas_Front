@@ -32,10 +32,6 @@ import { useAuth } from './context/AuthContext'
 function App() {
   const { user } = useAuth()
 
-  const handleStartEvaluation = () => {
-    // La navegación se manejará dentro del componente Dashboard con useNavigate
-  }
-
   const handleViewReports = () => {
     console.log('Ver reportes')
   }
@@ -127,7 +123,7 @@ function App() {
         <Route 
           path="/dashboard-estudiante" 
           element={
-            user ? <DashboardWrapper onStartEvaluation={handleStartEvaluation} onViewReports={handleViewReports} /> : <Navigate to="/login" replace />
+            user ? <DashboardWrapper onViewReports={handleViewReports} /> : <Navigate to="/login" replace />
           } 
         />
         <Route 
@@ -237,8 +233,7 @@ function App() {
 }
 
 
-function DashboardWrapper({ onStartEvaluation, onViewReports }: { 
-  onStartEvaluation: () => void, 
+function DashboardWrapper({ onViewReports }: { 
   onViewReports: () => void 
 }) {
   const { user: authUser } = useAuth()
@@ -258,7 +253,7 @@ function DashboardWrapper({ onStartEvaluation, onViewReports }: {
     email: authUser.email,
   }
   
-  return <Dashboard user={user} onStartEvaluation={onStartEvaluation} onViewReports={onViewReports} />
+  return <Dashboard user={user} onViewReports={onViewReports} />
 }
 
 function TeacherSelectionWrapper({ onTeacherCourseSelected, onBack }: { 
