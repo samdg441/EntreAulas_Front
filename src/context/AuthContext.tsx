@@ -89,7 +89,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (!hasExpectedRole) {
         throw new RoleMismatchError(
-          `El tipo de usuario seleccionado (${expectedUserType}) no coincide con los roles del usuario en el sistema (${actualUserType}, roles: ${userRoles.join(', ')})`
+          `El tipo de usuario seleccionado no coincide con tu cuenta. Por favor, selecciona ${userRoles.join(' o ' )} e intenta de nuevo.`
         )
       }
     }
