@@ -5,11 +5,11 @@ import Card from '../../components/Card'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import { UserType } from '../../types'
-import { useAuth, User } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { isValidEmail } from '../../lib/validation'
 import { authStorage } from '../../lib/storage'
 import { getApiErrorMessage } from '../../lib/apiError'
-import { getUserTypeLabel, getRoleLabel, getRoleDescription } from './login-flow'
+import { getUserTypeLabel } from './login-flow'
 import { RoleMismatchError } from './errors'
 import {
   FaGraduationCap,
@@ -34,12 +34,8 @@ export default function Login() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [emailError, setEmailError] = useState('')
   const [error, setError] = useState('')
-  const [availableRoles, setAvailableRoles] = useState<string[]>([])
-  const [selectedRole, setSelectedRole] = useState<string>('')
-  const [showRoleSelection, setShowRoleSelection] = useState(false)
-  const [userInfo, setUserInfo] = useState<{ name: string } | null>(null)
   const navigate = useNavigate()
-  const { login, loginWithRole, getDashboardPath, getDashboardPathForUser } = useAuth()
+  const { login, getDashboardPath, getDashboardPathForUser } = useAuth()
 
   // Función para manejar cambios en el email con validación
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,14 +65,6 @@ export default function Login() {
     fallback()
   }
 
-  const applyRoleSelection = (name: string, roles: string[]) => {
-    setUserInfo({ name })
-    setAvailableRoles(roles)
-    setShowRoleSelection(true)
-    setError('')
-    setIsLoading(false)
-  }
-
   const handleLoginError = (error: unknown) => {
     if (error instanceof RoleMismatchError) {
       setError(error.message)
@@ -102,24 +90,7 @@ export default function Login() {
     setError('')
 
     try {
-      if (showRoleSelection && selectedRole) {
-        await loginWithRole(email, password, selectedRole)
-        redirectAfterLogin(() => {
-          const savedUser = authStorage.getUser<User>()
-          navigate(savedUser ? getDashboardPathForUser(savedUser) : '/dashboard')
-        })
-        return
-      }
-
       const response = await login(email, password, userType)
-
-      if (response && 'requires_role_selection' in response && response.requires_role_selection) {
-        applyRoleSelection(
-          `${response.user.nombre} ${response.user.apellido}`,
-          response.available_roles || []
-        )
-        return
-      }
 
       redirectAfterLogin(() => {
         const dashboardPath = response && 'user' in response
@@ -149,36 +120,6 @@ export default function Login() {
       default:
         return <FaGraduationCap className={size} />
     }
-  }
-
-  const getRoleIcon = (role: string, size = "h-4 w-4") => {
-    switch (role) {
-      case 'estudiante':
-        return <FaGraduationCap className={size} />
-      case 'profesor':
-      case 'docente':
-        return <FaChalkboardTeacher className={size} />
-      case 'coordinador':
-        return <FaCog className={size} />
-      case 'decano':
-        return <FaUserTie className={size} />
-      case 'admin':
-        return <FaUserCheck className={size} />
-      default:
-        return <FaUserCheck className={size} />
-    }
-  }
-
-  const handleRoleSelection = (role: string) => {
-    setSelectedRole(role)
-  }
-
-  const handleBackToLogin = () => {
-    setShowRoleSelection(false)
-    setAvailableRoles([])
-    setSelectedRole('')
-    setUserInfo(null)
-    setError('')
   }
 
   return (
@@ -341,78 +282,6 @@ export default function Login() {
             <p className="text-xs text-gray-600">Universidad de Medellín - EntreAulas</p>
           </div>
         </Card>
-
-        {/* Modal de Selección de Rol */}
-        <AnimatePresence>
-          {showRoleSelection && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
-              >
-                <div className="text-center mb-6">
-                  <div className="flex justify-center mb-3">
-                    <FaUserCheck className="h-12 w-12 text-red-600" />
-                  </div>
-                  <h2 className="text-xl font-bold text-gray-800">Selecciona tu Rol</h2>
-                  <p className="text-gray-600 mt-2">
-                    Hola <span className="font-semibold">{userInfo?.name}</span>, 
-                    tienes múltiples roles disponibles. Selecciona con cuál deseas iniciar sesión:
-                  </p>
-                </div>
-
-                <div className="space-y-3 mb-6">
-                  {availableRoles.map((role) => (
-                    <button
-                      key={role}
-                      onClick={() => handleRoleSelection(role)}
-                      className={`w-full p-4 border rounded-lg text-left transition-colors ${
-                        selectedRole === role
-                          ? 'border-red-500 bg-red-50 text-red-700'
-                          : 'border-gray-300 hover:border-red-300 hover:bg-gray-50'
-                      }`}
-                    >
-                      <div className="flex items-center">
-                        <span className="mr-3 text-red-600">
-                          {getRoleIcon(role, "h-5 w-5")}
-                        </span>
-                        <div>
-                          <div className="font-medium">{getRoleLabel(role)}</div>
-                          <div className="text-sm text-gray-500">
-                            {getRoleDescription(role)}
-                          </div>
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex space-x-3">
-                  <Button
-                    onClick={handleBackToLogin}
-                    className="flex-1 py-2 bg-gray-500 hover:bg-gray-600 text-white"
-                  >
-                    Volver
-                  </Button>
-                  <Button
-                    onClick={handleSubmit}
-                    disabled={!selectedRole || isLoading}
-                    className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white"
-                  >
-                    {isLoading ? 'Iniciando...' : 'Continuar'}
-                  </Button>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.div>
     </div>
   )
