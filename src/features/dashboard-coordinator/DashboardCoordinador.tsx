@@ -14,11 +14,7 @@ import {
   Calendar as CalendarIcon,
   BookOpen,
   Users,
-  Mail,
   BarChart3,
-  User as UserIcon,
-  Award,
-  GraduationCap,
   Target,
   TrendingUp,
   AlertTriangle,
@@ -40,30 +36,6 @@ const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 interface DashboardCoordinadorProps {
   user: User;
 }
-
-// Componente reutilizable para las cards
-interface SectionCardProps {
-  title: string;
-  icon: React.ComponentType<any>;
-  children: React.ReactNode;
-  className?: string;
-}
-
-const SectionCard = ({ title, icon: Icon, children, className = '' }: SectionCardProps) => {
-  return (
-    <Card className={`bg-white shadow-md border border-gray-200 p-6 ${className}`}>
-      <CardHeader className="pb-4">
-        <div className="flex items-center gap-2">
-          <Icon className="h-5 w-5 text-gray-700" />
-          <CardTitle className="text-xl text-gray-900">{title}</CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {children}
-      </CardContent>
-    </Card>
-  );
-};
 
 export default function DashboardCoordinador({ user }: DashboardCoordinadorProps) {
   const navigate = useNavigate();
@@ -340,87 +312,41 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-1">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.62 }}
-                className="h-full"
-              >
-                <SectionCard title="Información del Coordinador" icon={UserIcon} className="h-full">
-                  <div className="space-y-5">
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-base">{currentUser.name}</p>
-                        <p className="text-sm text-gray-600">Coordinador-Profesor</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-gray-500 shrink-0" />
-                        <p className="text-sm text-gray-700 break-all">{currentUser.email}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <GraduationCap className="h-4 w-4 text-gray-500 shrink-0" />
-                        <p className="text-sm text-gray-700">Facultad de Ingeniería</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Award className="h-4 w-4 text-gray-500 shrink-0" />
-                        <p className="text-sm text-gray-700">Coordinador Académico</p>
-                      </div>
-                    </div>
-                  </div>
-                </SectionCard>
-              </motion.div>
-            </div>
-
-            <div className="lg:col-span-3">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="h-full"
-              >
-                <Card className="bg-white shadow-md border border-gray-200 p-6 h-full">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center gap-2">
-                      <Target className="h-5 w-5 text-gray-700" />
-                      <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
-                    </div>
-                    <CardDescription className="text-base">
-                      Herramientas para gestionar tu actividad como coordinador
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      {quickActions.map((action, index) => (
-                        <motion.div key={index} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                          <Button
-                            onClick={action.onClick}
-                            variant={action.variant}
-                            className={`w-full h-auto py-5 flex flex-col items-center gap-3 ${action.className}`}
-                          >
-                            <action.icon className="h-8 w-8" />
-                            <div className="text-center">
-                              <div className="font-medium text-lg">
-                                {action.label}
-                              </div>
-                              <div className="text-sm opacity-80">
-                                {action.description}
-                              </div>
-                            </div>
-                          </Button>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </div>
-
-          </div>
+          <Card className="bg-white shadow-md border border-gray-200 p-6">
+            <CardHeader className="pb-4">
+              <div className="flex items-center gap-2">
+                <Target className="h-5 w-5 text-gray-700" />
+                <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
+              </div>
+              <CardDescription className="text-base">
+                Herramientas para gestionar tu actividad como coordinador
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {quickActions.map((action) => (
+                  <motion.button
+                    key={action.label}
+                    type="button"
+                    onClick={action.onClick}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    className={`w-full rounded-lg border px-4 py-5 flex flex-col items-center justify-center gap-2 text-center transition-colors ${
+                      action.variant === 'default'
+                        ? 'bg-red-600 border-red-600 text-white hover:bg-red-700'
+                        : 'bg-white border-red-200 text-red-600 hover:bg-red-50'
+                    }`}
+                  >
+                    <action.icon className="h-7 w-7" />
+                    <span className="font-medium text-base leading-tight">{action.label}</span>
+                    <span className={`text-sm ${action.variant === 'default' ? 'text-white/80' : 'text-gray-500'}`}>
+                      {action.description}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
