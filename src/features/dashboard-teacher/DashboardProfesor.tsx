@@ -17,10 +17,7 @@ import {
   ClipboardCheck, 
   Star,
   BookOpen,
-  Mail,
   BarChart3,
-  User as UserIcon,
-  Award,
   Target
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -36,30 +33,6 @@ interface DashboardProfesorProps {
   user: User;
 }
 
-// Componente reutilizable para las cards
-interface SectionCardProps {
-  title: string;
-  icon: React.ComponentType<any>;
-  children: React.ReactNode;
-  className?: string;
-}
-
-const SectionCard = ({ title, icon: Icon, children, className = '' }: SectionCardProps) => {
-  return (
-    <Card className={`bg-white shadow-md border border-gray-200 p-6 ${className}`}>
-      <CardHeader className="pb-4">
-        <div className="flex items-center gap-2">
-          <Icon className="h-5 w-5 text-gray-700" />
-          <CardTitle className="text-xl text-gray-900">{title}</CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {children}
-      </CardContent>
-    </Card>
-  );
-};
-
 export default function DashboardProfesor({ user }: DashboardProfesorProps) {
   const navigate = useNavigate();
   const [showCalendar, setShowCalendar] = useState(false);
@@ -68,6 +41,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
   const [loadingStats, setLoadingStats] = useState(true);
   const [statsError, setStatsError] = useState<string | null>(null);
   const [selectedCourseFilter, setSelectedCourseFilter] = useState<string>('all');
+  const [selectedGroupFilter, setSelectedGroupFilter] = useState<string>('all');
   
   
   // Cargar user desde backend/localStorage si existe
@@ -183,6 +157,27 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
     period: `Semestre ${activePeriodCode}`,
     status: 'completed'
   })) || [];
+
+  const gruposDelCurso = (teacherStats?.evaluacionesPorGrupo || []).filter(
+    (grupo: any) => selectedCourseFilter !== 'all' && String(grupo.curso_id) === selectedCourseFilter
+  );
+
+  const filasGrupo = gruposDelCurso.map((grupo: any) => ({
+    id: grupo.grupo_id,
+    course: `Grupo ${grupo.numero_grupo ?? ''}`.trim(),
+    students: grupo.total,
+    completed: grupo.total,
+    answeredSurveys: grupo.encuestasRespondidas ?? grupo.total ?? 0,
+    average: promedioVisible(grupo.promedio),
+    period: `Semestre ${activePeriodCode}`,
+    status: 'completed'
+  }));
+
+  const filasVisibles = selectedCourseFilter === 'all'
+    ? realEvaluations
+    : selectedGroupFilter === 'all'
+      ? (filasGrupo.length > 0 ? filasGrupo : realEvaluations.filter((evaluation: any) => evaluation.id?.toString() === selectedCourseFilter))
+      : filasGrupo.filter((fila: any) => String(fila.id) === selectedGroupFilter);
 
   const selectableCourses = (() => {
     const fromStats = (teacherStats?.evaluacionesPorCurso || []).map((c: any) => ({
@@ -390,78 +385,46 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
 
           </div>
 
-          {/* Fila superior: acciones + perfil */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <motion.div
-              className="lg:col-span-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              <Card className="bg-white shadow-md border border-gray-200 p-6 h-full">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-2">
-                    <Target className="h-5 w-5 text-gray-700" />
-                    <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
-                  </div>
-                  <CardDescription className="text-base">
-                    Herramientas para gestionar tu actividad docente
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {profesorData.quickActions.map((action, index) => (
-                      <motion.div key={index} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Button
-                          onClick={action.onClick}
-                          variant={action.variant}
-                          className={`w-full h-auto py-5 flex flex-col items-center gap-3 ${action.className}`}
-                        >
-                          <action.icon className="h-8 w-8" />
-                          <div className="text-center">
-                            <div className="font-medium text-lg">
-                              {action.label}
-                            </div>
-                            <div className="text-sm opacity-80">
-                              {action.description}
-                            </div>
-                          </div>
-                        </Button>
-                      </motion.div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <div className="h-full">
-              <SectionCard title="Información del Profesor" icon={UserIcon} className="h-full">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <p className="font-medium text-gray-900">{currentUser.name}</p>
-                      <p className="text-sm text-gray-600">Profesor</p>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-gray-500" />
-                      <p className="text-sm text-gray-600">{currentUser.email}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <BookOpen className="h-4 w-4 text-gray-500" />
-                      <p className="text-sm text-gray-600">Facultad de Ingeniería</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Award className="h-4 w-4 text-gray-500" />
-                      <p className="text-sm text-gray-600">Semestre {profesorData.stats.currentSemester}</p>
-                    </div>
-                  </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <Card className="bg-white shadow-md border border-gray-200 p-6">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-gray-700" />
+                  <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
                 </div>
-              </SectionCard>
-            </div>
-          </div>
+                <CardDescription className="text-base">
+                  Herramientas para gestionar tu actividad docente
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {profesorData.quickActions.map((action, index) => (
+                    <motion.div key={index} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                      <Button
+                        onClick={action.onClick}
+                        variant={action.variant}
+                        className={`w-full h-auto py-5 flex flex-col items-center gap-3 ${action.className}`}
+                      >
+                        <action.icon className="h-8 w-8" />
+                        <div className="text-center">
+                          <div className="font-medium text-lg">
+                            {action.label}
+                          </div>
+                          <div className="text-sm opacity-80">
+                            {action.description}
+                          </div>
+                        </div>
+                      </Button>
+                    </motion.div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
 
           {/* Fila inferior: evaluaciones a ancho completo */}
           <motion.div
@@ -477,34 +440,80 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                     <CardTitle className="text-2xl text-gray-900">Evaluaciones Recientes</CardTitle>
                   </div>
                   {/* Filtro por curso */}
-                  <div className="flex items-center gap-2">
-                    <label htmlFor="course-filter" className="text-sm text-gray-600 whitespace-nowrap">
-                      Filtrar por curso:
-                    </label>
-                    <select
-                      id="course-filter"
-                      value={selectedCourseFilter}
-                      onChange={(e) => setSelectedCourseFilter(e.target.value)}
-                      className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 bg-white min-w-[200px]"
-                    >
-                      <option value="all">Todos los cursos</option>
-                      {selectableCourses.map((item: any) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="course-filter" className="text-sm text-gray-600 whitespace-nowrap">
+                        Filtrar por curso:
+                      </label>
+                      <select
+                        id="course-filter"
+                        value={selectedCourseFilter}
+                        onChange={(e) => {
+                          setSelectedCourseFilter(e.target.value)
+                          setSelectedGroupFilter('all')
+                        }}
+                        className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 bg-white min-w-[200px]"
+                      >
+                        <option value="all">Todos los cursos</option>
+                        {selectableCourses.map((item: any) => (
+                          <option key={item.id} value={item.id}>
+                            {item.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {selectedCourseFilter !== 'all' && gruposDelCurso.length > 0 && (
+                      <div className="flex items-center gap-2">
+                        <label htmlFor="group-filter" className="text-sm text-gray-600 whitespace-nowrap">
+                          Filtrar por grupo:
+                        </label>
+                        <select
+                          id="group-filter"
+                          value={selectedGroupFilter}
+                          onChange={(e) => setSelectedGroupFilter(e.target.value)}
+                          className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 bg-white min-w-[160px]"
+                        >
+                          <option value="all">Todos los grupos</option>
+                          {gruposDelCurso.map((grupo: any) => (
+                            <option key={grupo.grupo_id} value={String(grupo.grupo_id)}>
+                              Grupo {grupo.numero_grupo ?? grupo.grupo_id}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <CardDescription className="text-base mt-2">
-                  Estado de tus evaluaciones por curso
+                  {selectedCourseFilter === 'all'
+                    ? 'Estado de tus evaluaciones por curso'
+                    : selectedGroupFilter === 'all'
+                      ? 'Grupos de la materia seleccionada'
+                      : 'Evaluaciones del grupo seleccionado'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="mb-4 p-4 rounded-lg border border-green-200 bg-green-50">
-                  <p className="text-xs uppercase tracking-wide text-green-700 font-semibold">Total general</p>
-                  <p className="text-2xl font-bold text-green-700">{profesorData.stats.totalEvaluations} evaluaciones</p>
-                  <p className="text-sm text-green-700/90">Consolidado de todos tus cursos en el período {activePeriodCode}</p>
+                  <p className="text-xs uppercase tracking-wide text-green-700 font-semibold">
+                    {selectedCourseFilter === 'all'
+                      ? 'Total general'
+                      : selectedGroupFilter === 'all'
+                        ? 'Total del curso'
+                        : 'Total del grupo'}
+                  </p>
+                  <p className="text-2xl font-bold text-green-700">
+                    {selectedCourseFilter === 'all'
+                      ? profesorData.stats.totalEvaluations
+                      : filasVisibles.reduce((suma: number, fila: any) => suma + Number(fila.answeredSurveys || 0), 0)}{' '}
+                    evaluaciones
+                  </p>
+                  <p className="text-sm text-green-700/90">
+                    {selectedCourseFilter === 'all'
+                      ? `Consolidado de todos tus cursos en el período ${activePeriodCode}`
+                      : selectedGroupFilter === 'all'
+                        ? 'Suma de los grupos de la materia seleccionada'
+                        : 'Solo el grupo seleccionado'}
+                  </p>
                 </div>
                 {/* Resumen del curso seleccionado */}
                 {selectedCourseFilter !== 'all' && (
@@ -545,24 +554,12 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                     <div className="text-center py-8 text-red-500">
                       Error al cargar las evaluaciones
                     </div>
-                  ) : profesorData.recentEvaluations.length === 0 ? (
+                  ) : filasVisibles.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
                       No hay evaluaciones disponibles
                     </div>
                   ) : (
-                    (() => {
-                      const filteredEvaluations = profesorData.recentEvaluations
-                        .filter((evaluation: any) => selectedCourseFilter === 'all' || evaluation.id?.toString() === selectedCourseFilter);
-                      
-                      if (filteredEvaluations.length === 0) {
-                        return (
-                          <div className="text-center py-8 text-gray-500">
-                            No hay evaluaciones para el curso seleccionado
-                          </div>
-                        );
-                      }
-                      
-                      return filteredEvaluations.map((evaluation: any, index: number) => (
+                    filasVisibles.map((evaluation: any, index: number) => (
                         <motion.div
                           key={evaluation.id}
                           initial={{ opacity: 0, x: -20 }}
@@ -600,8 +597,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                             </div>
                           </div>
                         </motion.div>
-                      ));
-                    })()
+                    ))
                   )}
                 </div>
               </CardContent>

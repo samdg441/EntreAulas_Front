@@ -185,9 +185,6 @@ export default function ProfilePage() {
                     {roles.length > 0 && (
                       <section>
                         <h2 className="text-lg font-semibold text-gray-900">Roles</h2>
-                        <p className="text-sm text-gray-500 mt-1">
-                          El rol resaltado es con el que iniciaste esta sesión.
-                        </p>
                         <ul className="mt-4 flex flex-wrap gap-2">
                           {roles.map((rol) => {
                             const esSesion = rol.toLowerCase() === rolSesion
