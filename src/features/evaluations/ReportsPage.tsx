@@ -1,4 +1,36 @@
 import { useState, useEffect, useRef } from 'react';
+
+function etiquetaRadar({ x, y, cx, cy, payload }: any) {
+  const texto = String(payload?.value || '');
+  const palabras = texto.split(' ');
+  const lineas: string[] = [];
+  let actual = '';
+  palabras.forEach((palabra) => {
+    const siguiente = actual ? `${actual} ${palabra}` : palabra;
+    if (siguiente.length > 16 && actual) {
+      lineas.push(actual);
+      actual = palabra;
+    } else {
+      actual = siguiente;
+    }
+  });
+  if (actual) lineas.push(actual);
+
+  const dx = Number(x) - Number(cx);
+  const ancla = Math.abs(dx) < 16 ? 'middle' : dx > 0 ? 'start' : 'end';
+  const desplazamiento = ancla === 'start' ? 10 : ancla === 'end' ? -10 : 0;
+  const yInicial = Number(y) - (lineas.length - 1) * 8;
+
+  return (
+    <text textAnchor={ancla} fill="#374151" fontSize={14}>
+      {lineas.map((linea, indice) => (
+        <tspan key={`${linea}-${indice}`} x={Number(x) + desplazamiento} y={yInicial + indice * 16}>
+          {linea}
+        </tspan>
+      ))}
+    </text>
+  );
+}
 import { fetchTeacherHistoricalStats, fetchTeacherId, fetchTeacherPeriodStats, fetchTeacherPeriodCategoryStats } from '../../api/teachers';
 import { esPeriodoValido, rangoFechasPeriodo } from '../../lib/calificaciones'
 import { motion } from 'framer-motion';
@@ -656,30 +688,36 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                 </CardHeader>
                 <CardContent>
                   {loadingStats ? (
-                    <div className="flex items-center justify-center h-[400px] text-gray-500">
+                    <div className="flex items-center justify-center h-[380px] text-gray-500">
                       <div className="text-center">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600 mx-auto mb-2"></div>
                         <p>Cargando datos...</p>
                       </div>
                     </div>
                   ) : radarData.length > 0 ? (
-                    <ResponsiveContainer width="100%" height={400}>
-                      <RadarChart data={radarData}>
+                    <ResponsiveContainer width="100%" height={380} className="overflow-visible">
+                      <RadarChart
+                        data={radarData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius="74%"
+                        margin={{ top: 40, right: 88, bottom: 32, left: 88 }}
+                      >
                         <PolarGrid />
-                        <PolarAngleAxis dataKey="subject" />
-                        <PolarRadiusAxis domain={[0, 5]} />
+                        <PolarAngleAxis dataKey="subject" tick={etiquetaRadar} />
+                        <PolarRadiusAxis domain={[0, 5]} tick={{ fontSize: 13, fill: '#9CA3AF' }} />
                         <Radar
                           name="Calificación"
                           dataKey="A"
                           stroke="#E30613"
                           fill="#E30613"
                           fillOpacity={0.3}
-                          strokeWidth={2}
+                          strokeWidth={3}
                         />
                       </RadarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="flex items-center justify-center h-[400px] text-gray-500">
+                    <div className="flex items-center justify-center h-[380px] text-gray-500">
                       <div className="text-center">
                         <div className="text-4xl mb-2">📊</div>
                         <p>No hay datos disponibles</p>
@@ -706,14 +744,14 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                 </CardHeader>
                 <CardContent>
                   {loadingStats ? (
-                    <div className="flex items-center justify-center h-[400px] text-gray-500">
+                    <div className="flex items-center justify-center h-[380px] text-gray-500">
                       <div className="text-center">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600 mx-auto mb-2"></div>
                         <p>Cargando datos...</p>
                       </div>
                     </div>
                   ) : (
-                    <ResponsiveContainer width="100%" height={400}>
+                    <ResponsiveContainer width="100%" height={380}>
                       <PieChart>
                         <Pie
                           data={distributionData}
