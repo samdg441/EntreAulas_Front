@@ -65,11 +65,16 @@ export async function fetchTeacherPeriodStats(period: string): Promise<any> {
 }
 
 // Nuevo: promedios por categoría del período (opcionalmente por curso)
-export async function fetchTeacherPeriodCategoryStats(period: string, courseId?: string | number): Promise<Array<{ categoriaId: number; nombre: string; promedio: number }>> {
+export async function fetchTeacherPeriodCategoryStats(
+  period: string,
+  courseId?: string | number,
+  grupoId?: string | number
+): Promise<Array<{ categoriaId: number; nombre: string; promedio: number }>> {
   try {
     const params = new URLSearchParams()
     if (period) params.set('period', String(period))
     if (courseId != null) params.set('courseId', String(courseId))
+    if (grupoId != null) params.set('grupoId', String(grupoId))
     const url = `/api/teachers/period-category-stats?${params.toString()}`
     const response = await apiClient.get(url)
     return response.data || []
