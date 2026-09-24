@@ -17,15 +17,22 @@ export interface PasswordResetResponse {
   data?: unknown
 }
 
-// Función para solicitar reset de contraseña
-export async function requestPasswordReset(data: ForgotPasswordRequest): Promise<PasswordResetResponse> {
+function extractErrorMessage(error: unknown, fallback: string): string {
+  const err = error as { response?: { data?: { error?: string; message?: string } } }
+  return err.response?.data?.error || err.response?.data?.message || fallback
+}
+
+export async function requestPasswordReset(
+  data: ForgotPasswordRequest
+): Promise<PasswordResetResponse> {
   try {
     const response = await apiClient.post('/api/auth/forgot-password', data)
 
     return {
       success: true,
-      message: 'Se ha enviado un enlace de recuperación a tu correo electrónico',
-      data: response.data
+      message:
+        response.data?.message ||
+        'Si el correo electrónico existe en nuestro sistema, recibirás un enlace de recuperación',
     }
   } catch (error: unknown) {
     return {
@@ -35,15 +42,14 @@ export async function requestPasswordReset(data: ForgotPasswordRequest): Promise
   }
 }
 
-// Función para resetear la contraseña
-export async function resetPassword(data: ResetPasswordRequest): Promise<PasswordResetResponse> {
+export async function resetPassword(
+  data: ResetPasswordRequest
+): Promise<PasswordResetResponse> {
   try {
     const response = await apiClient.post('/api/auth/reset-password', data)
-
     return {
       success: true,
-      message: 'Tu contraseña ha sido actualizada exitosamente',
-      data: response.data
+      message: response.data?.message || 'Tu contraseña ha sido actualizada exitosamente',
     }
   } catch (error: unknown) {
     return {
@@ -53,18 +59,18 @@ export async function resetPassword(data: ResetPasswordRequest): Promise<Passwor
   }
 }
 
-// Función para validar token de reset
-export async function validateResetToken(token: string, email: string): Promise<PasswordResetResponse> {
+export async function validateResetToken(
+  token: string,
+  email: string
+): Promise<PasswordResetResponse> {
   try {
     const response = await apiClient.get(
       `/api/auth/validate-reset-token/${encodeURIComponent(token)}`,
       { params: { email } }
     )
-
     return {
       success: true,
-      message: 'Token válido',
-      data: response.data
+      message: response.data?.message || 'Token válido',
     }
   } catch (error: unknown) {
     return {

@@ -1,4 +1,36 @@
 import { useState, useEffect, useRef } from 'react';
+
+function etiquetaRadar({ x, y, cx, cy, payload }: any) {
+  const texto = String(payload?.value || '');
+  const palabras = texto.split(' ');
+  const lineas: string[] = [];
+  let actual = '';
+  palabras.forEach((palabra) => {
+    const siguiente = actual ? `${actual} ${palabra}` : palabra;
+    if (siguiente.length > 16 && actual) {
+      lineas.push(actual);
+      actual = palabra;
+    } else {
+      actual = siguiente;
+    }
+  });
+  if (actual) lineas.push(actual);
+
+  const dx = Number(x) - Number(cx);
+  const ancla = Math.abs(dx) < 16 ? 'middle' : dx > 0 ? 'start' : 'end';
+  const desplazamiento = ancla === 'start' ? 10 : ancla === 'end' ? -10 : 0;
+  const yInicial = Number(y) - (lineas.length - 1) * 8;
+
+  return (
+    <text textAnchor={ancla} fill="#374151" fontSize={14}>
+      {lineas.map((linea, indice) => (
+        <tspan key={`${linea}-${indice}`} x={Number(x) + desplazamiento} y={yInicial + indice * 16}>
+          {linea}
+        </tspan>
+      ))}
+    </text>
+  );
+}
 import { fetchTeacherHistoricalStats, fetchTeacherId, fetchTeacherPeriodStats, fetchTeacherPeriodCategoryStats } from '../../api/teachers';
 import { esPeriodoValido, rangoFechasPeriodo } from '../../lib/calificaciones'
 import { motion } from 'framer-motion';
@@ -59,6 +91,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
   const reportRef = useRef<HTMLDivElement | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState('2026-1');
   const [selectedCourse, setSelectedCourse] = useState('all');
+  const [selectedGroup, setSelectedGroup] = useState('all');
   const [teacherId, setTeacherId] = useState<string>('');
   const [teacherStats, setTeacherStats] = useState<any>(null); // histórico o base si no hay histórico
   const [baseTeacherStats, setBaseTeacherStats] = useState<any>(null); // SIEMPRE: stats globales del profesor
@@ -67,43 +100,31 @@ export default function ReportsPage({ user }: ReportsPageProps) {
   const [statsError, setStatsError] = useState<string | null>(null);
   const [historicalData, setHistoricalData] = useState<any[]>([]);
 
-  // Cargar estadísticas del profesor (cards = base stats; gráficas: histórico con fallback)
   useEffect(() => {
     const loadTeacherStats = async () => {
-      if (!user?.id) {
-        setLoadingStats(false);
+      if (!user?.id || user.type === 'coordinator') {
+        if (!user?.id) setLoadingStats(false);
         return;
       }
 
       try {
         setLoadingStats(true);
         setStatsError(null);
-        if (user.type === 'coordinator') {
-          const coordinatorData = await fetchCoordinatorReportsOverview(selectedPeriod);
-          setCoordinatorOverview(coordinatorData);
-          setTeacherStats(null);
-          setBaseTeacherStats(null);
-          setTeacherId('');
+        const tId = await fetchTeacherId();
+        setTeacherId(tId);
+
+        const [historical, baseStats] = await Promise.all([
+          fetchTeacherHistoricalStats(tId, selectedPeriod),
+          fetchTeacherPeriodStats(selectedPeriod)
+        ]);
+
+        setBaseTeacherStats(baseStats);
+        setCoordinatorOverview(null);
+
+        if (!historical || (historical.totalEvaluaciones ?? 0) === 0) {
+          setTeacherStats(baseStats);
         } else {
-          // Obtener el ID real del profesor desde el backend
-          const tId = await fetchTeacherId();
-          setTeacherId(tId);
-
-          // Cargar en paralelo: histórico y stats base
-          const [historical, baseStats] = await Promise.all([
-            fetchTeacherHistoricalStats(tId, selectedPeriod),
-            fetchTeacherPeriodStats(selectedPeriod)
-          ]);
-
-          setBaseTeacherStats(baseStats);
-          setCoordinatorOverview(null);
-
-          // Gráficas: usar histórico si hay datos, si no usar base
-          if (!historical || (historical.totalEvaluaciones ?? 0) === 0) {
-            setTeacherStats(baseStats);
-          } else {
-            setTeacherStats(historical);
-          }
+          setTeacherStats(historical);
         }
       } catch (error) {
         console.error('❌ Error loading teacher stats for reports:', error);
@@ -114,7 +135,33 @@ export default function ReportsPage({ user }: ReportsPageProps) {
     };
 
     loadTeacherStats();
-  }, [user?.id, selectedPeriod]);
+  }, [user?.id, user.type, selectedPeriod]);
+
+  useEffect(() => {
+    const loadCoordinator = async () => {
+      if (!user?.id || user.type !== 'coordinator') return;
+      try {
+        setLoadingStats(true);
+        setStatsError(null);
+        const coordinatorData = await fetchCoordinatorReportsOverview(
+          selectedPeriod,
+          selectedCourse,
+          selectedGroup
+        );
+        setCoordinatorOverview(coordinatorData);
+        setTeacherStats(null);
+        setBaseTeacherStats(null);
+        setTeacherId('');
+      } catch (error) {
+        console.error('❌ Error loading coordinator reports:', error);
+        setStatsError('Error al cargar las estadísticas');
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+
+    loadCoordinator();
+  }, [user?.id, user.type, selectedPeriod, selectedCourse, selectedGroup]);
 
   // Cargar datos históricos para la gráfica de tendencia
   useEffect(() => {
@@ -152,12 +199,6 @@ export default function ReportsPage({ user }: ReportsPageProps) {
     loadHistoricalData();
   }, [teacherId, user.type]);
 
-  // Función para manejar cambio de período
-  const handlePeriodChange = (newPeriod: string) => {
-    setSelectedPeriod(newPeriod);
-  };
-
-  // Datos reales para barras por categoría: usar SIEMPRE stats base
   const [categoryStats, setCategoryStats] = useState<any[]>([]);
 
   // Cargar promedios por categoría del período (y curso si aplica)
@@ -168,14 +209,18 @@ export default function ReportsPage({ user }: ReportsPageProps) {
         return;
       }
       try {
-        const data = await fetchTeacherPeriodCategoryStats(selectedPeriod, selectedCourse !== 'all' ? selectedCourse : undefined);
+        const data = await fetchTeacherPeriodCategoryStats(
+          selectedPeriod,
+          selectedCourse !== 'all' ? selectedCourse : undefined,
+          selectedGroup !== 'all' ? selectedGroup : undefined
+        );
         setCategoryStats(Array.isArray(data) ? data : []);
       } catch {
         setCategoryStats([]);
       }
     };
     loadCategory();
-  }, [selectedPeriod, selectedCourse, user.type, coordinatorOverview]);
+  }, [selectedPeriod, selectedCourse, selectedGroup, user.type, coordinatorOverview]);
 
   const realCategoryData = categoryStats.length > 0
     ? categoryStats.map((c: any) => ({ category: c.nombre, rating: c.promedio }))
@@ -213,7 +258,15 @@ export default function ReportsPage({ user }: ReportsPageProps) {
       { name: '2 Estrellas', value: 0, color: '#EF4444' },
       { name: '1 Estrella', value: 0, color: '#6B7280' }
     ]
-    ;(baseTeacherStats?.evaluacionesPorCurso || []).forEach((curso: any) => {
+    const filasDistribucion = selectedGroup !== 'all'
+      ? (baseTeacherStats?.evaluacionesPorGrupo || []).filter((grupo: any) => String(grupo.grupo_id) === String(selectedGroup))
+      : selectedCourse !== 'all'
+        ? (baseTeacherStats?.evaluacionesPorGrupo || []).filter((grupo: any) => String(grupo.curso_id) === String(selectedCourse))
+        : (baseTeacherStats?.evaluacionesPorCurso || [])
+    const fuenteDistribucion = filasDistribucion.length > 0 || selectedCourse === 'all'
+      ? filasDistribucion
+      : (baseTeacherStats?.evaluacionesPorCurso || []).filter((curso: any) => String(curso.curso_id) === String(selectedCourse))
+    fuenteDistribucion.forEach((curso: any) => {
       const total = Number(curso?.total || 0)
       const promedio = Number(curso?.promedio || 0)
       if (total <= 0) return
@@ -249,19 +302,53 @@ export default function ReportsPage({ user }: ReportsPageProps) {
   const prevTrend = trendData.find((t: any) => t.period === previousPeriod)?.rating || 0
   const improvement = prevTrend > 0 ? Number((((currentTrend - prevTrend) / prevTrend) * 100).toFixed(1)) : 0
 
+  const cursoDocente = (baseTeacherStats?.evaluacionesPorCurso || []).find(
+    (curso: any) => String(curso.curso_id) === String(selectedCourse)
+  );
+  const grupoDocente = (baseTeacherStats?.evaluacionesPorGrupo || []).find(
+    (grupo: any) => String(grupo.grupo_id) === String(selectedGroup)
+  );
+  const cursosDisponibles = user.type === 'coordinator'
+    ? (coordinatorOverview?.courseAverages || []).map((curso: any) => ({
+        id: String(curso.cursoId),
+        nombre: curso.nombre,
+      }))
+    : (baseTeacherStats?.evaluacionesPorCurso || []).map((curso: any) => ({
+        id: String(curso.curso_id),
+        nombre: `${curso.codigo || 'CURSO'} - ${curso.nombre}`,
+      }));
+  const gruposDisponibles = (user.type === 'coordinator'
+    ? (coordinatorOverview?.grupos || [])
+    : (baseTeacherStats?.evaluacionesPorGrupo || [])
+  ).filter((grupo: any) => String(grupo.cursoId ?? grupo.curso_id) === String(selectedCourse));
+
   const summaryStats = {
     totalEvaluations: user.type === 'coordinator'
       ? (coordinatorOverview?.summary?.totalEvaluaciones || 0)
-      : (baseTeacherStats?.totalEvaluaciones || 0),
+      : selectedGroup !== 'all' && grupoDocente
+        ? grupoDocente.total
+        : selectedCourse !== 'all' && cursoDocente
+          ? cursoDocente.total
+          : (baseTeacherStats?.totalEvaluaciones || 0),
     averageRating: user.type === 'coordinator'
       ? (coordinatorOverview?.summary?.calificacionPromedio || 0)
-      : (baseTeacherStats?.calificacionPromedio || 0),
+      : selectedGroup !== 'all' && grupoDocente
+        ? grupoDocente.promedio
+        : selectedCourse !== 'all' && cursoDocente
+          ? cursoDocente.promedio
+          : (baseTeacherStats?.calificacionPromedio || 0),
     responseRate: Number(
       user.type === 'coordinator'
         ? (coordinatorOverview?.summary?.tasaRespuesta || 0)
         : (baseTeacherStats?.tasaRespuesta || 0)
     ),
     improvement
+  };
+
+  const limpiarFiltros = () => {
+    setSelectedPeriod('2026-1');
+    setSelectedCourse('all');
+    setSelectedGroup('all');
   };
 
   return (
@@ -312,10 +399,14 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                 </div>
               </div>
               
-               <div className="flex items-center gap-3">
+               <div className="flex flex-wrap items-center justify-end gap-3">
                  <select 
                    value={selectedPeriod} 
-                   onChange={(e) => handlePeriodChange(e.target.value)}
+                   onChange={(e) => {
+                     setSelectedPeriod(e.target.value);
+                     setSelectedCourse('all');
+                     setSelectedGroup('all');
+                   }}
                    className="w-32 rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                  >
                    <option value="2026-1">2026-1</option>
@@ -328,40 +419,44 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                    <option value="2023-1">2023-1</option>
                  </select>
                  
-                 {user.type === 'teacher' && (
-                   <select 
-                     value={selectedCourse} 
-                     onChange={(e) => setSelectedCourse(e.target.value)}
-                     className="w-56 rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
+                 <select 
+                   value={selectedCourse} 
+                   onChange={(e) => {
+                     setSelectedCourse(e.target.value);
+                     setSelectedGroup('all');
+                   }}
+                   className="w-56 rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
+                 >
+                   <option value="all">Todas las materias</option>
+                   {cursosDisponibles.map((curso) => (
+                     <option key={curso.id} value={curso.id}>
+                       {curso.nombre}
+                     </option>
+                   ))}
+                 </select>
+
+                 {selectedCourse !== 'all' && (
+                   <select
+                     value={selectedGroup}
+                     onChange={(e) => setSelectedGroup(e.target.value)}
+                     className="w-44 rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                    >
-                     <option value="all">Todas las materias</option>
-                     {(baseTeacherStats?.evaluacionesPorCurso || []).map((curso: any) => (
-                       <option key={curso.curso_id} value={curso.curso_id}>
-                         {(curso.codigo || 'CURSO')} - {curso.nombre}
-                       </option>
-                     ))}
+                     <option value="all">Todos los grupos</option>
+                     {gruposDisponibles.map((grupo: any) => {
+                       const id = String(grupo.grupoId ?? grupo.grupo_id);
+                       const numero = grupo.numeroGrupo ?? grupo.numero_grupo ?? id;
+                       return (
+                         <option key={id} value={id}>
+                           Grupo {numero}
+                         </option>
+                       );
+                     })}
                    </select>
                  )}
-                 
-                {/* Selector de curso disponible también para profesores */}
-                {teacherStats?.evaluacionesPorCurso && (
-                  <select 
-                    value={selectedCourse} 
-                    onChange={(e) => setSelectedCourse(e.target.value)}
-                    className="w-48 rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
-                  >
-                    <option value="all">Todos los cursos</option>
-                    {teacherStats.evaluacionesPorCurso.length > 0 ? (
-                      teacherStats.evaluacionesPorCurso.map((curso: any) => (
-                        <option key={curso.curso_id} value={curso.curso_id}>
-                          {curso.nombre}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>No hay cursos disponibles</option>
-                    )}
-                  </select>
-                )}
+
+                 <Button variant="outline" size="sm" onClick={limpiarFiltros}>
+                   Limpiar filtros
+                 </Button>
                  
                  <Button variant="outline" size="sm" onClick={async () => {
                    if (reportRef.current) {
@@ -465,7 +560,9 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                      <div className="text-4xl font-bold text-green-600 mb-2">
                        {user.type === 'coordinator'
                          ? (coordinatorOverview?.summary?.docentesEvaluados || 0)
-                         : (teacherStats?.totalCursos || 0)}
+                         : selectedCourse !== 'all'
+                           ? 1
+                           : (teacherStats?.totalCursos || 0)}
                      </div>
                    )}
                    <p className="text-sm text-gray-600">
@@ -591,30 +688,36 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                 </CardHeader>
                 <CardContent>
                   {loadingStats ? (
-                    <div className="flex items-center justify-center h-[400px] text-gray-500">
+                    <div className="flex items-center justify-center h-[380px] text-gray-500">
                       <div className="text-center">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600 mx-auto mb-2"></div>
                         <p>Cargando datos...</p>
                       </div>
                     </div>
                   ) : radarData.length > 0 ? (
-                    <ResponsiveContainer width="100%" height={400}>
-                      <RadarChart data={radarData}>
+                    <ResponsiveContainer width="100%" height={380} className="overflow-visible">
+                      <RadarChart
+                        data={radarData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius="74%"
+                        margin={{ top: 40, right: 88, bottom: 32, left: 88 }}
+                      >
                         <PolarGrid />
-                        <PolarAngleAxis dataKey="subject" />
-                        <PolarRadiusAxis domain={[0, 5]} />
+                        <PolarAngleAxis dataKey="subject" tick={etiquetaRadar} />
+                        <PolarRadiusAxis domain={[0, 5]} tick={{ fontSize: 13, fill: '#9CA3AF' }} />
                         <Radar
                           name="Calificación"
                           dataKey="A"
                           stroke="#E30613"
                           fill="#E30613"
                           fillOpacity={0.3}
-                          strokeWidth={2}
+                          strokeWidth={3}
                         />
                       </RadarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="flex items-center justify-center h-[400px] text-gray-500">
+                    <div className="flex items-center justify-center h-[380px] text-gray-500">
                       <div className="text-center">
                         <div className="text-4xl mb-2">📊</div>
                         <p>No hay datos disponibles</p>
@@ -641,14 +744,14 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                 </CardHeader>
                 <CardContent>
                   {loadingStats ? (
-                    <div className="flex items-center justify-center h-[400px] text-gray-500">
+                    <div className="flex items-center justify-center h-[380px] text-gray-500">
                       <div className="text-center">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600 mx-auto mb-2"></div>
                         <p>Cargando datos...</p>
                       </div>
                     </div>
                   ) : (
-                    <ResponsiveContainer width="100%" height={400}>
+                    <ResponsiveContainer width="100%" height={380}>
                       <PieChart>
                         <Pie
                           data={distributionData}

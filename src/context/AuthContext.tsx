@@ -5,6 +5,7 @@ import {
   usuarioTieneRol,
 } from '../features/auth/dashboard-path'
 import { RoleMismatchError } from '../features/auth/errors'
+import { getRoleLabel, resolverRolDeIngreso, rolesDeLaRespuesta } from '../features/auth/login-flow'
 import { authStorage } from '../lib/storage'
 
 export interface User {
@@ -65,45 +66,38 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(false)
   }, [])
 
+  const guardarSesion = (sesion: AuthResponse) => {
+    authStorage.setToken(sesion.token)
+    authStorage.setUser(sesion.user)
+    setUser(sesion.user)
+  }
+
   const login = async (email: string, password: string, expectedUserType?: string): Promise<AuthResponse | void> => {
     const response: AuthResponse = await authApi.login({ email, password })
+    const rolesDisponibles = rolesDeLaRespuesta(response)
 
-    // Verificar que el usuario tiene el rol apropiado (si se especifica)
     if (expectedUserType) {
-      const actualUserType = response.user.tipo_usuario
-      const userRoles = response.user.roles || []
+      const rolElegido = resolverRolDeIngreso(expectedUserType, rolesDisponibles)
 
-      // Mapear tipos de frontend a backend
-      const typeMapping: { [key: string]: string[] } = {
-        'student': ['estudiante'],
-        'teacher': ['profesor', 'docente'],
-        'coordinator': ['coordinador'],
-        'decano': ['decano'],
-        'admin': ['admin']
-      }
-
-      const expectedRoles = typeMapping[expectedUserType] || []
-      const hasExpectedRole = expectedRoles.some(role =>
-        role === actualUserType || userRoles.includes(role)
-      )
-
-      if (!hasExpectedRole) {
+      if (!rolElegido) {
+        const etiquetas = rolesDisponibles.map(getRoleLabel)
+        const lista = etiquetas.length ? etiquetas.join(' o ') : 'el tipo que corresponde a tu cuenta'
         throw new RoleMismatchError(
-          `El tipo de usuario seleccionado (${expectedUserType}) no coincide con los roles del usuario en el sistema (${actualUserType}, roles: ${userRoles.join(', ')})`
+          `El tipo de usuario seleccionado no coincide con tu cuenta. Por favor, selecciona ${lista} e intenta de nuevo.`
         )
       }
-    }
 
-    // Si la respuesta indica que se requiere selección de rol, devolver la respuesta
-    if (response.requires_role_selection) {
+      // La cuenta tiene varios roles, pero el tipo del formulario ya define la sesión.
+      if (response.requires_role_selection) {
+        const sesion = await authApi.loginWithRole({ email, password, selectedRole: rolElegido })
+        guardarSesion(sesion)
+        return sesion
+      }
+    } else if (response.requires_role_selection) {
       return response
     }
 
-    // Guardar token y usuario (incluye coordinador.carrera_id si viene)
-    authStorage.setToken(response.token)
-    authStorage.setUser(response.user)
-
-    setUser(response.user)
+    guardarSesion(response)
     return response
   }
 

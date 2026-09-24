@@ -51,6 +51,12 @@ export interface CoordinatorReportsOverviewResponse {
     promedio: number
     totalEvaluaciones: number
   }>
+  grupos?: Array<{
+    grupoId: number
+    cursoId: number
+    numeroGrupo: number
+    cursoNombre: string
+  }>
   reportRows: Array<Record<string, string | number | null>>
   trend: Array<{
     period: string
@@ -90,10 +96,16 @@ export async function fetchCoordinatorDashboardSummary(params?: {
   }
 }
 
-export async function fetchCoordinatorReportsOverview(period: string): Promise<CoordinatorReportsOverviewResponse> {
+export async function fetchCoordinatorReportsOverview(
+  period: string,
+  courseId?: string,
+  grupoId?: string
+): Promise<CoordinatorReportsOverviewResponse> {
   try {
     const query = new URLSearchParams()
     if (period) query.set('period', String(period))
+    if (courseId && courseId !== 'all') query.set('courseId', courseId)
+    if (grupoId && grupoId !== 'all') query.set('grupoId', grupoId)
     const url = `/api/coordinador/reports-overview${query.toString() ? `?${query.toString()}` : ''}`
     const response = await apiClient.get(url)
     return response.data
