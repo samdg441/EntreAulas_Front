@@ -143,17 +143,17 @@ export default function AdminSurveysPage() {
       <div className="relative z-10">
         <Header user={headerUser} title="Encuestas" subtitle="Crear y gestionar preguntas" />
 
-        <main className="max-w-6xl mx-auto p-6 space-y-6">
-          <Card className="bg-white shadow-md border border-gray-200 p-6">
+        <main className="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8 lg:space-y-10">
+          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
             <CardHeader className="pb-4">
-              <Link to="/dashboard-admin" className="text-sm text-red-600 hover:underline">
+              <Link to="/dashboard-admin" className="text-sm lg:text-base text-red-600 hover:underline">
                 ← Volver al panel
               </Link>
-              <CardTitle className="text-2xl text-gray-900 mt-1 flex items-center gap-2">
-                <ClipboardPlus className="h-6 w-6 text-red-600" />
+              <CardTitle className="text-2xl lg:text-3xl text-gray-900 mt-1 flex items-center gap-2">
+                <ClipboardPlus className="h-6 w-6 lg:h-8 lg:w-8 text-red-600" />
                 Agregar encuesta / pregunta
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-base lg:text-lg">
                 Amplía el banco de preguntas más allá de la evaluación temprana. Puedes asociarlas
                 a una carrera o dejarlas generales.
               </CardDescription>
@@ -170,11 +170,11 @@ export default function AdminSurveysPage() {
                 </p>
               )}
 
-              <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+                  <label className="block text-sm lg:text-base font-medium text-gray-700 mb-1">Categoría</label>
                   <select
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                     value={form.categoria_id || ''}
                     onChange={(e) =>
                       setForm({ ...form, categoria_id: Number(e.target.value) })
@@ -192,9 +192,9 @@ export default function AdminSurveysPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                  <label className="block text-sm lg:text-base font-medium text-gray-700 mb-1">Tipo</label>
                   <select
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                     value={form.tipo_pregunta}
                     onChange={(e) => setForm({ ...form, tipo_pregunta: e.target.value })}
                   >
@@ -221,11 +221,11 @@ export default function AdminSurveysPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm lg:text-base font-medium text-gray-700 mb-1">
                     Carrera (opcional)
                   </label>
                   <select
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                     value={form.id_carrera ?? ''}
                     onChange={(e) =>
                       setForm({
@@ -252,7 +252,7 @@ export default function AdminSurveysPage() {
                     required
                   />
                 </div>
-                <label className="flex items-center gap-2 text-sm text-gray-700 md:col-span-2">
+                <label className="flex items-center gap-2 text-sm lg:text-base text-gray-700 md:col-span-2">
                   <input
                     type="checkbox"
                     checked={!!form.obligatoria}
@@ -261,7 +261,7 @@ export default function AdminSurveysPage() {
                   Pregunta obligatoria
                 </label>
                 <div className="md:col-span-2 flex justify-end">
-                  <Button type="submit" disabled={saving || loading}>
+                  <Button type="submit" disabled={saving || loading} className="lg:h-12 lg:px-6 lg:text-base">
                     {saving ? 'Guardando…' : 'Agregar pregunta'}
                   </Button>
                 </div>
@@ -269,35 +269,35 @@ export default function AdminSurveysPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-md border border-gray-200 p-6">
+          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
             <CardHeader className="pb-3">
-              <CardTitle className="text-xl text-gray-900">Preguntas activas</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-xl lg:text-3xl text-gray-900">Preguntas activas</CardTitle>
+              <CardDescription className="text-base lg:text-lg">
                 {loading ? 'Cargando…' : `${questions.length} pregunta(s) en el banco`}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="rounded-lg border border-gray-200 overflow-hidden">
-                <table className="min-w-full text-sm">
+                <table className="min-w-full text-sm lg:text-base">
                   <thead className="bg-gray-100 text-left text-gray-700">
                     <tr>
-                      <th className="px-4 py-3">Orden</th>
-                      <th className="px-4 py-3">Pregunta</th>
-                      <th className="px-4 py-3">Categoría</th>
-                      <th className="px-4 py-3">Tipo</th>
-                      <th className="px-4 py-3 text-right">Acciones</th>
+                      <th className="px-4 py-3 lg:px-5 lg:py-4">Orden</th>
+                      <th className="px-4 py-3 lg:px-5 lg:py-4">Pregunta</th>
+                      <th className="px-4 py-3 lg:px-5 lg:py-4">Categoría</th>
+                      <th className="px-4 py-3 lg:px-5 lg:py-4">Tipo</th>
+                      <th className="px-4 py-3 lg:px-5 lg:py-4 text-right">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
                     {questions.map((q) => (
                       <tr key={q.id} className="border-t border-gray-100">
-                        <td className="px-4 py-3">{q.orden}</td>
-                        <td className="px-4 py-3">{q.texto_pregunta}</td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-3 lg:px-5 lg:py-4">{q.orden}</td>
+                        <td className="px-4 py-3 lg:px-5 lg:py-4">{q.texto_pregunta}</td>
+                        <td className="px-4 py-3 lg:px-5 lg:py-4">
                           <Badge variant="outline">{q.categoria?.nombre || q.categoria_id}</Badge>
                         </td>
-                        <td className="px-4 py-3 capitalize">{q.tipo_pregunta}</td>
-                        <td className="px-4 py-3 text-right">
+                        <td className="px-4 py-3 lg:px-5 lg:py-4 capitalize">{q.tipo_pregunta}</td>
+                        <td className="px-4 py-3 lg:px-5 lg:py-4 text-right">
                           <Button
                             size="sm"
                             variant="outline"

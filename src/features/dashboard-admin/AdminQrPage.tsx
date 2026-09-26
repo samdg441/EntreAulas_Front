@@ -261,10 +261,10 @@ export default function AdminQrPage() {
             className="h-4 w-4 text-red-600 rounded border-gray-300"
           />
         </td>
-        <td className="px-4 py-2">{curso.cursoNombre}</td>
-        <td className="px-4 py-2">{curso.cursoCodigo}</td>
-        <td className="px-4 py-2">{curso.grupo}</td>
-        <td className="px-4 py-2">{curso.profesorNombre}</td>
+        <td className="px-4 py-3 lg:px-5 lg:py-4">{curso.cursoNombre}</td>
+        <td className="px-4 py-3 lg:px-5 lg:py-4">{curso.cursoCodigo}</td>
+        <td className="px-4 py-3 lg:px-5 lg:py-4">{curso.grupo}</td>
+        <td className="px-4 py-3 lg:px-5 lg:py-4">{curso.profesorNombre}</td>
       </tr>
     ))
   }
@@ -286,14 +286,14 @@ export default function AdminQrPage() {
       <div className="relative z-10">
         <Header user={headerUser} />
 
-        <main className="max-w-[1200px] mx-auto p-6 lg:p-8 space-y-8">
-          <Card className="bg-white shadow-md border border-gray-200 p-6">
+        <main className="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8 lg:space-y-10">
+          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
             <CardHeader className="pb-4">
-              <Link to="/dashboard-admin" className="text-sm text-red-600 hover:underline">
+              <Link to="/dashboard-admin" className="text-sm lg:text-base text-red-600 hover:underline">
                 ← Volver al panel
               </Link>
-              <CardTitle className="text-2xl text-gray-900 mt-1">Generación de QR</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl lg:text-3xl text-gray-900 mt-1">Generación de QR</CardTitle>
+              <CardDescription className="text-base lg:text-lg">
                 Define el período y selecciona los cursos/grupos que tendrán código QR (mismo flujo
                 del coordinador, con alcance por carrera).
               </CardDescription>
@@ -302,12 +302,12 @@ export default function AdminQrPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="admin-qr-carrera" className="block text-sm font-medium text-gray-700 mb-2">Carrera</label>
+                    <label htmlFor="admin-qr-carrera" className="block text-sm lg:text-base font-medium text-gray-700 mb-2">Carrera</label>
                     <select
                       id="admin-qr-carrera"
                       value={careerId}
                       onChange={(e) => setCareerId(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                      className="w-full p-3 lg:p-4 lg:text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     >
                       <option value="">Selecciona una carrera…</option>
                       {careers.map((c) => (
@@ -318,33 +318,33 @@ export default function AdminQrPage() {
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="admin-qr-periodo" className="block text-sm font-medium text-gray-700 mb-2">Período</label>
+                    <label htmlFor="admin-qr-periodo" className="block text-sm lg:text-base font-medium text-gray-700 mb-2">Período</label>
                     <input
                       id="admin-qr-periodo"
                       value={period}
                       onChange={(e) => setPeriod(e.target.value)}
                       placeholder="2026-1"
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                      className="w-full p-3 lg:p-4 lg:text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                   <div>
-                    <label htmlFor="admin-qr-inicio" className="block text-sm font-medium text-gray-700 mb-2">Fecha de inicio</label>
+                    <label htmlFor="admin-qr-inicio" className="block text-sm lg:text-base font-medium text-gray-700 mb-2">Fecha de inicio</label>
                     <input
                       id="admin-qr-inicio"
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                      className="w-full p-3 lg:p-4 lg:text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                   <div>
-                    <label htmlFor="admin-qr-cierre" className="block text-sm font-medium text-gray-700 mb-2">Fecha de cierre</label>
+                    <label htmlFor="admin-qr-cierre" className="block text-sm lg:text-base font-medium text-gray-700 mb-2">Fecha de cierre</label>
                     <input
                       id="admin-qr-cierre"
                       type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                      className="w-full p-3 lg:p-4 lg:text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                 </div>
@@ -352,8 +352,8 @@ export default function AdminQrPage() {
                 <div className="mt-6 space-y-4">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900">Cursos para generar QR</h3>
-                      <p className="text-sm text-gray-600">
+                      <h3 className="text-lg lg:text-2xl font-semibold text-gray-900">Cursos para generar QR</h3>
+                      <p className="text-sm lg:text-base text-gray-600">
                         Marca los cursos/grupos y genera posters descargables.
                       </p>
                     </div>
@@ -383,7 +383,7 @@ export default function AdminQrPage() {
                       value={tableSearch}
                       onChange={(e) => setTableSearch(e.target.value)}
                       placeholder="Buscar por materia, código, grupo o docente..."
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                      className="w-full p-3 lg:p-4 lg:text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     />
                     <div className="text-xs text-gray-500 whitespace-nowrap">
                       Mostrando {filteredCursosTable.length} de {grupos.length}
@@ -393,14 +393,14 @@ export default function AdminQrPage() {
                   {error && <p className="text-sm text-red-600">{error}</p>}
 
                   <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                    <table className="w-full text-sm">
+                    <table className="w-full text-sm lg:text-base">
                       <thead>
                         <tr className="bg-gray-50 text-left">
-                          <th className="px-4 py-3 w-10" />
-                          <th className="px-4 py-3">Curso</th>
-                          <th className="px-4 py-3">Código</th>
-                          <th className="px-4 py-3">Grupo</th>
-                          <th className="px-4 py-3">Docente</th>
+                          <th className="px-4 py-3 lg:px-5 lg:py-4 w-10" />
+                          <th className="px-4 py-3 lg:px-5 lg:py-4">Curso</th>
+                          <th className="px-4 py-3 lg:px-5 lg:py-4">Código</th>
+                          <th className="px-4 py-3 lg:px-5 lg:py-4">Grupo</th>
+                          <th className="px-4 py-3 lg:px-5 lg:py-4">Docente</th>
                         </tr>
                       </thead>
                       <tbody>
