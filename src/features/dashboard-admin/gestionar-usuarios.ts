@@ -108,3 +108,17 @@ export function muestraBotonDesactivar(u: UsuarioLista): boolean {
 export function esAutoDesactivacion(adminId: string, targetId: string): boolean {
   return adminId === targetId
 }
+
+export function dominioCorreoPorTipo(tipo: string): string {
+  return tipo === 'estudiante' ? 'soyudemedellin.edu.co' : 'udemedellin.edu.co'
+}
+
+export function usuarioDeCorreo(valor: string): string {
+  return valor.split('@')[0].replace(/\s/g, '').toLowerCase()
+}
+
+export function armarCorreoInstitucional(usuario: string, tipo: string): string | null {
+  const local = usuarioDeCorreo(usuario)
+  if (!local || !/^[a-z0-9._+-]+$/.test(local)) return null
+  return `${local}@${dominioCorreoPorTipo(tipo)}`
+}

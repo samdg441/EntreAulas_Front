@@ -24,6 +24,9 @@ import {
   aplicarAltaEnLista,
   aplicarCambioEnLista,
   aplicarDesactivarEnLista,
+  armarCorreoInstitucional,
+  dominioCorreoPorTipo,
+  usuarioDeCorreo,
   type UsuarioLista,
 } from './gestionar-usuarios'
 
@@ -72,6 +75,7 @@ export default function AdminUsersPage() {
   const [editForm, setEditForm] = useState<UpdateUserPayload>({})
   const [editingUser, setEditingUser] = useState<UserSummary | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<UserSummary | null>(null)
+  const [correoLocal, setCorreoLocal] = useState('')
 
   const loadUsers = async () => {
     setLoading(true)
@@ -115,6 +119,7 @@ export default function AdminUsersPage() {
 
   const openCreate = () => {
     setCreateForm(emptyCreate)
+    setCorreoLocal('')
     setFormError(null)
     setModalMode('create')
   }
@@ -141,6 +146,11 @@ export default function AdminUsersPage() {
 
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault()
+    const email = armarCorreoInstitucional(correoLocal, createForm.tipo_usuario)
+    if (!email) {
+      setFormError('Escribe solo el usuario del correo, sin @ ni dominio')
+      return
+    }
     const passwordCheck = validatePasswordStrength(createForm.password)
     if (!passwordCheck.valid) {
       setFormError(passwordCheck.message)
@@ -149,14 +159,15 @@ export default function AdminUsersPage() {
     setSaving(true)
     setFormError(null)
     try {
-      const created = (await usersApi.create(createForm)) as { id: string }
+      const created = (await usersApi.create({ ...createForm, email })) as { user?: { id: string }; id?: string }
+      const createdId = created.user?.id || created.id || ''
       const decision = decidirAltaUsuario({ altaOk: true })
       setUsers((prev) =>
         aplicarAltaEnLista(
           prev,
           {
-            id: created.id,
-            email: createForm.email,
+            id: createdId,
+            email,
             nombre: createForm.nombre,
             apellido: createForm.apellido,
             tipo_usuario: createForm.tipo_usuario,
@@ -452,13 +463,25 @@ export default function AdminUsersPage() {
                   onChange={(e) => setCreateForm({ ...createForm, apellido: e.target.value })}
                   required
                 />
-                <Input
-                  label="Email"
-                  type="email"
-                  value={createForm.email}
-                  onChange={(e) => setCreateForm({ ...createForm, email: e.target.value })}
-                  required
-                />
+                <div>
+                  <label htmlFor="correo-institucional" className="block text-sm font-medium text-gray-700 mb-1">
+                    Correo
+                  </label>
+                  <div className="flex items-stretch">
+                    <input
+                      id="correo-institucional"
+                      value={correoLocal}
+                      onChange={(e) => setCorreoLocal(usuarioDeCorreo(e.target.value))}
+                      required
+                      autoComplete="off"
+                      placeholder="usuario"
+                      className="min-w-0 flex-1 border border-gray-300 rounded-l-lg px-3 py-2 lg:py-3 text-sm lg:text-base outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    />
+                    <span className="inline-flex items-center px-3 border border-l-0 border-gray-300 rounded-r-lg bg-gray-100 text-gray-700 text-sm lg:text-base select-none">
+                      @{dominioCorreoPorTipo(createForm.tipo_usuario)}
+                    </span>
+                  </div>
+                </div>
                 <Input
                   label="Contraseña"
                   type="password"
