@@ -134,14 +134,14 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
       <div className="relative z-10">
         <Header user={currentUser} />
 
-        <main className="max-w-6xl mx-auto p-6 lg:p-8 space-y-8">
+        <main className="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8 lg:space-y-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardContent className="space-y-2">
-                <h2 className="text-3xl font-semibold text-gray-900">
+            <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
+              <CardContent className="space-y-3 lg:py-2">
+                <h2 className="text-3xl lg:text-4xl font-semibold text-gray-900">
                   {getGreeting()}, {currentUser.name.split(' ')[0]}
                 </h2>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg lg:text-xl text-gray-600">
                   Panel de administración. Gestiona usuarios, estructura académica, accesos QR y
                   encuestas.
                 </p>
@@ -150,62 +150,62 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
             </Card>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-white shadow-md border border-gray-200 p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-8 lg:min-h-[11.5rem]">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg font-medium text-gray-900">Usuarios</CardTitle>
-                <Users className="h-5 w-5 text-red-600" />
+                <CardTitle className="text-lg lg:text-2xl font-medium text-gray-900">Usuarios</CardTitle>
+                <Users className="h-5 w-5 lg:h-8 lg:w-8 text-red-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-red-600">
+                <div className="text-2xl lg:text-5xl font-bold text-red-600">
                   {loadingStats ? '…' : userCount === null ? '—' : userCount}
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-white shadow-md border border-gray-200 p-6">
+            <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-8 lg:min-h-[11.5rem]">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg font-medium text-gray-900">Facultades</CardTitle>
-                <Building2 className="h-5 w-5 text-gray-700" />
+                <CardTitle className="text-lg lg:text-2xl font-medium text-gray-900">Facultades</CardTitle>
+                <Building2 className="h-5 w-5 lg:h-8 lg:w-8 text-gray-700" />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-gray-800">
+                <div className="text-2xl lg:text-5xl font-bold text-gray-800">
                   {loadingStats ? '…' : facultadCount === null ? '—' : facultadCount}
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-white shadow-md border border-gray-200 p-6">
+            <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-8 lg:min-h-[11.5rem]">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg font-medium text-gray-900">Carreras</CardTitle>
-                <Shield className="h-5 w-5 text-green-600" />
+                <CardTitle className="text-lg lg:text-2xl font-medium text-gray-900">Carreras</CardTitle>
+                <Shield className="h-5 w-5 lg:h-8 lg:w-8 text-green-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-green-600">
+                <div className="text-2xl lg:text-5xl font-bold text-green-600">
                   {loadingStats ? '…' : carreraCount === null ? '—' : carreraCount}
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          <Card className="bg-white shadow-md border border-gray-200 p-6">
+          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
             <CardHeader className="pb-4">
-              <CardTitle className="text-2xl text-gray-900">Módulos administrativos</CardTitle>
-              <CardDescription className="text-base">
+              <CardTitle className="text-2xl lg:text-3xl text-gray-900">Módulos administrativos</CardTitle>
+              <CardDescription className="text-base lg:text-lg">
                 Entornos de vital importancia para la administración del sistema.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 {modules.map((mod) => (
                   <motion.div key={mod.path} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button
                       onClick={() => navigate(mod.path)}
                       variant={mod.variant}
-                      className={`w-full h-auto py-5 flex flex-col items-center gap-3 ${mod.className}`}
+                      className={`w-full h-auto min-h-[9.5rem] lg:min-h-[12.5rem] py-5 lg:py-8 flex flex-col items-center gap-3 ${mod.className}`}
                     >
-                      <mod.icon className="h-8 w-8" />
+                      <mod.icon className="h-8 w-8 lg:h-11 lg:w-11" />
                       <div className="text-center">
-                        <div className="font-medium text-lg">{mod.label}</div>
-                        <div className="text-sm opacity-80">{mod.description}</div>
+                        <div className="font-medium text-lg lg:text-xl">{mod.label}</div>
+                        <div className="text-sm lg:text-base opacity-80">{mod.description}</div>
                       </div>
                     </Button>
                   </motion.div>
@@ -214,21 +214,21 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-md border border-gray-200 p-6">
+          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
             <CardHeader className="pb-3">
               <div className="flex items-center gap-2">
-                <UserIcon className="h-5 w-5 text-gray-700" />
-                <CardTitle className="text-xl text-gray-900">Sesión actual</CardTitle>
+                <UserIcon className="h-5 w-5 lg:h-7 lg:w-7 text-gray-700" />
+                <CardTitle className="text-xl lg:text-3xl text-gray-900">Sesión actual</CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <p className="font-medium text-gray-900">{currentUser.name}</p>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Mail className="h-4 w-4" />
+            <CardContent className="space-y-3">
+              <p className="font-medium text-gray-900 lg:text-xl">{currentUser.name}</p>
+              <div className="flex items-center gap-2 text-sm lg:text-lg text-gray-600">
+                <Mail className="h-4 w-4 lg:h-5 lg:w-5" />
                 {currentUser.email}
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Shield className="h-4 w-4" />
+              <div className="flex items-center gap-2 text-sm lg:text-lg text-gray-600">
+                <Shield className="h-4 w-4 lg:h-5 lg:w-5" />
                 Rol: administrador
               </div>
             </CardContent>
