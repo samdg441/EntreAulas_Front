@@ -214,25 +214,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-2">
-                <UserIcon className="h-5 w-5 lg:h-7 lg:w-7 text-gray-700" />
-                <CardTitle className="text-xl lg:text-3xl text-gray-900">Sesión actual</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="font-medium text-gray-900 lg:text-xl">{currentUser.name}</p>
-              <div className="flex items-center gap-2 text-sm lg:text-lg text-gray-600">
-                <Mail className="h-4 w-4 lg:h-5 lg:w-5" />
-                {currentUser.email}
-              </div>
-              <div className="flex items-center gap-2 text-sm lg:text-lg text-gray-600">
-                <Shield className="h-4 w-4 lg:h-5 lg:w-5" />
-                Rol: administrador
-              </div>
-            </CardContent>
-          </Card>
+
         </main>
       </div>
     </div>
