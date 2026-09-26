@@ -7,6 +7,7 @@ export interface UserSummary {
   apellido: string
   tipo_usuario: string
   activo: boolean
+  roles?: string[]
   created_at?: string
 }
 
@@ -30,6 +31,7 @@ export interface UpdateUserPayload {
   tipo_usuario?: string
   activo?: boolean
   password?: string
+  roles?: string[]
 }
 
 export interface FacultadConCarreras {

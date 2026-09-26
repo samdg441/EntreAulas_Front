@@ -24,6 +24,11 @@ import {
   aplicarAltaEnLista,
   aplicarCambioEnLista,
   aplicarDesactivarEnLista,
+  armarCorreoInstitucional,
+  dominioCorreoPorRoles,
+  dominioCorreoPorTipo,
+  rolesDelUsuario,
+  usuarioDeCorreo,
   type UsuarioLista,
 } from './gestionar-usuarios'
 
@@ -72,6 +77,8 @@ export default function AdminUsersPage() {
   const [editForm, setEditForm] = useState<UpdateUserPayload>({})
   const [editingUser, setEditingUser] = useState<UserSummary | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<UserSummary | null>(null)
+  const [correoLocal, setCorreoLocal] = useState('')
+  const [rolesEdicion, setRolesEdicion] = useState<string[]>([])
 
   const loadUsers = async () => {
     setLoading(true)
@@ -101,11 +108,11 @@ export default function AdminUsersPage() {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
     return users.filter((u) => {
-      if (roleFilter !== 'all' && u.tipo_usuario !== roleFilter) return false
+      if (roleFilter !== 'all' && !rolesDelUsuario(u).includes(roleFilter)) return false
       if (statusFilter === 'activo' && !u.activo) return false
       if (statusFilter === 'inactivo' && u.activo) return false
       if (!q) return true
-      return `${u.email} ${u.nombre} ${u.apellido} ${u.tipo_usuario}`.toLowerCase().includes(q)
+      return `${u.email} ${u.nombre} ${u.apellido} ${rolesDelUsuario(u).join(' ')}`.toLowerCase().includes(q)
     })
   }, [users, search, roleFilter, statusFilter])
 
@@ -115,12 +122,16 @@ export default function AdminUsersPage() {
 
   const openCreate = () => {
     setCreateForm(emptyCreate)
+    setCorreoLocal('')
     setFormError(null)
     setModalMode('create')
   }
 
   const openEdit = (u: UserSummary) => {
+    const roles = rolesDelUsuario(u)
     setEditingUser(u)
+    setRolesEdicion(roles)
+    setCorreoLocal(usuarioDeCorreo(u.email))
     setEditForm({
       email: u.email,
       nombre: u.nombre,
@@ -133,6 +144,12 @@ export default function AdminUsersPage() {
     setModalMode('edit')
   }
 
+  const alternarRol = (rol: string) => {
+    setRolesEdicion((actuales) =>
+      actuales.includes(rol) ? actuales.filter((item) => item !== rol) : [...actuales, rol]
+    )
+  }
+
   const closeModal = () => {
     setModalMode(null)
     setEditingUser(null)
@@ -141,6 +158,11 @@ export default function AdminUsersPage() {
 
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault()
+    const email = armarCorreoInstitucional(correoLocal, createForm.tipo_usuario)
+    if (!email) {
+      setFormError('Escribe solo el usuario del correo, sin @ ni dominio')
+      return
+    }
     const passwordCheck = validatePasswordStrength(createForm.password)
     if (!passwordCheck.valid) {
       setFormError(passwordCheck.message)
@@ -149,14 +171,15 @@ export default function AdminUsersPage() {
     setSaving(true)
     setFormError(null)
     try {
-      const created = (await usersApi.create(createForm)) as { id: string }
+      const created = (await usersApi.create({ ...createForm, email })) as { user?: { id: string }; id?: string }
+      const createdId = created.user?.id || created.id || ''
       const decision = decidirAltaUsuario({ altaOk: true })
       setUsers((prev) =>
         aplicarAltaEnLista(
           prev,
           {
-            id: created.id,
-            email: createForm.email,
+            id: createdId,
+            email,
             nombre: createForm.nombre,
             apellido: createForm.apellido,
             tipo_usuario: createForm.tipo_usuario,
@@ -180,6 +203,15 @@ export default function AdminUsersPage() {
   const handleUpdate = async (e: FormEvent) => {
     e.preventDefault()
     if (!editingUser) return
+    if (rolesEdicion.length === 0) {
+      setFormError('Selecciona al menos un rol')
+      return
+    }
+    const email = armarCorreoInstitucional(correoLocal, rolesEdicion)
+    if (!email) {
+      setFormError('Escribe solo el usuario del correo, sin @ ni dominio')
+      return
+    }
     if (editForm.password && editForm.password.length > 0) {
       const passwordCheck = validatePasswordStrength(editForm.password)
       if (!passwordCheck.valid) {
@@ -187,14 +219,18 @@ export default function AdminUsersPage() {
         return
       }
     }
+    const tipoVisible = rolesEdicion.includes(String(editForm.tipo_usuario || ''))
+      ? String(editForm.tipo_usuario)
+      : rolesEdicion[0]
     setSaving(true)
     setFormError(null)
     const camposVisibles: Partial<UsuarioLista> = {
-      email: editForm.email,
+      email,
       nombre: editForm.nombre,
       apellido: editForm.apellido,
-      tipo_usuario: editForm.tipo_usuario,
+      tipo_usuario: tipoVisible,
       activo: editForm.activo,
+      roles: rolesEdicion,
     }
     try {
       const payload: UpdateUserPayload = { ...camposVisibles }
@@ -250,40 +286,40 @@ export default function AdminUsersPage() {
       <div className="relative z-10">
         <Header user={headerUser} title="Gestión de Usuarios" subtitle="Administración del sistema" />
 
-        <main className="max-w-6xl mx-auto p-6 space-y-6">
-          <Card className="bg-white shadow-md border border-gray-200 p-6">
+        <main className="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8">
+          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
             <CardHeader className="pb-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <Link to="/dashboard-admin" className="text-sm text-red-600 hover:underline">
+                  <Link to="/dashboard-admin" className="text-sm lg:text-base text-red-600 hover:underline">
                     ← Volver al panel
                   </Link>
-                  <CardTitle className="text-2xl text-gray-900 mt-1">Usuarios del sistema</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-2xl lg:text-3xl text-gray-900 mt-1">Usuarios del sistema</CardTitle>
+                  <CardDescription className="text-base lg:text-lg">
                     {filtered.length} resultado(s) · página {currentPage} de {totalPages}
                   </CardDescription>
                 </div>
-                <Button onClick={openCreate} className="inline-flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
+                <Button onClick={openCreate} className="inline-flex items-center gap-2 lg:h-12 lg:px-6 lg:text-base">
+                  <Plus className="h-4 w-4 lg:h-5 lg:w-5" />
                   Agregar usuario
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <CardContent className="space-y-4 lg:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
                 <div className="relative md:col-span-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Buscar por nombre, email o rol…"
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none"
+                    className="w-full pl-10 pr-3 py-2 lg:py-3 border border-gray-300 rounded-lg text-sm lg:text-base focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none"
                   />
                 </div>
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                 >
                   <option value="all">Todos los roles</option>
                   {USER_TYPES.map((t) => (
@@ -295,7 +331,7 @@ export default function AdminUsersPage() {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                 >
                   <option value="all">Todos los estados</option>
                   <option value="activo">Activos</option>
@@ -310,25 +346,25 @@ export default function AdminUsersPage() {
                 <>
                   <div className="rounded-lg border border-gray-200 overflow-hidden">
                     <div className="overflow-x-auto">
-                      <table className="min-w-full text-sm">
+                      <table className="min-w-full text-sm lg:text-base">
                         <thead className="bg-gray-100 text-left text-gray-700">
                           <tr>
-                            <th className="px-4 py-3 font-medium">Email</th>
-                            <th className="px-4 py-3 font-medium">Nombre</th>
-                            <th className="px-4 py-3 font-medium">Rol</th>
-                            <th className="px-4 py-3 font-medium">Estado</th>
-                            <th className="px-4 py-3 font-medium text-right">Acciones</th>
+                            <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Email</th>
+                            <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Nombre</th>
+                            <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Roles</th>
+                            <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Estado</th>
+                            <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium text-right">Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
                           {pageItems.map((u) => (
                             <tr key={u.id} className="border-t border-gray-100 hover:bg-gray-50">
-                              <td className="px-4 py-3">{u.email}</td>
-                              <td className="px-4 py-3">
+                              <td className="px-4 py-3 lg:px-5 lg:py-4">{u.email}</td>
+                              <td className="px-4 py-3 lg:px-5 lg:py-4">
                                 {u.nombre} {u.apellido}
                               </td>
-                              <td className="px-4 py-3 capitalize">{u.tipo_usuario}</td>
-                              <td className="px-4 py-3">
+                              <td className="px-4 py-3 lg:px-5 lg:py-4 capitalize">{rolesDelUsuario(u).join(', ')}</td>
+                              <td className="px-4 py-3 lg:px-5 lg:py-4">
                                 <Badge
                                   variant="outline"
                                   className={
@@ -340,7 +376,7 @@ export default function AdminUsersPage() {
                                   {u.activo ? 'Activo' : 'Inactivo'}
                                 </Badge>
                               </td>
-                              <td className="px-4 py-3">
+                              <td className="px-4 py-3 lg:px-5 lg:py-4">
                                 <div className="flex justify-end gap-2">
                                   <Button
                                     size="sm"
@@ -379,7 +415,7 @@ export default function AdminUsersPage() {
                   </div>
 
                   <div className="flex items-center justify-between gap-3 pt-2">
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm lg:text-base text-gray-500">
                       Mostrando {(currentPage - 1) * PAGE_SIZE + (pageItems.length ? 1 : 0)}–
                       {(currentPage - 1) * PAGE_SIZE + pageItems.length} de {filtered.length}
                     </p>
@@ -395,7 +431,7 @@ export default function AdminUsersPage() {
                         <ChevronLeft className="h-4 w-4" />
                         Anterior
                       </Button>
-                      <span className="text-sm text-gray-700 min-w-[4rem] text-center">
+                      <span className="text-sm lg:text-base text-gray-700 min-w-[4rem] text-center">
                         {currentPage}/{totalPages}
                       </span>
                       <Button
@@ -452,13 +488,25 @@ export default function AdminUsersPage() {
                   onChange={(e) => setCreateForm({ ...createForm, apellido: e.target.value })}
                   required
                 />
-                <Input
-                  label="Email"
-                  type="email"
-                  value={createForm.email}
-                  onChange={(e) => setCreateForm({ ...createForm, email: e.target.value })}
-                  required
-                />
+                <div>
+                  <label htmlFor="correo-institucional" className="block text-sm font-medium text-gray-700 mb-1">
+                    Correo
+                  </label>
+                  <div className="flex items-stretch">
+                    <input
+                      id="correo-institucional"
+                      value={correoLocal}
+                      onChange={(e) => setCorreoLocal(usuarioDeCorreo(e.target.value))}
+                      required
+                      autoComplete="off"
+                      placeholder="usuario"
+                      className="min-w-0 flex-1 border border-gray-300 rounded-l-lg px-3 py-2 lg:py-3 text-sm lg:text-base outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    />
+                    <span className="inline-flex items-center px-3 border border-l-0 border-gray-300 rounded-r-lg bg-gray-100 text-gray-700 text-sm lg:text-base select-none">
+                      @{dominioCorreoPorTipo(createForm.tipo_usuario)}
+                    </span>
+                  </div>
+                </div>
                 <Input
                   label="Contraseña"
                   type="password"
@@ -470,7 +518,7 @@ export default function AdminUsersPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de usuario</label>
                   <select
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                     value={createForm.tipo_usuario}
                     onChange={(e) =>
                       setCreateForm({ ...createForm, tipo_usuario: e.target.value })
@@ -506,13 +554,25 @@ export default function AdminUsersPage() {
                   onChange={(e) => setEditForm({ ...editForm, apellido: e.target.value })}
                   required
                 />
-                <Input
-                  label="Email"
-                  type="email"
-                  value={editForm.email || ''}
-                  onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                  required
-                />
+                <div>
+                  <label htmlFor="correo-edicion" className="block text-sm font-medium text-gray-700 mb-1">
+                    Correo
+                  </label>
+                  <div className="flex items-stretch">
+                    <input
+                      id="correo-edicion"
+                      value={correoLocal}
+                      onChange={(e) => setCorreoLocal(usuarioDeCorreo(e.target.value))}
+                      required
+                      autoComplete="off"
+                      placeholder="usuario"
+                      className="min-w-0 flex-1 border border-gray-300 rounded-l-lg px-3 py-2 lg:py-3 text-sm lg:text-base outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    />
+                    <span className="inline-flex items-center px-3 border border-l-0 border-gray-300 rounded-r-lg bg-gray-100 text-gray-700 text-sm lg:text-base select-none">
+                      @{dominioCorreoPorRoles(rolesEdicion)}
+                    </span>
+                  </div>
+                </div>
                 <Input
                   label="Nueva contraseña (opcional)"
                   type="password"
@@ -520,22 +580,21 @@ export default function AdminUsersPage() {
                   onChange={(e) => setEditForm({ ...editForm, password: e.target.value })}
                   minLength={8}
                 />
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de usuario</label>
-                  <select
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                    value={editForm.tipo_usuario || ''}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, tipo_usuario: e.target.value })
-                    }
-                  >
-                    {USER_TYPES.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
+                <fieldset>
+                  <legend className="block text-sm font-medium text-gray-700 mb-2">Roles</legend>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[...USER_TYPES, ...rolesEdicion.filter((rol) => !USER_TYPES.includes(rol as (typeof USER_TYPES)[number]))].map((rol) => (
+                      <label key={rol} className="flex items-center gap-2 text-sm lg:text-base text-gray-700">
+                        <input
+                          type="checkbox"
+                          checked={rolesEdicion.includes(rol)}
+                          onChange={() => alternarRol(rol)}
+                        />
+                        <span className="capitalize">{rol}</span>
+                      </label>
                     ))}
-                  </select>
-                </div>
+                  </div>
+                </fieldset>
                 <label className="flex items-center gap-2 text-sm text-gray-700">
                   <input
                     type="checkbox"

@@ -66,20 +66,20 @@ export default function AdminAcademicPage() {
           subtitle="Facultades y carreras"
         />
 
-        <main className="max-w-5xl mx-auto p-6 space-y-6">
-          <Card className="bg-white shadow-md border border-gray-200 p-6">
+        <main className="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8">
+          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
             <CardHeader className="pb-2">
-              <Link to="/dashboard-admin" className="text-sm text-red-600 hover:underline">
+              <Link to="/dashboard-admin" className="text-sm lg:text-base text-red-600 hover:underline">
                 ← Volver al panel
               </Link>
-              <CardTitle className="text-2xl text-gray-900 mt-1">
+              <CardTitle className="text-2xl lg:text-3xl text-gray-900 mt-1">
                 Estructura universitaria
               </CardTitle>
-              <p className="text-gray-600 text-sm mt-1">
+              <p className="text-gray-600 text-sm lg:text-lg mt-1">
                 Consulta de facultades y sus carreras asociadas.
               </p>
             </CardHeader>
-            <CardContent className="space-y-4 pt-4">
+            <CardContent className="space-y-4 lg:space-y-6 pt-4">
               {loading && <p className="text-gray-600">Cargando…</p>}
               {error && <p className="text-red-600">{error}</p>}
 
@@ -94,13 +94,13 @@ export default function AdminAcademicPage() {
                           className="w-full text-left"
                           onClick={() => setExpandedId(open ? null : f.id)}
                         >
-                          <CardHeader className="flex flex-row items-center justify-between p-5">
-                            <div className="flex items-center gap-3">
-                              <Building2 className="h-5 w-5 text-red-600" />
+                          <CardHeader className="flex flex-row items-center justify-between p-5 lg:p-7 lg:min-h-[6.5rem]">
+                            <div className="flex items-center gap-3 lg:gap-4">
+                              <Building2 className="h-5 w-5 lg:h-8 lg:w-8 text-red-600" />
                               <div>
-                                <CardTitle className="text-lg text-gray-900">{f.nombre}</CardTitle>
+                                <CardTitle className="text-lg lg:text-2xl text-gray-900">{f.nombre}</CardTitle>
                                 {f.codigo && (
-                                  <p className="text-sm text-gray-500">Código: {f.codigo}</p>
+                                  <p className="text-sm lg:text-base text-gray-500">Código: {f.codigo}</p>
                                 )}
                               </div>
                             </div>
@@ -110,9 +110,9 @@ export default function AdminAcademicPage() {
                           </CardHeader>
                         </button>
                         {open && (
-                          <CardContent className="px-5 pb-5 pt-0 space-y-2">
+                          <CardContent className="px-5 pb-5 lg:px-7 lg:pb-7 pt-0 space-y-2">
                             {f.descripcion && (
-                              <p className="text-sm text-gray-600 mb-3">{f.descripcion}</p>
+                              <p className="text-sm lg:text-base text-gray-600 mb-3">{f.descripcion}</p>
                             )}
                             {(f.carreras || []).length === 0 ? (
                               <p className="text-sm text-gray-500">Sin carreras registradas</p>
@@ -121,7 +121,7 @@ export default function AdminAcademicPage() {
                                 {f.carreras.map((c) => (
                                   <li
                                     key={c.id}
-                                    className="flex items-center justify-between px-4 py-3 text-sm"
+                                    className="flex items-center justify-between px-4 py-3 lg:px-5 lg:py-4 text-sm lg:text-base"
                                   >
                                     <div className="flex items-center gap-2">
                                       <GraduationCap className="h-4 w-4 text-gray-500" />
