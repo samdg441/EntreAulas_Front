@@ -25,7 +25,9 @@ import {
   aplicarCambioEnLista,
   aplicarDesactivarEnLista,
   armarCorreoInstitucional,
+  dominioCorreoPorRoles,
   dominioCorreoPorTipo,
+  rolesDelUsuario,
   usuarioDeCorreo,
   type UsuarioLista,
 } from './gestionar-usuarios'
@@ -76,6 +78,7 @@ export default function AdminUsersPage() {
   const [editingUser, setEditingUser] = useState<UserSummary | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<UserSummary | null>(null)
   const [correoLocal, setCorreoLocal] = useState('')
+  const [rolesEdicion, setRolesEdicion] = useState<string[]>([])
 
   const loadUsers = async () => {
     setLoading(true)
@@ -105,11 +108,11 @@ export default function AdminUsersPage() {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
     return users.filter((u) => {
-      if (roleFilter !== 'all' && u.tipo_usuario !== roleFilter) return false
+      if (roleFilter !== 'all' && !rolesDelUsuario(u).includes(roleFilter)) return false
       if (statusFilter === 'activo' && !u.activo) return false
       if (statusFilter === 'inactivo' && u.activo) return false
       if (!q) return true
-      return `${u.email} ${u.nombre} ${u.apellido} ${u.tipo_usuario}`.toLowerCase().includes(q)
+      return `${u.email} ${u.nombre} ${u.apellido} ${rolesDelUsuario(u).join(' ')}`.toLowerCase().includes(q)
     })
   }, [users, search, roleFilter, statusFilter])
 
@@ -125,7 +128,10 @@ export default function AdminUsersPage() {
   }
 
   const openEdit = (u: UserSummary) => {
+    const roles = rolesDelUsuario(u)
     setEditingUser(u)
+    setRolesEdicion(roles)
+    setCorreoLocal(usuarioDeCorreo(u.email))
     setEditForm({
       email: u.email,
       nombre: u.nombre,
@@ -136,6 +142,12 @@ export default function AdminUsersPage() {
     })
     setFormError(null)
     setModalMode('edit')
+  }
+
+  const alternarRol = (rol: string) => {
+    setRolesEdicion((actuales) =>
+      actuales.includes(rol) ? actuales.filter((item) => item !== rol) : [...actuales, rol]
+    )
   }
 
   const closeModal = () => {
@@ -191,6 +203,15 @@ export default function AdminUsersPage() {
   const handleUpdate = async (e: FormEvent) => {
     e.preventDefault()
     if (!editingUser) return
+    if (rolesEdicion.length === 0) {
+      setFormError('Selecciona al menos un rol')
+      return
+    }
+    const email = armarCorreoInstitucional(correoLocal, rolesEdicion)
+    if (!email) {
+      setFormError('Escribe solo el usuario del correo, sin @ ni dominio')
+      return
+    }
     if (editForm.password && editForm.password.length > 0) {
       const passwordCheck = validatePasswordStrength(editForm.password)
       if (!passwordCheck.valid) {
@@ -198,14 +219,18 @@ export default function AdminUsersPage() {
         return
       }
     }
+    const tipoVisible = rolesEdicion.includes(String(editForm.tipo_usuario || ''))
+      ? String(editForm.tipo_usuario)
+      : rolesEdicion[0]
     setSaving(true)
     setFormError(null)
     const camposVisibles: Partial<UsuarioLista> = {
-      email: editForm.email,
+      email,
       nombre: editForm.nombre,
       apellido: editForm.apellido,
-      tipo_usuario: editForm.tipo_usuario,
+      tipo_usuario: tipoVisible,
       activo: editForm.activo,
+      roles: rolesEdicion,
     }
     try {
       const payload: UpdateUserPayload = { ...camposVisibles }
@@ -326,7 +351,7 @@ export default function AdminUsersPage() {
                           <tr>
                             <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Email</th>
                             <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Nombre</th>
-                            <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Rol</th>
+                            <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Roles</th>
                             <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium">Estado</th>
                             <th className="px-4 py-3 lg:px-5 lg:py-4 font-medium text-right">Acciones</th>
                           </tr>
@@ -338,7 +363,7 @@ export default function AdminUsersPage() {
                               <td className="px-4 py-3 lg:px-5 lg:py-4">
                                 {u.nombre} {u.apellido}
                               </td>
-                              <td className="px-4 py-3 lg:px-5 lg:py-4 capitalize">{u.tipo_usuario}</td>
+                              <td className="px-4 py-3 lg:px-5 lg:py-4 capitalize">{rolesDelUsuario(u).join(', ')}</td>
                               <td className="px-4 py-3 lg:px-5 lg:py-4">
                                 <Badge
                                   variant="outline"
@@ -529,13 +554,25 @@ export default function AdminUsersPage() {
                   onChange={(e) => setEditForm({ ...editForm, apellido: e.target.value })}
                   required
                 />
-                <Input
-                  label="Email"
-                  type="email"
-                  value={editForm.email || ''}
-                  onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                  required
-                />
+                <div>
+                  <label htmlFor="correo-edicion" className="block text-sm font-medium text-gray-700 mb-1">
+                    Correo
+                  </label>
+                  <div className="flex items-stretch">
+                    <input
+                      id="correo-edicion"
+                      value={correoLocal}
+                      onChange={(e) => setCorreoLocal(usuarioDeCorreo(e.target.value))}
+                      required
+                      autoComplete="off"
+                      placeholder="usuario"
+                      className="min-w-0 flex-1 border border-gray-300 rounded-l-lg px-3 py-2 lg:py-3 text-sm lg:text-base outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    />
+                    <span className="inline-flex items-center px-3 border border-l-0 border-gray-300 rounded-r-lg bg-gray-100 text-gray-700 text-sm lg:text-base select-none">
+                      @{dominioCorreoPorRoles(rolesEdicion)}
+                    </span>
+                  </div>
+                </div>
                 <Input
                   label="Nueva contraseña (opcional)"
                   type="password"
@@ -543,22 +580,21 @@ export default function AdminUsersPage() {
                   onChange={(e) => setEditForm({ ...editForm, password: e.target.value })}
                   minLength={8}
                 />
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de usuario</label>
-                  <select
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
-                    value={editForm.tipo_usuario || ''}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, tipo_usuario: e.target.value })
-                    }
-                  >
-                    {USER_TYPES.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
+                <fieldset>
+                  <legend className="block text-sm font-medium text-gray-700 mb-2">Roles</legend>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[...USER_TYPES, ...rolesEdicion.filter((rol) => !USER_TYPES.includes(rol as (typeof USER_TYPES)[number]))].map((rol) => (
+                      <label key={rol} className="flex items-center gap-2 text-sm lg:text-base text-gray-700">
+                        <input
+                          type="checkbox"
+                          checked={rolesEdicion.includes(rol)}
+                          onChange={() => alternarRol(rol)}
+                        />
+                        <span className="capitalize">{rol}</span>
+                      </label>
                     ))}
-                  </select>
-                </div>
+                  </div>
+                </fieldset>
                 <label className="flex items-center gap-2 text-sm text-gray-700">
                   <input
                     type="checkbox"

@@ -7,6 +7,7 @@ export type UsuarioLista = {
   apellido: string
   tipo_usuario: string
   activo: boolean
+  roles?: string[]
 }
 
 export function decidirAccesoAdminUsers(params: {
@@ -113,12 +114,25 @@ export function dominioCorreoPorTipo(tipo: string): string {
   return tipo === 'estudiante' ? 'soyudemedellin.edu.co' : 'udemedellin.edu.co'
 }
 
+export function dominioCorreoPorRoles(roles: string[]): string {
+  return roles.includes('estudiante') ? 'soyudemedellin.edu.co' : 'udemedellin.edu.co'
+}
+
+export function rolesDelUsuario(usuario: { tipo_usuario?: string; roles?: string[] }): string[] {
+  const roles = (usuario.roles || []).filter(Boolean)
+  if (roles.length > 0) return roles
+  return usuario.tipo_usuario ? [usuario.tipo_usuario] : []
+}
+
 export function usuarioDeCorreo(valor: string): string {
   return valor.split('@')[0].replace(/\s/g, '').toLowerCase()
 }
 
-export function armarCorreoInstitucional(usuario: string, tipo: string): string | null {
+export function armarCorreoInstitucional(usuario: string, tipoORoles: string | string[]): string | null {
   const local = usuarioDeCorreo(usuario)
   if (!local || !/^[a-z0-9._+-]+$/.test(local)) return null
-  return `${local}@${dominioCorreoPorTipo(tipo)}`
+  const dominio = Array.isArray(tipoORoles)
+    ? dominioCorreoPorRoles(tipoORoles)
+    : dominioCorreoPorTipo(tipoORoles)
+  return `${local}@${dominio}`
 }
