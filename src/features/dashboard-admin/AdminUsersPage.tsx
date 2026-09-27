@@ -77,6 +77,7 @@ export default function AdminUsersPage() {
   const [editForm, setEditForm] = useState<UpdateUserPayload>({})
   const [editingUser, setEditingUser] = useState<UserSummary | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<UserSummary | null>(null)
+  const [activateTarget, setActivateTarget] = useState<UserSummary | null>(null)
   const [correoLocal, setCorreoLocal] = useState('')
   const [rolesEdicion, setRolesEdicion] = useState<string[]>([])
 
@@ -252,6 +253,19 @@ export default function AdminUsersPage() {
     }
   }
 
+  const confirmActivate = async () => {
+    if (!activateTarget) return
+    const targetId = activateTarget.id
+    try {
+      await usersApi.update(targetId, { activo: true })
+      setUsers((prev) => aplicarCambioEnLista(prev, targetId, { activo: true }, true))
+      setActivateTarget(null)
+    } catch (err: unknown) {
+      setError(getApiErrorMessage(err, 'No se pudo activar el usuario'))
+      setActivateTarget(null)
+    }
+  }
+
   const confirmDeactivate = async () => {
     if (!deleteTarget) return
     const targetId = deleteTarget.id
@@ -387,7 +401,7 @@ export default function AdminUsersPage() {
                                     <Pencil className="h-3.5 w-3.5" />
                                     Editar
                                   </Button>
-                                  {u.activo && (
+                                  {u.activo ? (
                                     <Button
                                       size="sm"
                                       variant="outline"
@@ -396,6 +410,15 @@ export default function AdminUsersPage() {
                                     >
                                       <Trash2 className="h-3.5 w-3.5" />
                                       Desactivar
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => setActivateTarget(u)}
+                                      className="inline-flex items-center gap-1 border-green-200 text-green-700 hover:bg-green-50"
+                                    >
+                                      Activar
                                     </Button>
                                   )}
                                 </div>
@@ -616,6 +639,20 @@ export default function AdminUsersPage() {
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={!!activateTarget}
+        onClose={() => setActivateTarget(null)}
+        onConfirm={confirmActivate}
+        title="Activar usuario"
+        message={
+          activateTarget
+            ? `¿Activar a ${activateTarget.nombre} ${activateTarget.apellido} (${activateTarget.email})?`
+            : ''
+        }
+        confirmText="Activar"
+        cancelText="Cancelar"
+      />
 
       <ConfirmationModal
         isOpen={!!deleteTarget}

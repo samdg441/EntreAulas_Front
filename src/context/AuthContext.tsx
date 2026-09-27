@@ -36,7 +36,7 @@ interface AuthContextType {
   getDashboardPathForUser: (user: User) => string
   hasRole: (role: string) => boolean
   hasPermission: (permission: string) => boolean
-  switchUserRole: (newRole: 'coordinador' | 'profesor') => void
+  switchUserRole: (newRole: string) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -140,22 +140,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   // Función para cambiar temporalmente el rol del usuario
-  const switchUserRole = (newRole: 'coordinador' | 'profesor'): void => {
+  const switchUserRole = (newRole: string): void => {
     if (!user) return
+    const roles = user.roles?.length ? user.roles : user.tipo_usuario ? [user.tipo_usuario] : []
+    if (roles.length > 0 && !roles.includes(newRole) && user.tipo_usuario !== newRole) return
 
-    // Crear una copia del usuario con el nuevo rol temporal
     const updatedUser = {
       ...user,
-      tipo_usuario: newRole,
-      // Mantener sincronizado con la UI que usa selected_role como preferencia
       selected_role: newRole,
-      // Mantener los roles originales para poder volver
-      original_tipo_usuario: user.tipo_usuario
+      dashboard: getDashboardPathForUserFromModule({ roles: [newRole] }),
+      multiple_roles: roles.length > 1,
+      roles,
     }
 
     setUser(updatedUser)
-
-    // Guardar en localStorage para persistir el cambio
     authStorage.setUser(updatedUser)
   }
 
