@@ -2,22 +2,44 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getDashboardPathForUser } from '../features/auth/dashboard-path';
 import { User, LogOut, Shield, GraduationCap, Crown, UserCircle } from 'lucide-react';
 import Button from './Button';
 import { Avatar, AvatarFallback } from './Avatar';
 
 type ViewRole = 'coordinador' | 'profesor' | 'estudiante' | 'decano' | 'admin';
 
+const ETIQUETA_ROL: Record<string, string> = {
+  admin: 'Administrador',
+  decano: 'Decano',
+  coordinador: 'Coordinador',
+  profesor: 'Docente',
+  docente: 'Docente',
+  estudiante: 'Estudiante',
+}
+
 function resolveViewRole(selected?: string, tipo?: string): ViewRole {
   const initial = (selected || tipo || 'estudiante').toLowerCase();
+  if (initial === 'docente' || initial === 'teacher') return 'profesor';
   if (['coordinador', 'profesor', 'estudiante', 'decano', 'admin', 'administrator'].includes(initial)) {
     return (initial === 'administrator' ? 'admin' : initial) as ViewRole;
   }
   return 'estudiante';
 }
 
+function otrosDashboards(roles: string[], rolActual: string) {
+  const vistos = new Set<string>()
+  return roles.flatMap((rol) => {
+    const normal = rol === 'docente' ? 'profesor' : rol
+    const path = getDashboardPathForUser({ roles: [normal] })
+    if (normal === rolActual || vistos.has(path)) return []
+    vistos.add(path)
+    return [{ rol: normal, etiqueta: ETIQUETA_ROL[rol] || rol, path }]
+  })
+}
+
 export default function UserMenu() {
-  const { user, logout, hasRole, switchUserRole } = useAuth();
+  const { user, logout, switchUserRole } = useAuth();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -25,13 +47,13 @@ export default function UserMenu() {
     resolveViewRole(user?.selected_role, user?.tipo_usuario)
   );
 
-  const isCoordinator = hasRole('coordinador');
-  const isProfessor = hasRole('profesor');
-  const isDean = hasRole('decano');
-  const isAdmin = hasRole('admin') || currentViewRole === 'admin';
-  const hasMultipleRoles =
-    !!user?.multiple_roles ||
-    ((isCoordinator ? 1 : 0) + (isProfessor ? 1 : 0) + (isDean ? 1 : 0) + (isAdmin ? 1 : 0) > 1);
+  const rolesCuenta = user?.roles?.length
+    ? user.roles
+    : user?.tipo_usuario
+      ? [user.tipo_usuario]
+      : []
+  const destinos = otrosDashboards(rolesCuenta, currentViewRole)
+  const hasMultipleRoles = destinos.length > 0
 
   useEffect(() => {
     setCurrentViewRole(resolveViewRole(user?.selected_role, user?.tipo_usuario));
@@ -51,29 +73,10 @@ export default function UserMenu() {
     setShowLogoutConfirm(false);
   };
 
-  const switchRole = () => {
-    // Determinar siguiente rol al que se debe cambiar según disponibilidad real
-    // Preferencia: decano > coordinador > profesor, pero siempre evitando el rol actual
-    const canGoDean = isDean && currentViewRole !== 'decano'
-    const canGoCoordinator = isCoordinator && currentViewRole !== 'coordinador'
-    const canGoProfessor = isProfessor && currentViewRole !== 'profesor'
-
-    if (canGoDean) {
-      setCurrentViewRole('decano')
-      console.log('🔄 Cambiando a decano')
-      // No tocamos tipo_usuario porque el contexto solo soporta (coordinador|profesor)
-      navigate('/dashboard-decano')
-    } else if (canGoCoordinator) {
-      setCurrentViewRole('coordinador')
-      switchUserRole('coordinador')
-      console.log('🔄 Cambiando a coordinador')
-      navigate('/dashboard-coordinador')
-    } else if (canGoProfessor) {
-      setCurrentViewRole('profesor')
-      switchUserRole('profesor')
-      console.log('🔄 Cambiando a profesor')
-      navigate('/dashboard-profesor')
-    }
+  const irARol = (rol: string, path: string) => {
+    switchUserRole(rol)
+    setCurrentViewRole(resolveViewRole(rol))
+    navigate(path)
     setIsOpen(false)
   };
 
@@ -172,46 +175,20 @@ export default function UserMenu() {
                   Mi perfil
                 </Button>
 
-                {/* Cambio de rol si tiene múltiples roles (no admin-only switch legacy) */}
-                {hasMultipleRoles && currentViewRole !== 'admin' && (
+                {destinos.map((destino) => (
                   <Button
+                    key={destino.path}
                     variant="ghost"
-                    onClick={switchRole}
+                    onClick={() => irARol(destino.rol, destino.path)}
                     className="w-full justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50 mb-1 border border-blue-200 rounded-lg"
                   >
-                    {(() => {
-                      const targetIsDean = isDean && currentViewRole !== 'decano'
-                      const targetIsCoordinator = isCoordinator && currentViewRole !== 'coordinador' && !targetIsDean
-                      return targetIsDean ? (
-                        <Shield className="h-4 w-4 mr-3 text-red-600" />
-                      ) : targetIsCoordinator ? (
-                        <Shield className="h-4 w-4 mr-3 text-red-600" />
-                      ) : (
-                        <GraduationCap className="h-4 w-4 mr-3 text-red-600" />
-                      )
-                    })()}
+                    <Shield className="h-4 w-4 mr-3 text-red-600" />
                     <div className="flex flex-col items-start">
-                      {(() => {
-                        const targetLabel = isDean && currentViewRole !== 'decano'
-                          ? 'Decano'
-                          : (isCoordinator && currentViewRole !== 'coordinador')
-                          ? 'Coordinador'
-                          : 'Profesor'
-                        const targetSub = targetLabel === 'Decano'
-                          ? 'Vista de decano'
-                          : targetLabel === 'Coordinador'
-                          ? 'Vista de coordinador'
-                          : 'Vista de docente'
-                        return (
-                          <>
-                            <span className="font-medium">Cambiar a {targetLabel}</span>
-                            <span className="text-xs text-gray-500">{targetSub}</span>
-                          </>
-                        )
-                      })()}
+                      <span className="font-medium">Cambiar a {destino.etiqueta}</span>
+                      <span className="text-xs text-gray-500">Vista de {destino.etiqueta.toLowerCase()}</span>
                     </div>
                   </Button>
-                )}
+                ))}
                 
                 {/* Cerrar sesión */}
                 <Button
