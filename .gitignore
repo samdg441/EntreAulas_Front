@@ -2,6 +2,7 @@
 node_modules
 dist
 coverage
+test-results.xml
 .scannerwork/
 .DS_Store
 *.log

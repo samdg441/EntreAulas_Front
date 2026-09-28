@@ -53,8 +53,9 @@ pipeline {
                         -w "$WORKSPACE" \
                         node:22-bookworm-slim \
                         npm run test:coverage -- \
+                            --reporter=default \
                             --reporter=junit \
-                            --outputFile=test-results.xml
+                            --outputFile.junit=test-results.xml
                 '''
             }
         }
@@ -90,7 +91,6 @@ pipeline {
                 sh '''
                     set -e
                     docker build \
-                        --pull \
                         --build-arg VITE_API_URL=http://localhost:3000 \
                         -t "$IMAGE_NAME:$BUILD_NUMBER" \
                         -t "$IMAGE_NAME:latest" \
