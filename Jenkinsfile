@@ -22,7 +22,7 @@ pipeline {
                     set -e
                     docker --version
                     java -version
-                    docker run --rm node:20-bookworm-slim node --version
+                    docker run --rm node:22-bookworm-slim node --version
                 '''
             }
         }
@@ -36,8 +36,8 @@ pipeline {
                         -e HOME=/tmp \
                         -v jenkins_home:/var/jenkins_home \
                         -w "$WORKSPACE" \
-                        node:20-bookworm-slim \
-                        npm ci
+                        node:22-bookworm-slim \
+                        npm ci --legacy-peer-deps
                 '''
             }
         }
@@ -51,7 +51,7 @@ pipeline {
                         -e HOME=/tmp \
                         -v jenkins_home:/var/jenkins_home \
                         -w "$WORKSPACE" \
-                        node:20-bookworm-slim \
+                        node:22-bookworm-slim \
                         npm run test:coverage -- \
                             --reporter=junit \
                             --outputFile=test-results.xml

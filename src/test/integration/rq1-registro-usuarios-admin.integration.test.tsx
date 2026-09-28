@@ -32,7 +32,7 @@ describe('RQ1 — Registro de usuarios desde admin (integración)', () => {
 
     await user.type(screen.getByLabelText(/^nombre$/i), 'Nuevo')
     await user.type(screen.getByLabelText(/^apellido$/i), 'Usuario')
-    await user.type(screen.getByLabelText(/^email$/i), 'nuevo@uni.edu')
+    await user.type(screen.getByLabelText(/^correo$/i), 'nuevo')
     await user.type(screen.getByLabelText(/^contraseña$/i), 'corta')
 
     await user.click(screen.getByRole('button', { name: /^crear$/i }))
@@ -53,7 +53,7 @@ describe('RQ1 — Registro de usuarios desde admin (integración)', () => {
     await user.click(screen.getByRole('button', { name: /agregar usuario/i }))
     await user.type(screen.getByLabelText(/^nombre$/i), 'Nuevo')
     await user.type(screen.getByLabelText(/^apellido$/i), 'Usuario')
-    await user.type(screen.getByLabelText(/^email$/i), 'nuevo@uni.edu')
+    await user.type(screen.getByLabelText(/^correo$/i), 'nuevo')
     await user.type(screen.getByLabelText(/^contraseña$/i), 'Abcdef1!')
 
     await user.click(screen.getByRole('button', { name: /^crear$/i }))
@@ -61,7 +61,7 @@ describe('RQ1 — Registro de usuarios desde admin (integración)', () => {
     await waitFor(() =>
       expect(usersApi.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          email: 'nuevo@uni.edu',
+          email: 'nuevo@soyudemedellin.edu.co',
           password: 'Abcdef1!',
           nombre: 'Nuevo',
           apellido: 'Usuario',
@@ -70,7 +70,7 @@ describe('RQ1 — Registro de usuarios desde admin (integración)', () => {
       )
     )
 
-    expect(await screen.findByText('nuevo@uni.edu')).toBeInTheDocument()
+    expect(await screen.findByText('nuevo@soyudemedellin.edu.co')).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /agregar usuario/i })).not.toBeInTheDocument()
   })
 
@@ -86,7 +86,7 @@ describe('RQ1 — Registro de usuarios desde admin (integración)', () => {
     await user.click(screen.getByRole('button', { name: /agregar usuario/i }))
     await user.type(screen.getByLabelText(/^nombre$/i), 'Nuevo')
     await user.type(screen.getByLabelText(/^apellido$/i), 'Usuario')
-    await user.type(screen.getByLabelText(/^email$/i), 'repetido@uni.edu')
+    await user.type(screen.getByLabelText(/^correo$/i), 'repetido')
     await user.type(screen.getByLabelText(/^contraseña$/i), 'Abcdef1!')
 
     await user.click(screen.getByRole('button', { name: /^crear$/i }))
