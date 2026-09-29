@@ -1,9 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { AuthProvider } from '../../context/AuthContext'
 import Login from '../../features/auth/Login'
+import { authStorage } from '../../lib/storage'
+import { RoleMismatchError } from '../../features/auth/errors'
 import { authApi } from '../../api/auth'
 
 vi.mock('../../api/auth', () => ({
@@ -28,6 +30,8 @@ function renderLogin() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard-estudiante" element={<div>Panel del estudiante</div>} />
+          <Route path="/forgot-password" element={<div>Recuperar contraseña</div>} />
+          <Route path="/destino" element={<div>Destino guardado</div>} />
         </Routes>
       </AuthProvider>
     </MemoryRouter>
@@ -98,6 +102,62 @@ describe('RQ2 — Login (pantalla real)', () => {
     await user.type(screen.getByLabelText(/correo institucional/i), 'estudiante@uni.edu')
     await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
 
+    expect(authApi.login).not.toHaveBeenCalled()
+  })
+
+  it('abre los tipos de usuario, limpia el correo y manda a recuperar la contraseña', async () => {
+    const user = userEvent.setup()
+    renderLogin()
+
+    await user.click(screen.getByRole('button', { name: /^estudiante$/i }))
+    await user.click(screen.getByRole('button', { name: /^docente$/i }))
+    await waitFor(() => expect(screen.getAllByRole('button', { name: /^docente$/i })).toHaveLength(1))
+    await user.click(screen.getByRole('button', { name: /^docente$/i }))
+    await user.click(screen.getByRole('button', { name: /^coordinador$/i }))
+    await waitFor(() => expect(screen.getAllByRole('button', { name: /^coordinador$/i })).toHaveLength(1))
+    await user.click(screen.getByRole('button', { name: /^coordinador$/i }))
+    await user.click(screen.getByRole('button', { name: /^decano$/i }))
+    await waitFor(() => expect(screen.getAllByRole('button', { name: /^decano$/i })).toHaveLength(1))
+    await user.click(screen.getByRole('button', { name: /^decano$/i }))
+    await user.click(screen.getByRole('button', { name: /^administrador$/i }))
+    await waitFor(() => expect(screen.getAllByRole('button', { name: /^administrador$/i })).toHaveLength(1))
+
+    const correo = screen.getByLabelText(/email institucional/i)
+    await user.type(correo, 'a')
+    await user.clear(correo)
+    expect(screen.queryByText('Por favor, ingresa un correo electrónico válido')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /olvidaste tu contraseña/i }))
+    expect(await screen.findByText('Recuperar contraseña')).toBeInTheDocument()
+  })
+
+  it('si el rol no coincide, muestra ese error y respeta un regreso pendiente', async () => {
+    const user = userEvent.setup()
+    vi.mocked(authApi.login).mockRejectedValueOnce(new RoleMismatchError('El tipo de usuario seleccionado no coincide'))
+    renderLogin()
+    await user.type(screen.getByLabelText(/correo institucional/i), 'estudiante@uni.edu')
+    await user.type(screen.getByLabelText(/^contraseña$/i), 'Abcdef1!')
+    await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
+    expect(await screen.findByText(/no coincide/i)).toBeInTheDocument()
+
+    vi.spyOn(authStorage, 'consumeRedirectTo').mockReturnValue('/destino')
+    vi.mocked(authApi.login).mockResolvedValueOnce({ token: 'tok-123', user: estudiante })
+    await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
+    expect(await screen.findByText('Destino guardado')).toBeInTheDocument()
+  })
+
+  it('el envío directo sin contraseña o con correo inválido no llama al login', async () => {
+    const user = userEvent.setup()
+    renderLogin()
+    const formulario = screen.getByLabelText(/correo institucional/i).closest('form') as HTMLFormElement
+
+    await user.type(screen.getByLabelText(/correo institucional/i), 'estudiante@uni.edu')
+    fireEvent.submit(formulario)
+    expect(await screen.findByText('Por favor, completa todos los campos')).toBeInTheDocument()
+
+    await user.clear(screen.getByLabelText(/correo institucional/i))
+    await user.type(screen.getByLabelText(/correo institucional/i), 'correo-invalido')
+    fireEvent.submit(formulario)
     expect(authApi.login).not.toHaveBeenCalled()
   })
 })

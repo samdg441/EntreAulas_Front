@@ -67,4 +67,22 @@ describe('RQ3.1 + RQ4 — Solicitud y envío de correo de recuperación (integra
     expect(await screen.findByText('Demasiadas solicitudes, intenta más tarde')).toBeInTheDocument()
     expect(screen.queryByText('Solicitud enviada')).not.toBeInTheDocument()
   })
+
+  it('si la petición se cae, muestra el error de red y el enlace de regreso sigue en la pantalla', async () => {
+    const user = userEvent.setup()
+    vi.mocked(requestPasswordReset).mockRejectedValue(new Error('red'))
+    renderConSesion(<ForgotPassword />, { route: '/forgot-password' })
+
+    await user.type(screen.getByLabelText(/correo institucional/i), 'estudiante@uni.edu')
+    await user.click(screen.getByRole('button', { name: /enviar enlace de recuperación/i }))
+    expect(await screen.findByText('Error al enviar la solicitud')).toBeInTheDocument()
+
+    vi.mocked(requestPasswordReset).mockResolvedValue({
+      success: true,
+      message: 'Revisa tu bandeja',
+    })
+    await user.click(screen.getByRole('button', { name: /enviar enlace de recuperación/i }))
+    await user.click(await screen.findByRole('button', { name: /ir al inicio de sesión/i }))
+    expect(screen.getByRole('button', { name: /volver al inicio de sesión/i })).toBeInTheDocument()
+  })
 })

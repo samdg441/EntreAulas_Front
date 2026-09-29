@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderConSesion } from '../helpers/render'
 import ResetPassword from '../../features/auth/ResetPassword'
@@ -95,5 +95,32 @@ describe('RQ5 — Restablecimiento de contraseña (integración)', () => {
       )
     )
     expect(await screen.findByText('Contraseña actualizada')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /ir al inicio de sesión/i }))
+    expect(screen.getByRole('button', { name: /volver al inicio de sesión/i })).toBeInTheDocument()
+  })
+
+  it('muestra el rechazo del servidor, pide la clave y deja ver la contraseña', async () => {
+    vi.mocked(validateResetToken).mockResolvedValue({ success: true, message: 'ok' })
+    vi.mocked(resetPassword).mockResolvedValueOnce({ success: false, message: 'El enlace ya se usó' })
+    const user = userEvent.setup()
+    renderReset('?token=tok-123&email=user%40uni.edu')
+
+    await screen.findByLabelText(/^nueva contraseña$/i)
+    const formulario = screen.getByLabelText(/^nueva contraseña$/i).closest('form') as HTMLFormElement
+    fireEvent.submit(formulario)
+    expect(await screen.findByText('La nueva contraseña es requerida')).toBeInTheDocument()
+    expect(screen.getByText('Confirma tu contraseña')).toBeInTheDocument()
+
+    const botones = within(formulario).getAllByRole('button')
+    await user.click(botones[0])
+    await user.click(botones[1])
+    await user.type(screen.getByLabelText(/^nueva contraseña$/i), 'Abcdef1!')
+    await user.type(screen.getByLabelText(/confirmar nueva contraseña/i), 'Abcdef1!')
+    await user.click(screen.getByRole('button', { name: /actualizar contraseña/i }))
+    expect(await screen.findByText('El enlace ya se usó')).toBeInTheDocument()
+
+    vi.mocked(resetPassword).mockRejectedValueOnce(new Error('red'))
+    await user.click(screen.getByRole('button', { name: /actualizar contraseña/i }))
+    expect(await screen.findByText('Error al actualizar la contraseña')).toBeInTheDocument()
   })
 })

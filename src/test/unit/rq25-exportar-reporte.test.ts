@@ -1,9 +1,23 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import { saveAs } from 'file-saver'
+import * as XLSX from 'xlsx'
 import {
   armarModeloExcelCoordinador,
+  exportCoordinatorReportExcel,
   nombreArchivoExcelReporte,
   usuarioPuedeExportarReporte,
 } from '../../utils/reporte-exportacion'
+
+vi.mock('file-saver', () => ({ saveAs: vi.fn() }))
+vi.mock('xlsx', () => ({
+  utils: {
+    book_new: vi.fn(() => ({ SheetNames: [], Sheets: {} })),
+    aoa_to_sheet: vi.fn((rows: unknown[]) => ({ rows })),
+    encode_col: vi.fn(() => 'G'),
+    book_append_sheet: vi.fn(),
+  },
+  write: vi.fn(() => new Uint8Array([1, 2, 3])),
+}))
 
 /**
  * RQ25 en la pantalla — el botón de Excel.
@@ -109,5 +123,33 @@ describe('RQ25 — exportar el reporte en pantalla', () => {
     // Assert
     expect(libro.safeRows).toEqual([])
     expect(libro.dataRows).toHaveLength(0)
+  })
+
+  it('ordena las categorías y descarga el libro con la hoja de docentes', () => {
+    const filas = [
+      {
+        docente: 'ana',
+        DOCENTE: 'Ana Pérez',
+        ASIGNATURA: 'Cálculo',
+        SABER_ESPECIFICO: 5,
+        RELACION_ESTUDIANTES: 2,
+        EVALUACION: 3,
+        METODOLOGIA: 4,
+        OTRA_MEDIDA: 1,
+        PROMEDIO: null,
+      },
+      { DOCENTE: '', ASIGNATURA: 'Física', METODOLOGIA: 1 },
+    ]
+
+    const libro = armarModeloExcelCoordinador(filas)
+    exportCoordinatorReportExcel(filas, 'reporte-coordinador.xlsx')
+
+    expect(libro.headerRow).toContain('SABER ESPECÍFICO')
+    expect(libro.headerRow).toContain('METODOLOGÍA')
+    expect(libro.headerRow).toContain('EVALUACIÓN')
+    expect(libro.headerRow).toContain('RELACIÓN CON LOS ESTUDIANTES')
+    expect(libro.headerRow.indexOf('SABER ESPECÍFICO')).toBeLessThan(libro.headerRow.indexOf('METODOLOGÍA'))
+    expect(XLSX.utils.book_append_sheet).toHaveBeenCalledTimes(3)
+    expect(saveAs).toHaveBeenCalled()
   })
 })

@@ -29,6 +29,10 @@ describe('RQ2 — Login', () => {
       expect(getRoleLabel(rol)).toBe(etiqueta)
     })
 
+    it('getUserTypeLabel cae en Estudiante si el tipo no está en la lista', () => {
+      expect(getUserTypeLabel('otro' as never)).toBe('Estudiante')
+    })
+
     it('getRoleLabel devuelve el mismo valor si el rol no es reconocido', () => {
       expect(getRoleLabel('visitante')).toBe('visitante')
     })

@@ -356,6 +356,14 @@ describe('Regresión de RQ6, RQ14, RQ15, RQ16, RQ17 y RQ27', () => {
       expect(vista, 'lista').to.deep.equal([])
     })
 
+    it('regresión: un número de grupo que no es texto ni número queda sin grupo', () => {
+      const materia = { ...MATERIA, grupo: { ...MATERIA.grupo, numeroGrupo: null } }
+
+      const vista = filasVistaMaterias([materia])
+
+      expect(vista[0].grupo, 'grupo').to.equal('Sin grupo')
+    })
+
     it.each(['teacher', 'Student', 'estudiante'])(
       'regresión: el tipo %s no carga las materias',
       (tipo) => {
