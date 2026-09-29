@@ -539,8 +539,11 @@ export default function AdminUsersPage() {
                   minLength={8}
                 />
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de usuario</label>
+                  <label htmlFor="tipo-usuario" className="block text-sm font-medium text-gray-700 mb-1">
+                    Tipo de usuario
+                  </label>
                   <select
+                    id="tipo-usuario"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                     value={createForm.tipo_usuario}
                     onChange={(e) =>
@@ -624,7 +627,7 @@ export default function AdminUsersPage() {
                     checked={!!editForm.activo}
                     onChange={(e) => setEditForm({ ...editForm, activo: e.target.checked })}
                   />
-                  Usuario activo
+                  <span>Usuario activo</span>
                 </label>
                 <div className="flex justify-end gap-3 pt-2">
                   <Button type="button" variant="outline" onClick={closeModal}>

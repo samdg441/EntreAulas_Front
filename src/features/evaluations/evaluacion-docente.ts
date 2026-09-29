@@ -8,9 +8,12 @@ export function decidirMontajeFormulario(authUser: unknown): 'login' | 'formular
   return authUser ? 'formulario' : 'login'
 }
 
+type IdOpcional = string | number | null
+type EntidadConId = { id?: IdOpcional } | null
+
 export function hayProfesorYCurso(state: {
-  teacher?: { id?: string | number | null } | null
-  course?: { id?: string | number | null } | null
+  teacher?: EntidadConId
+  course?: EntidadConId
 }): boolean {
   return Boolean(state.teacher?.id && state.course?.id)
 }
@@ -26,10 +29,10 @@ export function armarPayloadEvaluacion(params: {
 }) {
   const answers = params.questions.map((q, idx) => {
     if (q.type === 'rating') {
-      return { questionId: parseInt(q.id, 10), rating: params.ratings[idx] ?? null, textAnswer: null }
+      return { questionId: Number.parseInt(q.id, 10), rating: params.ratings[idx] ?? null, textAnswer: null }
     }
     return {
-      questionId: parseInt(q.id, 10),
+      questionId: Number.parseInt(q.id, 10),
       rating: null,
       textAnswer: params.textAnswers[idx],
     }

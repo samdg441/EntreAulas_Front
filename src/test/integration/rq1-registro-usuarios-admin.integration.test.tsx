@@ -30,6 +30,7 @@ describe('RQ1 — Registro de usuarios desde admin (integración)', () => {
 
     await user.click(screen.getByRole('button', { name: /agregar usuario/i }))
 
+    expect(screen.getByLabelText(/^tipo de usuario$/i)).toBeInTheDocument()
     await user.type(screen.getByLabelText(/^nombre$/i), 'Nuevo')
     await user.type(screen.getByLabelText(/^apellido$/i), 'Usuario')
     await user.type(screen.getByLabelText(/^correo$/i), 'nuevo')

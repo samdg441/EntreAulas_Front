@@ -55,7 +55,7 @@ describe('RQ18 — validar el formulario del QR', () => {
 
     // Assert
     expect(respuesta.ok).toBe(true)
-    expect(respuesta.error).toBe(undefined)
+    expect(respuesta.error).toBeUndefined()
   })
 
   it('la fecha de inicio no puede quedar después de la de fin', () => {

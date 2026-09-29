@@ -1,9 +1,6 @@
-import {
-  decidirVistaResumen,
-  esAvisoSinRespuestas,
-  hayResumenParaPintar,
-  type ResultadoResumen,
-} from './resumen-ia'
+import { decidirVistaResumen, hayResumenParaPintar, type ResultadoResumen } from './resumen-ia'
+
+export { esAvisoSinRespuestas } from './resumen-ia'
 
 export type ResultadoAlerta = ResultadoResumen & {
   acosoDetectado?: boolean
@@ -43,4 +40,4 @@ export function decidirVistaAlerta(params: {
   return 'resumen'
 }
 
-export { esAvisoSinRespuestas, hayResumenParaPintar }
+export { hayResumenParaPintar }

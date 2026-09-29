@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from 'react'
 import { authApi, AuthResponse } from '../api/auth'
 import {
   getDashboardPathForUser as getDashboardPathForUserFromModule,
@@ -66,13 +66,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(false)
   }, [])
 
-  const guardarSesion = (sesion: AuthResponse) => {
+  const guardarSesion = useCallback((sesion: AuthResponse) => {
     authStorage.setToken(sesion.token)
     authStorage.setUser(sesion.user)
     setUser(sesion.user)
-  }
+  }, [])
 
-  const login = async (email: string, password: string, expectedUserType?: string): Promise<AuthResponse | void> => {
+  const login = useCallback(async (email: string, password: string, expectedUserType?: string): Promise<AuthResponse | void> => {
     const response: AuthResponse = await authApi.login({ email, password })
     const rolesDisponibles = rolesDeLaRespuesta(response)
 
@@ -99,18 +99,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     guardarSesion(response)
     return response
-  }
+  }, [guardarSesion])
 
-  const loginWithRole = async (email: string, password: string, selectedRole: string) => {
+  const loginWithRole = useCallback(async (email: string, password: string, selectedRole: string) => {
     const response: AuthResponse = await authApi.loginWithRole({ email, password, selectedRole })
 
     authStorage.setToken(response.token)
     authStorage.setUser(response.user)
 
     setUser(response.user)
-  }
+  }, [])
 
-  const logout = () => {
+  const logout = useCallback(() => {
     try {
       // Limpiar storage primero para evitar estados inconsistentes del avatar
       authApi.logout()
@@ -121,28 +121,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         window.location.href = '/login'
       } catch {}
     }
-  }
+  }, [])
 
-  const getDashboardPath = () => {
+  const getDashboardPathForUser = useCallback((u: User) => getDashboardPathForUserFromModule(u), [])
+
+  const getDashboardPath = useCallback(() => {
     if (!user) return '/login'
     return getDashboardPathForUser(user)
-  }
+  }, [user, getDashboardPathForUser])
 
-  const getDashboardPathForUser = (u: User) => getDashboardPathForUserFromModule(u)
+  const hasRole = useCallback((role: string): boolean => usuarioTieneRol(user, role), [user])
 
-  // Función para verificar si el usuario tiene un rol específico
-  const hasRole = (role: string): boolean => usuarioTieneRol(user, role)
-
-  // Función para verificar si el usuario tiene un permiso específico
-  const hasPermission = (permission: string): boolean => {
+  const hasPermission = useCallback((permission: string): boolean => {
     if (!user) return false
     return user.permissions?.includes('all') || user.permissions?.includes(permission) || false
-  }
+  }, [user])
 
-  // Función para cambiar temporalmente el rol del usuario
-  const switchUserRole = (newRole: string): void => {
+  const switchUserRole = useCallback((newRole: string): void => {
     if (!user) return
-    const roles = user.roles?.length ? user.roles : user.tipo_usuario ? [user.tipo_usuario] : []
+    const rolesPorTipo = user.tipo_usuario ? [user.tipo_usuario] : []
+    const roles = user.roles?.length ? user.roles : rolesPorTipo
     if (roles.length > 0 && !roles.includes(newRole) && user.tipo_usuario !== newRole) return
 
     const updatedUser = {
@@ -155,9 +153,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     setUser(updatedUser)
     authStorage.setUser(updatedUser)
-  }
+  }, [user])
 
-  const value: AuthContextType = {
+  const value = useMemo<AuthContextType>(() => ({
     user,
     login,
     loginWithRole,
@@ -168,8 +166,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     getDashboardPathForUser,
     hasRole,
     hasPermission,
-    switchUserRole
-  }
+    switchUserRole,
+  }), [
+    user,
+    login,
+    loginWithRole,
+    logout,
+    loading,
+    getDashboardPath,
+    getDashboardPathForUser,
+    hasRole,
+    hasPermission,
+    switchUserRole,
+  ])
 
   return (
     <AuthContext.Provider value={value}>

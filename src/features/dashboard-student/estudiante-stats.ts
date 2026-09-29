@@ -45,13 +45,15 @@ export function statsTrasErrorApi() {
   return { ...STATS_CERO }
 }
 
+type ValorStat = number | string | null
+
 export function statsDesdeApi(
   data: {
-    evaluacionesCompletadas?: number | string | null
-    evaluacionesPendientes?: number | string | null
-    materiasMatriculadas?: number | string | null
-    promedioGeneral?: number | string | null
-    progresoGeneral?: number | string | null
+    evaluacionesCompletadas?: ValorStat
+    evaluacionesPendientes?: ValorStat
+    materiasMatriculadas?: ValorStat
+    promedioGeneral?: ValorStat
+    progresoGeneral?: ValorStat
   } | null
 ) {
   return {
