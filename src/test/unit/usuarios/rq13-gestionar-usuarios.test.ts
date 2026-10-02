@@ -13,7 +13,7 @@ import {
   rolesDelUsuario,
   usuarioDeCorreo,
   type UsuarioLista,
-} from '../../features/dashboard-admin/gestionar-usuarios'
+} from '../../../features/dashboard-admin/gestionar-usuarios'
 
 const ADMIN = { token: 'jwt', savedUser: '{}', user: { tipo_usuario: 'admin', roles: ['admin'] } }
 

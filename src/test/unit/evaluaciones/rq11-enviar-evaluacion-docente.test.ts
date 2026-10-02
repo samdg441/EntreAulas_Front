@@ -8,7 +8,7 @@ import {
   decidirMontajeFormulario,
   hayProfesorYCurso,
   mensajeErrorEnvio,
-} from '../../features/evaluations/evaluacion-docente'
+} from '../../../features/evaluations/evaluacion-docente'
 
 const PROFESOR = { id: 7 }
 const CURSO = { id: 31 }

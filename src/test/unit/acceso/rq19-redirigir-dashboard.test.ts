@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decidirAccesoRuta, getDashboardPathForUser, usuarioTieneRol } from '../../features/auth/dashboard-path'
+import { decidirAccesoRuta, getDashboardPathForUser, usuarioTieneRol } from '../../../features/auth/dashboard-path'
 
 /**
  * RQ19 en la pantalla — al entrar, el navegador elige la ruta del rol.

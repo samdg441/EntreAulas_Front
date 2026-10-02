@@ -3,12 +3,12 @@ import {
   decidirCargaStatsEstudiante,
   statsDesdeApi,
   statsTrasErrorApi,
-} from '../../features/dashboard-student/estudiante-stats'
+} from '../../../features/dashboard-student/estudiante-stats'
 import {
   armarPayloadEvaluacion,
   decidirEnvioFormulario,
   mensajeErrorEnvio,
-} from '../../features/evaluations/evaluacion-docente'
+} from '../../../features/evaluations/evaluacion-docente'
 import {
   aplicarAltaEnLista,
   armarCorreoInstitucional,
@@ -18,9 +18,9 @@ import {
   decidirDesactivarUsuario,
   esAutoDesactivacion,
   type UsuarioLista,
-} from '../../features/dashboard-admin/gestionar-usuarios'
-import { decidirVistaResumen, endpointPorRol, type ResultadoResumen } from '../../features/evaluations/resumen-ia'
-import { decidirVistaAlerta, muestraBannerAcoso, type ResultadoAlerta } from '../../features/evaluations/alerta-acoso'
+} from '../../../features/dashboard-admin/gestionar-usuarios'
+import { decidirVistaResumen, endpointPorRol, type ResultadoResumen } from '../../../features/evaluations/resumen-ia'
+import { decidirVistaAlerta, muestraBannerAcoso, type ResultadoAlerta } from '../../../features/evaluations/alerta-acoso'
 
 /**
  * Regresión de RQ10, RQ11, RQ13, RQ29, RQ30 y RQ31 en el front.

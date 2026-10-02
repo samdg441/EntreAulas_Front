@@ -9,7 +9,7 @@ import {
   hayResumenParaPintar,
   mensajeErrorResumen,
   type ResultadoResumen,
-} from '../../features/evaluations/resumen-ia'
+} from '../../../features/evaluations/resumen-ia'
 
 const COMENTARIOS: ResultadoResumen = {
   summary: 'Resumen local a partir de 2 respuestas abiertas.',

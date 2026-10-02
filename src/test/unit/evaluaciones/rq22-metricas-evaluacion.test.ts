@@ -4,7 +4,7 @@ import {
   calificacionEnEscala,
   promedioVisible,
   resumenMetricasProfesor,
-} from '../../lib/calificaciones'
+} from '../../../lib/calificaciones'
 
 /**
  * RQ22 en la pantalla — el número que se pinta en la tarjeta del docente.

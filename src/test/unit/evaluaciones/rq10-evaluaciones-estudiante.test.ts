@@ -8,7 +8,7 @@ import {
   statsDesdeApi,
   statsTrasErrorApi,
   tarjetasEstudiante,
-} from '../../features/dashboard-student/estudiante-stats'
+} from '../../../features/dashboard-student/estudiante-stats'
 
 /**
  * RQ10 en la pantalla del estudiante: sin sesión no hay dashboard,

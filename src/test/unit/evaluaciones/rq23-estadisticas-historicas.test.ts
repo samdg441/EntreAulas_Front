@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { esPeriodoValido, rangoFechasPeriodo } from '../../lib/calificaciones'
+import { esPeriodoValido, rangoFechasPeriodo } from '../../../lib/calificaciones'
 
 /**
  * RQ23 en la pantalla — el filtro de periodo.

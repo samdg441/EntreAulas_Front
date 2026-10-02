@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { validarFormularioReset } from '../../features/auth/password-reset-flow'
-import { resetPassword } from '../../api/passwordReset'
-import { apiClient } from '../../api/client'
+import { validarFormularioReset } from '../../../features/auth/password-reset-flow'
+import { resetPassword } from '../../../api/passwordReset'
+import { apiClient } from '../../../api/client'
 
-vi.mock('../../api/client', () => ({
+vi.mock('../../../api/client', () => ({
   apiClient: { get: vi.fn(), post: vi.fn() },
 }))
 

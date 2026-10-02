@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validatePasswordStrength } from '../../lib/validation'
+import { validatePasswordStrength } from '../../../lib/validation'
 import {
   decidirAccesoAdminUsers,
   decidirAltaUsuario,
@@ -12,7 +12,7 @@ import {
   esAutoDesactivacion,
   mensajeErrorAccion,
   type UsuarioLista,
-} from '../../features/dashboard-admin/gestionar-usuarios'
+} from '../../../features/dashboard-admin/gestionar-usuarios'
 
 describe('RQ1 — Registro de usuarios desde admin', () => {
   describe('decidirAccesoAdminUsers — la página es exclusiva de admin', () => {

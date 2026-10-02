@@ -8,12 +8,12 @@ aserciones encadenadas (`expect(x).matcher()`) en estilo Given/When/Then.
 
 | Req. | Historia de usuario | Módulo/componente real | Unit | Integración |
 |---|---|---|---|---|
-| RQ1 | Como admin, registrar usuarios con contraseña para habilitar su acceso | `gestionar-usuarios.ts`, `validatePasswordStrength`, `AdminUsersPage.tsx` | `unit/rq1-registro-usuarios-admin.test.ts` | `integration/rq1-registro-usuarios-admin.integration.test.tsx` |
-| RQ2 | Como usuario, iniciar sesión y obtener un token según mi rol | `login-flow.ts`, `AuthContext.login`, `Login.tsx` | `unit/rq2-login.test.ts` | `integration/rq2-login.integration.test.tsx` (orquestación) + `integration/rq2-login-page.integration.test.tsx` (pantalla real) |
-| RQ3.1 | Como usuario, que el sistema genere el token de recuperación (solicitud) | `password-reset-flow.ts` (`validarFormularioRequest`), `ForgotPassword.tsx` | `unit/rq3-1-solicitud-recuperacion.test.ts` | `integration/rq3-4-solicitud-y-envio-recuperacion.integration.test.tsx` |
-| RQ3.2 | Validación de token de recuperación | `password-reset-flow.ts` (`debeValidarToken`), `api/passwordReset.ts` (`validateResetToken`) | `unit/rq3-2-validacion-token.test.ts` | cubierto dentro de `rq5-restablecer-contrasena.integration.test.tsx` (valida el token al montar `ResetPassword.tsx`) |
-| RQ4 | Recibir el enlace de recuperación por correo (envío) | `api/passwordReset.ts` (`requestPasswordReset`), `ForgotPassword.tsx` | `unit/rq4-envio-correo-recuperacion.test.ts` | `integration/rq3-4-solicitud-y-envio-recuperacion.integration.test.tsx` |
-| RQ5 | Con token válido, definir una nueva contraseña | `password-reset-flow.ts` (`validarFormularioReset`), `api/passwordReset.ts` (`resetPassword`), `ResetPassword.tsx` | `unit/rq5-restablecer-contrasena.test.ts` | `integration/rq5-restablecer-contrasena.integration.test.tsx` |
+| RQ1 | Como admin, registrar usuarios con contraseña para habilitar su acceso | `gestionar-usuarios.ts`, `validatePasswordStrength`, `AdminUsersPage.tsx` | `unit/autenticacion/rq1-registro-usuarios-admin.test.ts` | `integration/rq1-registro-usuarios-admin.integration.test.tsx` |
+| RQ2 | Como usuario, iniciar sesión y obtener un token según mi rol | `login-flow.ts`, `AuthContext.login`, `Login.tsx` | `unit/autenticacion/rq2-login.test.ts` | `integration/rq2-login.integration.test.tsx` (orquestación) + `integration/rq2-login-page.integration.test.tsx` (pantalla real) |
+| RQ3.1 | Como usuario, que el sistema genere el token de recuperación (solicitud) | `password-reset-flow.ts` (`validarFormularioRequest`), `ForgotPassword.tsx` | `unit/autenticacion/rq3-1-solicitud-recuperacion.test.ts` | `integration/rq3-4-solicitud-y-envio-recuperacion.integration.test.tsx` |
+| RQ3.2 | Validación de token de recuperación | `password-reset-flow.ts` (`debeValidarToken`), `api/passwordReset.ts` (`validateResetToken`) | `unit/autenticacion/rq3-2-validacion-token.test.ts` | cubierto dentro de `rq5-restablecer-contrasena.integration.test.tsx` (valida el token al montar `ResetPassword.tsx`) |
+| RQ4 | Recibir el enlace de recuperación por correo (envío) | `api/passwordReset.ts` (`requestPasswordReset`), `ForgotPassword.tsx` | `unit/autenticacion/rq4-envio-correo-recuperacion.test.ts` | `integration/rq3-4-solicitud-y-envio-recuperacion.integration.test.tsx` |
+| RQ5 | Con token válido, definir una nueva contraseña | `password-reset-flow.ts` (`validarFormularioReset`), `api/passwordReset.ts` (`resetPassword`), `ResetPassword.tsx` | `unit/autenticacion/rq5-restablecer-contrasena.test.ts` | `integration/rq5-restablecer-contrasena.integration.test.tsx` |
 
 Técnica: partición de equivalencia + valores límite + tablas de decisión sobre
 cada función exportada, más pruebas de integración con Testing Library sobre
@@ -50,5 +50,5 @@ npm test                 # unit + integration, todas en verde
 npm run test:watch
 npm run test:coverage
 
-npx vitest run src/test/unit/rq2-login.test.ts   # un archivo puntual
+npx vitest run src/test/unit/autenticacion/rq2-login.test.ts   # un archivo puntual
 ```

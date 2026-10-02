@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validarFormularioRequest } from '../../features/auth/password-reset-flow'
+import { validarFormularioRequest } from '../../../features/auth/password-reset-flow'
 
 describe('RQ3.1 — Solicitud de correo de recuperación', () => {
   it('exige el correo cuando el campo está vacío', () => {

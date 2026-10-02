@@ -5,8 +5,8 @@ import {
   muestraListaDocentesAcoso,
   tituloAlertaAcoso,
   type ResultadoAlerta,
-} from '../../features/evaluations/alerta-acoso'
-import { endpointPorRol } from '../../features/evaluations/resumen-ia'
+} from '../../../features/evaluations/alerta-acoso'
+import { endpointPorRol } from '../../../features/evaluations/resumen-ia'
 
 const CON_ACOSO: ResultadoAlerta = {
   summary: 'Se detectaron indicios en los comentarios de la carrera.',

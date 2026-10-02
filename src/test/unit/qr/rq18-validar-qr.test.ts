@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decidirGeneracionQr, validarCorreoQr, validarFechasQr } from '../../features/evaluations/qr-validacion'
+import { decidirGeneracionQr, validarCorreoQr, validarFechasQr } from '../../../features/evaluations/qr-validacion'
 
 /**
  * RQ18 en la pantalla — antes de pedir los códigos QR, el formulario

@@ -1,13 +1,13 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-import { decidirGeneracionQr, validarCorreoQr } from '../../features/evaluations/qr-validacion'
-import { decidirAccesoRuta, getDashboardPathForUser } from '../../features/auth/dashboard-path'
-import { calcularPromedio, promedioVisible, rangoFechasPeriodo } from '../../lib/calificaciones'
-import { filtrarDocentes } from '../../features/dashboard-coordinator/docentes'
+import { decidirGeneracionQr, validarCorreoQr } from '../../../features/evaluations/qr-validacion'
+import { decidirAccesoRuta, getDashboardPathForUser } from '../../../features/auth/dashboard-path'
+import { calcularPromedio, promedioVisible, rangoFechasPeriodo } from '../../../lib/calificaciones'
+import { filtrarDocentes } from '../../../features/dashboard-coordinator/docentes'
 import {
   armarModeloExcelCoordinador,
   nombreArchivoExcelReporte,
   usuarioPuedeExportarReporte,
-} from '../../utils/reporte-exportacion'
+} from '../../../utils/reporte-exportacion'
 
 /**
  * La regresión de la pantalla, en un solo archivo.

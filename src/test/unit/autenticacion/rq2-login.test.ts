@@ -5,7 +5,7 @@ import {
   getRoleDescription,
   rolesDeLaRespuesta,
   resolverRolDeIngreso,
-} from '../../features/auth/login-flow'
+} from '../../../features/auth/login-flow'
 
 describe('RQ2 — Login', () => {
   describe('getUserTypeLabel / getRoleLabel / getRoleDescription', () => {

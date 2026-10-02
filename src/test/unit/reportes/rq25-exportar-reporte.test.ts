@@ -6,7 +6,7 @@ import {
   exportCoordinatorReportExcel,
   nombreArchivoExcelReporte,
   usuarioPuedeExportarReporte,
-} from '../../utils/reporte-exportacion'
+} from '../../../utils/reporte-exportacion'
 
 vi.mock('file-saver', () => ({ saveAs: vi.fn() }))
 vi.mock('xlsx', () => ({

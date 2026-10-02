@@ -5,7 +5,7 @@ import {
   esAvisoSinRespuestas,
   mensajeErrorResumen,
   type ResultadoResumen,
-} from '../../features/evaluations/resumen-ia'
+} from '../../../features/evaluations/resumen-ia'
 
 const AVISO_CARRERA = 'No se encontraron respuestas abiertas válidas para esta carrera.'
 const AVISO_FACULTAD =

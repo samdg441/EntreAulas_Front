@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { filtrarDocentes, statsVaciasCoordinador } from '../../features/dashboard-coordinator/docentes'
+import { filtrarDocentes, statsVaciasCoordinador } from '../../../features/dashboard-coordinator/docentes'
 
 /**
  * RQ24 en la pantalla — el coordinador escribe un nombre y la lista se reduce.
