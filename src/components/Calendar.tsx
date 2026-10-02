@@ -1,171 +1,255 @@
-// components/Calendar.tsx
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { CalendarCheck, CalendarClock, CalendarX, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { getVentanasEvaluacion, type VentanaEvaluacion } from '../api/periodos.api';
+import {
+  celdasDelMes,
+  estadoDelDia,
+  formatoFechaLarga,
+  mesInicial,
+  mismoDia,
+  resumenEvaluacion,
+  textoDias,
+  type EstadoDia,
+} from '../lib/calendario';
 
 interface CalendarProps {
   onClose: () => void;
 }
 
-const Calendar = ({ onClose }: CalendarProps) => {
-  const [currentDate, setCurrentDate] = useState(new Date()); // Mes/año actual
+const DIAS_SEMANA = [
+  { corto: 'Lun', largo: 'lunes' },
+  { corto: 'Mar', largo: 'martes' },
+  { corto: 'Mié', largo: 'miércoles' },
+  { corto: 'Jue', largo: 'jueves' },
+  { corto: 'Vie', largo: 'viernes' },
+  { corto: 'Sáb', largo: 'sábado' },
+  { corto: 'Dom', largo: 'domingo' },
+];
 
-  // Fechas importantes
-  const surveyStart = new Date(2025, 8, 16); // 16 de septiembre
-  const surveyEnd = new Date(2025, 8, 26);   // 26 de septiembre
+const ESTILO_DIA: Record<EstadoDia, string> = {
+  inicio: 'bg-[#FECACA] text-[#991B1B] border-2 border-[#F87171]',
+  fin: 'bg-[#FECACA] text-[#991B1B] border-2 border-[#F87171]',
+  abierta: 'bg-[#FEF2F2] text-[#991B1B] border border-[#FECACA]',
+  normal: 'bg-white text-gray-700 border border-gray-100',
+};
 
-  const navigateMonth = (direction: number) => {
-    const newDate = new Date(currentDate);
-    newDate.setMonth(currentDate.getMonth() + direction);
-    setCurrentDate(newDate);
-  };
+const ETIQUETA_DIA: Record<EstadoDia, string> = {
+  inicio: 'Abre',
+  fin: 'Cierra',
+  abierta: '',
+  normal: '',
+};
 
-  const getDaysInMonth = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    return new Date(year, month + 1, 0).getDate();
-  };
+const DESCRIPCION_DIA: Record<EstadoDia, string> = {
+  inicio: 'apertura de la evaluación',
+  fin: 'cierre de la evaluación',
+  abierta: 'evaluación abierta',
+  normal: 'sin evaluación',
+};
 
-  // ✅ Asegurar que la semana empiece en lunes
-  const getFirstDayOfMonth = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const firstDay = new Date(year, month, 1).getDay(); // 0 = domingo
-    return (firstDay + 6) % 7; // convierte lunes = 0, domingo = 6
-  };
+function ResumenBanner({ ventanas, hoy }: Readonly<{ ventanas: VentanaEvaluacion[]; hoy: Date }>) {
+  const resumen = resumenEvaluacion(hoy, ventanas);
 
-  const formatMonthYear = (date: Date) => {
-    const options = { year: 'numeric', month: 'long' } as const;
-    return date.toLocaleDateString('es-ES', options);
-  };
-
-  const isSameDay = (date1: Date, date2: Date) => {
+  if (resumen.tipo === 'abierta') {
     return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
-  };
-
-const renderDays = () => {
-  const daysInMonth = getDaysInMonth(currentDate);
-  const firstDayIndex = getFirstDayOfMonth(currentDate); // lunes = 0, domingo = 6
-  const days: JSX.Element[] = [];
-
-  // Total de celdas = huecos antes + días del mes + huecos después
-  const totalCells = Math.ceil((firstDayIndex + daysInMonth) / 7) * 7;
-
-  for (let cell = 0; cell < totalCells; cell++) {
-    const dayNumber = cell - firstDayIndex + 1;
-    const dayDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      dayNumber
-    );
-
-    let content: number | null = null;
-    let dayClass =
-      "calendar-day text-center rounded-lg text-gray-700 text-sm sm:text-base font-semibold flex items-center justify-center min-h-[44px] sm:min-h-[56px] md:min-h-[68px]";
-    let tooltip = "";
-
-    if (dayNumber > 0 && dayNumber <= daysInMonth) {
-      content = dayNumber;
-
-      if (isSameDay(dayDate, surveyStart)) {
-        dayClass =
-          "calendar-day tooltip text-center rounded-lg bg-blue-100 text-blue-700 font-bold border-2 border-blue-300 text-sm sm:text-base flex items-center justify-center min-h-[44px] sm:min-h-[56px] md:min-h-[68px]";
-        tooltip = "Apertura de la encuesta";
-      } else if (isSameDay(dayDate, surveyEnd)) {
-        dayClass =
-          "calendar-day tooltip text-center rounded-lg bg-red-100 text-red-700 font-bold border-2 border-red-300 text-sm sm:text-base flex items-center justify-center min-h-[44px] sm:min-h-[56px] md:min-h-[68px]";
-        tooltip = "Cierre de la encuesta";
-      }
-    }
-
-    days.push(
-      <div key={`cell-${cell}`} className={dayClass} data-tooltip={tooltip}>
-        {content}
+      <div className="flex items-start gap-3 rounded-xl border border-[#FECACA] bg-[#FEF2F2] p-3 sm:p-4" role="status">
+        <CalendarCheck className="h-6 w-6 shrink-0 text-[#B91C1C]" aria-hidden="true" />
+        <div>
+          <p className="font-semibold text-[#991B1B]">La evaluación docente está abierta</p>
+          <p className="text-sm text-gray-700">
+            Del {formatoFechaLarga(resumen.ventana.fechaInicio)} al {formatoFechaLarga(resumen.ventana.fechaFin)}.
+            {' '}Cierra {textoDias(resumen.diasRestantes)}.
+          </p>
+        </div>
       </div>
     );
   }
 
-  return days;
-};
+  if (resumen.tipo === 'proxima') {
+    return (
+      <div className="flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3 sm:p-4" role="status">
+        <CalendarClock className="h-6 w-6 shrink-0 text-gray-600" aria-hidden="true" />
+        <div>
+          <p className="font-semibold text-gray-900">Próxima evaluación docente</p>
+          <p className="text-sm text-gray-700">
+            Del {formatoFechaLarga(resumen.ventana.fechaInicio)} al {formatoFechaLarga(resumen.ventana.fechaFin)}.
+            {' '}Abre {textoDias(resumen.diasParaInicio)}.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3 sm:p-4" role="status">
+      <CalendarX className="h-6 w-6 shrink-0 text-gray-500" aria-hidden="true" />
+      <div>
+        <p className="font-semibold text-gray-900">No hay evaluaciones programadas</p>
+        <p className="text-sm text-gray-700">Cuando se defina el periodo de evaluación aparecerá marcado aquí.</p>
+      </div>
+    </div>
+  );
+}
+
+const Calendar = ({ onClose }: CalendarProps) => {
+  const hoy = new Date();
+  const [mes, setMes] = useState(() => new Date(hoy.getFullYear(), hoy.getMonth(), 1));
+  const [ventanas, setVentanas] = useState<VentanaEvaluacion[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(false);
+  const tituloId = useId();
+  const cerrarRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    let activo = true;
+    getVentanasEvaluacion()
+      .then((data) => {
+        if (!activo) return;
+        setVentanas(data);
+        setMes(mesInicial(new Date(), data));
+      })
+      .catch(() => activo && setError(true))
+      .finally(() => activo && setCargando(false));
+    return () => {
+      activo = false;
+    };
+  }, []);
+
+  // Los dashboards pasan onClose como función nueva en cada render; el ref evita re-enfocar en cada render.
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
+  useEffect(() => {
+    cerrarRef.current?.focus();
+    const alPresionar = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onCloseRef.current();
+    };
+    document.addEventListener('keydown', alPresionar);
+    return () => document.removeEventListener('keydown', alPresionar);
+  }, []);
+
+  const cambiarMes = (delta: number) => setMes((m) => new Date(m.getFullYear(), m.getMonth() + delta, 1));
+  const irAHoy = () => setMes(new Date(hoy.getFullYear(), hoy.getMonth(), 1));
+  const nombreMes = mes.toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-3 sm:p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4"
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.9 }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={tituloId}
+        initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
-        exit={{ scale: 0.9 }}
-        className="bg-white rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 w-full max-w-5xl max-h-[90vh] relative mx-auto my-auto overflow-y-auto"
+        exit={{ scale: 0.95 }}
+        className="relative mx-auto max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-4 shadow-2xl sm:p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header del calendario */}
-        <div className="flex items-center gap-2 sm:gap-4 mb-5 sm:mb-6">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 capitalize">
-            {formatMonthYear(currentDate)}
-          </h2>
-
-          {/* Flechas + botón de cerrar alineados */}
-          <div className="flex items-center gap-2 sm:gap-3 ml-auto">
+        <div className="mb-4 flex items-center gap-2">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Calendario de evaluación</p>
+            <h2 id={tituloId} className="text-xl font-bold capitalize text-gray-900 sm:text-2xl" aria-live="polite">
+              {nombreMes}
+            </h2>
+          </div>
+          <div className="ml-auto flex items-center gap-1 sm:gap-2">
             <button
-              onClick={() => navigateMonth(-1)}
-              className="p-2 sm:p-3 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors bg-white shadow-md"
+              type="button"
+              onClick={irAHoy}
+              className="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E30613]"
             >
-              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+              Hoy
             </button>
             <button
-              onClick={() => navigateMonth(1)}
-              className="p-2 sm:p-3 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors bg-white shadow-md"
+              type="button"
+              onClick={() => cambiarMes(-1)}
+              aria-label="Mes anterior"
+              className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E30613]"
             >
-              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
             </button>
             <button
+              type="button"
+              onClick={() => cambiarMes(1)}
+              aria-label="Mes siguiente"
+              className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E30613]"
+            >
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              ref={cerrarRef}
+              type="button"
               onClick={onClose}
-              className="p-2 sm:p-3 rounded-full hover:bg-gray-100 bg-white shadow-md"
+              aria-label="Cerrar calendario"
+              className="rounded-full p-2 text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E30613]"
             >
-              <X className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
         </div>
 
-        {/* Días de la semana */}
-        <div className="grid grid-cols-7 gap-1 sm:gap-2 md:gap-3 mb-3 sm:mb-4">
-          {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((day) => (
-            <div
-              key={day}
-              className="text-center text-xs sm:text-sm md:text-base font-bold text-gray-700 py-1 sm:py-2"
-            >
-              {day}
+        <div className="mb-4">
+          {cargando && <p className="text-sm text-gray-500">Cargando fechas de evaluación…</p>}
+          {!cargando && error && (
+            <p className="rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700" role="alert">
+              No pudimos cargar las fechas de evaluación. Intenta de nuevo más tarde.
+            </p>
+          )}
+          {!cargando && !error && <ResumenBanner ventanas={ventanas} hoy={hoy} />}
+        </div>
+
+        <div className="grid grid-cols-7 gap-1 sm:gap-2" role="grid" aria-label={`Días de ${nombreMes}`}>
+          {DIAS_SEMANA.map((d) => (
+            <div key={d.corto} role="columnheader" className="py-1 text-center text-xs font-bold text-gray-500 sm:text-sm">
+              <abbr title={d.largo} className="no-underline">{d.corto}</abbr>
             </div>
           ))}
+
+          {celdasDelMes(mes).map((dia, i) => {
+            if (!dia) return <div key={`vacio-${i}`} role="gridcell" aria-hidden="true" />;
+            const estado = estadoDelDia(dia, ventanas);
+            const esHoy = mismoDia(dia, hoy);
+            const fechaTexto = dia.toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' });
+            return (
+              <div
+                key={dia.toISOString()}
+                role="gridcell"
+                aria-current={esHoy ? 'date' : undefined}
+                aria-label={`${fechaTexto}${esHoy ? ', hoy' : ''}, ${DESCRIPCION_DIA[estado]}`}
+                title={estado === 'normal' ? undefined : DESCRIPCION_DIA[estado]}
+                className={`flex min-h-[48px] flex-col items-center justify-center rounded-lg text-sm font-semibold sm:min-h-[60px] sm:text-base ${ESTILO_DIA[estado]} ${esHoy ? 'ring-2 ring-gray-900 ring-offset-1' : ''}`}
+              >
+                <span>{dia.getDate()}</span>
+                {(ETIQUETA_DIA[estado] || esHoy) && (
+                  <span className="text-[10px] font-medium uppercase leading-none sm:text-[11px]" aria-hidden="true">
+                    {ETIQUETA_DIA[estado] || 'Hoy'}
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-        {/* Días del mes */}
-        <div className="grid grid-cols-7 gap-1 sm:gap-2 md:gap-3">{renderDays()}</div>
-
-        {/* Leyenda */}
-        <div className="flex flex-col sm:flex-row justify-center mt-6 sm:mt-8 gap-3 sm:gap-8 pt-4 sm:pt-6 border-t border-gray-200">
-          <div className="flex items-center">
-            <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-blue-500 mr-2"></div>
-            <span className="text-sm sm:text-base font-semibold text-gray-800">
-              Apertura de encuesta
-            </span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-red-500 mr-2"></div>
-            <span className="text-sm sm:text-base font-semibold text-gray-800">
-              Cierre de encuesta
-            </span>
-          </div>
-        </div>
+        <ul className="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 border-t border-gray-100 pt-4 text-sm text-gray-700">
+          <li className="flex items-center gap-2">
+            <span className="h-4 w-4 rounded border-2 border-[#F87171] bg-[#FECACA]" aria-hidden="true" />
+            Apertura y cierre
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="h-4 w-4 rounded border border-[#FECACA] bg-[#FEF2F2]" aria-hidden="true" />
+            Evaluación abierta
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="h-4 w-4 rounded bg-white ring-2 ring-gray-900" aria-hidden="true" />
+            Hoy
+          </li>
+        </ul>
       </motion.div>
     </motion.div>
   );

@@ -4,7 +4,7 @@ pipeline {
     options {
         timestamps()
         disableConcurrentBuilds()
-        timeout(time: 30, unit: 'MINUTES')
+        timeout(time: 45, unit: 'MINUTES')
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
 
@@ -13,6 +13,7 @@ pipeline {
         SONAR_PROJECT_NAME = 'EntreAulas Front'
         IMAGE_NAME = 'entreaulas-front'
         CONTAINER_NAME = 'entreaulas-front-container'
+        VERCEL_URL = 'https://entreaulas-front.vercel.app'
     }
 
     stages {
@@ -145,6 +146,42 @@ pipeline {
                     echo "El contenedor no alcanzo el estado healthy."
                     exit 1
                 '''
+            }
+        }
+
+        stage('Deploy to Vercel') {
+            steps {
+                withCredentials([string(credentialsId: 'vercel-deploy-hook-front', variable: 'VERCEL_HOOK')]) {
+                    sh '''
+                        set -e
+                        curl -fsS -X POST "$VERCEL_HOOK" -o /dev/null
+                        echo "Despliegue solicitado a Vercel para el commit $GIT_COMMIT"
+                    '''
+                }
+            }
+        }
+
+        stage('Verify Vercel') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    sh '''
+                        set -e
+                        for attempt in $(seq 1 40); do
+                            RESPONSE=$(curl -fsS --max-time 30 "$VERCEL_URL/version.json" || true)
+                            echo "Intento $attempt: $RESPONSE"
+
+                            if echo "$RESPONSE" | grep -q "$GIT_COMMIT"; then
+                                echo "Vercel ya sirve el commit $GIT_COMMIT"
+                                exit 0
+                            fi
+
+                            sleep 15
+                        done
+
+                        echo "Vercel no publico el commit $GIT_COMMIT a tiempo."
+                        exit 1
+                    '''
+                }
             }
         }
     }

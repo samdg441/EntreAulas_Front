@@ -9,6 +9,9 @@ import { fetchCursosConProfesor } from '../../api/coordinador.api'
 import { createQrEvaluationsBatch, shareQrEvaluationsEmail } from '../../api/evaluations.api'
 import { exportElementToPNG } from '../../utils/export'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { toast } from 'sonner'
+import { guardarVentanaEvaluacion } from '../../api/periodos.api'
+import { getApiErrorMessage } from '../../lib/apiError'
 
 interface CursoGrupo {
   id: number;
@@ -152,7 +155,7 @@ export default function ScheduleSurveys() {
     }
     if (skipped.length > 0) {
       console.warn('QRs omitidos por falta de profesor_id:', skipped)
-      alert(`Se omitieron ${skipped.length} grupo(s) porque no tienen profesor asignado.`)
+      toast.warning(`Se omitieron ${skipped.length} grupo(s) porque no tienen profesor asignado.`)
     }
   }
 
@@ -161,11 +164,11 @@ export default function ScheduleSurveys() {
     const uniqueSelected = Array.from(new Set(validSelected))
 
     if (uniqueSelected.length === 0) {
-      alert('Selecciona al menos un curso/grupo para generar QR.')
+      toast.warning('Selecciona al menos un curso/grupo para generar QR.')
       return
     }
     if (cursos.length === 0) {
-      alert('Primero carga los cursos para poder generar los QR.')
+      toast.warning('Primero carga los cursos para poder generar los QR.')
       return
     }
     setQrModalOpen(true)
@@ -187,7 +190,7 @@ export default function ScheduleSurveys() {
   const downloadCurrentPage = async () => {
     if (pageCursos.length === 0) return
     if (generatingQrs || !visibleHaveTokens) {
-      alert('Aún se están generando los tokens reales. Espera un momento y vuelve a intentar.')
+      toast.warning('Aún se están generando los tokens reales. Espera un momento y vuelve a intentar.')
       return
     }
     for (const c of pageCursos) {
@@ -201,7 +204,7 @@ export default function ScheduleSurveys() {
 
   const openEmailShareModal = async () => {
     if (selectedCursos.length === 0) {
-      alert('Selecciona al menos un curso/grupo para compartir.')
+      toast.warning('Selecciona al menos un curso/grupo para compartir.')
       return
     }
     const ids = selectedCursos.map(c => c.id)
@@ -211,7 +214,7 @@ export default function ScheduleSurveys() {
       setEmailModalOpen(true)
     } catch (e) {
       console.error('No se pudieron asegurar tokens para compartir por correo:', e)
-      alert('No se pudieron generar/validar los tokens para compartir.')
+      toast.error('No se pudieron generar/validar los tokens para compartir.')
     } finally {
       setGeneratingQrs(false)
     }
@@ -222,15 +225,15 @@ export default function ScheduleSurveys() {
     const subject = emailSubject.trim()
     const grupoIds = emailPreviewCursos.map(c => c.id)
     if (!to) {
-      alert('Ingresa un correo de destino.')
+      toast.warning('Ingresa un correo de destino.')
       return
     }
     if (!subject) {
-      alert('Ingresa un asunto para el correo.')
+      toast.warning('Ingresa un asunto para el correo.')
       return
     }
     if (grupoIds.length === 0) {
-      alert('No hay QRs disponibles para enviar.')
+      toast.warning('No hay QRs disponibles para enviar.')
       return
     }
 
@@ -243,11 +246,11 @@ export default function ScheduleSurveys() {
         grupoIds
       })
       setEmailModalOpen(false)
-      alert('Correo enviado correctamente.')
+      toast.success('Correo enviado correctamente.')
     } catch (e: any) {
       console.error('Error enviando correo de QRs:', e)
       const msg = e?.response?.data?.error || e?.response?.data?.details || e?.message || 'No se pudo enviar el correo.'
-      alert(String(msg))
+      toast.error(String(msg))
     } finally {
       setSendingEmail(false)
     }
@@ -256,20 +259,18 @@ export default function ScheduleSurveys() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!form.startDate || !form.endDate || !form.period) {
-      alert('Completa Fecha de inicio, Fecha de cierre y Período antes de programar.')
+      toast.warning('Completa Fecha de inicio, Fecha de cierre y Período antes de programar.')
       return
     }
     setSubmitting(true)
     try {
-      // 1) Aquí iría la llamada real a tu endpoint de programación de encuestas
-
-      setSubmitting(false)
-      alert('Encuesta programada correctamente')
+      await guardarVentanaEvaluacion({ periodo: form.period.trim(), fechaInicio: form.startDate, fechaFin: form.endDate })
+      toast.success('Encuesta programada: ya aparece en el calendario.')
       navigate('/dashboard-coordinador')
     } catch (err) {
-      console.error('Error al programar la encuesta:', err)
+      toast.error(getApiErrorMessage(err, 'No se pudo programar la encuesta.'))
+    } finally {
       setSubmitting(false)
-      alert('Error al programar la encuesta')
     }
   }
 

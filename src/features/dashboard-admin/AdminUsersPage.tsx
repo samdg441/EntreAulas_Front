@@ -483,9 +483,10 @@ export default function AdminUsersPage() {
             <button
               type="button"
               onClick={closeModal}
+              aria-label="Cerrar"
               className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </button>
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               {modalMode === 'create' ? 'Agregar usuario' : 'Actualizar usuario'}

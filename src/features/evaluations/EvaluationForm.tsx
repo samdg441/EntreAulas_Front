@@ -14,6 +14,7 @@ import LikertScale from '../../components/LikertScale';
 import ProgressBar from '../../components/ProgressBar';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
+import { toast } from 'sonner'
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
@@ -136,12 +137,12 @@ export default function EvaluationForm() {
     
     // Validar según el tipo de pregunta
     if (currentQ.type === 'rating' && ratings[currentQuestion] === 0) {
-      alert('Por favor selecciona una calificación antes de continuar');
+      toast.warning('Por favor selecciona una calificación antes de continuar');
       return;
     }
     
     if (currentQ.type === 'texto' && textAnswers[currentQuestion].trim() === '') {
-      alert('Por favor escribe una respuesta antes de continuar');
+      toast.warning('Por favor escribe una respuesta antes de continuar');
       return;
     }
 
@@ -170,7 +171,7 @@ export default function EvaluationForm() {
   const handleConfirmSubmit = async () => {
     try {
       if (!teacher?.id || !course?.id) {
-        alert('Error: Faltan datos del profesor o curso')
+        toast.error('Error: Faltan datos del profesor o curso')
         return
       }
 
@@ -240,7 +241,7 @@ export default function EvaluationForm() {
         errorMessage = e.message
       }
       
-      alert(errorMessage)
+      toast.error(errorMessage)
     }
   };
 

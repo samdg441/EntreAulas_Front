@@ -53,6 +53,7 @@ import html2canvas from 'html2canvas';
 // Importar la imagen de fondo
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../../utils/export';
+import { toast } from 'sonner'
 
 interface SurveyResultsProps {
   user: User;
@@ -381,7 +382,7 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
   const exportChartsToPNG = async () => {
     const charts = document.querySelectorAll('.recharts-wrapper');
     if (charts.length === 0) {
-      alert('No se encontraron gráficos para exportar');
+      toast.warning('No se encontraron gráficos para exportar');
       return;
     }
 
@@ -403,7 +404,7 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
       }
     } catch (error) {
       console.error('Error exportando gráficos:', error);
-      alert('Error al exportar los gráficos');
+      toast.error('Error al exportar los gráficos');
     }
   };
 

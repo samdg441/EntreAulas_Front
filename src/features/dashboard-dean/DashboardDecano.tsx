@@ -23,10 +23,11 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { fetchProfessorSubjects, fetchDetailedFacultyProfessors } from '../../api/teachers';
+import { fetchProfessorSubjects, fetchDetailedFacultyProfessors, fetchAllCareerResults } from '../../api/teachers';
 
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
+import { toast } from 'sonner'
 
 // Importar la imagen de fondo
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
@@ -87,110 +88,50 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
 
   const currentUser = user ?? storedUser ?? { id: '', name: 'Decano', type: 'decano', email: '', roles: [] };
 
-  // Función para verificar si el usuario tiene rol de decano
-  const checkDecanoRole = () => {
-    const userRoles = currentUser.roles || [];
-    const hasDecanoRole = userRoles.includes('decano');
-    console.log('🔍 Verificando rol de decano:', {
-      userRoles,
-      hasDecanoRole,
-      userType: currentUser.type
-    });
-    return hasDecanoRole;
-  };
+  const checkDecanoRole = () => (currentUser.roles || []).includes('decano');
+
+  const [errorCarga, setErrorCarga] = useState<string | null>(null);
+  const [promedioGeneral, setPromedioGeneral] = useState<number | null>(null);
+  const [intentoCarga, setIntentoCarga] = useState(0);
 
   // Cargar datos de la facultad
   useEffect(() => {
-    console.log('🚀 useEffect ejecutándose - Cargando datos de la facultad');
-    console.log('👤 Usuario actual:', {
-      id: currentUser.id,
-      name: currentUser.name,
-      type: currentUser.type,
-      roles: currentUser.roles
-    });
-    
-    const loadFacultyData = async () => {
+    let activo = true;
+
+    const cargarProfesores = async () => {
       try {
-        setLoadingCareers(true);
-        console.log('📊 Iniciando carga de datos...');
-        
-        // Intentar cargar datos de profesores con materias específicas
-        try {
-          console.log('🔄 Intentando cargar datos del backend...');
-          const facultyData = await fetchProfessorSubjects();
-          setCareers(facultyData.carreras);
-          setProfessorsByCareer(facultyData.profesores_por_carrera);
-          console.log('✅ Datos de profesores con materias específicas cargados:', facultyData);
-        } catch (facultyError) {
-          console.warn('⚠️ Error cargando datos de profesores con materias específicas:', facultyError);
-          
-          // Intentar endpoint alternativo para decanos
-          try {
-            console.log('🔄 Intentando endpoint alternativo para decanos...');
-            const alternativeData = await fetchDetailedFacultyProfessors();
-            setCareers(alternativeData.carreras || []);
-            setProfessorsByCareer(alternativeData.profesores_por_carrera || {});
-            console.log('✅ Datos alternativos cargados:', alternativeData);
-          } catch (alternativeError) {
-            console.warn('⚠️ Error cargando datos alternativos, usando datos mock:', alternativeError);
-            
-            // Fallback: usar datos mock basados en los datos reales de la base de datos
-            console.log('🔄 Aplicando datos mock...');
-            const mockCareers = [
-            { id: 1, nombre: 'Ingeniería de Sistemas', codigo: 'SIS', activa: true },
-            { id: 3, nombre: 'Ingeniería Civil', codigo: 'CIV', activa: true },
-            { id: 6, nombre: 'Ingeniería Financiera', codigo: 'FIN', activa: true },
-            { id: 2, nombre: 'Ingeniería Industrial', codigo: 'IND', activa: true },
-            { id: 4, nombre: 'Ingeniería en Energía', codigo: 'ENE', activa: true },
-            { id: 7, nombre: 'Ingeniería Ambiental', codigo: 'AMB', activa: true }
-          ];
-          
-          const mockProfessorsByCareer = {
-            '1': [ // Ingeniería de Sistemas
-              { id: '1', nombre: 'Emilcy Juliana Hernandez Leal', email: 'ejhernandez@udemedellin.edu.co', carrera_nombre: 'Ingeniería de Sistemas', total_materias_carrera: 2, materias_carrera: ['Proyecto de ingenieria I', 'Pensamiento Ingenieril'] },
-              { id: '2', nombre: 'William David Velazquez Ramirez', email: 'wvelazquez@udemedellin.edu.co', carrera_nombre: 'Ingeniería de Sistemas', total_materias_carrera: 1, materias_carrera: ['LPCL'] },
-              { id: '3', nombre: 'Jaime Alberto Echeverri Arias', email: 'jecheverri@udemedellin.edu.co', carrera_nombre: 'Ingeniería de Sistemas', total_materias_carrera: 1, materias_carrera: ['Introduccion a la ingenieria de sistemas'] },
-              { id: '4', nombre: 'Bell Manrique Losada', email: 'blosada@udemedellin.edu.co', carrera_nombre: 'Ingeniería de Sistemas', total_materias_carrera: 2, materias_carrera: ['Proyecto de ingenieria I', 'Proyecto de ingenieria I'] },
-              { id: '5', nombre: 'Gabriel Mauricio Ramírez Villegas', email: 'gramirez@udemedellin.edu.co', carrera_nombre: 'Ingeniería de Sistemas', total_materias_carrera: 1, materias_carrera: ['Fundamentos de diseño de software'] },
-              { id: '6', nombre: 'juan guillermo Flórez Gaviria', email: 'jflorez@udemedellin.edu.co', carrera_nombre: 'Ingeniería de Sistemas', total_materias_carrera: 1, materias_carrera: ['Lenguajes y paradigmas de programacion'] }
-            ],
-            '3': [ // Ingeniería Civil
-              { id: '7', nombre: 'Jhon Mario Garcia Giraldo', email: 'jgarcia@udemedellin.edu.co', carrera_nombre: 'Ingeniería Civil', total_materias_carrera: 1, materias_carrera: ['Resistencia de Materiales'] }
-            ],
-            '6': [ // Ingeniería Financiera
-              { id: '8', nombre: 'Ricardo Giraldo Acevedo', email: 'rgiraldo@udemedellin.edu.co', carrera_nombre: 'Ingeniería Financiera', total_materias_carrera: 1, materias_carrera: ['Instrumentos de renta fija'] },
-              { id: '9', nombre: 'Ángela María Gómez Restrepo', email: 'agomez@udemedellin.edu.co', carrera_nombre: 'Ingeniería Financiera', total_materias_carrera: 1, materias_carrera: ['Diagnóstico Financiero'] },
-              { id: '10', nombre: 'David Alberto Bedoya Londoño', email: 'dbedoya@udemedellin.edu.co', carrera_nombre: 'Ingeniería Financiera', total_materias_carrera: 1, materias_carrera: ['Proyecto de ingenieria I'] }
-            ],
-            '2': [], // Ingeniería Industrial - sin profesores
-            '4': [], // Ingeniería en Energía - sin profesores  
-            '7': []  // Ingeniería Ambiental - sin profesores
-          };
-          
-          console.log('📊 Aplicando datos mock:', { 
-            carreras: mockCareers.length, 
-            profesores: Object.values(mockProfessorsByCareer).flat().length 
-          });
-          
-          setCareers(mockCareers);
-          setProfessorsByCareer(mockProfessorsByCareer);
-          
-          console.log('✅ Datos mock aplicados exitosamente');
-          }
-        }
-      } catch (error) {
-        console.error('❌ Error general cargando datos:', error);
-        // En caso de error total, usar datos mínimos
-        setCareers([]);
-        setProfessorsByCareer({});
-      } finally {
-        setLoadingCareers(false);
-        console.log('🏁 Carga de datos completada');
+        return await fetchProfessorSubjects();
+      } catch {
+        return await fetchDetailedFacultyProfessors();
       }
     };
 
+    const loadFacultyData = async () => {
+      setLoadingCareers(true);
+      setErrorCarga(null);
+      const [profesores, resultados] = await Promise.allSettled([cargarProfesores(), fetchAllCareerResults()]);
+      if (!activo) return;
+
+      if (profesores.status === 'fulfilled') {
+        setCareers(profesores.value?.carreras || []);
+        setProfessorsByCareer(profesores.value?.profesores_por_carrera || {});
+      } else {
+        setCareers([]);
+        setProfessorsByCareer({});
+        setErrorCarga('No pudimos cargar las carreras y profesores de la facultad.');
+      }
+
+      const promedio =
+        resultados.status === 'fulfilled' ? Number(resultados.value?.estadisticas_generales?.promedio_general) : Number.NaN;
+      setPromedioGeneral(Number.isFinite(promedio) && promedio > 0 ? promedio : null);
+      setLoadingCareers(false);
+    };
+
     loadFacultyData();
-  }, []);
+    return () => {
+      activo = false;
+    };
+  }, [intentoCarga]);
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -199,19 +140,11 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
     return '¡Buenas noches';
   };
 
-  // Datos específicos para decanos
-  console.log('🔍 Dashboard Decano - Datos actuales:', {
-    careers: careers.length,
-    professorsByCareer: Object.keys(professorsByCareer).length,
-    totalProfessors: Object.values(professorsByCareer).flat().length,
-    professorsData: professorsByCareer
-  });
-
   const decanoData = {
     stats: {
       totalCarreras: careers.length,
       totalProfesores: Object.values(professorsByCareer).flat().length,
-      promedioEvaluaciones: 4.3
+      promedioEvaluaciones: promedioGeneral
     },
     quickActions: [
       {
@@ -337,6 +270,15 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
             </Card>
           </motion.div>
 
+          {errorCarga && (
+            <div role="alert" className="flex flex-col gap-3 rounded-xl border border-[#FECACA] bg-[#FEF2F2] p-4 sm:flex-row sm:items-center">
+              <p className="text-sm text-[#991B1B]">{errorCarga} Revisa tu conexión e inténtalo de nuevo.</p>
+              <Button variant="outline" className="sm:ml-auto" onClick={() => setIntentoCarga((n) => n + 1)}>
+                Reintentar
+              </Button>
+            </div>
+          )}
+
           {/* Stats Cards - Específicas para decanos */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Total de Carreras */}
@@ -385,9 +327,9 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                   <p className="text-sm text-gray-500 mt-2 text-left">
                     Profesores en la facultad
                   </p>
-                  {!loadingCareers && decanoData.stats.totalProfesores === 0 && (
-                    <p className="text-xs text-yellow-600 mt-1">
-                      ⚠️ Verificando datos...
+                  {!loadingCareers && !errorCarga && decanoData.stats.totalProfesores === 0 && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Aún no hay profesores asignados.
                     </p>
                   )}
                 </CardContent>
@@ -410,7 +352,11 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-yellow-600">
-                    {decanoData.stats.promedioEvaluaciones}/5.0
+                    {loadingCareers && '...'}
+                    {!loadingCareers && decanoData.stats.promedioEvaluaciones !== null && `${decanoData.stats.promedioEvaluaciones.toFixed(1)}/5.0`}
+                    {!loadingCareers && decanoData.stats.promedioEvaluaciones === null && (
+                      <span className="text-xl text-gray-400">Sin datos</span>
+                    )}
                   </div>
                   <p className="text-sm text-gray-500 mt-2 text-left">
                     Calificación promedio
@@ -598,7 +544,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                 <Button
                   onClick={() => {
                     // Aquí se implementaría la lógica para enviar la notificación
-                    alert('Notificación enviada a todos los coordinadores');
+                    toast.success('Notificación enviada a todos los coordinadores');
                     setShowNotificationModal(false);
                   }}
                   className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white"

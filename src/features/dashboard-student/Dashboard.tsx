@@ -259,10 +259,10 @@ function buildCoordinatorData(actions: DashboardActions): UserDashboardData {
     },
     quickActions: [
       {
-        icon: Users,
-        label: 'Gestión de Profesores',
-        description: 'Administrar docentes',
-        onClick: () => console.log('Gestión de Profesores'),
+        icon: CalendarIcon,
+        label: 'Calendario de evaluaciones',
+        description: 'Ver cuándo abren y cierran las encuestas',
+        onClick: actions.onToggleCalendar,
         variant: 'default',
         className: 'bg-green-600 hover:bg-green-700 text-white',
       },

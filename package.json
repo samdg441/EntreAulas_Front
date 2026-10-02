@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node copy-redirects.js",
+    "build": "vite build && node copy-redirects.js && node scripts/write-version.mjs",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "node scripts/vitest.mjs run src/test/unit src/test/integration",
@@ -26,12 +26,15 @@
     "react": "^18.3.1",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
+    "react-is": "^19.1.1",
     "react-qr-code": "^2.0.18",
     "react-router-dom": "^7.18.4",
     "recharts": "^3.2.1",
+    "sonner": "^2.0.8",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.7",

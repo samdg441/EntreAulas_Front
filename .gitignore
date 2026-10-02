@@ -6,3 +6,6 @@ test-results.xml
 .scannerwork/
 .DS_Store
 *.log
+vite.config.js
+vite.config.d.ts
+*.tsbuildinfo

@@ -309,7 +309,6 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                 <CardContent className="space-y-3 sm:space-y-4 pt-0">
                   {selectedTeacher ? (
                     <>
-                      {console.log('🔍 Rendering course selection for teacher:', selectedTeacher.name, 'with courses:', selectedTeacher.courses)}
                       <div className="space-y-2">
                         <label className="block text-xs sm:text-sm font-medium text-gray-700">Curso</label>
                         <div className="relative">

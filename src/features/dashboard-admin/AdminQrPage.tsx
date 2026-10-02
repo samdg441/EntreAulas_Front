@@ -11,6 +11,9 @@ import { createQrEvaluationsBatch, shareQrEvaluationsEmail } from '../../api/eva
 import { exportElementToPNG } from '../../utils/export'
 import { User } from '../../types'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { toast } from 'sonner'
+import { guardarVentanaEvaluacion } from '../../api/periodos.api'
+import { getApiErrorMessage } from '../../lib/apiError'
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
@@ -155,13 +158,13 @@ export default function AdminQrPage() {
       })
     }
     if (skipped.length > 0) {
-      alert(`Se omitieron ${skipped.length} grupo(s) porque no tienen profesor asignado.`)
+      toast.warning(`Se omitieron ${skipped.length} grupo(s) porque no tienen profesor asignado.`)
     }
   }
 
   const openQrModal = async () => {
     if (selectedIds.length === 0) {
-      alert('Selecciona al menos un curso/grupo para generar QR.')
+      toast.warning('Selecciona al menos un curso/grupo para generar QR.')
       return
     }
     setQrModalOpen(true)
@@ -192,16 +195,16 @@ export default function AdminQrPage() {
     const subject = emailSubject.trim()
     const grupoIds = selectedCursos.filter((c) => qrTokensByGrupoId[c.id]).map((c) => c.id)
     if (!to || !subject || grupoIds.length === 0) {
-      alert('Completa correo/asunto y genera QRs antes de enviar.')
+      toast.warning('Completa correo/asunto y genera QRs antes de enviar.')
       return
     }
     try {
       setSendingEmail(true)
       await shareQrEvaluationsEmail({ to, subject, message: emailMessage, grupoIds })
       setEmailModalOpen(false)
-      alert('Correo enviado correctamente.')
+      toast.success('Correo enviado correctamente.')
     } catch (e: any) {
-      alert(e?.response?.data?.error || 'No se pudo enviar el correo.')
+      toast.error(e?.response?.data?.error || 'No se pudo enviar el correo.')
     } finally {
       setSendingEmail(false)
     }
@@ -210,19 +213,20 @@ export default function AdminQrPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!startDate || !endDate || !period) {
-      alert('Completa Fecha de inicio, Fecha de cierre y Período.')
+      toast.warning('Completa Fecha de inicio, Fecha de cierre y Período.')
       return
     }
     if (selectedIds.length === 0) {
-      alert('Selecciona al menos un curso/grupo.')
+      toast.warning('Selecciona al menos un curso/grupo.')
       return
     }
     try {
       setGeneratingQrs(true)
+      await guardarVentanaEvaluacion({ periodo: period.trim(), fechaInicio: startDate, fechaFin: endDate })
       await ensureTokensForGrupoIds(selectedIds)
-      alert('QR generados / encuesta lista para compartir.')
-    } catch {
-      alert('Error al generar los QR')
+      toast.success('QR generados y fechas de evaluación guardadas en el calendario.')
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'No se pudieron guardar las fechas o generar los QR.'))
     } finally {
       setGeneratingQrs(false)
     }
