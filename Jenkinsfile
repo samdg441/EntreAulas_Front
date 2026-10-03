@@ -13,7 +13,7 @@ pipeline {
         SONAR_PROJECT_NAME = 'EntreAulas Front'
         IMAGE_NAME = 'entreaulas-front'
         CONTAINER_NAME = 'entreaulas-front-container'
-        VERCEL_URL = 'https://entreaulas-front.vercel.app'
+        VERCEL_URL = 'https://entre-aulas-front.vercel.app'
     }
 
     stages {
