@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { Route, Routes } from 'react-router-dom'
 import { renderConSesion } from '../helpers/render'
 import ForgotPassword from '../../features/auth/ForgotPassword'
 import { requestPasswordReset } from '../../api/passwordReset'
@@ -84,5 +85,19 @@ describe('RQ3.1 + RQ4 — Solicitud y envío de correo de recuperación (integra
     await user.click(screen.getByRole('button', { name: /enviar enlace de recuperación/i }))
     await user.click(await screen.findByRole('button', { name: /ir al inicio de sesión/i }))
     expect(screen.getByRole('button', { name: /volver al inicio de sesión/i })).toBeInTheDocument()
+  })
+
+  it('el botón "Volver al inicio de sesión" lleva al login', async () => {
+    const user = userEvent.setup()
+    renderConSesion(
+      <Routes>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/login" element={<p>Pantalla de login</p>} />
+      </Routes>,
+      { route: '/forgot-password' }
+    )
+
+    await user.click(screen.getByRole('button', { name: /volver al inicio de sesión/i }))
+    expect(await screen.findByText('Pantalla de login')).toBeInTheDocument()
   })
 })

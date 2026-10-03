@@ -191,4 +191,22 @@ describe('RQ11 — Enviar la evaluación docente', () => {
     expect(payload, 'payload').to.include({ teacherId: '7', courseId: '31', overallRating: 3 })
     expect(payload.groupId, 'grupo').to.equal(undefined)
   })
+
+  it('una pregunta de calificación sin responder viaja como null y no suma al promedio', () => {
+    // Act
+    const payload = armarPayloadEvaluacion({
+      teacher: PROFESOR,
+      course: CURSO,
+      questions: [
+        { id: '1', type: 'rating' },
+        { id: '2', type: 'rating' },
+      ],
+      ratings: [4],
+      textAnswers: [],
+    })
+
+    // Assert
+    expect(payload.answers[1], 'sin responder').to.include({ questionId: 2, rating: null, textAnswer: null })
+    expect(payload.overallRating, 'promedio').to.equal(2)
+  })
 })

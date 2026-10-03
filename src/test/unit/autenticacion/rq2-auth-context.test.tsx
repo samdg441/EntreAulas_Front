@@ -137,6 +137,44 @@ describe('RQ2 — sesión del contexto', () => {
     expect(authApi.logout).toHaveBeenCalled()
   })
 
+  it('sin lista de roles, cambiar de rol usa el tipo de usuario como único rol', async () => {
+    const user = userEvent.setup()
+    window.localStorage.setItem('token', 'jwt')
+    window.localStorage.setItem('user', JSON.stringify({ ...admin, roles: undefined, tipo_usuario: 'estudiante' }))
+
+    render(
+      <MemoryRouter>
+        <AuthProvider>
+          <Panel />
+        </AuthProvider>
+      </MemoryRouter>,
+    )
+
+    await user.click(await screen.findByRole('button', { name: /rol ajeno/i }))
+    expect(screen.getByTestId('rol')).toHaveTextContent('')
+
+    await user.click(screen.getByRole('button', { name: /cambiar rol/i }))
+    expect(screen.getByTestId('rol')).toHaveTextContent('estudiante')
+    expect(JSON.parse(window.localStorage.getItem('user') ?? '{}').roles).toEqual(['estudiante'])
+  })
+
+  it('sin roles ni tipo de usuario, el cambio de rol no se bloquea', async () => {
+    const user = userEvent.setup()
+    window.localStorage.setItem('token', 'jwt')
+    window.localStorage.setItem('user', JSON.stringify({ ...admin, roles: [], tipo_usuario: '' }))
+
+    render(
+      <MemoryRouter>
+        <AuthProvider>
+          <Panel />
+        </AuthProvider>
+      </MemoryRouter>,
+    )
+
+    await user.click(await screen.findByRole('button', { name: /rol ajeno/i }))
+    expect(screen.getByTestId('rol')).toHaveTextContent('decano')
+  })
+
   it('el login rechaza un tipo que no está en la cuenta y, si hay varios roles, termina el ingreso', async () => {
     const user = userEvent.setup()
 

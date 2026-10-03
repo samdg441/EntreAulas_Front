@@ -119,6 +119,70 @@ describe('RQ13 — gestionar usuarios en la pantalla', () => {
     expect(screen.queryByRole('heading', { name: /actualizar usuario/i })).not.toBeInTheDocument()
   })
 
+  it('al editar, nombre y apellido se envían en mayúscula junto con la clave nueva y el estado', async () => {
+    const user = userEvent.setup()
+    vi.mocked(usersApi.list).mockResolvedValue({ users: [persona(1)] })
+    vi.mocked(usersApi.update).mockResolvedValue({})
+    renderConSesion(<AdminUsersPage />, { user: admin })
+
+    const fila = await screen.findByText('user1@uni.edu')
+    await user.click(within(fila.closest('tr') as HTMLElement).getByRole('button', { name: /editar/i }))
+
+    await user.clear(screen.getByLabelText(/^nombre$/i))
+    await user.type(screen.getByLabelText(/^nombre$/i), 'josé')
+    await user.clear(screen.getByLabelText(/^apellido$/i))
+    await user.type(screen.getByLabelText(/^apellido$/i), 'peña núñez')
+    expect(screen.getByLabelText(/^apellido$/i)).toHaveValue('PEÑA NÚÑEZ')
+
+    await user.type(screen.getByLabelText(/nueva contraseña/i), 'Abcdef1!')
+    await user.click(screen.getByRole('checkbox', { name: /usuario activo/i }))
+    await user.click(screen.getByRole('button', { name: /actualizar/i }))
+
+    await waitFor(() =>
+      expect(usersApi.update).toHaveBeenCalledWith(
+        'u-1',
+        expect.objectContaining({ nombre: 'JOSÉ', apellido: 'PEÑA NÚÑEZ', password: 'Abcdef1!', activo: false })
+      )
+    )
+  })
+
+  it('si actualizar falla, muestra el error del servidor y deja el formulario abierto', async () => {
+    const user = userEvent.setup()
+    vi.mocked(usersApi.list).mockResolvedValue({ users: [persona(1)] })
+    vi.mocked(usersApi.update).mockRejectedValueOnce({ response: { data: { error: 'El correo ya existe' } } })
+    renderConSesion(<AdminUsersPage />, { user: admin })
+
+    const fila = await screen.findByText('user1@uni.edu')
+    await user.click(within(fila.closest('tr') as HTMLElement).getByRole('button', { name: /editar/i }))
+    await user.click(screen.getByRole('button', { name: /actualizar/i }))
+
+    expect(await screen.findByText('El correo ya existe')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /actualizar usuario/i })).toBeInTheDocument()
+  })
+
+  it('cancelar la confirmación de activar o desactivar no llama a la API', async () => {
+    const user = userEvent.setup()
+    vi.mocked(usersApi.list).mockResolvedValue({
+      users: [persona(1, { activo: true }), persona(3, { activo: false })],
+    })
+    renderConSesion(<AdminUsersPage />, { user: admin })
+
+    const activo = await screen.findByText('user1@uni.edu')
+    await user.click(within(activo.closest('tr') as HTMLElement).getByRole('button', { name: /desactivar/i }))
+    await screen.findByRole('heading', { name: /desactivar usuario/i })
+    await user.click(screen.getByRole('button', { name: /^cancelar$/i }))
+    expect(screen.queryByRole('heading', { name: /desactivar usuario/i })).not.toBeInTheDocument()
+
+    const inactivo = screen.getByText('user3@uni.edu')
+    await user.click(within(inactivo.closest('tr') as HTMLElement).getByRole('button', { name: /^activar$/i }))
+    await screen.findByRole('heading', { name: /activar usuario/i })
+    await user.click(screen.getByRole('button', { name: /^cancelar$/i }))
+    expect(screen.queryByRole('heading', { name: /activar usuario/i })).not.toBeInTheDocument()
+
+    expect(usersApi.deactivate).not.toHaveBeenCalled()
+    expect(usersApi.update).not.toHaveBeenCalled()
+  })
+
   it('desactiva un usuario activo', async () => {
     const user = userEvent.setup()
     vi.mocked(usersApi.list).mockResolvedValue({ users: [persona(1, { activo: true })] })
