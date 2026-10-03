@@ -32,9 +32,12 @@ function etiquetaRadar({ x, y, cx, cy, payload }: any) {
   );
 }
 import { fetchTeacherHistoricalStats, fetchTeacherId, fetchTeacherPeriodStats, fetchTeacherPeriodCategoryStats } from '../../api/teachers';
+import { fetchCoordinatorReportsOverview } from '../../api/coordinador.api';
+import { fetchDecanoReportsOverview } from '../../api/decano.api';
+import { fetchCareerSubjects } from '../../api/teachers';
 import { esPeriodoValido, rangoFechasPeriodo } from '../../lib/calificaciones'
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
   CardHeader, 
   CardContent, 
@@ -88,7 +91,12 @@ interface ReportsPageProps {
 
 export default function ReportsPage({ user }: ReportsPageProps) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const reportRef = useRef<HTMLDivElement | null>(null);
+  const esDecano = user.type === 'decano';
+  const vistaAgregada = user.type === 'coordinator' || esDecano;
+  const [selectedCareer, setSelectedCareer] = useState(searchParams.get('career') || 'all');
+  const [carreras, setCarreras] = useState<Array<{ id: number | string; nombre: string }>>([]);
   const [selectedPeriod, setSelectedPeriod] = useState('2026-1');
   const [selectedCourse, setSelectedCourse] = useState('all');
   const [selectedGroup, setSelectedGroup] = useState('all');
@@ -102,7 +110,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
 
   useEffect(() => {
     const loadTeacherStats = async () => {
-      if (!user?.id || user.type === 'coordinator') {
+      if (!user?.id || vistaAgregada) {
         if (!user?.id) setLoadingStats(false);
         return;
       }
@@ -138,16 +146,21 @@ export default function ReportsPage({ user }: ReportsPageProps) {
   }, [user?.id, user.type, selectedPeriod]);
 
   useEffect(() => {
+    if (!esDecano) return;
+    fetchCareerSubjects()
+      .then((data) => setCarreras(Array.isArray(data?.carreras) ? data.carreras : []))
+      .catch(() => setCarreras([]));
+  }, [esDecano]);
+
+  useEffect(() => {
     const loadCoordinator = async () => {
-      if (!user?.id || user.type !== 'coordinator') return;
+      if (!user?.id || !vistaAgregada) return;
       try {
         setLoadingStats(true);
         setStatsError(null);
-        const coordinatorData = await fetchCoordinatorReportsOverview(
-          selectedPeriod,
-          selectedCourse,
-          selectedGroup
-        );
+        const coordinatorData = esDecano
+          ? await fetchDecanoReportsOverview(selectedPeriod, selectedCareer, selectedCourse, selectedGroup)
+          : await fetchCoordinatorReportsOverview(selectedPeriod, selectedCourse, selectedGroup);
         setCoordinatorOverview(coordinatorData);
         setTeacherStats(null);
         setBaseTeacherStats(null);
@@ -161,12 +174,12 @@ export default function ReportsPage({ user }: ReportsPageProps) {
     };
 
     loadCoordinator();
-  }, [user?.id, user.type, selectedPeriod, selectedCourse, selectedGroup]);
+  }, [user?.id, vistaAgregada, esDecano, selectedPeriod, selectedCareer, selectedCourse, selectedGroup]);
 
   // Cargar datos históricos para la gráfica de tendencia
   useEffect(() => {
     const loadHistoricalData = async () => {
-      if (user.type === 'coordinator' || !teacherId) return;
+      if (vistaAgregada || !teacherId) return;
 
       try {
         const periods = ['2024-1', '2024-2', '2025-1', '2025-2', '2026-1', '2026-2'];
@@ -204,7 +217,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
   // Cargar promedios por categoría del período (y curso si aplica)
   useEffect(() => {
     const loadCategory = async () => {
-      if (user.type === 'coordinator') {
+      if (vistaAgregada) {
         setCategoryStats(coordinatorOverview?.categoryStats || []);
         return;
       }
@@ -228,7 +241,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
 
   // Coordinador: mantener la misma vista que docente, pero con promedio global por categoría.
   const categoryData = realCategoryData;
-  const trendData = user.type === 'coordinator'
+  const trendData = vistaAgregada
     ? (coordinatorOverview?.trend || [])
     : historicalData;
 
@@ -248,7 +261,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
 
   // Distribución calculada desde cursos del período (ponderada por total de encuestas)
   const distributionData = (() => {
-    if (user.type === 'coordinator') {
+    if (vistaAgregada) {
       return (coordinatorOverview?.distribution || []) as any[];
     }
     const distributionBuckets = [
@@ -308,7 +321,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
   const grupoDocente = (baseTeacherStats?.evaluacionesPorGrupo || []).find(
     (grupo: any) => String(grupo.grupo_id) === String(selectedGroup)
   );
-  const cursosDisponibles = user.type === 'coordinator'
+  const cursosDisponibles = vistaAgregada
     ? (coordinatorOverview?.courseAverages || []).map((curso: any) => ({
         id: String(curso.cursoId),
         nombre: curso.nombre,
@@ -317,20 +330,20 @@ export default function ReportsPage({ user }: ReportsPageProps) {
         id: String(curso.curso_id),
         nombre: `${curso.codigo || 'CURSO'} - ${curso.nombre}`,
       }));
-  const gruposDisponibles = (user.type === 'coordinator'
+  const gruposDisponibles = (vistaAgregada
     ? (coordinatorOverview?.grupos || [])
     : (baseTeacherStats?.evaluacionesPorGrupo || [])
   ).filter((grupo: any) => String(grupo.cursoId ?? grupo.curso_id) === String(selectedCourse));
 
   const summaryStats = {
-    totalEvaluations: user.type === 'coordinator'
+    totalEvaluations: vistaAgregada
       ? (coordinatorOverview?.summary?.totalEvaluaciones || 0)
       : selectedGroup !== 'all' && grupoDocente
         ? grupoDocente.total
         : selectedCourse !== 'all' && cursoDocente
           ? cursoDocente.total
           : (baseTeacherStats?.totalEvaluaciones || 0),
-    averageRating: user.type === 'coordinator'
+    averageRating: vistaAgregada
       ? (coordinatorOverview?.summary?.calificacionPromedio || 0)
       : selectedGroup !== 'all' && grupoDocente
         ? grupoDocente.promedio
@@ -338,7 +351,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
           ? cursoDocente.promedio
           : (baseTeacherStats?.calificacionPromedio || 0),
     responseRate: Number(
-      user.type === 'coordinator'
+      vistaAgregada
         ? (coordinatorOverview?.summary?.tasaRespuesta || 0)
         : (baseTeacherStats?.tasaRespuesta || 0)
     ),
@@ -387,12 +400,14 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                 </Button>
                 <div>
                   <h1 className="text-xl font-semibold text-gray-900">
-                    {user.type === 'coordinator' ? 'Dashboard de Reportes' : 'Mis Evaluaciones'}
+                    {esDecano ? 'Reportes de la Facultad' : vistaAgregada ? 'Dashboard de Reportes' : 'Mis Evaluaciones'}
                   </h1>
                   <p className="text-sm text-gray-600">
-                    {user.type === 'coordinator' 
-                      ? 'Análisis y estadísticas departamentales' 
-                      : `Resultados de tus evaluaciones docentes - Período ${selectedPeriod}`
+                    {esDecano
+                      ? 'Resultados por carrera o de toda la facultad'
+                      : vistaAgregada
+                        ? 'Análisis y estadísticas departamentales'
+                        : `Resultados de tus evaluaciones docentes - Período ${selectedPeriod}`
                     }
                   </p>
                   {/* Se eliminó el mensaje de datos de ejemplo para una experiencia más limpia */}
@@ -400,7 +415,28 @@ export default function ReportsPage({ user }: ReportsPageProps) {
               </div>
               
                <div className="flex flex-wrap items-center justify-end gap-3">
+                 {esDecano && (
+                   <select
+                     aria-label="Carrera"
+                     value={selectedCareer}
+                     onChange={(e) => {
+                       setSelectedCareer(e.target.value);
+                       setSelectedCourse('all');
+                       setSelectedGroup('all');
+                     }}
+                     className="w-56 rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
+                   >
+                     <option value="all">Toda la facultad</option>
+                     {carreras.map((carrera) => (
+                       <option key={carrera.id} value={String(carrera.id)}>
+                         {carrera.nombre}
+                       </option>
+                     ))}
+                   </select>
+                 )}
+
                  <select 
+                   aria-label="Periodo"
                    value={selectedPeriod} 
                    onChange={(e) => {
                      setSelectedPeriod(e.target.value);
@@ -545,10 +581,10 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                  <CardHeader>
                    <CardTitle className="flex items-center gap-2">
                      <Calendar className="h-5 w-5 text-green-600" />
-                     {user.type === 'coordinator' ? 'Docentes Evaluados' : 'Cursos Evaluados'}
+                     {vistaAgregada ? 'Docentes Evaluados' : 'Cursos Evaluados'}
                    </CardTitle>
                    <CardDescription>
-                     {user.type === 'coordinator' ? 'En el departamento' : 'Cursos evaluados'}
+                     {esDecano ? (selectedCareer === 'all' ? 'En la facultad' : 'En la carrera') : vistaAgregada ? 'En el departamento' : 'Cursos evaluados'}
                    </CardDescription>
                  </CardHeader>
                  <CardContent>
@@ -558,7 +594,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                      <div className="text-3xl font-bold text-red-600 mb-2">Error</div>
                    ) : (
                      <div className="text-4xl font-bold text-green-600 mb-2">
-                       {user.type === 'coordinator'
+                       {vistaAgregada
                          ? (coordinatorOverview?.summary?.docentesEvaluados || 0)
                          : selectedCourse !== 'all'
                            ? 1
@@ -566,7 +602,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                      </div>
                    )}
                    <p className="text-sm text-gray-600">
-                     {loadingStats ? 'Cargando datos...' : (user.type === 'coordinator' ? 'Docentes evaluados en el período' : 'Materias impartidas')}
+                     {loadingStats ? 'Cargando datos...' : (vistaAgregada ? 'Docentes evaluados en el período' : 'Materias impartidas')}
                    </p>
                  </CardContent>
                </Card>
@@ -890,9 +926,9 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                     Reporte PDF
                   </Button>
                   <Button variant="outline" className="w-full" onClick={() => {
-                    if (user.type === 'coordinator') {
+                    if (vistaAgregada) {
                       const rows = coordinatorOverview?.reportRows || []
-                      exportCoordinatorReportExcel(rows, `reporte-coordinador-${selectedPeriod}.xlsx`)
+                      exportCoordinatorReportExcel(rows, `reporte-${esDecano ? 'facultad' : 'coordinador'}-${selectedPeriod}.xlsx`)
                       return
                     }
                     const sheets = [

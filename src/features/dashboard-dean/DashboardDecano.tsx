@@ -19,7 +19,6 @@ import {
   GraduationCap,
   TrendingUp,
   Building2,
-  Bell,
   ChevronRight
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -27,7 +26,6 @@ import { fetchProfessorSubjects, fetchDetailedFacultyProfessors, fetchAllCareerR
 
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
-import { toast } from 'sonner'
 
 // Importar la imagen de fondo
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
@@ -63,7 +61,6 @@ const SectionCard = ({ title, icon: Icon, children, className = '' }: SectionCar
 export default function DashboardDecano({ user }: DashboardDecanoProps) {
   const navigate = useNavigate();
   const [showCalendar, setShowCalendar] = useState(false);
-  const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [careers, setCareers] = useState<any[]>([]);
   const [professorsByCareer, setProfessorsByCareer] = useState<{[key: string]: any[]}>({});
   const [loadingCareers, setLoadingCareers] = useState(true);
@@ -180,14 +177,6 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
         className: 'border-red-300 text-red-600 hover:bg-red-50'
       },
       {
-        icon: Bell,
-        label: 'Notificar a Profesores',
-        description: 'Informar fechas de encuestas',
-        onClick: () => setShowNotificationModal(true),
-        variant: 'outline' as const,
-        className: 'border-red-300 text-red-600 hover:bg-red-50'
-      },
-      {
         icon: GraduationCap,
         label: 'Resultados por Carrera',
         description: 'Gestionar resultados académicos',
@@ -195,11 +184,6 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
         variant: 'outline' as const,
         className: 'border-red-300 text-red-600 hover:bg-red-50'
       }
-    ],
-    upcomingDeadlines: [
-      { id: 1, task: 'Revisión de evaluaciones del período', deadline: '2025-01-25', urgent: true },
-      { id: 2, task: 'Reporte de rendimiento académico', deadline: '2025-01-28', urgent: false },
-      { id: 3, task: 'Planificación del próximo semestre', deadline: '2025-02-01', urgent: false }
     ]
   };
 
@@ -469,91 +453,6 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
       <AnimatePresence>
         {showCalendar && (
           <Calendar onClose={() => setShowCalendar(false)} />
-        )}
-      </AnimatePresence>
-
-      {/* Modal de Notificación a Profesores */}
-      <AnimatePresence>
-        {showNotificationModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-            onClick={() => setShowNotificationModal(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="text-center mb-6">
-                <div className="flex justify-center mb-3">
-                  <Bell className="h-12 w-12 text-red-600" />
-                </div>
-                <h2 className="text-xl font-bold text-gray-800">Notificar a Profesores</h2>
-                <p className="text-gray-600 mt-2">
-                  Informar a los coordinadores sobre las fechas de las encuestas
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Fecha de inicio de encuestas
-                  </label>
-                  <input
-                    type="date"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    defaultValue="2025-02-01"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Fecha de cierre de encuestas
-                  </label>
-                  <input
-                    type="date"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    defaultValue="2025-02-28"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Mensaje adicional (opcional)
-                  </label>
-                  <textarea
-                    rows={3}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    placeholder="Información adicional sobre las encuestas..."
-                  />
-                </div>
-              </div>
-
-              <div className="flex space-x-3 mt-6">
-                <Button
-                  onClick={() => setShowNotificationModal(false)}
-                  className="flex-1 py-2 bg-gray-500 hover:bg-gray-600 text-white"
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  onClick={() => {
-                    // Aquí se implementaría la lógica para enviar la notificación
-                    toast.success('Notificación enviada a todos los coordinadores');
-                    setShowNotificationModal(false);
-                  }}
-                  className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white"
-                >
-                  Enviar Notificación
-                </Button>
-              </div>
-            </motion.div>
-          </motion.div>
         )}
       </AnimatePresence>
     </div>

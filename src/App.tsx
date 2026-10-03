@@ -315,6 +315,9 @@ function ReportsPageWrapper() {
   if (authUser.tipo_usuario === 'coordinador') {
     user.type = 'coordinator'; // Mantener como coordinador para usar by-career
   }
+  if (authUser.tipo_usuario === 'decano' || authUser.roles?.includes('decano')) {
+    user.type = 'decano';
+  }
   
   return <ReportsPage user={user} />
 }

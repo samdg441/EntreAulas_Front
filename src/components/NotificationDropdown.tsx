@@ -1,251 +1,67 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { 
-  Bell, 
-  CheckCircle, 
-  Clock, 
-  AlertCircle, 
-  TrendingUp, 
-  Calendar,
-  BookOpen,
-  Users,
-  Settings,
-  X,
-  ExternalLink
-} from 'lucide-react';
+import { Bell, CalendarClock, X, ExternalLink } from 'lucide-react';
 import Button from './Button';
+import { getVentanasEvaluacion } from '../api/periodos.api';
+import { notificacionesDeEvaluacion, type Notificacion } from '../lib/notificaciones';
 
-interface Notification {
-  id: string;
-  type: 'evaluation' | 'performance' | 'academic' | 'system';
-  title: string;
-  message: string;
-  time: string;
-  urgent: boolean;
-  read: boolean;
-  action?: {
-    text: string;
-    link: string;
-  };
+const CLAVE_LEIDAS = 'notificaciones-leidas';
+
+function leerLeidas(): string[] {
+  try {
+    const guardadas = JSON.parse(localStorage.getItem(CLAVE_LEIDAS) || '[]');
+    return Array.isArray(guardadas) ? guardadas : [];
+  } catch {
+    return [];
+  }
 }
 
 export default function NotificationDropdown() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [notifications, setNotifications] = useState<Notificacion[]>([]);
+  const [leidas, setLeidas] = useState<string[]>(leerLeidas);
 
-  // Generar notificaciones de ejemplo basadas en el rol del usuario
   useEffect(() => {
     if (!user) return;
-
-    const generateNotifications = (): Notification[] => {
-      const baseNotifications: Notification[] = [
-        // Evaluaciones
-        {
-          id: 'eval-1',
-          type: 'evaluation',
-          title: 'Evaluación Pendiente',
-          message: 'Tienes 3 evaluaciones por completar este semestre',
-          time: 'Hace 2 horas',
-          urgent: true,
-          read: false,
-          action: {
-            text: 'Ver evaluaciones',
-            link: '/evaluate/selection'
-          }
-        },
-        {
-          id: 'eval-2',
-          type: 'evaluation',
-          title: 'Nueva Evaluación Disponible',
-          message: 'Evaluación disponible para Proyecto de Ingeniería',
-          time: 'Hace 1 día',
-          urgent: false,
-          read: false,
-          action: {
-            text: 'Evaluar ahora',
-            link: '/evaluate/selection'
-          }
-        },
-        {
-          id: 'eval-3',
-          type: 'evaluation',
-          title: 'Recordatorio de Evaluación',
-          message: 'La evaluación de Código Limpio vence en 2 días',
-          time: 'Hace 3 horas',
-          urgent: true,
-          read: true
-        },
-        {
-          id: 'eval-4',
-          type: 'evaluation',
-          title: 'Resultados Disponibles',
-          message: 'Los resultados de Algoritmos y Estructuras de Datos están listos',
-          time: 'Hace 5 horas',
-          urgent: false,
-          read: false,
-          action: {
-            text: 'Ver resultados',
-            link: '/reports'
-          }
-        }
-      ];
-
-      // Notificaciones de rendimiento
-      const performanceNotifications: Notification[] = [
-        {
-          id: 'perf-1',
-          type: 'performance',
-          title: 'Mejora en Calificaciones',
-          message: 'Tu calificación promedio subió 0.5 puntos este mes',
-          time: 'Hace 1 día',
-          urgent: false,
-          read: false,
-          action: {
-            text: 'Ver estadísticas',
-            link: '/reports'
-          }
-        },
-        {
-          id: 'perf-2',
-          type: 'performance',
-          title: 'Rendimiento Destacado',
-          message: 'Estás 15% por encima del promedio del departamento',
-          time: 'Hace 2 días',
-          urgent: false,
-          read: true
-        }
-      ];
-
-      // Notificaciones académicas
-      const academicNotifications: Notification[] = [
-        {
-          id: 'acad-1',
-          type: 'academic',
-          title: 'Nuevo Curso Asignado',
-          message: 'Se asignó el curso "Desarrollo Web" a tu carga académica',
-          time: 'Hace 4 horas',
-          urgent: false,
-          read: false
-        },
-        {
-          id: 'acad-2',
-          type: 'academic',
-          title: 'Cambio de Horario',
-          message: 'El horario de "Base de Datos" cambió a Martes 8:00 AM',
-          time: 'Hace 6 horas',
-          urgent: true,
-          read: false
-        },
-        {
-          id: 'acad-3',
-          type: 'academic',
-          title: 'Reunión Programada',
-          message: 'Reunión de coordinación programada para mañana 2:00 PM',
-          time: 'Hace 1 día',
-          urgent: false,
-          read: true
-        }
-      ];
-
-      // Notificaciones del sistema
-      const systemNotifications: Notification[] = [
-        {
-          id: 'sys-1',
-          type: 'system',
-          title: 'Mantenimiento Programado',
-          message: 'El sistema estará en mantenimiento el domingo de 2:00 AM a 4:00 AM',
-          time: 'Hace 2 días',
-          urgent: false,
-          read: true
-        },
-        {
-          id: 'sys-2',
-          type: 'system',
-          title: 'Nueva Funcionalidad',
-          message: 'Reportes mejorados disponibles en la sección de estadísticas',
-          time: 'Hace 3 días',
-          urgent: false,
-          read: false,
-          action: {
-            text: 'Explorar',
-            link: '/reports'
-          }
-        }
-      ];
-
-      // Combinar todas las notificaciones
-      return [
-        ...baseNotifications,
-        ...performanceNotifications,
-        ...academicNotifications,
-        ...systemNotifications
-      ];
+    let activo = true;
+    getVentanasEvaluacion()
+      .then((ventanas) => {
+        if (activo) setNotifications(notificacionesDeEvaluacion(new Date(), ventanas, user.tipo_usuario));
+      })
+      .catch(() => {
+        if (activo) setNotifications([]);
+      });
+    return () => {
+      activo = false;
     };
-
-    const allNotifications = generateNotifications();
-    setNotifications(allNotifications);
-    
-    // Contar notificaciones no leídas
-    const unread = allNotifications.filter(n => !n.read).length;
-    setUnreadCount(unread);
   }, [user]);
 
-  const getNotificationIcon = (type: string, urgent: boolean) => {
-    const iconClass = `h-4 w-4 ${urgent ? 'text-red-600' : 'text-blue-600'}`;
-    
-    switch (type) {
-      case 'evaluation':
-        return <CheckCircle className={iconClass} />;
-      case 'performance':
-        return <TrendingUp className={iconClass} />;
-      case 'academic':
-        return <BookOpen className={iconClass} />;
-      case 'system':
-        return <Settings className={iconClass} />;
-      default:
-        return <Bell className={iconClass} />;
+  const guardarLeidas = (ids: string[]) => {
+    const unicas = Array.from(new Set(ids));
+    setLeidas(unicas);
+    localStorage.setItem(CLAVE_LEIDAS, JSON.stringify(unicas));
+  };
+
+  const esLeida = (n: Notificacion) => leidas.includes(n.id);
+  const unreadCount = notifications.filter((n) => !esLeida(n)).length;
+
+  const markAllAsRead = () => guardarLeidas([...leidas, ...notifications.map((n) => n.id)]);
+
+  const handleNotificationClick = (notification: Notificacion) => {
+    if (!esLeida(notification)) guardarLeidas([...leidas, notification.id]);
+    if (notification.accion) {
+      setIsOpen(false);
+      navigate(notification.accion.ruta);
     }
   };
 
-  const getNotificationBg = (urgent: boolean, read: boolean) => {
-    if (urgent && !read) return 'bg-red-50 border-red-200';
-    if (!read) return 'bg-blue-50 border-blue-200';
-    return 'bg-gray-50 border-gray-200';
-  };
-
-  const markAsRead = (notificationId: string) => {
-    setNotifications(prev => 
-      prev.map(notification => 
-        notification.id === notificationId 
-          ? { ...notification, read: true }
-          : notification
-      )
-    );
-    
-    // Actualizar contador
-    const unread = notifications.filter(n => n.id !== notificationId && !n.read).length;
-    setUnreadCount(unread);
-  };
-
-  const markAllAsRead = () => {
-    setNotifications(prev => 
-      prev.map(notification => ({ ...notification, read: true }))
-    );
-    setUnreadCount(0);
-  };
-
-  const handleNotificationClick = (notification: Notification) => {
-    if (!notification.read) {
-      markAsRead(notification.id);
-    }
-    
-    if (notification.action) {
-      // Aquí podrías usar navigate si necesitas navegación
-      console.log('Navegando a:', notification.action.link);
-    }
+  const fondoNotificacion = (n: Notificacion) => {
+    if (esLeida(n)) return 'bg-gray-50 border-gray-200';
+    return n.urgente ? 'bg-red-50 border-red-200' : 'bg-blue-50 border-blue-200';
   };
 
   return (
@@ -255,6 +71,7 @@ export default function NotificationDropdown() {
         size="icon"
         onClick={() => setIsOpen(!isOpen)}
         className="relative"
+        aria-label={unreadCount > 0 ? `Notificaciones (${unreadCount} sin leer)` : 'Notificaciones'}
       >
         <Bell className="h-4 w-4" />
         {unreadCount > 0 && (
@@ -265,21 +82,18 @@ export default function NotificationDropdown() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Overlay */}
             <div
               className="fixed inset-0 z-10"
               onClick={() => setIsOpen(false)}
             />
-            
-            {/* Dropdown */}
+
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
               transition={{ duration: 0.15 }}
-              className="absolute right-0 top-full mt-2 w-96 bg-white rounded-lg shadow-lg border border-gray-200 z-20 max-h-96 overflow-hidden"
+              className="absolute right-0 top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-lg border border-gray-200 z-20 max-h-96 overflow-hidden"
             >
-              {/* Header */}
               <div className="p-4 border-b border-gray-100">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900">
@@ -301,6 +115,7 @@ export default function NotificationDropdown() {
                       size="icon"
                       onClick={() => setIsOpen(false)}
                       className="h-6 w-6"
+                      aria-label="Cerrar notificaciones"
                     >
                       <X className="h-4 w-4" />
                     </Button>
@@ -313,7 +128,6 @@ export default function NotificationDropdown() {
                 )}
               </div>
 
-              {/* Notifications List */}
               <div className="max-h-80 overflow-y-auto">
                 {notifications.length === 0 ? (
                   <div className="p-4 text-center text-gray-500">
@@ -327,30 +141,27 @@ export default function NotificationDropdown() {
                         key={notification.id}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className={`p-4 cursor-pointer transition-colors hover:bg-gray-50 ${getNotificationBg(notification.urgent, notification.read)}`}
+                        className={`p-4 cursor-pointer transition-colors hover:bg-gray-50 ${fondoNotificacion(notification)}`}
                         onClick={() => handleNotificationClick(notification)}
                       >
                         <div className="flex items-start gap-3">
                           <div className="flex-shrink-0 mt-0.5">
-                            {getNotificationIcon(notification.type, notification.urgent)}
+                            <CalendarClock className={`h-4 w-4 ${notification.urgente ? 'text-red-600' : 'text-blue-600'}`} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <h4 className={`text-sm font-medium ${!notification.read ? 'text-gray-900' : 'text-gray-600'}`}>
-                                {notification.title}
+                              <h4 className={`text-sm font-medium ${esLeida(notification) ? 'text-gray-600' : 'text-gray-900'}`}>
+                                {notification.titulo}
                               </h4>
-                              {!notification.read && (
+                              {!esLeida(notification) && (
                                 <div className="h-2 w-2 bg-red-600 rounded-full flex-shrink-0"></div>
                               )}
                             </div>
                             <p className="text-sm text-gray-600 mt-1">
-                              {notification.message}
+                              {notification.mensaje}
                             </p>
-                            <div className="flex items-center justify-between mt-2">
-                              <span className="text-xs text-gray-500">
-                                {notification.time}
-                              </span>
-                              {notification.action && (
+                            {notification.accion && (
+                              <div className="flex justify-end mt-2">
                                 <Button
                                   variant="ghost"
                                   size="sm"
@@ -360,11 +171,11 @@ export default function NotificationDropdown() {
                                     handleNotificationClick(notification);
                                   }}
                                 >
-                                  {notification.action.text}
+                                  {notification.accion.texto}
                                   <ExternalLink className="h-3 w-3 ml-1" />
                                 </Button>
-                              )}
-                            </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </motion.div>
@@ -372,20 +183,6 @@ export default function NotificationDropdown() {
                   </div>
                 )}
               </div>
-
-              {/* Footer */}
-              {notifications.length > 0 && (
-                <div className="p-3 border-t border-gray-100 bg-gray-50">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full text-sm text-gray-600 hover:text-gray-900"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Ver todas las notificaciones
-                  </Button>
-                </div>
-              )}
             </motion.div>
           </>
         )}

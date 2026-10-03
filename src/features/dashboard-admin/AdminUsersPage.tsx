@@ -503,13 +503,13 @@ export default function AdminUsersPage() {
                 <Input
                   label="Nombre"
                   value={createForm.nombre}
-                  onChange={(e) => setCreateForm({ ...createForm, nombre: e.target.value })}
+                  onChange={(e) => setCreateForm({ ...createForm, nombre: e.target.value.toLocaleUpperCase('es-CO') })}
                   required
                 />
                 <Input
                   label="Apellido"
                   value={createForm.apellido}
-                  onChange={(e) => setCreateForm({ ...createForm, apellido: e.target.value })}
+                  onChange={(e) => setCreateForm({ ...createForm, apellido: e.target.value.toLocaleUpperCase('es-CO') })}
                   required
                 />
                 <div>
@@ -572,13 +572,13 @@ export default function AdminUsersPage() {
                 <Input
                   label="Nombre"
                   value={editForm.nombre || ''}
-                  onChange={(e) => setEditForm({ ...editForm, nombre: e.target.value })}
+                  onChange={(e) => setEditForm({ ...editForm, nombre: e.target.value.toLocaleUpperCase('es-CO') })}
                   required
                 />
                 <Input
                   label="Apellido"
                   value={editForm.apellido || ''}
-                  onChange={(e) => setEditForm({ ...editForm, apellido: e.target.value })}
+                  onChange={(e) => setEditForm({ ...editForm, apellido: e.target.value.toLocaleUpperCase('es-CO') })}
                   required
                 />
                 <div>

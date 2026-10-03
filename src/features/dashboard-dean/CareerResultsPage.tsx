@@ -27,7 +27,7 @@ import {
   BookOpen
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import { fetchCareerSubjects, fetchAllCareerResults, fetchCareerResults } from '../../api/teachers';
+import { fetchCareerSubjects } from '../../api/teachers';
 import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../../utils/export';
 
 // Importar la imagen de fondo
@@ -83,36 +83,16 @@ export default function CareerResultsPage({ user }: CareerResultsPageProps) {
     return '¡Buenas noches';
   };
 
-  const handleGenerateAllResults = async () => {
-    try {
-      console.log('Generando resultados para todas las carreras...');
-      const results = await fetchAllCareerResults();
-      console.log('✅ Resultados globales obtenidos:', results);
-      // Por ahora navegar a una página de resultados globales
-      navigate('/reports');
-    } catch (error) {
-      console.error('❌ Error generando resultados globales:', error);
-      // Por ahora navegar a la página de reportes existente
-      navigate('/reports');
-    }
+  const handleGenerateAllResults = () => {
+    navigate('/reports');
   };
 
   const handleSelectSpecificCareer = () => {
     setSelectedOption('specific');
   };
 
-  const handleCareerSelection = async (careerId: string) => {
-    try {
-      console.log('Obteniendo resultados de carrera:', careerId);
-      const results = await fetchCareerResults(careerId);
-      console.log('✅ Resultados de carrera obtenidos:', results);
-      // Por ahora navegar a la página de reportes con filtro de carrera
-      navigate(`/reports?career=${careerId}`);
-    } catch (error) {
-      console.error('❌ Error obteniendo resultados de carrera:', error);
-      // Por ahora navegar a la página de reportes existente
-      navigate('/reports');
-    }
+  const handleCareerSelection = (careerId: string) => {
+    navigate(`/reports?career=${encodeURIComponent(careerId)}`);
   };
 
   const cardVariants = {

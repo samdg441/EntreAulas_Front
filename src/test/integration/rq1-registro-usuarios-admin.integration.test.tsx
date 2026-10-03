@@ -64,8 +64,8 @@ describe('RQ1 — Registro de usuarios desde admin (integración)', () => {
         expect.objectContaining({
           email: 'nuevo@soyudemedellin.edu.co',
           password: 'Abcdef1!',
-          nombre: 'Nuevo',
-          apellido: 'Usuario',
+          nombre: 'NUEVO',
+          apellido: 'USUARIO',
           tipo_usuario: 'estudiante',
         })
       )
