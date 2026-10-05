@@ -341,7 +341,7 @@ export default function EvaluationForm() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            {/* Lista de preguntas (scroll) */}
+            {/* Lista de preguntas */}
             <Card className="bg-white shadow-lg border border-gray-200 p-6">
               <CardHeader className="pb-6">
                 <CardTitle className="text-2xl font-bold text-gray-900">
@@ -352,7 +352,7 @@ export default function EvaluationForm() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="max-h-[58vh] overflow-auto pr-2 space-y-8">
+                <div className="space-y-8">
                   {questions.map((q, idx) => {
                     const rating = ratings[idx] ?? 0
                     const text = textAnswers[idx] ?? ''
