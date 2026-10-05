@@ -15,6 +15,13 @@ import ProgressBar from '../../components/ProgressBar';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { toast } from 'sonner'
+import {
+  ALERTA_FALTAN_DATOS,
+  armarPayloadEvaluacion,
+  avisoPreguntasSinCalificar,
+  mensajeErrorEnvio,
+  preguntasSinCalificar,
+} from './evaluacion-docente'
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
@@ -165,83 +172,30 @@ export default function EvaluationForm() {
   };
 
   const handleSubmit = () => {
+    const sinCalificar = preguntasSinCalificar(questions, ratings);
+    if (sinCalificar.length > 0) {
+      toast.warning(avisoPreguntasSinCalificar(sinCalificar));
+      return;
+    }
     setShowConfirmation(true);
   };
 
   const handleConfirmSubmit = async () => {
     try {
       if (!teacher?.id || !course?.id) {
-        toast.error('Error: Faltan datos del profesor o curso')
+        toast.error(ALERTA_FALTAN_DATOS)
         return
       }
 
-      const answers = questions.map((q, idx) => {
-        if (q.type === 'rating') {
-          return {
-            questionId: parseInt(q.id, 10),
-            rating: ratings[idx],
-            textAnswer: null
-          };
-        } else {
-          return {
-            questionId: parseInt(q.id, 10),
-            rating: null,
-            textAnswer: textAnswers[idx]
-          };
-        }
-      });
-      
-      // Calcular rating promedio solo de las preguntas de rating
-      const ratingQuestions = questions.filter(q => q.type === 'rating');
-      const ratingAnswers = answers.filter(a => a.rating !== null);
-      const total = ratingAnswers.reduce((a, b) => a + (b.rating || 0), 0);
-      const overallRating = ratingQuestions.length > 0 ? Number((total / ratingQuestions.length).toFixed(2)) : 0;
-
-      console.log('📤 Enviando evaluación:', {
-        teacherId: String(teacher.id),
-        courseId: String(course.id),
-        groupId: group ? String(group.id) : undefined,
-        comments,
-        answers,
-        overallRating,
-        teacher: teacher,
-        course: course,
-        group: group
-      })
-
-      const result = await submitEvaluation({
-        teacherId: String(teacher.id),
-        courseId: String(course.id),
-        groupId: group ? String(group.id) : undefined,
-        comments,
-        answers,
-        overallRating,
-      })
-
-      console.log('✅ Evaluación enviada exitosamente:', result)
+      await submitEvaluation(
+        armarPayloadEvaluacion({ teacher, course, group, comments, questions, ratings, textAnswers })
+      )
       setShowConfirmation(false)
       navigate('/evaluate/goodbye', { replace: true })
     } catch (e: any) {
       console.error('❌ Error enviando evaluación:', e)
-      
-      // Manejo mejorado de errores
-      let errorMessage = 'Error guardando la evaluación'
-      
-      if (e?.response?.data?.error) {
-        errorMessage = e.response.data.error
-        
-        // Si hay detalles de validación, mostrarlos
-        if (e.response.data.details && Array.isArray(e.response.data.details)) {
-          const validationErrors = e.response.data.details
-            .map((detail: any) => `${detail.field}: ${detail.message}`)
-            .join('\n')
-          errorMessage += '\n\nDetalles:\n' + validationErrors
-        }
-      } else if (e?.message) {
-        errorMessage = e.message
-      }
-      
-      toast.error(errorMessage)
+      setShowConfirmation(false)
+      toast.error(mensajeErrorEnvio(e))
     }
   };
 

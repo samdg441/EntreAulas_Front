@@ -8,6 +8,8 @@ import {
   decidirMontajeFormulario,
   hayProfesorYCurso,
   mensajeErrorEnvio,
+  avisoPreguntasSinCalificar,
+  preguntasSinCalificar,
 } from '../../../features/evaluations/evaluacion-docente'
 
 const PROFESOR = { id: 7 }
@@ -137,7 +139,42 @@ describe('RQ11 — Enviar la evaluación docente', () => {
     expect(payload.answers, 'respuestas').to.be.an('array').and.to.be.empty
     expect(payload.overallRating, 'promedio').to.equal(0)
     expect(destino, 'destino').to.equal('alerta-error')
-    expect(mensaje, 'detalle').to.include('answers: Se requiere al menos una respuesta')
+    expect(mensaje, 'mensaje').to.equal('Datos de evaluación inválidos')
+    expect(mensaje, 'sin rutas técnicas').not.to.include('answers')
+  })
+
+  it('si el servidor rechaza calificaciones en 0, el aviso dice qué preguntas faltan en lenguaje claro', () => {
+    // Act
+    const mensaje = mensajeErrorEnvio({
+      response: {
+        data: {
+          error: 'Datos de evaluación inválidos',
+          details: [
+            { field: 'answers.0.rating', message: 'Number must be greater than or equal to 1' },
+            { field: 'answers.2.rating', message: 'Number must be greater than or equal to 1' },
+            { field: 'overallRating', message: 'Number must be greater than or equal to 1' },
+          ],
+        },
+      },
+    })
+
+    // Assert
+    expect(mensaje).to.equal('Te falta calificar las preguntas 1 y 3.')
+  })
+
+  it('antes de enviar detecta las preguntas de calificación sin responder e ignora las abiertas', () => {
+    // Act
+    const faltan = preguntasSinCalificar(PREGUNTAS, [0, 5, null])
+    const varias = preguntasSinCalificar(
+      [{ type: 'rating' }, { type: 'rating' }, { type: 'rating' }],
+      [0, undefined, 0]
+    )
+
+    // Assert
+    expect(faltan).to.deep.equal([1])
+    expect(avisoPreguntasSinCalificar(faltan)).to.equal('Te falta calificar la pregunta 1.')
+    expect(avisoPreguntasSinCalificar(varias)).to.equal('Te falta calificar las preguntas 1, 2 y 3.')
+    expect(avisoPreguntasSinCalificar(preguntasSinCalificar(PREGUNTAS, [4, 5, null]))).to.equal('')
   })
 
   it('sin profesor o curso el envío se detiene antes de llamar al servidor', () => {

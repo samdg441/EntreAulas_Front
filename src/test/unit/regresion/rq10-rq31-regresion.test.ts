@@ -164,7 +164,7 @@ describe('RQ10, RQ11, RQ13, RQ29, RQ30 y RQ31 — Regresión', () => {
 
     // Assert
     expect(payload.answers, 'respuestas').to.be.an('array').and.to.be.empty
-    expect(mensaje, 'detalle').to.include('answers')
+    expect(mensaje, 'mensaje').to.equal('Datos de evaluación inválidos')
   })
 
   it('RQ13: el admin crea el usuario y la lista no lleva la contraseña', () => {

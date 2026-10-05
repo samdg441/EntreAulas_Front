@@ -23,7 +23,7 @@ export function armarPayloadEvaluacion(params: {
   course: { id: string | number }
   group?: { id: string | number } | null
   comments?: string
-  questions: Array<{ id: string; type: 'rating' | 'text' }>
+  questions: Array<{ id: string; type: string }>
   ratings: Array<number | null | undefined>
   textAnswers: Array<string | undefined>
 }) {
@@ -54,23 +54,38 @@ export function armarPayloadEvaluacion(params: {
   }
 }
 
+/** Números (desde 1) de las preguntas de calificación que siguen sin responder. */
+export function preguntasSinCalificar(
+  questions: Array<{ type: string }>,
+  ratings: Array<number | null | undefined>
+): number[] {
+  return questions.flatMap((q, idx) => (q.type === 'rating' && !((ratings[idx] ?? 0) > 0) ? [idx + 1] : []))
+}
+
+export function avisoPreguntasSinCalificar(numeros: number[]): string {
+  if (numeros.length === 0) return ''
+  if (numeros.length === 1) return `Te falta calificar la pregunta ${numeros[0]}.`
+  return `Te falta calificar las preguntas ${numeros.slice(0, -1).join(', ')} y ${numeros.at(-1)}.`
+}
+
+function preguntasConCalificacionInvalida(details: Array<{ field: string }>): number[] {
+  const numeros = details.flatMap((d) => {
+    const m = /^answers\.(\d+)\.rating$/.exec(d.field)
+    return m ? [Number(m[1]) + 1] : []
+  })
+  return [...new Set(numeros)].sort((a, b) => a - b)
+}
+
 export function mensajeErrorEnvio(error: {
   response?: { data?: { error?: string; details?: Array<{ field: string; message: string }> } }
   message?: string
 } | null): string {
-  let errorMessage = ALERTA_ERROR_GENERICO
-  if (error?.response?.data?.error) {
-    errorMessage = error.response.data.error
-    if (error.response.data.details && Array.isArray(error.response.data.details)) {
-      const validationErrors = error.response.data.details
-        .map((detail) => `${detail.field}: ${detail.message}`)
-        .join('\n')
-      errorMessage += '\n\nDetalles:\n' + validationErrors
-    }
-  } else if (error?.message) {
-    errorMessage = error.message
+  const data = error?.response?.data
+  if (data?.error) {
+    const sinCalificar = preguntasConCalificacionInvalida(Array.isArray(data.details) ? data.details : [])
+    return sinCalificar.length ? avisoPreguntasSinCalificar(sinCalificar) : data.error
   }
-  return errorMessage
+  return error?.message || ALERTA_ERROR_GENERICO
 }
 
 export function decidirEnvioFormulario(params: {
