@@ -59,7 +59,7 @@ export function preguntasSinCalificar(
   questions: Array<{ type: string }>,
   ratings: Array<number | null | undefined>
 ): number[] {
-  return questions.flatMap((q, idx) => (q.type === 'rating' && !((ratings[idx] ?? 0) > 0) ? [idx + 1] : []))
+  return questions.flatMap((q, idx) => (q.type === 'rating' && (ratings[idx] ?? 0) <= 0 ? [idx + 1] : []))
 }
 
 export function avisoPreguntasSinCalificar(numeros: number[]): string {
