@@ -21,6 +21,10 @@ describe('RQ22 y RQ24 — Dashboard del coordinador (E2E)', () => {
   })
 
   const filaDe = (nombre: string) => cy.contains('td', nombre).parent('tr')
+  const buscador = () => cy.get('input[placeholder="Buscar por nombre o correo..."]')
+  // En desarrollo React StrictMode duplica la petición inicial: se mira la última, no "la siguiente".
+  const ultimaConsulta = () =>
+    cy.get('@resumen.all').then((llamadas: any) => llamadas.at(-1).request.query as Record<string, string>)
 
   it('RQ22: el promedio general y el de cada docente se ven con dos decimales', () => {
     cy.contains('Promedio General').parents('[class*="shadow-md"]').first().should('contain', '4.5')
@@ -41,30 +45,29 @@ describe('RQ22 y RQ24 — Dashboard del coordinador (E2E)', () => {
   })
 
   it('RQ24: la búsqueda viaja recortada, vuelve a la página 1 y filtra la tabla', () => {
-    cy.get('input[placeholder="Buscar por nombre o correo..."]').type('  ana  ')
+    buscador().type('  ana  ')
 
-    cy.wait('@resumen').its('request.query').should('include', { search: 'ana', page: '1' })
     cy.get('tbody tr').should('have.length', 1)
     filaDe('Ana Pérez').should('be.visible')
     cy.contains('Mostrando 1 - 1 de 1').should('be.visible')
+    ultimaConsulta().should('include', { search: 'ana', page: '1' })
   })
 
   it('Regresión RQ24: al borrar la búsqueda vuelven todos los docentes', () => {
-    cy.get('input[placeholder="Buscar por nombre o correo..."]').type('ana')
-    cy.wait('@resumen')
-    cy.get('input[placeholder="Buscar por nombre o correo..."]').clear()
+    buscador().type('ana')
+    cy.get('tbody tr').should('have.length', 1)
+    buscador().clear()
 
-    cy.wait('@resumen').its('request.query').should('not.have.property', 'search')
     cy.get('tbody tr').should('have.length', 4)
+    ultimaConsulta().should('not.have.property', 'search')
   })
 
   it('Regresión RQ24: un texto con <script> no ejecuta nada y muestra la lista vacía', () => {
     const alerta = cy.stub().as('alerta')
     cy.on('window:alert', alerta)
 
-    cy.get('input[placeholder="Buscar por nombre o correo..."]').type('<script>alert(1)</script>')
+    buscador().type('<script>alert(1)</script>')
 
-    cy.wait('@resumen')
     cy.contains('No se encontraron docentes para el filtro actual.').should('be.visible')
     cy.get('@alerta').should('not.have.been.called')
   })

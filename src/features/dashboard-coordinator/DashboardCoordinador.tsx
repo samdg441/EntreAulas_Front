@@ -90,7 +90,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
           pageSize: pagination.pageSize,
           search: searchTerm
         });
-        setStats(response.stats);
+        setStats(response.stats ?? statsVaciasCoordinador());
         setTeachers(response.teachers || []);
         setPagination(response.pagination || { page: 1, pageSize: 8, total: 0, totalPages: 0 });
       } catch (error) {

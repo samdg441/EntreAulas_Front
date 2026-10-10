@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from 'react'
+import React, { createContext, useCallback, useContext, useMemo, useState, ReactNode } from 'react'
 import { authApi, AuthResponse } from '../api/auth'
 import {
   getDashboardPathForUser as getDashboardPathForUserFromModule,
@@ -54,17 +54,12 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    // Verificar si hay un usuario guardado al cargar la app
+  // Se lee en el primer render: los wrappers de ruta redirigen a /login apenas ven user=null.
+  const [user, setUser] = useState<User | null>(() => {
     const savedUser = authApi.getCurrentUser()
-    if (savedUser && authApi.isAuthenticated()) {
-      setUser(savedUser)
-    }
-    setLoading(false)
-  }, [])
+    return savedUser && authApi.isAuthenticated() ? savedUser : null
+  })
+  const loading = false
 
   const guardarSesion = useCallback((sesion: AuthResponse) => {
     authStorage.setToken(sesion.token)

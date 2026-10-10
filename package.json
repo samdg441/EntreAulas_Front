@@ -17,6 +17,7 @@
     "test:performance": "node scripts/vitest.mjs run src/test/performance",
     "test:carga": "node carga/carga-api.mjs",
     "test:e2e": "npm --prefix e2e run test:e2e",
+    "test:screenplay": "npm --prefix screenplay test",
     "sonar": "node scripts/vitest.mjs run src/test/unit src/test/integration src/test/regression src/test/api src/test/security --coverage && node scripts/clean-lcov.cjs && npx @sonar/scan"
   },
   "dependencies": {

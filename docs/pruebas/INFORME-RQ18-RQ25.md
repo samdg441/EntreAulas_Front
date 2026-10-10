@@ -107,10 +107,39 @@ Después de aplicar 1 y 2, se repite la misma prueba de carga para comparar cont
 | DEF-API-02 | Back `reports-overview` | `period=2026-9` → 200 con datos **de todos los periodos**. La regla de RQ23 solo existe en el front. | Abierto |
 | DEF-API-03 | Back `reports-overview` | `period=2026-1' OR '1'='1` → 200 con todos los periodos. No es inyección SQL (PostgREST parametriza las consultas), pero la entrada inválida se acepta en silencio. | Abierto |
 | DEF-API-04 | Back `app.ts` | Faltan cabeceras de seguridad (`X-Content-Type-Options`, `Strict-Transport-Security`, `X-Frame-Options`): no se usa `helmet`. | Abierto |
+| DEF-FE-02 | Front `context/AuthContext.tsx` | Abrir o recargar una página protegida (p. ej. F5 en `/reports`) mandaba al coordinador a `/login` y de ahí a su dashboard: la sesión guardada se leía en un `useEffect`, después del primer render. Encontrado al ejecutar Cypress. | **Corregido**: la sesión se lee en el primer render. Lo cubre Screenplay ("La sesión sobrevive…") |
+| DEF-FE-03 | Front `DashboardCoordinador.tsx` | Una respuesta sin `stats` dejaba el dashboard en blanco (`Cannot read properties of undefined`). | **Corregido**: métricas vacías, igual que ante un error |
 | BRECHA-01 | Front `App.tsx` | Solo las rutas de admin exigen rol. Un estudiante puede abrir `/dashboard-coordinador` o `/reports` (sin datos, porque el back responde 403). | Documentado en Cypress |
 | BRECHA-02 | Front | `validarCorreoQr`/`decidirGeneracionQr` (RQ18) y `filtrarDocentes` (RQ24) solo se usan en las pruebas: las pantallas no las llaman. | Documentado |
 
-## 5. Cómo reproducir
+## 5. E2E con el patrón Screenplay (`screenplay/`)
+
+Serenity/JS 3.48 + Playwright + Cucumber, con la estructura del repositorio de referencia
+[serenityjs-e2e-testing](https://github.com/mauricioramirezv/serenityjs-e2e-testing).
+
+| Capa | Responsabilidad | Ubicación |
+|---|---|---|
+| Actores y abilities | Carlos (coordinador), Eva (estudiante) y Api: `BrowseTheWebWithPlaywright`, `CallAnApi`, `TakeNotes` | `features/support/serenity.config.ts` |
+| Features | Comportamiento en Gherkin (español) | `features/*.feature` |
+| Step definitions | Conectan Gherkin con Screenplay; sin selectores | `features/step-definitions/` |
+| Tasks | Objetivos de negocio: `IniciarSesion`, `BuscarDocente`, `CambiarPeriodo`, `ExportarDatosExcel`, `ConsultarApi` | `test/tasks/` |
+| Interactions | Lo que Serenity/JS no trae: back simulado, descargar un archivo | `test/interactions/` |
+| Questions | `rutaActual`, `docentesVisibles`, `promedioDe`, `archivoDescargado`, parámetros enviados al back | `test/questions/`, `test/interactions/` |
+| Lean Page Objects | Localizadores estables (tipo de campo, `aria-label`, texto visible) | `test/ui/` |
+
+Escenarios web con back simulado (deterministas) y escenarios `@api` contra el back real:
+
+| Feature | Exitosos | Alternativos |
+|---|---|---|
+| Inicio de sesión (RQ19) | Coordinador llega a su panel; la sesión sobrevive a abrir `/reports` directo | Credenciales inválidas; tipo de usuario que no coincide; correo mal escrito no llega al back; sin sesión → `/login` |
+| Panel del coordinador (RQ22/24) | Buscar "  ana  " (viaja recortado, página 1) | Búsqueda sin resultados; borrar la búsqueda; promedios 99 → 0.00 y sin evaluaciones → "Sin datos" |
+| Reportes (RQ23/25) | Abre con 2026-1; exporta `reporte-coordinador-2026-1.xlsx` | Cambiar a 2025-2 pide ese periodo |
+| API real (RQ18/19/22/24) | Resumen paginado ≤ 8 docentes | Sin token 401 `NO_TOKEN`; login inexistente 401 genérico; QR inexistente 404; `/api/users` 403; docente de otra carrera 404 |
+
+Resultado: **21/21 escenarios** (15 web + 6 API) en 54 s. Reporte: `reports/serenity-js/index.html`
+(`npm --prefix screenplay run test:report`), con captura de pantalla de cada interacción.
+
+## 6. Cómo reproducir
 
 ```bash
 # Vitest (unit, integración, regresión, API, seguridad) + cobertura
@@ -128,6 +157,15 @@ npm run cy:api                    # solo API real, sin front
 CYPRESS_TOKEN_COORDINADOR=... npm run cy:api   # incluye el contrato con sesión
 npm run cy:defectos               # defectos abiertos (fallan a propósito)
 npm run cy:ci                     # reporte JUnit en reports/cypress/
+
+# Screenplay (una vez: cd screenplay && npm install && npx playwright install chromium)
+cd screenplay
+npm test                          # levanta el front y corre web + API
+npm run test:web                  # solo recorridos web
+TOKEN_FILE=/ruta/token.txt npm run test:api   # API real con sesión de coordinador
+npm run test:report               # abre el reporte en http://localhost:8080
 ```
+
+Si Playwright no logra descargar Chromium, los escenarios usan Edge (`channel: 'msedge'`), que viene con Windows.
 
 El token del coordinador nunca se escribe en archivos del repo: se genera en una variable o en un archivo temporal que se borra al terminar.

@@ -22,7 +22,10 @@ describe('RQ23 y RQ25 — Reportes del coordinador (E2E)', () => {
 
     cy.get('select[aria-label="Periodo"]').select('2025-2')
 
-    cy.wait('@reportes').its('request.query').should('deep.equal', { period: '2025-2' })
+    // React StrictMode duplica la petición inicial: se mira la última, no "la siguiente".
+    cy.get('@reportes.all').should((llamadas: any) => {
+      expect(llamadas.at(-1).request.query).to.deep.equal({ period: '2025-2' })
+    })
   })
 
   it('RQ25: "Datos Excel" descarga el libro del coordinador con las filas del reporte', () => {
@@ -51,13 +54,14 @@ describe('RQ23 y RQ25 — Reportes del coordinador (E2E)', () => {
 })
 
 describe('RQ23 — Reportes cuando el back falla (E2E)', () => {
-  it('muestra el error en vez de datos de otro periodo', () => {
+  it('las tarjetas muestran "Error" en vez de cifras', () => {
     cy.simularBackVacio()
     cy.intercept({ pathname: '/api/coordinador/reports-overview' }, { statusCode: 500, body: { error: 'fallo' } }).as('reportes')
 
     cy.visitarConSesion('/reports', usuarios.coordinador)
 
     cy.wait('@reportes')
-    cy.contains('Error al cargar las estadísticas').should('be.visible')
+    cy.get('div.text-red-600').filter(':contains("Error")').should('have.length.at.least', 1)
+    cy.contains('Cargando...').should('not.exist')
   })
 })

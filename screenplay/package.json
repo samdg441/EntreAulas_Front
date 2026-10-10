@@ -1,0 +1,35 @@
+{
+  "name": "entre-aulas-screenplay",
+  "private": true,
+  "description": "E2E con el patrón Screenplay: Serenity/JS + Playwright + Cucumber. Proyecto aparte para que npm ci del front no descargue navegadores.",
+  "scripts": {
+    "front": "npm --prefix .. run dev -- --port 3001 --strictPort",
+    "clean": "node scripts/clean.js",
+    "typecheck": "tsc --noEmit",
+    "cucumber": "npm run clean && cucumber-js",
+    "cucumber:web": "npm run cucumber -- --tags @web",
+    "cucumber:smoke": "npm run cucumber -- --tags @smoke",
+    "test": "start-server-and-test front http://localhost:3001 cucumber",
+    "test:web": "start-server-and-test front http://localhost:3001 cucumber:web",
+    "test:api": "cross-env SERENITY_API_ONLY=true npm run cucumber -- --tags @api",
+    "test:smoke": "start-server-and-test front http://localhost:3001 cucumber:smoke",
+    "test:report": "html-reporter serve --dir ../reports/serenity-js --port 8080 --open"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "13.3.0",
+    "@serenity-js/assertions": "3.48.0",
+    "@serenity-js/console-reporter": "3.48.0",
+    "@serenity-js/core": "3.48.0",
+    "@serenity-js/cucumber": "3.48.0",
+    "@serenity-js/html-reporter": "3.48.0",
+    "@serenity-js/playwright": "3.48.0",
+    "@serenity-js/rest": "3.48.0",
+    "@serenity-js/web": "3.48.0",
+    "@types/node": "24.10.0",
+    "cross-env": "10.1.0",
+    "playwright": "1.63.0",
+    "start-server-and-test": "^3.0.13",
+    "ts-node": "10.9.2",
+    "typescript": "5.9.3"
+  }
+}

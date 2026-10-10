@@ -17,8 +17,11 @@ export function pedir(ruta: string, opciones: Partial<Cypress.RequestOptions> = 
   return cy.request({ url: `${apiUrl()}${ruta}`, failOnStatusCode: false, timeout: 60_000, ...opciones })
 }
 
+/** El token se lee al ejecutar el comando (no al encolarlo): cy.env lo carga de forma asíncrona. */
 export function pedirComoCoordinador(ruta: string, opciones: Partial<Cypress.RequestOptions> = {}) {
-  return pedir(ruta, { ...opciones, headers: { Authorization: `Bearer ${token}`, ...opciones.headers }, log: false })
+  return cy.wrap(null, { log: false }).then(() =>
+    pedir(ruta, { ...opciones, headers: { Authorization: `Bearer ${token}`, ...opciones.headers }, log: false })
+  )
 }
 
 const base64url = (texto: string) => btoa(texto).replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_')
