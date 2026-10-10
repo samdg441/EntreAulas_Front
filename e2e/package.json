@@ -1,0 +1,20 @@
+{
+  "name": "entre-aulas-front-e2e",
+  "private": true,
+  "description": "Pruebas E2E de regresión con Cypress. Proyecto aparte para que npm ci del front no descargue Cypress.",
+  "scripts": {
+    "front": "npm --prefix .. run dev -- --port 3001 --strictPort",
+    "cy:open": "cypress open --e2e",
+    "cy:run": "cypress run --e2e",
+    "cy:api": "cypress run --e2e --config-file cypress.api.config.ts",
+    "cy:defectos": "cypress run --e2e --config-file cypress.api.config.ts --spec cypress/e2e/defectos/**/*.cy.ts",
+    "cy:ci": "cypress run --e2e --reporter junit --reporter-options mochaFile=../reports/cypress/junit-[hash].xml",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test:e2e": "start-server-and-test front http://localhost:3001 cy:run"
+  },
+  "devDependencies": {
+    "cypress": "^16.1.1",
+    "start-server-and-test": "^3.0.13",
+    "typescript": "^7.0.2"
+  }
+}

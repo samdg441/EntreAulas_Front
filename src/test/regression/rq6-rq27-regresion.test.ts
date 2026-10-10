@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { decidirAccesoRuta, usuarioTieneRol, type UsuarioDashboard } from '../../../features/auth/dashboard-path'
-import { decidirEntradaQr, mensajeTokenQr, tokenDesdeUrl } from '../../../features/evaluations/qr-entrada'
-import { decidirGeneracionQr, validarCorreoQr } from '../../../features/evaluations/qr-validacion'
+import { decidirAccesoRuta, usuarioTieneRol, type UsuarioDashboard } from '../../features/auth/dashboard-path'
+import { decidirEntradaQr, mensajeTokenQr, tokenDesdeUrl } from '../../features/evaluations/qr-entrada'
+import { decidirGeneracionQr, validarCorreoQr } from '../../features/evaluations/qr-validacion'
 import {
   decidirCargaMaterias,
   filasVistaMaterias,
   materiasDesdeApi,
   materiasTrasErrorApi,
-} from '../../../features/dashboard-student/estudiante-materias'
+} from '../../features/dashboard-student/estudiante-materias'
 
 /**
  * Regresión de RQ6, RQ14, RQ15, RQ16, RQ17 y RQ27 en el front.

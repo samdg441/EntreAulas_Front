@@ -1,4 +1,5 @@
 import { apiClient } from './client'
+import { authStorage } from '../lib/storage'
 
 export interface LoginData {
   email: string
@@ -49,10 +50,7 @@ export const authApi = {
     localStorage.removeItem('user')
   },
 
-  getCurrentUser: () => {
-    const userStr = localStorage.getItem('user')
-    return userStr ? JSON.parse(userStr) : null
-  },
+  getCurrentUser: () => authStorage.getUser<any>(),
 
   getToken: () => {
     return localStorage.getItem('token')

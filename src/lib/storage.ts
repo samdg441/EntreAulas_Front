@@ -11,7 +11,14 @@ export const authStorage = {
   },
   getUser<T = unknown>(): T | null {
     const raw = localStorage.getItem(USER_KEY)
-    return raw ? (JSON.parse(raw) as T) : null
+    if (!raw) return null
+    try {
+      return JSON.parse(raw) as T
+    } catch {
+      // Un usuario guardado ilegible tumbaba toda la app al arrancar: se descarta la sesión.
+      authStorage.clear()
+      return null
+    }
   },
   setUser(user: unknown): void {
     localStorage.setItem(USER_KEY, JSON.stringify(user))

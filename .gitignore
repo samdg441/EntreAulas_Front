@@ -3,6 +3,8 @@ node_modules
 dist
 coverage
 test-results.xml
+reports/
+e2e/cypress/downloads/
 .scannerwork/
 .DS_Store
 *.log
