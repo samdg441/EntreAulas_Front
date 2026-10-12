@@ -1,0 +1,462 @@
+METRICAS Y CRITERIOS DE ACEPTACION
+SEGURIDAD Y RENDIMIENTO - ENTREAULAS
+Requisitos: RQ1, RQ2, RQ3, RQ3.1, RQ3.4 y RQ5
+Fecha de ejecucion: 2026-10-11
+
+====================================================================
+1. ALCANCE
+====================================================================
+
+RQ1    Registro de usuarios desde el administrador
+       Back:  POST /api/auth/create-user
+       Front: pantalla AdminUsersPage
+RQ2    Login
+       Back:  POST /api/auth/login, POST /api/auth/login-with-role, GET /api/auth/me
+       Front: Login.tsx, AuthContext, interceptor de axios
+RQ3    Recuperacion de contrasena (pantallas)
+       Front: ForgotPassword.tsx, ResetPassword.tsx
+RQ3.1  Solicitud de recuperacion
+       Back:  POST /api/auth/forgot-password
+RQ3.4  Validacion del token de recuperacion
+       Back:  GET /api/auth/validate-reset-token/:token
+RQ5    Restablecer contrasena
+       Back:  POST /api/auth/reset-password
+       Front: ResetPassword.tsx
+
+Supuesto: RQ3.4 no existe con ese numero en el repositorio. Se interpreto
+como la validacion del token de recuperacion (en el codigo figura como RQ3.2).
+
+Nota: los criterios son propuestos por el equipo de pruebas. No provienen de
+un acuerdo de nivel de servicio (SLA) firmado. Cada criterio se justifica.
+
+====================================================================
+2. DEFINICION DE LAS METRICAS
+====================================================================
+
+2.1 METRICAS DE RENDIMIENTO
+
+p50 / p95 / p99
+  Tiempo en el que responde el 50 %, 95 % y 99 % de las peticiones.
+  La metrica de aceptacion es el p95: el 95 % de los usuarios espera
+  como maximo ese tiempo. Se usa p95 y no el promedio porque el promedio
+  oculta a los usuarios que esperan mucho.
+
+Tasa de error
+  (respuestas inesperadas + timeouts + fallos de red) / peticiones totales.
+  Un 401 o un 400 que la prueba espera NO cuenta como error.
+
+Throughput (rps)
+  Peticiones completadas por segundo.
+
+Capacidad de bcrypt
+  Hashes por segundo = hilos de libuv (4) / tiempo de un hash (0,32 s).
+  Resultado teorico: aproximadamente 12 logins por segundo.
+
+Memoria del proceso (RSS)
+  Memoria residente del back, muestreada cada 5 s. Se evalua la tendencia
+  despues de 30 s de calentamiento. Una fuga se ve como crecimiento
+  sostenido, no como un pico aislado.
+
+Peso inicial del bundle (front)
+  KB de JS y CSS que referencia index.html. Se descargan antes de pintar
+  el login. Se mide sin comprimir y con gzip.
+
+Core Web Vitals (Lighthouse 12)
+  LCP: tiempo hasta que aparece el contenido principal.
+  FCP: tiempo hasta el primer contenido.
+  TBT: tiempo total en que la pagina queda bloqueada.
+  CLS: cuanto se mueve el diseno al cargar.
+  Perfiles: escritorio, y movil (CPU 4 veces mas lenta, red 4G lenta).
+
+Render en jsdom (front)
+  Mediana del tiempo de montar una pantalla o listar usuarios.
+
+2.2 METRICAS DE SEGURIDAD
+
+Controles verificados
+  Pruebas de seguridad que pasan: el control existe y funciona.
+
+Defectos abiertos por severidad
+  Cada defecto tiene una prueba ejecutable que falla a proposito mientras
+  siga abierto.
+
+Vulnerabilidades de dependencias
+  Altas y criticas reportadas por npm audit en produccion.
+
+Cabeceras de seguridad
+  CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, HSTS,
+  compresion gzip y server_tokens off.
+
+Escala de severidad
+  CRITICA: toma de control o escalada de privilegios sin autenticacion.
+  ALTA:    permite un ataque automatizable (fuerza bruta, abuso masivo).
+  MEDIA:   filtra informacion o debilita un control.
+  BAJA:    endurecimiento.
+
+====================================================================
+3. CRITERIOS DE ACEPTACION GENERALES
+====================================================================
+
+SEGURIDAD
+  - 0 defectos criticos o altos abiertos.
+  - Todos los controles verificados en verde.
+  - 0 vulnerabilidades altas o criticas en dependencias de produccion.
+  - Cabeceras de seguridad presentes en el despliegue.
+
+RENDIMIENTO DEL BACK
+  - p95 por debajo del umbral de cada endpoint.
+  - Tasa de error menor o igual a 1 % en todas las etapas de carga.
+  - Prueba de pico: el sistema se recupera al volver a la carga base.
+  - Prueba sostenida: la memoria crece 20 % o menos despues del calentamiento.
+
+RENDIMIENTO DEL FRONT
+  - JS inicial: 300 KB o menos con gzip.
+  - JS + CSS inicial: 350 KB o menos con gzip.
+  - Cada imagen: 500 KB o menos.
+  - Lighthouse: Performance 80 o mas, Best Practices 90 o mas,
+    LCP 2,5 s o menos, FCP 1,8 s o menos, TBT 200 ms o menos, CLS 0,1 o menos.
+
+Umbrales de latencia del back (p95):
+  health                         1.000 ms
+  create-user sin token (401)    1.000 ms
+  validate-reset-token           1.500 ms
+  reset-password token invalido  1.500 ms
+  forgot-password                2.000 ms
+  login valido                   2.500 ms
+  Justificacion: los de lectura parten de carga/escenarios.mjs del proyecto;
+  el del login incluye bcrypt (aprox. 0,32 s por hash) mas 2 o 3 consultas
+  a la base de datos.
+
+====================================================================
+4. RESULTADOS DE SEGURIDAD - BACK
+====================================================================
+
+RQ1
+  CUMPLE     Sin token da 401; estudiante, profesor y coordinador dan 403.
+  CUMPLE     Poner "admin" dentro del JWT no escala privilegios: el rol sale
+             de la base de datos. Un admin desactivado da 401.
+  CUMPLE     La respuesta no devuelve contrasena ni hash; se guarda con bcrypt.
+  CUMPLE     Mass-assignment (id, activo, roles) se ignora.
+  CUMPLE     Correos con CRLF, SQL, script, dominio ajeno u objeto dan 400.
+  NO CUMPLE  CRITICA - DEF-39: POST /api/auth/register es publico y permite
+             crear un usuario admin; devuelve un JWT (estado 201).
+  NO CUMPLE  ALTA - DEF-21: tipo_usuario fuera de la lista se acepta.
+  NO CUMPLE  BAJA - DEF-45: create-user acepta "12345678"; reset-password
+             la rechaza (politica distinta).
+  NO CUMPLE  MEDIA - DEF-40 (origen DEF-31): un error 500 expone el mensaje
+             interno de la base de datos.
+
+RQ2
+  CUMPLE     Misma respuesta para correo inexistente, clave mala y cuenta
+             inactiva.
+  CUMPLE     JWT con HS256, vence en 24 h o menos y no lleva datos sensibles.
+             alg:none, otra clave y token vencido dan 401 sin stack.
+  CUMPLE     login-with-role con un rol que la cuenta no tiene da 401.
+  NO CUMPLE  MEDIA - DEF-41: el tiempo de respuesta delata si el correo
+             existe (4 ms si no existe, 340 ms si existe).
+  NO CUMPLE  ALTA - DEF-34: no hay limite de intentos (no hay 429).
+
+RQ3.1
+  CUMPLE     Misma respuesta para correo existente e inexistente.
+  CUMPLE     El token no viaja en el JSON, ni siquiera con el modo debug en
+             produccion. Tiene 256 bits, es unico y vence en 1 h o menos.
+  CUMPLE     Entradas con CRLF, varios destinatarios, objetos o 100.000
+             caracteres dan 4xx, nunca 500.
+  NO CUMPLE  ALTA - DEF-43: no hay limite de solicitudes (spam de correo).
+  NO CUMPLE  BAJA - DEF-44: los tokens anteriores siguen vigentes.
+
+RQ3.4
+  CUMPLE     El token esta ligado al correo. Inexistente, expirado o usado
+             da 400 con mensaje generico.
+  CUMPLE     Tokens hostiles (SQL, script, traversal, 10.000 caracteres)
+             dan 400. Validar no consume el token.
+  NO CUMPLE  ALTA - DEF-43: no hay limite de intentos al adivinar tokens.
+
+RQ5
+  CUMPLE     Guarda bcrypt y marca el token como usado.
+  CUMPLE     Segundo uso del token da 400; expirado da 400; un token de otro
+             correo no sirve.
+  CUMPLE     Politica (8 caracteres, mayuscula, minuscula, numero, especial)
+             y confirmacion; entradas de tipo extrano no dan 500.
+  NO CUMPLE  MEDIA - DEF-42: el JWT emitido antes del reset sigue valido.
+
+TRANSVERSAL
+  CUMPLE     No se anuncia Express. Body mayor de 100 KB da 413. JSON roto
+             da 400. PUT, PATCH y DELETE sobre create-user no ejecutan nada.
+  RESERVA    CORS: con CORS_ORIGIN definido, un origen no autorizado no recibe
+             Access-Control-Allow-Origin. Por lectura del codigo, si la
+             variable queda vacia cae a "*" con credentials: true (no se
+             probo ese caso).
+  NO CUMPLE  BAJA - DEF-35: no hay cabeceras de seguridad (helmet).
+  NO CUMPLE  BAJA - DEF-38: errores de cuerpo responden HTML en vez de JSON.
+
+RESUMEN BACK
+  91 pruebas nuevas de seguridad en verde.
+  Defectos nuevos abiertos: 1 critico (DEF-39), 1 alto (DEF-43),
+  3 medios (DEF-40, DEF-41, DEF-42), 2 bajos (DEF-44, DEF-45).
+  Defectos previos que tambien afectan estos RQ: DEF-34 y DEF-21 (altos),
+  DEF-31 (medio), DEF-35 y DEF-38 (bajos).
+  El criterio general de seguridad NO se cumple.
+
+====================================================================
+5. RESULTADOS DE SEGURIDAD - FRONT
+====================================================================
+
+  CUMPLE     El campo de contrasena oculta lo escrito (RQ2).
+  CUMPLE     Mensajes de error y nombres con HTML se muestran como texto,
+             sin XSS (RQ1, RQ2, RQ3, RQ5).
+  CUMPLE     Un login fallido no deja token; la contrasena no va a consola
+             ni al almacenamiento (RQ2).
+  CUMPLE     Un 401 limpia la sesion; un 403 no la borra; el token solo viaja
+             en la cabecera Authorization (RQ2).
+  CUMPLE     La pantalla de alta solo la ve el admin. Estudiante, profesor,
+             coordinador, decano y usuario sin rol van a /forbidden (RQ1).
+  CUMPLE     El dominio del correo siempre es el institucional, sin CRLF;
+             las contrasenas debiles no llegan a la API (RQ1).
+  CUMPLE     Mensaje generico en recuperacion; correo invalido o con CRLF
+             bloqueado en el cliente (RQ3).
+  CUMPLE     Token y correo de la URL con HTML no se interpretan; un enlace
+             invalido no muestra el formulario; el token no se copia al
+             almacenamiento; la politica es igual a la del back (RQ5).
+  RESERVA    El JWT esta en localStorage: cualquier XSS lo puede leer. Hoy
+             esta mitigado porque React escapa todo, pero sin CSP no hay
+             segunda barrera.
+  NO CUMPLE  BAJA - DEF-FE-04: Login navega a cualquier valor de redirectTo
+             sin validarlo. Hoy no se sale del sitio, pero la proteccion es
+             accidental.
+  NO CUMPLE  MEDIA - DEF-FE-05: el despliegue (nginx, Vercel, index.html) no
+             envia CSP, X-Frame-Options, nosniff, Referrer-Policy, HSTS, no
+             comprime con gzip y no oculta la version de nginx (13
+             comprobaciones, 0 cumplidas). El enlace de recuperacion lleva el
+             token en la URL y sin Referrer-Policy puede filtrarse.
+  NO CUMPLE  ALTA - DEF-FE-06: npm audit en produccion: 2 vulnerabilidades
+             altas (xlsx sin arreglo disponible: prototype pollution y ReDoS;
+             tmp: escritura por enlace simbolico). Con devDependencies son 14
+             altas. Ademas, "postgres" (cliente de base de datos) figura en
+             las dependencies del front sin motivo aparente.
+
+RESUMEN FRONT
+  51 pruebas nuevas de seguridad en verde; 17 comprobaciones de defecto
+  fallan a proposito; la auditoria de dependencias no cumple.
+
+====================================================================
+6. RESULTADOS DE RENDIMIENTO - BACK
+====================================================================
+
+6.1 Costo propio del back (base de datos simulada)
+    Comando: npm run test:performance
+
+  Escenario                           Concurrencia  Criterio (p95)   Mediana   p95      Estado
+  bcrypt hash / verificacion          1             mediana <= 600   319/318   330 ms   CUMPLE
+  Login (RQ2)                         1             <= 600 ms        318 ms    332 ms   CUMPLE
+  Login (RQ2)                         10            <= 2.500 ms      646 ms    964 ms   CUMPLE
+  Login (RQ2)                         50            <= 10.000 ms     2.267 ms  3.880 ms CUMPLE (ver nota)
+  Login con correo inexistente        50            <= 100 ms        42 ms     47 ms    CUMPLE
+  create-user (RQ1)                   1 / 10        <= 700 / 3.000   321/661   339/981  CUMPLE
+  forgot-password (RQ3.1)             50            <= 200 ms        47 ms     49 ms    CUMPLE
+  validate-reset-token (RQ3.4)        50            <= 100 ms        35 ms     38 ms    CUMPLE
+  reset-password (RQ5)                1 / 10        <= 700 / 3.000   314/648   337/968  CUMPLE
+
+  Nota: el login con 50 usuarios simultaneos cumple su umbral, pero el p95
+  de 3,9 s muestra que bcrypt satura el pool de 4 hilos.
+
+6.2 Carga contra el back local con Supabase real
+    Comandos: npm run test:carga:rq1-rq5 / :pico / :estres / :soak
+
+  Perfil   Etapas (usuarios)               p95 forgot-password        p95 validate-token       p95 reset-password        Errores  Estado
+  carga    1 > 5 > 10 > 25 (15 s c/u)      1.231>469>638>900 ms       1.023>464>536>560 ms     486>532>613>578 ms        0 %      CUMPLE
+  pico     5 > 50 > 5 (15 s c/u)           579>1.318>458 ms           457>854>313 ms           434>1.437>492 ms          0 %      CUMPLE
+  estres   10>25>50>100>150                619>923>931>1.206>1.263    613>562>997>1.209>1.346  824>590>1.315>1.194>1.355 0 %      CUMPLE
+  soak     10 usuarios, 150 s              885 ms                     668 ms                   638 ms                    0 %      CUMPLE
+
+  - Pico: el sistema se recupera al volver de 50 a 5 usuarios.
+  - Estres: no se llego al punto de quiebre con 150 usuarios.
+  - Throughput maximo: aproximadamente 443 rps en total (88 rps por escenario)
+    con 150 usuarios y sin errores.
+  - Memoria (RSS) en el soak: 109 MB al arrancar, 218 MB de pico, 204 MB al
+    final. Despues de los primeros 75 s oscila entre 199 y 218 MB. No hay
+    crecimiento sostenido. CUMPLE (con la reserva de que fueron 150 s y no
+    10 minutos).
+  - create-user sin token (401) respondio con p95 entre 8 y 78 ms.
+
+6.3 Linea base contra Render (plan gratuito, 1 usuario, 10 s)
+
+  health                          p50 205 ms   p95 212 ms   CUMPLE
+  forgot-password                 p50 335 ms   p95 535 ms   CUMPLE
+  validate-reset-token            p50 307 ms   p95 409 ms   CUMPLE
+  reset-password (token invalido) p50 310 ms   p95 513 ms   CUMPLE
+  create-user sin token (401)     p50 206 ms   p95 620 ms   CUMPLE
+
+  Solo 6 o 7 muestras por escenario: es una referencia, no un p95
+  estadisticamente solido. El servidor estaba despierto.
+
+====================================================================
+7. RESULTADOS DE RENDIMIENTO - FRONT
+====================================================================
+
+  Metrica                                   Criterio                    Resultado                          Estado
+  Render Login / Forgot / Reset (jsdom)     mediana <= 60/40/40 ms      6,0 / 3,7 / 2,7 ms                 CUMPLE
+  Lista de 1.000 / 5.000 usuarios           <= 300 / 500 ms             47 / 38 ms                         CUMPLE
+  Buscar entre 5.000 usuarios               <= 300 ms                   19 ms                              CUMPLE
+  Validaciones por tecla                    <= 0,2 ms                   menos de 0,01 ms                   CUMPLE
+  Correo sin ReDoS (100.000 caracteres)     <= 100 ms                   0,05 ms                            CUMPLE
+  JS inicial (gzip)                         <= 300 KB                   605 KB (2.021 KB sin comprimir)    NO CUMPLE
+  JS + CSS inicial (gzip)                   <= 350 KB                   613 KB                             NO CUMPLE
+  Imagen individual                         <= 500 KB                   fondo.webp 1.203 KB                NO CUMPLE
+  Carga estatica: HTML de las pantallas     p95 <= 300 ms, error <= 1 % p95 6-11 ms (1 usuario) a          CUMPLE
+                                                                        65-68 ms (100 usuarios), 0 % error
+  Carga estatica: JS principal (2 MB)       p95 <= 600 ms               211 ms (10 usuarios),              NO CUMPLE
+                                                                        976 ms (50), 2.029 ms (100)        desde 50 usuarios
+  Lighthouse ESCRITORIO (login/recuperar/   Perf >= 80, LCP <= 2,5 s,   Perf 92/92/92; LCP 1,84/1,80/      CUMPLE
+  restablecer)                              TBT <= 200 ms, CLS <= 0,1   1,84 s; TBT 35/6/3 ms; CLS 0
+  Lighthouse MOVIL                          mismos umbrales             Perf 58/58/54; LCP 10,8/10,8/      NO CUMPLE
+                                                                        11,0 s; FCP 3,9 s; TBT 333-458 ms
+
+  Nota: la carga estatica se midio con "vite preview" por loopback, no con
+  nginx ni Vercel. nginx del despliegue de Jenkins NO comprime.
+
+====================================================================
+8. INTERPRETACION DE LOS RESULTADOS
+====================================================================
+
+1. El hallazgo mas grave es de diseno, no de rendimiento: POST /api/auth/register
+   (DEF-39). Cualquiera puede registrarse como administrador y recibir un JWT,
+   sin pasar por create-user. Es la prioridad cero.
+
+2. No hay ningun freno a los intentos repetidos (DEF-34, DEF-43). El back
+   aguanto 150 usuarios simultaneos sin errores, y por eso mismo un atacante
+   puede enviar miles de intentos de login, de tokens o de correos de
+   recuperacion sin recibir nunca un 429. La robustez juega a favor del abuso.
+
+3. bcrypt es el cuello de botella del login y a la vez una superficie de
+   denegacion de servicio. Cada verificacion cuesta aproximadamente 0,32 s en
+   un pool de 4 hilos: capacidad teorica de unos 12 logins por segundo. Con 50
+   logins simultaneos el p95 sube a 3,9 s. En cambio, un login con correo
+   inexistente cuesta 4 ms: de ahi sale la fuga de DEF-41.
+
+4. Los endpoints de recuperacion son baratos y escalan. Son lecturas a
+   Supabase (150 a 200 ms de p50 por la red) y mantuvieron p95 de 1,4 s o
+   menos con 150 usuarios. El pico 5>50>5 se absorbio sin errores.
+
+5. No hay fugas de memoria aparentes, pero 150 s es corto para descartarlas.
+   Se recomienda un soak de 10 minutos antes de produccion.
+
+6. En el front el problema es el peso del bundle, no el codigo de las
+   pantallas. Se montan en pocos milisegundos, pero el usuario descarga 605 KB
+   comprimidos (2 MB sin comprimir) y una imagen de 1,2 MB antes de ver el
+   login. No hay React.lazy ni separacion de librerias pesadas (exceljs, xlsx,
+   jspdf, html2canvas, recharts) y nginx no comprime. En escritorio Lighthouse
+   da 92 puntos; en un movil con red lenta el LCP es de 10,8 s y la nota de
+   54 a 58.
+
+7. La superficie de XSS esta bien contenida hoy (todo se pinta como texto),
+   pero el JWT en localStorage y la ausencia total de cabeceras de seguridad
+   (CSP, Referrer-Policy) eliminan la segunda barrera. Un solo XSS futuro, o
+   la dependencia xlsx con prototype pollution y sin arreglo, bastaria para
+   robar sesiones. El token de recuperacion viaja en la URL y, sin
+   Referrer-Policy, puede filtrarse a terceros.
+
+====================================================================
+9. MEJORAS PROPUESTAS (POR PRIORIDAD)
+====================================================================
+
+P0 (inmediato)
+  1. Deshabilitar POST /register o forzar tipo_usuario = 'estudiante' en el
+     servidor. Cierra DEF-39.
+  2. Instalar express-rate-limit (con trust proxy en Render): login 10 fallos
+     por 15 min por IP y correo; forgot-password 5 por hora por correo;
+     validate y reset 10 por 15 min por IP. Cierra DEF-34 y DEF-43.
+
+P1 (siguiente entrega)
+  3. helmet en el back y bloque de cabeceras en nginx.conf y vercel.json (CSP,
+     X-Frame-Options, nosniff, Referrer-Policy no-referrer, HSTS), mas
+     "gzip on" y "server_tokens off". Cierra DEF-35 y DEF-FE-05.
+  4. Comparar contra un hash ficticio cuando el usuario no existe, para igualar
+     tiempos. Cierra DEF-41.
+  5. Manejador global de errores que no copie error.message y responda JSON en
+     400 y 413. Cierra DEF-40, DEF-31 y DEF-38.
+  6. React.lazy por ruta, manualChunks para exceljs/xlsx/jspdf/html2canvas/
+     recharts, cargar las librerias de exportacion bajo demanda y recomprimir
+     fondo.webp a menos de 150 KB. Meta: bundle menor de 300 KB gzip y LCP
+     movil menor de 2,5 s.
+  7. Reemplazar xlsx@0.18.5 (sin arreglo) por exceljs o por la version del CDN
+     oficial de SheetJS; actualizar tmp; sacar "postgres" del front; planificar
+     tailwindcss 4 y @typescript-eslint 8. Cierra DEF-FE-06.
+
+P2
+  8. Guardar password_changed_at (o token_version) y rechazar JWT anteriores;
+     invalidar los tokens de recuperacion previos al emitir uno nuevo. Cierra
+     DEF-42 y DEF-44.
+  9. Usar validarFortalezaPassword tambien en create-user y register; validar
+     tipo_usuario con lista cerrada. Cierra DEF-45 y DEF-21.
+ 10. Validar redirectTo (solo rutas que empiecen por una sola "/"). Cierra
+     DEF-FE-04.
+ 11. Limitar la concurrencia de bcrypt (cola con tope) o ajustar
+     UV_THREADPOOL_SIZE, compensando con el limite de intentos.
+
+P3
+ 12. Mover el JWT a cookie httpOnly; Secure; SameSite=Lax (o mantener
+     localStorage con CSP estricta) y acortar su vida con refresh token.
+ 13. Automatizar en Jenkins, como etapas no bloqueantes: test:security,
+     test:performance, test:audit y perf:bundle. Lighthouse y carga como
+     corrida programada.
+
+====================================================================
+10. LIMITACIONES DE LAS MEDICIONES
+====================================================================
+
+- No se midio el login valido ni la creacion real de usuarios contra Supabase:
+  requieren una cuenta de prueba (LOGIN_EMAIL, LOGIN_PASSWORD) y crean datos
+  reales (CREAR_USUARIOS=true, solo contra localhost). El costo de bcrypt se
+  midio con la base simulada; no incluye las 2 o 3 consultas reales a Supabase
+  (150 a 200 ms cada una desde este equipo).
+- Las pruebas de carga del back usaron localhost hacia Supabase real: incluyen
+  la latencia a la nube, pero no la de un navegador hacia el back.
+- Render se midio solo con 1 usuario y 6 o 7 muestras por escenario.
+- El soak fue de 150 s, no de 10 min (el perfil soak usa 600 s por defecto).
+- El servidor y los usuarios virtuales corrieron en el mismo equipo; en el
+  estres de 150 usuarios parte de la latencia es competencia por CPU.
+- La carga del front se hizo con "vite preview" por loopback, no con nginx ni
+  Vercel.
+- Lighthouse usa throttling simulado: sirve para comparar antes y despues,
+  no como medida exacta de un dispositivo real.
+- Las pruebas de seguridad del back usan la base simulada: verifican la logica
+  del endpoint, no las politicas de Supabase (RLS), que quedan fuera de alcance.
+- La seguridad de dependencias depende del estado de npm audit el dia de la
+  ejecucion.
+
+====================================================================
+11. COMO REPRODUCIR
+====================================================================
+
+BACK (carpeta EntreAulas_Back)
+  npm run test:security
+  npx vitest run --config vitest.defects.config.mts src/test/defects/DEF-39 src/test/defects/DEF-4
+  npm run test:performance
+
+  Carga (el back debe estar corriendo):
+  PORT=3100 npm run dev &
+  PID=$(ss -ltnp | grep ':3100' | sed -E 's/.*pid=([0-9]+).*/\1/')
+  export API_URL=http://localhost:3100 PID_BACK=$PID
+  npm run test:carga:rq1-rq5
+  npm run test:carga:pico
+  npm run test:carga:estres
+  DURACION_S=150 npm run test:carga:soak
+  npm run test:carga:smoke        (contra Render, 1 usuario)
+
+  Reportes: reports/carga/*.json y *.md ; reports/rendimiento/back-rq1-rq5.json
+
+FRONT (carpeta EntreAulas_Front)
+  npm run test:security
+  npm run test:defects
+  npm run test:performance
+  npm run test:audit
+  npm run build && npm run perf:bundle
+  npx vite preview --port 4173 &
+  npm run perf:carga
+  npm run perf:lighthouse         (PERFIL=movil para el perfil movil)
+
+  Reportes: reports/rendimiento/*.json ; reports/carga/carga-front-*.json
+
+Documento completo con tablas y justificaciones:
+  docs/pruebas/METRICAS-SEGURIDAD-RENDIMIENTO-RQ1-RQ5.md

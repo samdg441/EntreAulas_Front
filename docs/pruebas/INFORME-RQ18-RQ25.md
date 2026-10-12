@@ -1,5 +1,7 @@
 # Informe de pruebas — RQ18, RQ19, RQ22, RQ23, RQ24 y RQ25
 
+> Seguridad y rendimiento de RQ1–RQ5 (métricas, criterios de aceptación, resultados y mejoras): [METRICAS-SEGURIDAD-RENDIMIENTO-RQ1-RQ5.md](METRICAS-SEGURIDAD-RENDIMIENTO-RQ1-RQ5.md)
+
 Fecha de ejecución: 2026-10-10 · Back: `https://entreaulas-back.onrender.com` (plan gratuito de Render) · Node 22.15
 
 RQ20 y RQ21 no forman parte de este conjunto (igual que en `src/test/regression/rq18-rq25-regresion.test.ts`).
