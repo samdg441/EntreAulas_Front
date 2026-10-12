@@ -12,3 +12,4 @@ vite.config.js
 vite.config.d.ts
 *.tsbuildinfo
 coverage-rq1-rq5/
+screenplay-selenium/target/

@@ -1,0 +1,32 @@
+{
+  "name": "entre-aulas-screenplay-selenium",
+  "private": true,
+  "description": "E2E RQ1-RQ5 con Screenplay: Serenity/JS + WebdriverIO (WebDriver, protocolo de Selenium) + Cucumber en español.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "wdio run wdio.conf.ts",
+    "test:rq1": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ1",
+    "test:rq2": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ2",
+    "test:rq3": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ3",
+    "test:rq4": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ4",
+    "test:rq5": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ5"
+  },
+  "devDependencies": {
+    "@serenity-js/assertions": "3.48.0",
+    "@serenity-js/console-reporter": "3.48.0",
+    "@serenity-js/core": "3.48.0",
+    "@serenity-js/cucumber": "3.48.0",
+    "@serenity-js/rest": "3.48.0",
+    "@serenity-js/serenity-bdd": "3.48.0",
+    "@serenity-js/web": "3.48.0",
+    "@serenity-js/webdriverio": "3.48.0",
+    "@types/node": "24.10.0",
+    "@wdio/cli": "^9.0.0",
+    "@wdio/local-runner": "^9.0.0",
+    "@wdio/cucumber-framework": "^9.0.0",
+    "@wdio/globals": "^9.0.0",
+    "ts-node": "10.9.2",
+    "typescript": "5.9.3",
+    "webdriverio": "^9.0.0"
+  }
+}

@@ -13,6 +13,8 @@ export const CLAVE_VALIDA = 'Clave-Segura2026!'
 export const cuentas: Record<string, { id: string; nombre: string; apellido: string; tipo_usuario: string; roles: string[] }> = {
   'carlos.coordinador@udemedellin.edu.co': { id: 'u-coord', nombre: 'Carlos', apellido: 'Coordinador', tipo_usuario: 'coordinador', roles: ['coordinador'] },
   'eva.estudiante@soyudemedellin.edu.co': { id: 'u-est', nombre: 'Eva', apellido: 'Estudiante', tipo_usuario: 'estudiante', roles: ['estudiante'] },
+  'lia.estudiante@soyudemedellin.edu.co': { id: 'u-lia', nombre: 'Lía', apellido: 'Nieto', tipo_usuario: 'estudiante', roles: ['estudiante'] },
+  'ada.admin@udemedellin.edu.co': { id: 'u-ada', nombre: 'Ada', apellido: 'Admin', tipo_usuario: 'admin', roles: ['admin'] },
 }
 
 export type Peticion = { metodo: string; ruta: string; query: Record<string, string> }
@@ -32,7 +34,28 @@ const CORS = {
 const json = (route: Route, status: number, body: unknown) =>
   route.fulfill({ status, headers: CORS, contentType: 'application/json', body: JSON.stringify(body) })
 
-function responder(route: Route, url: URL, metodo: string, cuerpo: Record<string, string> | null) {
+const MATERIA_DE_EVA = {
+  id: 11,
+  grupo: {
+    numeroGrupo: 1,
+    horario: 'Lun 8-10',
+    aula: 'A-101',
+    curso: { id: 31, codigo: 'SIS-101', nombre: 'Programación I' },
+    profesor: { nombre: 'Ana Pérez' },
+    periodo: { codigo: '2026-1', nombre: '2026-I' },
+  },
+}
+
+const QR_VALIDO = {
+  profesorId: 13,
+  profesorNombre: 'Ana Pérez',
+  cursoId: 12,
+  cursoNombre: 'Programación I',
+  cursoCodigo: 'SIS-101',
+  grupoId: 63,
+}
+
+function responder(route: Route, url: URL, metodo: string, cuerpo: Record<string, string> | null, sesion: string) {
   const ruta = url.pathname
 
   if (ruta === '/api/auth/login' && metodo === 'POST') {
@@ -49,6 +72,37 @@ function responder(route: Route, url: URL, metodo: string, cuerpo: Record<string
 
   if (ruta === '/api/coordinador/reports-overview') return json(route, 200, reportesCoordinador)
 
+  if (ruta === '/api/users/academic-structure') return json(route, 200, { facultades: [] })
+
+  if (ruta === '/api/teachers/student-stats') {
+    return json(route, 200, {
+      evaluacionesCompletadas: sesion === 'u-est' ? 1 : 0,
+      evaluacionesPendientes: 0,
+      materiasMatriculadas: sesion === 'u-est' ? 1 : 0,
+      promedioGeneral: sesion === 'u-est' ? 4 : 0,
+      progresoGeneral: 0,
+    })
+  }
+
+  if (ruta === '/api/teachers/student-enrolled-subjects') {
+    const materias = sesion === 'u-est' ? [MATERIA_DE_EVA] : []
+    return json(route, 200, { materiasMatriculadas: materias, total: materias.length })
+  }
+
+  const qr = ruta.match(/^\/api\/qr-evaluaciones\/([^/]+)$/)
+  if (qr && metodo === 'GET') {
+    if (decodeURIComponent(qr[1]) === 'tok-14') return json(route, 200, QR_VALIDO)
+    return json(route, 404, { error: 'QR inválido o expirado.' })
+  }
+
+  const inscripcion = ruta.match(/^\/api\/qr-evaluaciones\/([^/]+)\/auto-enroll$/)
+  if (inscripcion && metodo === 'POST') {
+    if (decodeURIComponent(inscripcion[1]) === 'tok-14') {
+      return json(route, 201, { enrolled: true, created: true, grupoId: 63 })
+    }
+    return json(route, 404, { error: 'QR inválido o expirado.' })
+  }
+
   return json(route, 200, {})
 }
 
@@ -63,7 +117,9 @@ export async function instalarBackSimulado(page: Page) {
     if (metodo === 'OPTIONS') return route.fulfill({ status: 204, headers: CORS })
 
     peticiones.push({ metodo, ruta: url.pathname, query: Object.fromEntries(url.searchParams) })
-    return responder(route, url, metodo, request.postDataJSON() ?? null)
+    const autorizacion = request.headers().authorization ?? ''
+    const sesion = autorizacion.replace(/^Bearer token-simulado-/, '')
+    return responder(route, url, metodo, request.postDataJSON() ?? null, sesion)
   })
 }
 
