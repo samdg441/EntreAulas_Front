@@ -4,7 +4,6 @@ dist
 coverage
 test-results.xml
 reports/
-e2e/cypress/downloads/
 screenplay/descargas/
 .scannerwork/
 .DS_Store

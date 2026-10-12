@@ -18,27 +18,22 @@ EntreAulas_Front/
 │   ├── security/        Control de acceso, entradas maliciosas, integridad, inyección en Excel
 │   ├── performance/     Presupuestos de tiempo en el navegador (fuera de npm test)
 │   └── helpers/         render.tsx, api-falsa.ts, medicion.ts
-├── e2e/                 Proyecto Cypress aparte (npm ci del front no descarga Cypress)
-│   └── cypress/
-│       ├── e2e/regresion/   UI real con el back simulado (cy.intercept)
-│       ├── e2e/api/         Back real con cy.request (seguridad y contrato)
-│       ├── e2e/defectos/    Defectos abiertos: fallan hasta que se corrijan
-│       ├── fixtures/        Respuestas del back con la forma real de producción
-│       └── support/         Sesión, simulación del back, JWT falsos
+├── screenplay/          E2E con Serenity/JS (Screenplay + Playwright + Cucumber), proyecto aparte
+├── katalon/             Suite de Katalon Recorder (login y exportación)
 ├── carga/               Prueba de carga del back (Node puro, sin dependencias)
 └── reports/             Salidas generadas (ignorado por git)
 ```
 
 ## 2. Qué se prueba en cada nivel
 
-| Req. | Regresión (Vitest) | API (Vitest) | Seguridad (Vitest) | Rendimiento (Vitest) | E2E UI (Cypress) | API real (Cypress) | Carga |
-|---|---|---|---|---|---|---|---|
-| RQ18 QR por correo | ✓ | ✓ | ✓ CRLF, multi-destinatario, ids manipulados | — | ✓ flujo completo | ✓ 401 sin token | — |
-| RQ19 Acceso por rol | ✓ | ✓ 401 limpia / 403 conserva | ✓ matriz + ProtectedRoute | — | ✓ login, forbidden, multirol | ✓ alg none, otra clave, CORS, 403 admin | ✓ 401 bajo carga |
-| RQ22 Métricas | ✓ | ✓ | ✓ datos manipulados | ✓ 100k notas | ✓ 99 → 0.00, "Sin datos" | ✓ promedios en [0,5], 404 otra carrera | ✓ |
-| RQ23 Histórico | ✓ | ✓ | ✓ periodos inválidos | ✓ 10k periodos | ✓ cambio de periodo | defecto DEF-API-02/03 | ✓ |
-| RQ24 Resumen coord. | ✓ | ✓ | ✓ regex, XSS, inyección de parámetros | ✓ 10k docentes + escalabilidad | ✓ búsqueda, 500 | ✓ pageSize ≤ 50, comillas | ✓ |
-| RQ25 Exportación | ✓ | ✓ | ✓ fórmulas como texto, permisos | ✓ 5k filas | ✓ descarga y lectura del .xlsx | ✓ filas exportables | ✓ |
+| Req. | Regresión (Vitest) | API (Vitest) | Seguridad (Vitest) | Rendimiento (Vitest) | E2E (Screenplay) | Carga |
+|---|---|---|---|---|---|---|
+| RQ18 QR por correo | ✓ | ✓ | ✓ CRLF, multi-destinatario, ids manipulados | — | ✓ QR inexistente → 404 (API real) | — |
+| RQ19 Acceso por rol | ✓ | ✓ 401 limpia / 403 conserva | ✓ matriz + ProtectedRoute | — | ✓ login, rol que no coincide, sin sesión, 401/403 (API real) | ✓ 401 bajo carga |
+| RQ22 Métricas | ✓ | ✓ | ✓ datos manipulados | ✓ 100k notas | ✓ 99 → 0.00, "Sin datos" | ✓ |
+| RQ23 Histórico | ✓ | ✓ | ✓ periodos inválidos | ✓ 10k periodos | ✓ cambio de periodo | ✓ |
+| RQ24 Resumen coord. | ✓ | ✓ | ✓ regex, XSS, inyección de parámetros | ✓ 10k docentes + escalabilidad | ✓ búsqueda, sin resultados | ✓ |
+| RQ25 Exportación | ✓ | ✓ | ✓ fórmulas como texto, permisos | ✓ 5k filas | ✓ descarga del .xlsx | ✓ |
 
 RQ18 y RQ19 no tienen prueba de rendimiento: validan un formulario o una ruta, y su costo no depende del volumen de datos.
 
@@ -104,14 +99,14 @@ Después de aplicar 1 y 2, se repite la misma prueba de carga para comparar cont
 
 | Id | Dónde | Hallazgo | Estado |
 |---|---|---|---|
-| DEF-FE-01 | Front `lib/storage.ts`, `api/auth.ts` | Un `user` corrupto en `localStorage` lanzaba un error en `AuthContext` y dejaba **toda la app en blanco**. | **Corregido**: se descarta la sesión. Lo cubren `security/rq19…` y Cypress `rq19…` |
-| DEF-API-01 | Back `profesor-stats/:id` | `abc` → **500** con el texto de PostgreSQL (`invalid input syntax for type bigint`): expone detalles internos. Debe ser 400. | Abierto (`cy:defectos`) |
+| DEF-FE-01 | Front `lib/storage.ts`, `api/auth.ts` | Un `user` corrupto en `localStorage` lanzaba un error en `AuthContext` y dejaba **toda la app en blanco**. | **Corregido**: se descarta la sesión. Lo cubre `security/rq19…` |
+| DEF-API-01 | Back `profesor-stats/:id` | `abc` → **500** con el texto de PostgreSQL (`invalid input syntax for type bigint`): expone detalles internos. Debe ser 400. | Abierto (en el back: DEF-31) |
 | DEF-API-02 | Back `reports-overview` | `period=2026-9` → 200 con datos **de todos los periodos**. La regla de RQ23 solo existe en el front. | Abierto |
 | DEF-API-03 | Back `reports-overview` | `period=2026-1' OR '1'='1` → 200 con todos los periodos. No es inyección SQL (PostgREST parametriza las consultas), pero la entrada inválida se acepta en silencio. | Abierto |
 | DEF-API-04 | Back `app.ts` | Faltan cabeceras de seguridad (`X-Content-Type-Options`, `Strict-Transport-Security`, `X-Frame-Options`): no se usa `helmet`. | Abierto |
-| DEF-FE-02 | Front `context/AuthContext.tsx` | Abrir o recargar una página protegida (p. ej. F5 en `/reports`) mandaba al coordinador a `/login` y de ahí a su dashboard: la sesión guardada se leía en un `useEffect`, después del primer render. Encontrado al ejecutar Cypress. | **Corregido**: la sesión se lee en el primer render. Lo cubre Screenplay ("La sesión sobrevive…") |
+| DEF-FE-02 | Front `context/AuthContext.tsx` | Abrir o recargar una página protegida (p. ej. F5 en `/reports`) mandaba al coordinador a `/login` y de ahí a su dashboard: la sesión guardada se leía en un `useEffect`, después del primer render. Encontrado en las pruebas E2E. | **Corregido**: la sesión se lee en el primer render. Lo cubre Screenplay ("La sesión sobrevive…") |
 | DEF-FE-03 | Front `DashboardCoordinador.tsx` | Una respuesta sin `stats` dejaba el dashboard en blanco (`Cannot read properties of undefined`). | **Corregido**: métricas vacías, igual que ante un error |
-| BRECHA-01 | Front `App.tsx` | Solo las rutas de admin exigen rol. Un estudiante puede abrir `/dashboard-coordinador` o `/reports` (sin datos, porque el back responde 403). | Documentado en Cypress |
+| BRECHA-01 | Front `App.tsx` | Solo las rutas de admin exigen rol. Un estudiante puede abrir `/dashboard-coordinador` o `/reports` (sin datos, porque el back responde 403). | Documentado |
 | BRECHA-02 | Front | `validarCorreoQr`/`decidirGeneracionQr` (RQ18) y `filtrarDocentes` (RQ24) solo se usan en las pruebas: las pantallas no las llaman. | Documentado |
 
 ## 5. E2E con el patrón Screenplay (`screenplay/`)
@@ -151,14 +146,6 @@ npm run test:performance          # escribe reports/rendimiento/front-rq22-rq25.
 # Carga (sin token solo prueba health y 401)
 npm run test:carga
 TOKEN_FILE=/ruta/token.txt PROFESOR_ID=13 ETAPAS=1,5,10 DURACION_S=20 npm run test:carga
-
-# Cypress (una vez: cd e2e && npm install && npx cypress install)
-cd e2e
-npm run test:e2e                  # levanta el front en :3001 y corre regresión UI + API real
-npm run cy:api                    # solo API real, sin front
-CYPRESS_TOKEN_COORDINADOR=... npm run cy:api   # incluye el contrato con sesión
-npm run cy:defectos               # defectos abiertos (fallan a propósito)
-npm run cy:ci                     # reporte JUnit en reports/cypress/
 
 # Screenplay (una vez: cd screenplay && npm install && npx playwright install chromium)
 cd screenplay

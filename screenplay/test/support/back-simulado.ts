@@ -1,12 +1,12 @@
 import type { Page, Route } from 'playwright'
 
-import resumenCoordinador from '../../../e2e/cypress/fixtures/dashboard-summary.json'
-import reportesCoordinador from '../../../e2e/cypress/fixtures/reports-overview.json'
+import resumenCoordinador from './datos/dashboard-summary.json'
+import reportesCoordinador from './datos/reports-overview.json'
 
 /**
  * Back simulado para los escenarios @web: respuestas fijas y deterministas, como la
- * aplicación local del repositorio de referencia. Reutiliza los fixtures de Cypress
- * (incluyen datos sucios: un promedio de 99 y un nombre que parece fórmula de Excel).
+ * aplicación local del repositorio de referencia. Los datos de `datos/` incluyen casos
+ * sucios: un promedio de 99 y un nombre que parece fórmula de Excel.
  */
 export const CLAVE_VALIDA = 'Clave-Segura2026!'
 

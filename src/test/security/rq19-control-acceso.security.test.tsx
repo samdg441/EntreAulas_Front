@@ -8,7 +8,7 @@ import { renderConSesion, sembrarSesion } from '../helpers/render'
 /**
  * RQ19 — Control de acceso por rol en el front.
  * El front decide qué pantalla mostrar; los datos los protege el back con 401/403
- * (ver e2e/cypress/e2e/api/rq19-seguridad-api.cy.ts).
+ * (escenarios @api de screenplay/features/api.feature).
  */
 describe('RQ19 — Seguridad: control de acceso', () => {
   const sesion = '{"id":1}'

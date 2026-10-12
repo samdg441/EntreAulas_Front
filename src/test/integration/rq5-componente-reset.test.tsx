@@ -10,7 +10,7 @@ vi.mock('../../api/passwordReset', () => ({ resetPassword: vi.fn(), validateRese
 const CLAVE = 'Nueva-Clave2026!'
 const ENLACE = '?token=tok-123&email=ana%40soyudemedellin.edu.co'
 const montar = (query = ENLACE) => renderConSesion(<ResetPassword />, { route: `/reset-password${query}` })
-const nueva = () => screen.findByLabelText(/^nueva contraseña$/i) as Promise<HTMLInputElement>
+const nueva = async () => (await screen.findByLabelText(/^nueva contraseña$/i)) as HTMLInputElement
 const confirmar = () => screen.getByLabelText(/^confirmar nueva contraseña$/i) as HTMLInputElement
 const enviar = () => screen.getByRole('button', { name: /actualizar contraseña|actualizando/i })
 async function llenar(user: ReturnType<typeof userEvent.setup>, clave = CLAVE, confirmacion = clave) {
