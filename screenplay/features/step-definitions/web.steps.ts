@@ -1,5 +1,5 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber'
-import { Ensure, equals, includes } from '@serenity-js/assertions'
+import { Ensure, equals, includes, not } from '@serenity-js/assertions'
 import { Actor, actorInTheSpotlight } from '@serenity-js/core'
 
 import { PeticionesAlBack } from '../../test/interactions/NavegadorPlaywright'
@@ -8,6 +8,7 @@ import { CLAVE_VALIDA } from '../../test/support/back-simulado'
 import { AbrirEntreAulas } from '../../test/tasks/AbrirEntreAulas'
 import { EscribirCorreo, IniciarSesion } from '../../test/tasks/IniciarSesion'
 import { BuscarDocente, CambiarPeriodo, ExportarDatosExcel } from '../../test/tasks/PanelDelCoordinador'
+import { ConfirmarGeneracionDeQr } from '../../test/tasks/GenerarQr'
 
 Given('que {actor} abre EntreAulas en {string}', async (actor: Actor, ruta: string) => {
   await actor.attemptsTo(AbrirEntreAulas.en(ruta))
@@ -51,6 +52,18 @@ When('{pronombre} cambia el periodo a {string}', async (actor: Actor, periodo: s
 
 When('{pronombre} exporta los datos a Excel', async (actor: Actor) => {
   await actor.attemptsTo(ExportarDatosExcel())
+})
+
+When('{pronombre} confirma la generación de QR', async (actor: Actor) => {
+  await actor.attemptsTo(ConfirmarGeneracionDeQr())
+})
+
+Then('{pronombre} ve el mensaje {string}', async (actor: Actor, mensaje: string) => {
+  await actor.attemptsTo(Ensure.eventually(Pantalla.textoDeLaPagina(), includes(mensaje)))
+})
+
+Then('{pronombre} no ve el mensaje {string}', async (actor: Actor, mensaje: string) => {
+  await actor.attemptsTo(Ensure.eventually(Pantalla.textoDeLaPagina(), not(includes(mensaje))))
 })
 
 Then('{pronombre} está en la ruta {string}', async (actor: Actor, ruta: string) => {
