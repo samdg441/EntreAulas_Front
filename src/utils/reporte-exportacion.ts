@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver'
 import * as XLSX from 'xlsx'
+import { avisarDescarga } from './aviso-descarga'
 
 function normalizeCoordinatorKey(key: string) {
   return String(key || '')
@@ -138,4 +139,5 @@ export function exportCoordinatorReportExcel(rows: any[], filename = 'reporte-co
   const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
   const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
   saveAs(blob, filename)
+  avisarDescarga('excel', filename)
 }

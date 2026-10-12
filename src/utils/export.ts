@@ -2,11 +2,14 @@ import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import { saveAs } from 'file-saver'
 import * as XLSX from 'xlsx'
+import { avisarDescarga } from './aviso-descarga'
 
 export async function exportElementToPNG(element: HTMLElement, filename = 'reporte.png') {
   const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff' })
   canvas.toBlob((blob) => {
-    if (blob) saveAs(blob, filename)
+    if (!blob) return
+    saveAs(blob, filename)
+    avisarDescarga('imagen', filename)
   })
 }
 
@@ -34,6 +37,7 @@ export async function exportElementToPDF(element: HTMLElement, filename = 'repor
   }
 
   pdf.save(filename)
+  avisarDescarga('pdf', filename)
 }
 
 export function exportObjectsToExcel(sheets: { name: string, rows: any[] }[], filename = 'reporte.xlsx') {
@@ -46,6 +50,7 @@ export function exportObjectsToExcel(sheets: { name: string, rows: any[] }[], fi
   const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
   const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
   saveAs(blob, filename)
+  avisarDescarga('excel', filename)
 }
 
 export function exportFilteredExcel(rows: any[], filename = 'reporte.xlsx', sheetName = 'Resultados') {
@@ -64,6 +69,7 @@ export function exportFilteredExcel(rows: any[], filename = 'reporte.xlsx', shee
   const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
   const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
   saveAs(blob, filename)
+  avisarDescarga('excel', filename)
 }
 
 export {

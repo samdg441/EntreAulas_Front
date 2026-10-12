@@ -54,6 +54,7 @@ import html2canvas from 'html2canvas';
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../../utils/export';
 import { toast } from 'sonner'
+import { avisarDescarga } from '../../utils/aviso-descarga'
 
 interface SurveyResultsProps {
   user: User;
@@ -305,6 +306,7 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
     // Guardar archivo
     const fileName = `Resultados_Encuesta_${courseInfo?.code || 'curso'}_${selectedPeriod}.xlsx`;
     XLSX.writeFile(workbook, fileName);
+    avisarDescarga('excel', fileName);
   };
 
   const exportToPDF = () => {
@@ -377,6 +379,7 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
     // Guardar archivo
     const fileName = `Resultados_Encuesta_${courseInfo?.code || 'curso'}_${selectedPeriod}.pdf`;
     doc.save(fileName);
+    avisarDescarga('pdf', fileName);
   };
 
   const exportChartsToPNG = async () => {
@@ -402,6 +405,7 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
         link.href = imgData;
         link.click();
       }
+      avisarDescarga('imagen', `${charts.length} gráfico(s) PNG`);
     } catch (error) {
       console.error('Error exportando gráficos:', error);
       toast.error('Error al exportar los gráficos');
