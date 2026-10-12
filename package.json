@@ -15,6 +15,7 @@
     "test:security": "node scripts/vitest.mjs run src/test/security",
     "test:regression": "node scripts/vitest.mjs run src/test/regression",
     "test:performance": "node scripts/vitest.mjs run src/test/performance",
+    "test:evidencias": "node scripts/vitest.mjs run src/test/unit/autenticacion src/test/integration/rq1- src/test/integration/rq2- src/test/integration/rq3- src/test/integration/rq5- src/test/api/rq1-rq5 src/test/security/rq1- src/test/security/rq2- src/test/security/rq3- --testTimeout=30000 --reporter=default --reporter=junit --outputFile.junit=reports/junit/rq1-rq5.xml --coverage --coverage.reportsDirectory=coverage-rq1-rq5 --coverage.reporter=text --coverage.reporter=html --coverage.reporter=lcov --coverage.include='src/features/auth/**' --coverage.include=src/api/auth.ts --coverage.include=src/api/passwordReset.ts --coverage.include=src/api/users.ts --coverage.include=src/api/client.ts --coverage.include=src/lib/validation.ts --coverage.include=src/features/dashboard-admin/AdminUsersPage.tsx --coverage.exclude=src/features/auth/ProfilePage.tsx --coverage.exclude='src/test/**'",
     "test:defects": "node scripts/vitest.mjs run src/test/defects",
     "test:audit": "node scripts/auditoria-dependencias.mjs",
     "perf:bundle": "node scripts/analizar-bundle.mjs",

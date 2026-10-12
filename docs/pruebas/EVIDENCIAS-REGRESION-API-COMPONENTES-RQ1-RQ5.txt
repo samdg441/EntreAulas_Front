@@ -1,0 +1,267 @@
+EVIDENCIAS DE PRUEBAS DE REGRESION, API Y COMPONENTES
+ENTREAULAS - Requisitos RQ1, RQ2, RQ3, RQ3.1, RQ3.4 y RQ5
+Fecha de ejecucion: 2026-10-11
+
+Rubrica: "Implementa pruebas reproducibles con casos positivos y negativos,
+aserciones pertinentes y evidencias que permiten identificar regresiones".
+
+====================================================================
+1. QUE SE IMPLEMENTO
+====================================================================
+
+1.1 BACK (EntreAulas_Back) - capa API de CONTRATO, 95 pruebas nuevas
+
+  src/test/helpers/contrato.ts
+    Esquemas zod ESTRICTOS (.strict()) de cada respuesta de /api/auth/*.
+    Si la respuesta trae un campo que no esta declarado (por ejemplo
+    "password") o le falta uno declarado, la prueba falla y dice cual.
+    Tambien calcula la "huella" de claves de una respuesta.
+
+  src/test/api/rq1-create-user.api.test.ts ............ 25 pruebas
+    Positivas: admin crea profesor y estudiante (201 + contrato exacto),
+    correo normalizado, hash bcrypt (nunca la clave en claro), campos de
+    profesor llegan al repositorio.
+    Negativas: sin token (401 NO_TOKEN), token basura/otra clave/vencido,
+    estudiante/profesor/coordinador (403), falta cada uno de los 5 campos,
+    clave corta o numerica, dominio institucional invalido, correo duplicado
+    sin revelar datos, y todos los negativos dejan la base intacta.
+
+  src/test/api/rq2-login-me.api.test.ts ............... 27 pruebas
+    Positivas: login de estudiante/profesor/coordinador (contrato + dashboard),
+    JWT HS256 que vence en 24 h o menos, "docente" se presenta como
+    "profesor", cuenta con varios roles NO recibe token, login-with-role,
+    GET /me sin contrasena.
+    Negativas: correo inexistente/clave mala/inactiva con el MISMO cuerpo,
+    6 formas de body invalido (400, sin consultar la base), rol que no tiene,
+    rol en mayusculas/vacio/arreglo, /me sin cabecera, esquema Basic, basura,
+    otra firma, vencido, cuenta desactivada.
+
+  src/test/api/rq3-recuperacion.api.test.ts ........... 35 pruebas
+    RQ3.1 forgot-password: misma respuesta para correo existente e
+    inexistente, el token jamas viaja en el JSON, 5 entradas invalidas
+    (400, sin crear token), cuenta desactivada.
+    RQ3.4 validate-reset-token: token vigente {message, valid:true}, validar
+    no consume el token, inexistente/usado/expirado/de otro correo (400 con su
+    mensaje), sin parametro email, tokens hostiles (SQL, script, 10.000 chars).
+    RQ5 reset-password: guarda bcrypt y marca el token usado, la respuesta no
+    deja rastro de clave/hash/token, un solo uso, 4 campos faltantes,
+    confirmacion distinta, 5 reglas de politica de clave (cada una con su
+    mensaje y el token sin consumir), expirado, inexistente, token ajeno.
+
+  src/test/api/rq1-rq5-regresion-contrato.api.test.ts .. 8 pruebas
+    INSTANTANEA DE CONTRATO. Para 8 respuestas (create-user 201, login 200 y
+    401, login-with-role, me, forgot-password, validate-reset-token,
+    reset-password) compara la lista de claves con la linea base versionada
+    src/test/fixtures/contrato-auth-rq1-rq5.json. Si alguien agrega, quita o
+    renombra un campo, falla indicando la ruta y la diferencia ("sobran" /
+    "faltan"). Si el cambio es intencional se actualiza la linea base con
+    ACTUALIZAR_CONTRATO=1 y queda en el historial de git.
+
+1.2 FRONT (EntreAulas_Front) - componentes y contrato del cliente, 92 pruebas
+
+  src/test/integration/rq2-componente-login.test.tsx ........ 13 pruebas
+    Estados de Login: inicial, CARGANDO (boton deshabilitado con "Iniciando
+    sesion..."), ANTI DOBLE ENVIO (varios clics y Enter = una sola peticion),
+    exito (token guardado y entra al panel), teclado (Enter), error del
+    servidor (conserva el correo, rehabilita el boton, no guarda sesion),
+    error de red/500, reintento correcto tras un error, correo invalido sin
+    peticion, navegacion a recuperar contrasena.
+
+  src/test/integration/rq3-componente-forgot.test.tsx ....... 10 pruebas
+    Estados de ForgotPassword: inicial, cargando ("Enviando..." y una sola
+    peticion), exito (mensaje generico), error del servidor, excepcion
+    inesperada, validacion propia, validacion nativa del navegador (vacio,
+    sin dominio, sin arroba), navegacion.
+
+  src/test/integration/rq5-componente-reset.test.tsx ........ 18 pruebas
+    Estados de ResetPassword: validando token, token valido (correo bloqueado),
+    3 variantes de enlace incompleto, token rechazado, cargando, exito, rechazo
+    del servidor, excepcion, 5 reglas de politica, confirmacion distinta,
+    campos vacios, el error desaparece al corregir.
+
+  src/test/integration/rq1-componente-admin-usuarios.test.tsx . 16 pruebas
+    Estados de AdminUsersPage: cargando la lista, lista vacia, error al listar,
+    abrir/cerrar el modal, GUARDANDO (boton deshabilitado y una sola creacion),
+    exito (fila agregada, modal cerrado), errores 400/401/403/500/red al crear
+    (mensaje, modal abierto, boton habilitado), validaciones, dominio impuesto,
+    caracteres invalidos, busqueda.
+
+  src/test/integration/rq1-rq5-accesibilidad.test.tsx ........ 5 pruebas
+    Todo campo tiene etiqueta (Login, Forgot, Reset, modal de alta), boton de
+    envio con texto, orden de tabulacion, "Cerrar" con nombre.
+
+  src/test/api/rq1-rq5-contrato-cliente.api.test.ts ......... 30 pruebas
+    Espejo del contrato del back: metodo, URL, cuerpo y cabecera
+    Authorization que construye cada funcion cliente (authApi, usersApi,
+    requestPasswordReset, validateResetToken, resetPassword) y como traduce
+    200/400/401/403/500/timeout/red. Incluye: el token se codifica en la URL,
+    un 401 limpia la sesion y un 403 no, y un 401 en /reset-password (ruta
+    publica) no redirige.
+
+1.3 DEFECTOS NUEVOS QUE DESTAPARON (no se corrigieron; pruebas que fallan
+    a proposito, igual que el resto de la carpeta defects/)
+
+  Front, archivo src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx
+    DEF-FE-08  Los botones de mostrar/ocultar contrasena de ResetPassword
+               no tienen nombre accesible (solo un icono).
+    DEF-FE-09  Los mensajes de error (Login, Forgot, Reset) no estan en una
+               region role="alert" / aria-live: un lector de pantalla no los
+               anuncia.
+    DEF-FE-10  El campo con error no declara aria-invalid.
+    DEF-FE-11  El boton "Iniciar sesion" va dentro de un <div tabindex="0">
+               (efecto de framer-motion): se necesitan DOS tabulaciones para
+               llegar al boton.
+
+====================================================================
+2. COMO REPRODUCIR (un comando por repositorio)
+====================================================================
+
+  BACK                                   FRONT
+  cd EntreAulas_Back                     cd EntreAulas_Front
+  npm run test:evidencias                npm run test:evidencias
+
+  Genera, en cada repositorio:
+    reports/junit/rq1-rq5.xml        Reporte JUnit (un <testcase> por prueba,
+                                     con nombre, tiempo y, si falla, el motivo)
+    coverage-rq1-rq5/index.html      Cobertura navegable (abrir en el navegador)
+    coverage-rq1-rq5/lcov.info       Cobertura para herramientas (Sonar, etc.)
+    y la tabla de cobertura en consola.
+
+  Otras ejecuciones:
+    npm test                         Suite completa del repositorio
+    npm run test:defects             Defectos abiertos (deben fallar)
+    npx vitest run src/test/api -t "RQ3.4"   (back) Un solo requisito
+
+  Reproducibilidad:
+    - Sin red ni base de datos real: Supabase esta simulado; el JWT es real.
+    - Sin dependencia de la hora ni del orden: los tokens usan fechas
+      relativas y cada prueba limpia su estado.
+    - El script usa --testTimeout=30000 porque bcrypt (12 rondas, ~0,3 s)
+      se encola cuando corren muchos archivos en paralelo.
+
+  Como leer el JUnit: cada <testcase name="RQ5·N4: contrasena sin numero ...">
+  lleva el ID del caso (P = positivo, N = negativo, C = componente, A = cliente
+  API, AX = accesibilidad). Un <failure> dentro del testcase indica el caso
+  roto y el mensaje de la asercion. Filtrar por ID: -t "RQ1·N3".
+
+====================================================================
+3. RESULTADOS REALES DE LA EJECUCION
+====================================================================
+
+3.1 BACK
+
+  npm run test:evidencias ......... 21 archivos, 332 pruebas, 0 fallos
+                                    (ejecutado dos veces seguidas: igual)
+  JUnit ........................... tests=332 failures=0 errors=0
+  npm test (suite completa) ....... 72 archivos, 909 pruebas, 0 fallos
+                                    (antes de esta entrega: 68 / 814)
+
+  Cobertura de los modulos de RQ1-RQ5 (v8, coverage-rq1-rq5/index.html):
+    Total ........................ 81,0 % sentencias | 90,1 % ramas
+    modules/auth/auth.routes.ts .. 84,0 %
+    modules/auth/auth.service.ts . 100 %
+    modules/auth/password-reset.service.ts ... 100 %
+    modules/auth/password-reset.routes.ts .... 98,3 %
+    utils/passwordSecurity.ts .... 87,9 %
+    middleware/auth.ts ........... 69,7 %
+    shared/errors.ts ............. 83,0 %
+    modules/auth/role.service.ts . 47,3 % (consultas de roles/permisos que
+                                   estas pruebas simulan; no es codigo de RQ1-RQ5)
+
+3.2 FRONT
+
+  npm run test:evidencias ......... 21 archivos, 251 pruebas, 0 fallos
+                                    (ejecutado dos veces seguidas: igual)
+  JUnit ........................... tests=251 failures=0 errors=0
+  npm test (suite completa) ....... 47 archivos, 512 pruebas, 0 fallos
+                                    (dos corridas seguidas; antes: 41 / 420)
+  npm run test:defects ............ 23 comprobaciones fallan a proposito
+                                    (17 anteriores + 6 de DEF-FE-08..11)
+
+  Cobertura de los modulos de RQ1-RQ5:
+    Total ........................ 78,2 % sentencias | 79,1 % ramas
+    features/auth (Login, Forgot, Reset, dashboard-path) ... 96,8 %
+      Login.tsx ................. 98,4 %
+      ResetPassword.tsx ......... 97,3 %
+      ForgotPassword.tsx ........ 96,4 %
+    api/client.ts ............... 95,7 %
+    api/auth.ts ................. 75,0 %
+    api/users.ts ................ 20,0 % (solo se usa create; list/update/
+                                  deactivate pertenecen a RQ13)
+    dashboard-admin/AdminUsersPage.tsx ... 51,9 % (el alta esta cubierta; editar
+                                  y desactivar pertenecen a RQ13)
+
+====================================================================
+4. COMO UNA REGRESION SE HACE VISIBLE (demostracion real)
+====================================================================
+
+Se introdujo a proposito un cambio en el codigo de produccion, se ejecuto la
+prueba y se revirtio (el archivo quedo identico: git diff vacio y las suites
+volvieron a verde).
+
+  Mutacion 1 (back): auth.routes.ts, POST /create-user devuelve ademas
+  "password: user.password" en la respuesta 201.
+    Resultado: la API sigue respondiendo 201, pero fallaron 4 pruebas:
+      - RQ1·P1 y RQ1·P2:   "Contrato roto: Unrecognized key(s) in object:
+                           'password'" (ruta: user)
+      - Regresion de contrato "POST /api/auth/create-user 201 (RQ1)":
+                           { sobran: [ 'user.password' ], faltan: [] }
+      - Seguridad rq1:     "la respuesta no incluye contrasena ni hash"
+    Lectura: una fuga de dato sensible que NO cambia el estado HTTP es
+    detectada por tres capas distintas.
+
+  Mutacion 2 (front): Login.tsx, se quito disabled={isLoading} del boton.
+    Resultado: fallaron 2 pruebas:
+      - RQ2·C-P2 (cargando): el boton ya no queda deshabilitado
+      - RQ2·C-N1 (anti doble envio): se enviaron varias peticiones de login
+    Lectura: se pierde la proteccion contra doble envio y la prueba lo
+    detecta sin necesidad de un navegador.
+
+====================================================================
+5. POR QUE ESTAS PRUEBAS PERMITEN IDENTIFICAR REGRESIONES
+====================================================================
+
+  1. Contrato estricto: un campo de mas o de menos rompe la prueba (en
+     especial las fugas de password, hash o token).
+  2. Linea base versionada: la huella de claves de cada respuesta esta en
+     git; un cambio de contrato exige un commit explicito.
+  3. Cada caso positivo tiene su negativo gemelo, con un solo factor distinto.
+  4. Las aserciones miran tres cosas: el estado HTTP, el cuerpo exacto y el
+     efecto colateral (que se guardo en la base y que NO se llamo).
+  5. Los dos lados se verifican entre si: el contrato del back
+     (src/test/api del back) y el del cliente (src/test/api del front).
+  6. IDs en cada nombre (RQ1·P1, RQ5·N4, RQ2·C-N1...) para filtrar y para
+     identificar en el JUnit exactamente que caso se rompio.
+
+====================================================================
+6. CAMBIOS EN ARCHIVOS EXISTENTES (todos de configuracion de pruebas)
+====================================================================
+
+  Back:  package.json  -> script "test:evidencias"
+         .gitignore    -> coverage-rq1-rq5/
+  Front: package.json  -> script "test:evidencias"
+         .gitignore    -> coverage-rq1-rq5/
+         vitest.config.ts -> testTimeout: 15000 (antes 5000). Con las pruebas
+         nuevas la suite completa corre mas archivos de pantalla en paralelo
+         y dos pruebas ya existentes (rq13 y rq2-login-page) superaban los
+         5 s por contencion de CPU y fallaban de forma intermitente.
+  No se modifico ningun archivo de codigo de produccion.
+
+====================================================================
+7. LIMITACIONES
+====================================================================
+
+  - La base de datos esta simulada: se prueba la logica de cada endpoint, no
+    las politicas de Supabase ni el esquema real.
+  - No se instalo una libreria de accesibilidad automatica (axe). Las
+    comprobaciones de accesibilidad son con consultas de Testing Library
+    (etiquetas, nombres, roles, foco); cubren lo basico, no todas las reglas
+    de WCAG.
+  - No hay pruebas E2E en navegador de estos flujos (no se pidieron).
+  - La cobertura de api/users.ts y de AdminUsersPage es parcial a proposito:
+    editar y desactivar usuarios pertenecen a otro requisito (RQ13).
+  - Las pruebas de componentes corren en jsdom: no miden pintura real ni
+    estilos.
+  - Los casos que dependen de la validacion nativa del navegador (campos
+    required o type=email) se afirman con checkValidity(); jsdom implementa
+    esa validacion, pero un navegador real puede mostrar el aviso distinto.
