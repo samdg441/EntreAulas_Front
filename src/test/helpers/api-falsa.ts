@@ -14,7 +14,13 @@ type Manejador = (peticion: PeticionRegistrada) => Respuesta
 
 function separarUrl(config: InternalAxiosRequestConfig) {
   const url = new URL(config.url ?? '', 'http://api.falsa')
-  return { ruta: url.pathname, query: Object.fromEntries(url.searchParams) }
+  const query = Object.fromEntries(url.searchParams)
+  if (config.params && typeof config.params === 'object') {
+    for (const [clave, valor] of Object.entries(config.params as Record<string, unknown>)) {
+      if (valor !== undefined && valor !== null) query[clave] = String(valor)
+    }
+  }
+  return { ruta: url.pathname, query }
 }
 
 function leerBody(data: unknown) {

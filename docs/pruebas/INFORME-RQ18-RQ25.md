@@ -19,7 +19,6 @@ EntreAulas_Front/
 │   ├── performance/     Presupuestos de tiempo en el navegador (fuera de npm test)
 │   └── helpers/         render.tsx, api-falsa.ts, medicion.ts
 ├── screenplay/          E2E con Serenity/JS (Screenplay + Playwright + Cucumber), proyecto aparte
-├── katalon/             Suite de Katalon Recorder (login y exportación)
 ├── carga/               Prueba de carga del back (Node puro, sin dependencias)
 └── reports/             Salidas generadas (ignorado por git)
 ```
