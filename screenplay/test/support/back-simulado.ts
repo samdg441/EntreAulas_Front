@@ -15,9 +15,33 @@ export const cuentas: Record<string, { id: string; nombre: string; apellido: str
   'eva.estudiante@soyudemedellin.edu.co': { id: 'u-est', nombre: 'Eva', apellido: 'Estudiante', tipo_usuario: 'estudiante', roles: ['estudiante'] },
   'lia.estudiante@soyudemedellin.edu.co': { id: 'u-lia', nombre: 'Lía', apellido: 'Nieto', tipo_usuario: 'estudiante', roles: ['estudiante'] },
   'ada.admin@udemedellin.edu.co': { id: 'u-ada', nombre: 'Ada', apellido: 'Admin', tipo_usuario: 'admin', roles: ['admin'] },
+  'pedro.docente@udemedellin.edu.co': { id: 'u-pedro', nombre: 'Pedro', apellido: 'Ruiz', tipo_usuario: 'profesor', roles: ['profesor'] },
+  'dora.decano@udemedellin.edu.co': { id: 'u-dora', nombre: 'Dora', apellido: 'Decano', tipo_usuario: 'decano', roles: ['decano'] },
 }
 
-export type Peticion = { metodo: string; ruta: string; query: Record<string, string> }
+function usuariosIniciales(): UsuarioSimulado[] {
+  return [
+    { id: 'u-ada', email: 'ada.admin@udemedellin.edu.co', nombre: 'Ada', apellido: 'Admin', tipo_usuario: 'admin', activo: true, roles: ['admin'] },
+    { id: 'u-est', email: 'eva.estudiante@soyudemedellin.edu.co', nombre: 'Eva', apellido: 'Estudiante', tipo_usuario: 'estudiante', activo: true, roles: ['estudiante'] },
+  ]
+}
+
+export type Peticion = {
+  metodo: string
+  ruta: string
+  query: Record<string, string>
+  cuerpo: Record<string, unknown> | null
+}
+
+type UsuarioSimulado = {
+  id: string
+  email: string
+  nombre: string
+  apellido: string
+  tipo_usuario: string
+  activo: boolean
+  roles: string[]
+}
 
 const peticionesPorPagina = new WeakMap<Page, Peticion[]>()
 
@@ -55,13 +79,55 @@ const QR_VALIDO = {
   grupoId: 63,
 }
 
-function responder(route: Route, url: URL, metodo: string, cuerpo: Record<string, string> | null, sesion: string) {
+const ANA = {
+  id: '7',
+  name: 'Ana Pérez',
+  department: 'Ingeniería de Sistemas',
+  email: 'ana.perez@udemedellin.edu.co',
+  courses: [{ id: '31', name: 'Programación I', code: 'SIS-101', schedule: 'Lun 8-10' }],
+}
+
+const RESUMEN_DOCENTE = {
+  summary: 'Resumen de los comentarios del docente.',
+  topics: ['claridad'],
+  textsCount: 1,
+  analysisSource: 'open_text',
+  acosoDetectado: false,
+}
+
+const RESUMEN_CARRERA = {
+  summary: 'Resumen de la carrera.',
+  topics: ['acoso'],
+  textsCount: 1,
+  analysisSource: 'open_text',
+  acosoDetectado: true,
+  mensajeAcoso: 'Hubo acoso en una respuesta.',
+  acosoProfesores: [{ profesorId: '7', nombre: 'Ana Perez', menciones: 1, ejemplos: ['Hubo acoso'] }],
+}
+
+const RESUMEN_FACULTAD_CORTO = {
+  summary: 'No hay comentarios suficientes en la facultad.',
+  topics: [],
+  textsCount: 0,
+  analysisSource: 'open_text',
+}
+
+function responder(
+  route: Route,
+  url: URL,
+  metodo: string,
+  cuerpo: Record<string, unknown> | null,
+  sesion: string,
+  usuarios: UsuarioSimulado[],
+) {
   const ruta = url.pathname
 
   if (ruta === '/api/auth/login' && metodo === 'POST') {
-    const cuenta = cuerpo ? cuentas[cuerpo.email] : undefined
-    if (!cuenta || cuerpo?.password !== CLAVE_VALIDA) return json(route, 401, { error: 'Credenciales inválidas' })
-    return json(route, 200, { token: `token-simulado-${cuenta.id}`, user: { ...cuenta, email: cuerpo!.email } })
+    const email = typeof cuerpo?.email === 'string' ? cuerpo.email : ''
+    const clave = typeof cuerpo?.password === 'string' ? cuerpo.password : ''
+    const cuenta = cuentas[email]
+    if (!cuenta || clave !== CLAVE_VALIDA) return json(route, 401, { error: 'Credenciales inválidas' })
+    return json(route, 200, { token: `token-simulado-${cuenta.id}`, user: { ...cuenta, email } })
   }
 
   if (ruta === '/api/coordinador/dashboard-summary') {
@@ -103,11 +169,97 @@ function responder(route: Route, url: URL, metodo: string, cuerpo: Record<string
     return json(route, 404, { error: 'QR inválido o expirado.' })
   }
 
+  if (ruta === '/api/teachers' && metodo === 'GET') return json(route, 200, [ANA])
+
+  const grupos = ruta.match(/^\/api\/teachers\/([^/]+)\/courses\/([^/]+)\/groups$/)
+  if (grupos && metodo === 'GET') {
+    return json(route, 200, [{ id: 4, numero_grupo: 1, horario: 'Lun 8-10', aula: 'A-101', cup: 30 }])
+  }
+
+  if (ruta === '/api/teachers/student-info') return json(route, 200, { id: sesion, nombre: 'Eva' })
+
+  if (ruta.startsWith('/api/teachers/evaluation-questions/')) {
+    return json(route, 200, {
+      questions: [
+        {
+          id: '1',
+          category: 'Claridad Expositiva',
+          question: 'El profesor explica claramente los conceptos del curso',
+          type: 'rating',
+        },
+      ],
+      courseName: 'Programación I',
+      courseCode: 'SIS-101',
+    })
+  }
+
+  if (ruta === '/api/teachers/evaluations' && metodo === 'POST') {
+    if (cuerpo?.comments === 'repetida') {
+      return json(route, 409, { error: 'Ya has evaluado a este profesor para este curso y grupo' })
+    }
+    return json(route, 200, { success: true, message: 'Evaluación guardada exitosamente', evaluationId: 'eval-1' })
+  }
+
+  if (ruta === '/api/teachers/teacher-id') return json(route, 200, { teacherId: '7' })
+
+  if (ruta.endsWith('/stats/historical') || ruta === '/api/teachers/period-stats') {
+    return json(route, 200, {
+      totalEvaluaciones: 1,
+      calificacionPromedio: 4.5,
+      totalCursos: 1,
+      evaluacionesPorCurso: [{ curso_id: '31', total: 1, promedio: 5 }],
+      evaluacionesPorGrupo: [],
+    })
+  }
+
+  if (ruta === '/api/teachers/period-category-stats') {
+    return json(route, 200, [{ categoriaId: 1, nombre: 'Claridad', promedio: 4.5 }])
+  }
+
+  if (ruta === '/api/users' && metodo === 'GET') return json(route, 200, { users: usuarios })
+
+  if (ruta === '/api/auth/create-user' && metodo === 'POST') {
+    const email = String(cuerpo?.email ?? '')
+    if (usuarios.some((usuario) => usuario.email === email)) {
+      return json(route, 400, { error: 'El email ya está registrado' })
+    }
+    const nuevo: UsuarioSimulado = {
+      id: 'u-nuevo',
+      email,
+      nombre: String(cuerpo?.nombre ?? ''),
+      apellido: String(cuerpo?.apellido ?? ''),
+      tipo_usuario: String(cuerpo?.tipo_usuario ?? 'estudiante'),
+      activo: true,
+      roles: [String(cuerpo?.tipo_usuario ?? 'estudiante')],
+    }
+    usuarios.push(nuevo)
+    return json(route, 201, { message: 'Usuario creado exitosamente', user: { ...nuevo } })
+  }
+
+  const baja = ruta.match(/^\/api\/users\/([^/]+)$/)
+  if (baja && metodo === 'DELETE') {
+    if (decodeURIComponent(baja[1]) === sesion) {
+      return json(route, 400, { error: 'No puedes desactivar tu propia cuenta' })
+    }
+    const usuario = usuarios.find((item) => item.id === decodeURIComponent(baja[1]))
+    if (!usuario) return json(route, 404, { error: 'Usuario no encontrado' })
+    usuario.activo = false
+    return json(route, 200, { message: 'Usuario desactivado', user: { ...usuario } })
+  }
+
+  if (ruta === '/api/decano/reports-overview') return json(route, 200, reportesCoordinador)
+  if (ruta === '/api/teachers/career-subjects') return json(route, 200, { carreras: [] })
+
+  if (ruta === '/api/ai/summarize/by-professor') return json(route, 200, RESUMEN_DOCENTE)
+  if (ruta === '/api/ai/summarize/by-career') return json(route, 200, RESUMEN_CARRERA)
+  if (ruta === '/api/ai/summarize/by-faculty') return json(route, 200, RESUMEN_FACULTAD_CORTO)
+
   return json(route, 200, {})
 }
 
 export async function instalarBackSimulado(page: Page) {
   const peticiones: Peticion[] = []
+  const usuarios = usuariosIniciales()
   peticionesPorPagina.set(page, peticiones)
 
   await page.route(esLlamadaAlBack, async (route) => {
@@ -116,10 +268,11 @@ export async function instalarBackSimulado(page: Page) {
     const metodo = request.method()
     if (metodo === 'OPTIONS') return route.fulfill({ status: 204, headers: CORS })
 
-    peticiones.push({ metodo, ruta: url.pathname, query: Object.fromEntries(url.searchParams) })
+    const cuerpo = (request.postDataJSON() ?? null) as Record<string, unknown> | null
+    peticiones.push({ metodo, ruta: url.pathname, query: Object.fromEntries(url.searchParams), cuerpo })
     const autorizacion = request.headers().authorization ?? ''
     const sesion = autorizacion.replace(/^Bearer token-simulado-/, '')
-    return responder(route, url, metodo, request.postDataJSON() ?? null, sesion)
+    return responder(route, url, metodo, cuerpo, sesion, usuarios)
   })
 }
 

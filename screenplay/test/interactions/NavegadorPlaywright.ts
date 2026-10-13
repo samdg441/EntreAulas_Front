@@ -46,4 +46,14 @@ export const PeticionesAlBack = {
       const peticiones = peticionesDe(await paginaDe(actor)).filter((p) => p.ruta === ruta)
       return peticiones.at(-1)?.query[parametro] ?? '(sin el parámetro)'
     }),
+  recibio: (metodo: string, ruta: string) =>
+    Question.about<boolean>(`si el back recibió ${metodo} ${ruta}`, async (actor) =>
+      peticionesDe(await paginaDe(actor)).some((p) => p.metodo === metodo && p.ruta === ruta),
+    ),
+  campo: (metodo: string, ruta: string, campo: string) =>
+    Question.about<string>(`el campo "${campo}" de la última petición ${metodo} ${ruta}`, async (actor) => {
+      const peticiones = peticionesDe(await paginaDe(actor)).filter((p) => p.metodo === metodo && p.ruta === ruta)
+      const valor = peticiones.at(-1)?.cuerpo?.[campo]
+      return valor == null ? '(sin el campo)' : String(valor)
+    }),
 }

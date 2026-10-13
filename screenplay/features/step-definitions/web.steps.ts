@@ -1,11 +1,15 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber'
-import { Ensure, equals, includes, not } from '@serenity-js/assertions'
+import { Ensure, equals, includes, isTrue, not } from '@serenity-js/assertions'
 import { Actor, actorInTheSpotlight } from '@serenity-js/core'
 
 import { PeticionesAlBack } from '../../test/interactions/NavegadorPlaywright'
+import { valorDeLaEstadistica } from '../../test/questions/Estadisticas'
 import { Pantalla } from '../../test/questions/Pantalla'
 import { CLAVE_VALIDA } from '../../test/support/back-simulado'
 import { AbrirEntreAulas } from '../../test/tasks/AbrirEntreAulas'
+import { AbrirNuevaEvaluacion, EnviarEvaluacion } from '../../test/tasks/EnviarEvaluacion'
+import { GenerarResumen } from '../../test/tasks/GenerarResumen'
+import { BuscarUsuario, CrearUsuario, Desactivar, EditarUsuario } from '../../test/tasks/GestionarUsuarios'
 import { EscribirCorreo, IniciarSesion } from '../../test/tasks/IniciarSesion'
 import { BuscarDocente, CambiarPeriodo, ExportarDatosExcel } from '../../test/tasks/PanelDelCoordinador'
 import { ConfirmarGeneracionDeQr } from '../../test/tasks/GenerarQr'
@@ -19,6 +23,30 @@ Given('que {actor} ingresó como coordinador', async (actor: Actor) => {
     AbrirEntreAulas.en('/login'),
     IniciarSesion.como('Coordinador', 'carlos.coordinador@udemedellin.edu.co', CLAVE_VALIDA),
     Ensure.eventually(Pantalla.rutaActual(), equals('/dashboard-coordinador')),
+  )
+})
+
+Given('que {actor} ingresó como docente', async (actor: Actor) => {
+  await actor.attemptsTo(
+    AbrirEntreAulas.en('/login'),
+    IniciarSesion.como('Docente', 'pedro.docente@udemedellin.edu.co', CLAVE_VALIDA),
+    Ensure.eventually(Pantalla.rutaActual(), equals('/dashboard-profesor')),
+  )
+})
+
+Given('que {actor} ingresó como decano', async (actor: Actor) => {
+  await actor.attemptsTo(
+    AbrirEntreAulas.en('/login'),
+    IniciarSesion.como('Decano', 'dora.decano@udemedellin.edu.co', CLAVE_VALIDA),
+    Ensure.eventually(Pantalla.rutaActual(), equals('/dashboard-decano')),
+  )
+})
+
+Given('que {actor} ingresó como administrador', async (actor: Actor) => {
+  await actor.attemptsTo(
+    AbrirEntreAulas.en('/login'),
+    IniciarSesion.como('Administrador', 'ada.admin@udemedellin.edu.co', CLAVE_VALIDA),
+    Ensure.eventually(Pantalla.rutaActual(), equals('/dashboard-admin')),
   )
 })
 
@@ -56,6 +84,38 @@ When('{pronombre} exporta los datos a Excel', async (actor: Actor) => {
 
 When('{pronombre} confirma la generación de QR', async (actor: Actor) => {
   await actor.attemptsTo(ConfirmarGeneracionDeQr())
+})
+
+When('{pronombre} abre una nueva evaluación', async (actor: Actor) => {
+  await actor.attemptsTo(AbrirNuevaEvaluacion())
+})
+
+When('{pronombre} envía la evaluación con el comentario {string}', async (actor: Actor, comentario: string) => {
+  await actor.attemptsTo(EnviarEvaluacion.deAna(comentario))
+})
+
+When('{pronombre} genera el resumen de IA', async (actor: Actor) => {
+  await actor.attemptsTo(GenerarResumen())
+})
+
+When('{pronombre} agrega a {string} {string} con el correo {string}', async (actor: Actor, nombre: string, apellido: string, correo: string) => {
+  await actor.attemptsTo(CrearUsuario.llamado(nombre, apellido, correo))
+})
+
+When('{pronombre} intenta agregar a {string} {string} con el correo {string} y la clave {string}', async (actor: Actor, nombre: string, apellido: string, correo: string, clave: string) => {
+  await actor.attemptsTo(CrearUsuario.conClave(nombre, apellido, correo, clave))
+})
+
+When('{pronombre} busca el usuario {string}', async (actor: Actor, texto: string) => {
+  await actor.attemptsTo(BuscarUsuario.llamado(texto))
+})
+
+When('{pronombre} cambia el nombre de {string} a {string}', async (actor: Actor, fila: string, nombre: string) => {
+  await actor.attemptsTo(EditarUsuario.nombreDe(fila, nombre))
+})
+
+When('{pronombre} desactiva a {string}', async (actor: Actor, fila: string) => {
+  await actor.attemptsTo(Desactivar.a(fila))
 })
 
 Then('{pronombre} ve el mensaje {string}', async (actor: Actor, mensaje: string) => {
@@ -96,4 +156,16 @@ Then('la última consulta a {string} pidió {string} = {string}', async (ruta: s
 
 Then('{pronombre} descargó el archivo {string}', async (actor: Actor, archivo: string) => {
   await actor.attemptsTo(Ensure.that(Pantalla.archivoDescargado(), equals(archivo)))
+})
+
+Then('la estadística {string} muestra {string}', async (titulo: string, valor: string) => {
+  await actorInTheSpotlight().attemptsTo(Ensure.eventually(valorDeLaEstadistica(titulo), equals(valor)))
+})
+
+Then('el back recibió la petición {string} {string}', async (metodo: string, ruta: string) => {
+  await actorInTheSpotlight().attemptsTo(Ensure.eventually(PeticionesAlBack.recibio(metodo, ruta), isTrue()))
+})
+
+Then('la última petición {string} {string} envió {string} = {string}', async (metodo: string, ruta: string, campo: string, valor: string) => {
+  await actorInTheSpotlight().attemptsTo(Ensure.eventually(PeticionesAlBack.campo(metodo, ruta, campo), equals(valor)))
 })

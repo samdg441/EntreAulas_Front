@@ -52,7 +52,7 @@ BeforeAll(async () => {
       Photographer.whoWill(TakePhotosOfInteractions),
       [
         '@serenity-js/html-reporter',
-        { specDirectory: './features', outputDirectory: '../reports/serenity-js', title: 'EntreAulas — E2E Screenplay (RQ18–RQ25)' },
+        { specDirectory: './features', outputDirectory: '../reports/serenity-js', title: 'EntreAulas — E2E Screenplay (RQ10–RQ13, RQ18–RQ25, RQ29–RQ31)' },
       ],
     ],
   })
