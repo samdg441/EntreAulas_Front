@@ -1,7 +1,7 @@
 {
   "name": "entre-aulas-screenplay-selenium",
   "private": true,
-  "description": "E2E RQ1-RQ5 con Screenplay: Serenity/JS + WebdriverIO (WebDriver, protocolo de Selenium) + Cucumber en español.",
+  "description": "E2E RQ1-RQ5 y RQ10, RQ11, RQ13, RQ29-RQ31 con Screenplay: Serenity/JS + WebdriverIO (WebDriver, protocolo de Selenium) + Cucumber en español.",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "wdio run wdio.conf.ts",
@@ -9,7 +9,13 @@
     "test:rq2": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ2",
     "test:rq3": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ3",
     "test:rq4": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ4",
-    "test:rq5": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ5"
+    "test:rq5": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ5",
+    "test:rq10": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ10",
+    "test:rq11": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ11",
+    "test:rq13": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ13",
+    "test:rq29": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ29",
+    "test:rq30": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ30",
+    "test:rq31": "wdio run wdio.conf.ts --cucumberOpts.tags=@RQ31"
   },
   "devDependencies": {
     "@serenity-js/assertions": "3.48.0",
