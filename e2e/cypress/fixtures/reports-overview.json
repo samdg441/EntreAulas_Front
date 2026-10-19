@@ -1,0 +1,55 @@
+{
+  "summary": {
+    "totalEvaluaciones": 40,
+    "calificacionPromedio": 4.5,
+    "tasaRespuesta": 80,
+    "docentesEvaluados": 2,
+    "cursosEvaluados": 2,
+    "estudiantesRespondieron": 32
+  },
+  "categoryStats": [
+    { "categoriaId": "1", "nombre": "Metodología de enseñanza", "promedio": 4.4 },
+    { "categoriaId": "2", "nombre": "Conocimiento del tema", "promedio": 4.6 }
+  ],
+  "teacherAverages": [
+    { "profesorId": "1", "nombre": "Ana Pérez", "promedio": 4.5, "totalEvaluaciones": 20 },
+    { "profesorId": "4", "nombre": "Marta Díaz", "promedio": 3.2, "totalEvaluaciones": 17 }
+  ],
+  "courseAverages": [
+    { "cursoId": 12, "nombre": "Cálculo", "promedio": 4.5, "totalEvaluaciones": 20 },
+    { "cursoId": 51, "nombre": "Estructuras de datos", "promedio": 3.2, "totalEvaluaciones": 17 }
+  ],
+  "grupos": [
+    { "grupoId": 63, "cursoId": 12, "numeroGrupo": 1, "cursoNombre": "Cálculo" },
+    { "grupoId": 76, "cursoId": 51, "numeroGrupo": 1, "cursoNombre": "Estructuras de datos" }
+  ],
+  "reportRows": [
+    {
+      "DOCENTE": "Ana Pérez",
+      "ASIGNATURA": "Cálculo",
+      "GRUPO": "1",
+      "ESTUDIANTES": 20,
+      "ESTUDIANTES_EVALUADORES": 18,
+      "METODOLOGÍA_DE_ENSEÑANZA": 4.4,
+      "PROMEDIO": 4.5
+    },
+    {
+      "DOCENTE": "=HYPERLINK(\"http://evil.example\",\"clic\")",
+      "ASIGNATURA": "Estructuras de datos",
+      "GRUPO": "1",
+      "ESTUDIANTES": 22,
+      "ESTUDIANTES_EVALUADORES": 14,
+      "METODOLOGÍA_DE_ENSEÑANZA": 3.1,
+      "PROMEDIO": 3.2
+    }
+  ],
+  "trend": [
+    { "period": "2025-2", "rating": 4.3, "totalEvaluations": 35 },
+    { "period": "2026-1", "rating": 4.5, "totalEvaluations": 40 }
+  ],
+  "distribution": [
+    { "name": "5", "value": 20, "color": "#16a34a" },
+    { "name": "4", "value": 15, "color": "#65a30d" },
+    { "name": "3", "value": 5, "color": "#ca8a04" }
+  ]
+}

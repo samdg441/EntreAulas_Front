@@ -1,0 +1,23 @@
+{
+  "estructura": {
+    "facultades": [
+      {
+        "id": 1,
+        "nombre": "Ingenierías",
+        "carreras": [{ "id": 7, "nombre": "Ingeniería de Sistemas" }]
+      }
+    ]
+  },
+  "grupos": [
+    { "id": 63, "cursoNombre": "Cálculo", "cursoCodigo": "MAT101", "grupo": "1", "profesorNombre": "Ana Pérez" },
+    { "id": 64, "cursoNombre": "Cálculo", "cursoCodigo": "MAT101", "grupo": "2", "profesorNombre": "Ana Pérez" },
+    { "id": 76, "cursoNombre": "Estructuras de datos", "cursoCodigo": "SIS201", "grupo": "1", "profesorNombre": "Luis Gómez" }
+  ],
+  "lote": {
+    "created": [
+      { "grupoId": 63, "token": "tok-63" },
+      { "grupoId": 64, "token": "tok-64" }
+    ],
+    "skipped": []
+  }
+}

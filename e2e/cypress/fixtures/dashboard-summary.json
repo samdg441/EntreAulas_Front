@@ -1,0 +1,16 @@
+{
+  "stats": {
+    "totalProfesores": 4,
+    "totalCursos": 6,
+    "promedioEvaluaciones": 4.5,
+    "profesoresEnRiesgo": 1,
+    "totalEvaluaciones": 40
+  },
+  "teachers": [
+    { "profesorId": 1, "nombre": "Ana Pérez", "email": "ana@udem.edu.co", "totalEvaluaciones": 20, "promedio": 4.5 },
+    { "profesorId": 2, "nombre": "Luis Gómez", "email": "luis@udem.edu.co", "totalEvaluaciones": 3, "promedio": 99 },
+    { "profesorId": 3, "nombre": "Pedro Ruiz", "email": "pedro@udem.edu.co", "totalEvaluaciones": 0, "promedio": 0 },
+    { "profesorId": 4, "nombre": "Marta Díaz", "email": "marta@udem.edu.co", "totalEvaluaciones": 17, "promedio": 3.2 }
+  ],
+  "pagination": { "page": 1, "pageSize": 8, "total": 4, "totalPages": 1 }
+}
