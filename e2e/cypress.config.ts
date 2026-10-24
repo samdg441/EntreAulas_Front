@@ -20,6 +20,8 @@ export default defineConfig({
       'cypress/e2e/ui/**/*.cy.ts',
       'cypress/e2e/api/**/*.cy.ts',
       'cypress/e2e/security/**/*.cy.ts',
+      'cypress/e2e/accessibility/**/*.cy.ts',
+      'cypress/e2e/studio/**/*.cy.ts',
     ],
     supportFile: 'cypress/support/e2e.ts',
     viewportWidth: 1366,

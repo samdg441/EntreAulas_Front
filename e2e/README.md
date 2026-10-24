@@ -1,4 +1,4 @@
-# Cypress — RQ18, RQ19, RQ22–RQ25
+# Cypress — RQ6, RQ14–RQ17, RQ18, RQ19, RQ22–RQ25 y RQ27
 
 Proyecto aparte (como [CYPRESS-ENTERPRISE](https://github.com/mauricioramirezv/CYPRESS-ENTERPRISE)):
 `npm ci` del front **no** descarga Cypress.
@@ -8,9 +8,11 @@ Proyecto aparte (como [CYPRESS-ENTERPRISE](https://github.com/mauricioramirezv/C
 | Carpeta | Qué prueba | Back |
 |---|---|---|
 | `cypress/e2e/ui/` | Validación del formulario de login (RQ19) | No se llama |
-| `cypress/e2e/regression/` | Flujos de pantalla RQ18, RQ19, RQ22–RQ25 | Simulado con `cy.intercept` |
-| `cypress/e2e/api/` | Contrato HTTP real (RQ18, RQ22–RQ25) | Render |
-| `cypress/e2e/security/` | Tokens falsos, CORS, cabeceras (RQ19) | Render |
+| `cypress/e2e/regression/` | RQ6, RQ14–RQ17 y RQ27, más RQ18, RQ19 y RQ22–RQ25 | Simulado con `cy.intercept` |
+| `cypress/e2e/api/` | Contrato HTTP real (RQ6, RQ14–RQ17, RQ27, RQ18 y RQ22–RQ25) | Render |
+| `cypress/e2e/security/` | Tokens falsos y rechazos (RQ6, RQ15–RQ17 y RQ19) | Render |
+| `cypress/e2e/accessibility/` | Acceso denegado, error del QR y etiquetas del login | No se llama |
+| `cypress/e2e/studio/` | Flujo de referencia de RQ27 para compararlo con Cypress Studio | Simulado |
 
 ## Instalación (una vez)
 

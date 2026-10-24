@@ -1,7 +1,7 @@
 {
   "name": "entre-aulas-front-e2e",
   "private": true,
-  "description": "Cypress E2E para RQ18, RQ19 y RQ22–RQ25. Proyecto aparte (como CYPRESS-ENTERPRISE): npm ci del front no descarga Cypress.",
+  "description": "Cypress E2E para RQ6, RQ14–RQ17, RQ18, RQ19, RQ22–RQ25 y RQ27. Proyecto aparte (como CYPRESS-ENTERPRISE): npm ci del front no descarga Cypress.",
   "scripts": {
     "front": "npm --prefix .. run dev -- --port 3001 --strictPort",
     "cy:open": "cypress open --e2e",
