@@ -6,6 +6,8 @@ test-results.xml
 reports/
 e2e/cypress/downloads/
 screenplay/descargas/
+stagehand/.env
+stagehand/reports/
 .scannerwork/
 .DS_Store
 *.log

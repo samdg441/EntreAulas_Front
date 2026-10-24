@@ -25,6 +25,12 @@
     "test:e2e": "npm --prefix e2e run test:e2e",
     "test:screenplay": "npm --prefix screenplay test",
     "test:selenium": "npm --prefix screenplay-selenium test",
+    "test:stagehand": "npm --prefix stagehand run test:e2e:all",
+    "test:stagehand:ollama": "npm --prefix stagehand run test:ollama",
+    "test:stagehand:observe": "npm --prefix stagehand run test:observe",
+    "test:stagehand:rq18": "npm --prefix stagehand run test:rq18",
+    "test:stagehand:rq24": "npm --prefix stagehand run test:rq24",
+    "test:stagehand:reportes": "npm --prefix stagehand run test:rq23-rq25",
     "sonar": "node scripts/vitest.mjs run src/test/unit src/test/integration src/test/regression src/test/api src/test/security --coverage && node scripts/clean-lcov.cjs && npx @sonar/scan"
   },
   "dependencies": {

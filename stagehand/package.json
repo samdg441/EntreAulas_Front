@@ -1,0 +1,30 @@
+{
+  "name": "entre-aulas-stagehand-e2e-ai",
+  "private": true,
+  "version": "1.0.0",
+  "description": "E2E con Stagehand + Ollama para RQ18, RQ19 y RQ22–RQ25 (basado en Stagehand-E2E-AI).",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "npm run typecheck",
+    "test:ollama": "node --import tsx tests/login-ollama.e2e.ts",
+    "test:observe": "node --import tsx tests/observe-extract.e2e.ts",
+    "test:rq18": "node --import tsx tests/rq18-qr-ollama.e2e.ts",
+    "test:rq24": "node --import tsx tests/rq24-panel-ollama.e2e.ts",
+    "test:rq23-rq25": "node --import tsx tests/rq23-rq25-reportes-ollama.e2e.ts",
+    "test:e2e:all": "npm run test:observe && npm run test:ollama && npm run test:rq24 && npm run test:rq23-rq25 && npm run test:rq18"
+  },
+  "dependencies": {
+    "@browserbasehq/stagehand": "4.3.0",
+    "dotenv": "18.0.8",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=22.15.0"
+  }
+}

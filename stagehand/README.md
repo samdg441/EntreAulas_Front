@@ -1,0 +1,57 @@
+# Stagehand + IA (Ollama) — EntreAulas RQ18–RQ25
+
+Basado en [Stagehand-E2E-AI](https://github.com/mauricioramirezv/Stagehand-E2E-AI):
+`act` / `observe` / `extract` con IA, y **aserciones determinísticas** (URL, Zod) para no depender solo del modelo.
+
+## Requisitos
+
+- Node 22+
+- Ollama con un modelo (en tu PC: `qwen2.5:7b`)
+- Chrome, Chromium o Edge (ruta en `CHROME_PATH`)
+- Front accesible (`FRONT_URL`, local o Vercel)
+- Credenciales reales solo en `.env` (nunca en Git)
+
+## Instalación
+
+```bash
+cd stagehand
+npm install
+cp .env.example .env
+# Edita .env: LOGIN_EMAIL, LOGIN_PASSWORD, CHROME_PATH
+```
+
+Comprueba Ollama:
+
+```bash
+ollama list
+curl http://localhost:11434/api/tags
+```
+
+## ¿Stagehand cubre QR y resultados?
+
+Sí. Stagehand no se limita al login: abre cualquier pantalla del front y usa
+`act` / `observe` / `extract`. En este proyecto:
+
+| Comando | Capacidades | Requisito |
+|---|---|---|
+| `npm run test:observe` | `observe` + `extract` | RQ19 (login, sin clave) |
+| `npm run test:ollama` | `act` + URL | RQ19 (login completo) |
+| `npm run test:rq18` | `act` + `observe` + `extract` | RQ18 (pantalla `/admin/qr`) |
+| `npm run test:rq24` | `act` + `observe` + `extract` | RQ22/RQ24 (panel + búsqueda) |
+| `npm run test:rq23-rq25` | `act` + `observe` + `extract` | RQ23/RQ25 (reportes + Excel) |
+| `npm run test:e2e:all` | Todas | — |
+| `npm test` | Solo TypeScript | CI sin consumir el modelo |
+
+Lo que **no** sustituye: pruebas unitarias, API con Vitest ni la carga. Stagehand es la capa E2E con IA.
+
+Evidencias en `reports/*.png` y `reports/*.json` (métricas de tokens).
+
+## Diseño (igual que en clase)
+
+| Paso | Técnica |
+|---|---|
+| Encontrar / rellenar controles | `act` / `observe` (IA) |
+| Validar resultado | URL exacta o esquema Zod |
+| Evidencia | captura + `stagehand.metrics()` |
+
+La IA no decide si la prueba pasó: lo hace una aserción fija.
