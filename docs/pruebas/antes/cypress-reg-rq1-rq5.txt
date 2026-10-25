@@ -1,0 +1,185 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config video=false,retries=0 --spec cypress/e2e/regression/rq1-rq5-*.cy.ts,cypress/e2e/accessibility/*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.11.1 (/usr/bin/node)                                                       │
+  │ Specs:          2 found (regression/rq1-rq5-flujo-completo.cy.ts, accessibility/rq1-rq5-accesi │
+  │                 bilidad.cy.ts)                                                                 │
+  │ Searched:       cypress/e2e/regression/rq1-rq5-*.cy.ts, cypress/e2e/accessibility/*.cy.ts      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq1-rq5-flujo-completo.cy.ts                                         (1 of 2)
+
+
+  RQ1–RQ5 — Regresión: ciclo de vida de una cuenta
+    ✓ alta → login → recuperación → nueva clave → login con la clave nueva (15390ms)
+    ✓ un correo no registrado no genera token ni correo, pero la UI responde igual (1212ms)
+    ✓ el alta duplicada se rechaza y la cuenta original sigue intacta (2905ms)
+
+
+  3 passing (20s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     19 seconds                                                                       │
+  │ Spec Ran:     regression/rq1-rq5-flujo-completo.cy.ts                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/videos/regression/rq1-rq5-flujo-completo.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  accessibility/rq1-rq5-accesibilidad.cy.ts                                       (2 of 2)
+
+
+  RQ1–RQ5 — Accesibilidad de autenticación
+    ✓ RQ2: el login no tiene violaciones serias de WCAG (3212ms)
+    (Attempt 1 of 2) RQ2 [DEF-FE-11]: con una sola tabulación desde la contraseña se llega al botón de envío
+    1) RQ2 [DEF-FE-11]: con una sola tabulación desde la contraseña se llega al botón de envío
+    (Attempt 1 of 2) RQ2 [DEF-FE-09]: el error de credenciales se anuncia (role="alert" o aria-live)
+    2) RQ2 [DEF-FE-09]: el error de credenciales se anuncia (role="alert" o aria-live)
+    ✓ RQ3.1 / RQ4: la solicitud de recuperación no tiene violaciones serias (1575ms)
+    (Attempt 1 of 2) RQ3.1 [DEF-FE-10]: el campo con error declara aria-invalid y se une a su mensaje
+    3) RQ3.1 [DEF-FE-10]: el campo con error declara aria-invalid y se une a su mensaje
+    ✓ RQ3.2: el aviso de enlace no válido no tiene violaciones serias (2546ms)
+    (Attempt 1 of 2) RQ5 [DEF-FE-08]: el formulario de nueva contraseña no tiene violaciones serias (botones del ojo con nombre)
+    4) RQ5 [DEF-FE-08]: el formulario de nueva contraseña no tiene violaciones serias (botones del ojo con nombre)
+    (Attempt 1 of 2) RQ1: el formulario de alta de usuarios no tiene violaciones serias
+    5) RQ1: el formulario de alta de usuarios no tiene violaciones serias
+
+
+  3 passing (2m)
+  5 failing
+
+  1) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ2 [DEF-FE-11]: con una sola tabulación desde la contraseña se llega al botón de envío:
+     AssertionError: Timed out retrying after 8000ms: expected '<div>' to have attribute 'type'
+
+  2) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ2 [DEF-FE-09]: el error de credenciales se anuncia (role="alert" o aria-live):
+     AssertionError: Timed out retrying after 8000ms: Expected to find element: `[role="alert"], [aria-live]`, but never found it. Queried from:
+
+              > cy.contains(Credenciales inválidas)
+
+  3) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ3.1 [DEF-FE-10]: el campo con error declara aria-invalid y se une a su mensaje:
+     AssertionError: Timed out retrying after 8000ms: expected '<input#correo-institucional.w-full.py-2.border.rounded-lg.bg-white.outline-none.transition-colors.focus:border-red-500.focus:ring-1.focus:ring-red-500.text-sm.pl-10.pr-10.border-red-500.focus:border-red-500.focus:ring-red-500>' to have attribute 'aria-invalid'
+
+  4) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ5 [DEF-FE-08]: el formulario de nueva contraseña no tiene violaciones serias (botones del ojo con nombre):
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'button-name (critical): Buttons must have discernible text → .space-y-1:nth-child(2) > .relative > .right-0.pr-3.inset-y-0 > button[type="button"], .space-y-1:nth-child(3) > .relative > .right-0.pr-3.inset-y-0 > button[type="button"]' ]
+      +[]
+      
+
+  5) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ1: el formulario de alta de usuarios no tiene violaciones serias:
+     AssertionError: Timed out retrying after 8000ms: elementos animándose: expected [ Array(1) ] to have a length of 0 but got 1
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      5                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  10                                                                               │
+  │ Video:        true                                                                             │
+  │ Duration:     1 minute, 31 seconds                                                             │
+  │ Spec Ran:     accessibility/rq1-rq5-accesibilidad.cy.ts                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ2 [DEF-FE-11] con una sola tabulación desde la contr               
+     aseña se llega al botón de envío (failed).png                                                  
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ2 [DEF-FE-11] con una sola tabulación desde la contr               
+     aseña se llega al botón de envío (failed) (attempt 2).png                                      
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ2 [DEF-FE-09] el error de credenciales se anuncia (r               
+     ole=alert o aria-live) (failed).png                                                            
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ2 [DEF-FE-09] el error de credenciales se anuncia (r               
+     ole=alert o aria-live) (failed) (attempt 2).png                                                
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ3.1 [DEF-FE-10] el campo con error declara aria-inva               
+     lid y se une a su mensaje (failed).png                                                         
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ3.1 [DEF-FE-10] el campo con error declara aria-inva               
+     lid y se une a su mensaje (failed) (attempt 2).png                                             
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ5 [DEF-FE-08] el formulario de nueva contraseña no t               
+     iene violaciones serias (botones del ojo con nombre) (failed).png                              
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ5 [DEF-FE-08] el formulario de nueva contraseña no t               
+     iene violaciones serias (botones del ojo con nombre) (failed) (attempt 2).png                  
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ1 el formulario de alta de usuarios no tiene violaci               
+     ones serias (failed).png                                                                       
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibi               
+     lidad de autenticación -- RQ1 el formulario de alta de usuarios no tiene violaci               
+     ones serias (failed) (attempt 2).png                                                           
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/videos/accessibility/rq1-rq5-accesibilidad.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  regression/rq1-rq5-flujo-completo.c      00:19        3        3        -        -        - │
+  │    y.ts                                                                                        │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  accessibility/rq1-rq5-accesibilidad      01:31        8        3        5        -        - │
+  │    .cy.ts                                                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  1 of 2 failed (50%)                      01:50       11        6        5        -        -  
+
