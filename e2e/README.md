@@ -7,12 +7,10 @@ Proyecto aparte (como [CYPRESS-ENTERPRISE](https://github.com/mauricioramirezv/C
 
 | Carpeta | Qué prueba | Back |
 |---|---|---|
-| `cypress/e2e/ui/` | Validación del formulario de login (RQ19) | No se llama |
+| `cypress/e2e/ui/` | Validación de formularios (RQ15 y RQ19) | No se llama |
 | `cypress/e2e/regression/` | RQ6, RQ14–RQ17 y RQ27, más RQ18, RQ19 y RQ22–RQ25 | Simulado con `cy.intercept` |
 | `cypress/e2e/api/` | Contrato HTTP real (RQ6, RQ14–RQ17, RQ27, RQ18 y RQ22–RQ25) | Render |
 | `cypress/e2e/security/` | Tokens falsos y rechazos (RQ6, RQ15–RQ17 y RQ19) | Render |
-| `cypress/e2e/accessibility/` | Acceso denegado, error del QR y etiquetas del login | No se llama |
-| `cypress/e2e/studio/` | Flujo de referencia de RQ27 para compararlo con Cypress Studio | Simulado |
 
 ## Instalación (una vez)
 
@@ -56,8 +54,4 @@ Cypress 16: valores públicos van en `expose` (`apiUrl`); el token se lee con `c
 
 No subas el token al repo.
 
-## Resultado verificado en esta máquina
-
-- UI + regression: **26/26** con el front local.
-- API (QR) + security: **14/14** contra Render.
-- Contrato RQ22–RQ25: se omite sin `CYPRESS_TOKEN_COORDINADOR`.
+RQ6, RQ14–RQ17 y RQ27 siguen el mismo armado que RQ18, RQ19 y RQ22–RQ25: `beforeEach` con `cy.simularBackVacio()`, fixtures, el flujo de la pantalla y casos `Regresión` cuando el back rechaza la acción. La API real afirma el estado y el cuerpo exactos (`404` / `401 NO_TOKEN`).
