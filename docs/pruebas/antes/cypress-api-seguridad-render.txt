@@ -1,0 +1,188 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config-file cypress.api.config.ts --spec cypress/e2e/api/rq1-rq5-*.cy.ts,cypress/e2e/security/rq1-rq5-*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.11.1 (/usr/bin/node)                                                       │
+  │ Specs:          2 found (api/rq1-rq5-auth-api.cy.ts, security/rq1-rq5-seguridad.cy.ts)         │
+  │ Searched:       cypress/e2e/api/rq1-rq5-*.cy.ts, cypress/e2e/security/rq1-rq5-*.cy.ts          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  api/rq1-rq5-auth-api.cy.ts                                                      (1 of 2)
+
+
+  RQ1–RQ5 — API real de autenticación
+    RQ2 — POST /api/auth/login
+      ✓ correo inexistente → 401 "Credenciales inválidas" (1175ms)
+      ✓ cuerpo sin contraseña o correo mal formado → 400 "Datos inválidos" (941ms)
+      ✓ GET /api/auth/me sin token → 401 (287ms)
+    RQ1 — POST /api/auth/create-user
+      ✓ sin token → 401 NO_TOKEN (358ms)
+    RQ3.1 / RQ4 — POST /api/auth/forgot-password
+      ✓ correo no registrado → 200 con el mensaje genérico y sin token en la respuesta (580ms)
+      ✓ sin correo → 400 y formato inválido → 400 (480ms)
+    RQ3.2 — GET /api/auth/validate-reset-token/:token
+      ✓ token inexistente → 400 "Token inválido o ya utilizado" (564ms)
+      ✓ sin correo en la query → 400 "El correo electrónico es requerido" (265ms)
+    RQ5 — POST /api/auth/reset-password
+      ✓ campos faltantes → 400 "Todos los campos son requeridos" (265ms)
+      ✓ las contraseñas no coinciden → 400 (276ms)
+      ✓ contraseña débil → 400 antes de mirar el token (266ms)
+      ✓ token inexistente con datos válidos → 400 y la contraseña no cambia (493ms)
+    con el admin de pruebas (CYPRESS_ADMIN_EMAIL)
+      - RQ2: el login del admin devuelve un JWT y el usuario con su rol
+      - RQ2: GET /api/auth/me con el token devuelve al mismo usuario
+      - RQ1: crear usuario con datos inválidos → 400 y no se crea
+      - RQ1 + RQ2: el admin crea un estudiante y ese estudiante puede iniciar sesión
+      - RQ3.1: correo registrado → 200 con el mismo mensaje que uno no registrado
+
+
+  12 passing (7s)
+  5 pending
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        17                                                                               │
+  │ Passing:      12                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      5                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     6 seconds                                                                        │
+  │ Spec Ran:     api/rq1-rq5-auth-api.cy.ts                                                       │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  security/rq1-rq5-seguridad.cy.ts                                                (2 of 2)
+
+
+  RQ1–RQ5 — Seguridad de la API de autenticación
+    RQ1 — create-user exige un admin autenticado
+      ✓ JWT sin firma (alg none) que dice ser admin → 401 (650ms)
+      ✓ JWT firmado con otra clave → 401 (349ms)
+      ✓ GET /api/auth/me con JWT falso → 401 sin detalles internos (266ms)
+    RQ2 — login robusto ante entradas hostiles
+      ✓ inyección NoSQL en el correo ({"$ne": null}) → 400, nunca 200 ni 500 (259ms)
+      ✓ inyección SQL en el correo → 400/401 sin mensajes de la base de datos (264ms)
+      ✓ la respuesta de error no revela si la cuenta existe (mismo cuerpo para cualquier correo) (1308ms)
+      (Attempt 1 of 2) [DEF-34] intentos fallidos repetidos terminan en 429
+      1) [DEF-34] intentos fallidos repetidos terminan en 429
+    RQ3.1 / RQ3.2 / RQ5 — recuperación
+      ✓ el token de recuperación nunca aparece en la respuesta de forgot-password (637ms)
+      ✓ path traversal en el token → 400/404, nunca 500 (673ms)
+      (Attempt 1 of 2) [DEF-43] validar tokens al azar repetidamente termina en 429
+      2) [DEF-43] validar tokens al azar repetidamente termina en 429
+    transversal — cabeceras y formato de errores
+      (Attempt 1 of 2) [DEF-35] envía cabeceras de seguridad (nosniff, frame-options) y oculta X-Powered-By
+      3) [DEF-35] envía cabeceras de seguridad (nosniff, frame-options) y oculta X-Powered-By
+      (Attempt 1 of 2) [DEF-38] JSON malformado → 400 en JSON (no una página HTML con la traza)
+      4) [DEF-38] JSON malformado → 400 en JSON (no una página HTML con la traza)
+      ✓ CORS: un origen desconocido no recibe Access-Control-Allow-Origin con credenciales (266ms)
+
+
+  9 passing (1m)
+  4 failing
+
+  1) RQ1–RQ5 — Seguridad de la API de autenticación
+       RQ2 — login robusto ante entradas hostiles
+         [DEF-34] intentos fallidos repetidos terminan en 429:
+     AssertionError: Timed out retrying after 8000ms: expected [ Array(15) ] to include 429
+
+  2) RQ1–RQ5 — Seguridad de la API de autenticación
+       RQ3.1 / RQ3.2 / RQ5 — recuperación
+         [DEF-43] validar tokens al azar repetidamente termina en 429:
+     AssertionError: Timed out retrying after 8000ms: expected [ Array(25) ] to include 429
+
+  3) RQ1–RQ5 — Seguridad de la API de autenticación
+       transversal — cabeceras y formato de errores
+         [DEF-35] envía cabeceras de seguridad (nosniff, frame-options) y oculta X-Powered-By:
+     AssertionError: expected { Object (date, content-type, ...) } to have property 'x-content-type-options'
+
+  4) RQ1–RQ5 — Seguridad de la API de autenticación
+       transversal — cabeceras y formato de errores
+         [DEF-38] JSON malformado → 400 en JSON (no una página HTML con la traza):
+     AssertionError: expected 'text/html; charset=utf-8' to include 'application/json'
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        13                                                                               │
+  │ Passing:      9                                                                                │
+  │ Failing:      4                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  8                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     1 minute, 17 seconds                                                             │
+  │ Spec Ran:     security/rq1-rq5-seguridad.cy.ts                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rq1-rq5-seguridad.cy.ts/RQ1–RQ5 — Seguridad de la A               
+     PI de autenticación -- RQ2 — login robusto ante entradas hostiles -- [DEF-34] in               
+     tentos fallidos repetidos terminan en 429 (failed).png                                         
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rq1-rq5-seguridad.cy.ts/RQ1–RQ5 — Seguridad de la A               
+     PI de autenticación -- RQ2 — login robusto ante entradas hostiles -- [DEF-34] in               
+     tentos fallidos repetidos terminan en 429 (failed) (attempt 2).png                             
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rq1-rq5-seguridad.cy.ts/RQ1–RQ5 — Seguridad de la A               
+     PI de autenticación -- RQ3.1  RQ3.2  RQ5 — recuperación -- [DEF-43] validar toke               
+     ns al azar repetidamente termina en 429 (failed).png                                           
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rq1-rq5-seguridad.cy.ts/RQ1–RQ5 — Seguridad de la A               
+     PI de autenticación -- RQ3.1  RQ3.2  RQ5 — recuperación -- [DEF-43] validar toke               
+     ns al azar repetidamente termina en 429 (failed) (attempt 2).png                               
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rq1-rq5-seguridad.cy.ts/RQ1–RQ5 — Seguridad de la A               
+     PI de autenticación -- transversal — cabeceras y formato de errores -- [DEF-35]                
+     envía cabeceras de seguridad (nosniff, frame-options) y oculta X-Powered-By (fai               
+     led).png                                                                                       
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rq1-rq5-seguridad.cy.ts/RQ1–RQ5 — Seguridad de la A               
+     PI de autenticación -- transversal — cabeceras y formato de errores -- [DEF-35]                
+     envía cabeceras de seguridad (nosniff, frame-options) y oculta X-Powered-By (fai               
+     led) (attempt 2).png                                                                           
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rq1-rq5-seguridad.cy.ts/RQ1–RQ5 — Seguridad de la A               
+     PI de autenticación -- transversal — cabeceras y formato de errores -- [DEF-38]                
+     JSON malformado → 400 en JSON (no una página HTML con la traza) (failed).png                   
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rq1-rq5-seguridad.cy.ts/RQ1–RQ5 — Seguridad de la A               
+     PI de autenticación -- transversal — cabeceras y formato de errores -- [DEF-38]                
+     JSON malformado → 400 en JSON (no una página HTML con la traza) (failed) (attemp               
+     t 2).png                                                                                       
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  api/rq1-rq5-auth-api.cy.ts               00:06       17       12        -        5        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  security/rq1-rq5-seguridad.cy.ts         01:17       13        9        4        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  1 of 2 failed (50%)                      01:23       30       21        4        5        -  
+
