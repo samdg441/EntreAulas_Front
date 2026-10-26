@@ -8,6 +8,8 @@ e2e/cypress/downloads/
 screenplay/descargas/
 stagehand/.env
 stagehand/reports/
+healenium/logs/
+healenium/screenshots/
 .scannerwork/
 .DS_Store
 *.log

@@ -1,4 +1,4 @@
-# Cypress — RQ1–RQ5, RQ18, RQ19, RQ22–RQ25
+# Cypress — RQ1–RQ5,RQ6,RQ14–RQ17, RQ18, RQ19, RQ22–RQ25 y RQ27
 
 Proyecto aparte (como [CYPRESS-ENTERPRISE](https://github.com/mauricioramirezv/CYPRESS-ENTERPRISE)):
 `npm ci` del front **no** descarga Cypress.
@@ -86,8 +86,4 @@ Cypress 16: valores públicos van en `expose` (`apiUrl`); el token se lee con `c
 
 No subas el token al repo.
 
-## Resultado verificado en esta máquina
-
-- UI + regression: **26/26** con el front local.
-- API (QR) + security: **14/14** contra Render.
-- Contrato RQ22–RQ25: se omite sin `CYPRESS_TOKEN_COORDINADOR`.
+RQ6, RQ14–RQ17 y RQ27 siguen el mismo armado que RQ18, RQ19 y RQ22–RQ25: `beforeEach` con `cy.simularBackVacio()`, fixtures, el flujo de la pantalla y casos `Regresión` cuando el back rechaza la acción. La API real afirma el estado y el cuerpo exactos (`404` / `401 NO_TOKEN`).

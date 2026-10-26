@@ -1,7 +1,7 @@
-# Stagehand + IA (Ollama) — EntreAulas RQ1–RQ5, RQ18–RQ25
+# Stagehand + IA (Ollama) — EntreAulas
 
-Basado en [Stagehand-E2E-AI](https://github.com/mauricioramirezv/Stagehand-E2E-AI):
-`act` / `observe` / `extract` con IA, y **aserciones determinísticas** (URL, Zod) para no depender solo del modelo.
+Basado en el proyecto de clase Stagehand-E2E-AI (`act` con instrucciones, `observe` + `extract` con Zod, y el veredicto en un localizador o en la URL).
+El escenario de RQ6, RQ14–RQ17 y RQ27 está en `src/rq6-rq27-scenario.ts` y se lanza como `tests/login-ollama.e2e.ts`.
 
 ## Requisitos
 
@@ -34,6 +34,7 @@ Sí. Stagehand no se limita al login: abre cualquier pantalla del front y usa
 
 | Comando | Capacidades | Requisito |
 |---|---|---|
+| `npm run test:rq6-rq27` | `act` + `observe` + `extract` | RQ6, RQ14–RQ17 y RQ27 |
 | `npm run test:observe` | `observe` + `extract` | RQ19 (login, sin clave) |
 | `npm run test:ollama` | `act` + URL | RQ19 (login completo) |
 | `npm run test:rq18` | `act` + `observe` + `extract` | RQ18 (pantalla `/admin/qr`) |

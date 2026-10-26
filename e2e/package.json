@@ -1,10 +1,11 @@
 {
   "name": "entre-aulas-front-e2e",
   "private": true,
-  "description": "Cypress E2E para RQ1–RQ5, RQ18, RQ19 y RQ22–RQ25. Proyecto aparte (como CYPRESS-ENTERPRISE): npm ci del front no descarga Cypress.",
+  "description": "Cypress E2E para RQ1–RQ5, RQ6, RQ14–RQ17, RQ18, RQ19, RQ22–RQ25 y RQ27. Proyecto aparte (como CYPRESS-ENTERPRISE): npm ci del front no descarga Cypress.",
   "scripts": {
     "front": "npm --prefix .. run dev -- --port 3001 --strictPort",
     "cy:open": "cypress open --e2e",
+    "cy:prompt": "cypress run --e2e --browser chrome --spec cypress/e2e/studio/rq6-rq17-prompt.cy.ts",
     "cy:run": "cypress run --e2e",
     "cy:api": "cypress run --e2e --config-file cypress.api.config.ts",
     "cy:security": "cypress run --e2e --config-file cypress.api.config.ts --spec 'cypress/e2e/security/**/*.cy.ts'",
