@@ -1,0 +1,278 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config video=false --spec cypress/e2e/ui/rq1-*.cy.ts,cypress/e2e/ui/rq2-*.cy.ts,cypress/e2e/ui/rq3-*.cy.ts,cypress/e2e/ui/rq5-*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.11.1 (/usr/bin/node)                                                       │
+  │ Specs:          5 found (rq1-registro-admin.cy.ts, rq2-login.cy.ts, rq3-1-rq4-solicitud-recupe │
+  │                 racion.cy.ts, rq3-2-validacion-token.cy.ts, rq5-restablecer-contrasena.cy.ts)  │
+  │ Searched:       cypress/e2e/ui/rq1-*.cy.ts, cypress/e2e/ui/rq2-*.cy.ts, cypress/e2e/ui/rq3-*.c │
+  │                 y.ts, cypress/e2e/ui/rq5-*.cy.ts                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq1-registro-admin.cy.ts                                                        (1 of 5)
+
+
+  RQ1 — UI: registro de usuarios desde el administrador
+    escenarios exitosos
+      ✓ crea un estudiante: correo con dominio de estudiante, nombre en mayúsculas y fila nueva (5421ms)
+      ✓ crea un profesor: el dominio cambia a udemedellin.edu.co (2589ms)
+    escenarios alternativos
+      (Attempt 1 of 2) si se escribe el correo completo, el front se queda solo con el usuario
+      1) si se escribe el correo completo, el front se queda solo con el usuario
+      ✓ cancelar cierra el formulario sin llamar al back (1166ms)
+    escenarios de error
+      ✓ correo duplicado: el mensaje del back se muestra y el modal sigue abierto (2020ms)
+      ✓ contraseña sin mayúscula: se rechaza antes de llamar al back (2054ms)
+      ✓ contraseña sin número: se rechaza antes de llamar al back (1945ms)
+      ✓ contraseña sin carácter especial: se rechaza antes de llamar al back (1961ms)
+    control de acceso
+      ✓ un estudiante no puede entrar a la administración de usuarios (805ms)
+      ✓ sin sesión, /admin/users redirige al login (747ms)
+
+
+  9 passing (39s)
+  1 failing
+
+  1) RQ1 — UI: registro de usuarios desde el administrador
+       escenarios alternativos
+         si se escribe el correo completo, el front se queda solo con el usuario:
+
+      Timed out retrying after 8000ms
+      + expected - actual
+
+      -'carla.ruizgmail.com'
+      +'carla.ruiz'
+      
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        10                                                                               │
+  │ Passing:      9                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     39 seconds                                                                       │
+  │ Spec Ran:     rq1-registro-admin.cy.ts                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-registro-admin.cy.ts/RQ1 — UI registro de usuarios desde               
+      el administrador -- escenarios alternativos -- si se escribe el correo completo               
+     , el front se queda solo con el usuario (failed).png                                           
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-registro-admin.cy.ts/RQ1 — UI registro de usuarios desde               
+      el administrador -- escenarios alternativos -- si se escribe el correo completo               
+     , el front se queda solo con el usuario (failed) (attempt 2).png                               
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/videos/rq1-registro-admin.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq2-login.cy.ts                                                                 (2 of 5)
+
+
+  RQ2 — UI: inicio de sesión
+    escenarios exitosos
+      ✓ estudiante entra a su panel y el token queda guardado (3266ms)
+      ✓ administrador elige su tipo y llega al panel de administración (1983ms)
+    escenarios alternativos
+      ✓ cuenta con varios roles: el tipo elegido define la sesión (login-with-role) (2590ms)
+      ✓ el enlace "¿Olvidaste tu contraseña?" lleva a la recuperación (1210ms)
+    escenarios de error
+      ✓ credenciales inválidas: muestra el mensaje del back y no guarda token (1423ms)
+      ✓ tipo de usuario distinto al de la cuenta: avisa qué tipo seleccionar (1767ms)
+      ✓ cuenta inactiva: el 403 del back se muestra tal cual (1374ms)
+      ✓ error de red o 500 sin mensaje: usa el texto genérico (1356ms)
+      ✓ correo sin @: no llama al back (1282ms)
+
+
+  9 passing (17s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        9                                                                                │
+  │ Passing:      9                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     17 seconds                                                                       │
+  │ Spec Ran:     rq2-login.cy.ts                                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/videos/rq2-login.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq3-1-rq4-solicitud-recuperacion.cy.ts                                          (3 of 5)
+
+
+  RQ3.1 / RQ4 — UI: solicitud del enlace de recuperación
+    escenarios exitosos
+      ✓ correo registrado: envía la solicitud y confirma con el mensaje genérico (2978ms)
+      ✓ correo no registrado: la respuesta es idéntica (no se enumeran cuentas) (1258ms)
+    escenarios alternativos
+      ✓ el back no envía mensaje: el front usa el texto genérico por defecto (1144ms)
+      ✓ después de enviar, "Ir al inicio de sesión" vuelve al login (2070ms)
+      ✓ mientras espera la respuesta muestra "Enviando..." y deshabilita el botón (1574ms)
+    escenarios de error
+      ✓ formato de correo inválido: no llama al back (1106ms)
+      ✓ límite de intentos (429): muestra el mensaje del back y no confirma (1099ms)
+      ✓ falla del envío de correo (500): mensaje genérico de error (1090ms)
+
+
+  8 passing (13s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      8                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     12 seconds                                                                       │
+  │ Spec Ran:     rq3-1-rq4-solicitud-recuperacion.cy.ts                                           │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/videos/rq3-1-rq4-solicitud-recuperacion.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq3-2-validacion-token.cy.ts                                                    (4 of 5)
+
+
+  RQ3.2 — UI: validación del enlace de recuperación
+    ✓ token válido: consulta al back con token y correo y muestra el formulario (2483ms)
+    ✓ mientras valida muestra "Validando el enlace de recuperación..." (1002ms)
+    ✓ token vencido o ya usado: muestra el error del back y ofrece pedir otro enlace (1013ms)
+    ✓ enlace sin token: no consulta al back y lo declara incompleto (801ms)
+    ✓ enlace sin correo: no consulta al back y lo declara incompleto (802ms)
+    ✓ enlace sin parámetros: no consulta al back y lo declara incompleto (1644ms)
+    ✓ el token con caracteres especiales se codifica en la URL de la petición (910ms)
+
+
+  7 passing (9s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        7                                                                                │
+  │ Passing:      7                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     9 seconds                                                                        │
+  │ Spec Ran:     rq3-2-validacion-token.cy.ts                                                     │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/videos/rq3-2-validacion-token.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq5-restablecer-contrasena.cy.ts                                                (5 of 5)
+
+
+  RQ5 — UI: restablecer la contraseña
+    escenarios exitosos
+      ✓ envía token, correo y nueva clave; confirma y permite volver al login (3363ms)
+    escenarios alternativos
+      ✓ el ojo muestra y oculta la contraseña escrita (1301ms)
+      ✓ al corregir el campo desaparece el error anterior (1441ms)
+    escenarios de error
+      ✓ las contraseñas no coinciden: no llama al back (2398ms)
+      ✓ política de clave: menos de 8 caracteres (1321ms)
+      ✓ política de clave: sin mayúscula (1401ms)
+      ✓ política de clave: sin minúscula (1370ms)
+      ✓ política de clave: sin número (1395ms)
+      ✓ política de clave: sin carácter especial (1374ms)
+      ✓ campos vacíos: pide la nueva contraseña (el navegador bloquea el envío) (907ms)
+      ✓ el token caducó entre la validación y el envío: muestra el error del back (1369ms)
+
+
+  11 passing (18s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        11                                                                               │
+  │ Passing:      11                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     18 seconds                                                                       │
+  │ Spec Ran:     rq5-restablecer-contrasena.cy.ts                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/videos/rq5-restablecer-contrasena.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✖  rq1-registro-admin.cy.ts                 00:39       10        9        1        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq2-login.cy.ts                          00:17        9        9        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq3-1-rq4-solicitud-recuperacion.cy      00:12        8        8        -        -        - │
+  │    .ts                                                                                         │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq3-2-validacion-token.cy.ts             00:09        7        7        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq5-restablecer-contrasena.cy.ts         00:18       11       11        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  1 of 5 failed (20%)                      01:37       45       44        1        -        -  
+

@@ -1,0 +1,286 @@
+<testsuites id="" name="" tests="26" failures="0" skipped="0" errors="1" time="74.95797">
+<testsuite name="rq1-alta-de-usuarios.spec.ts" timestamp="2026-10-26T16:19:36.977Z" hostname="chromium" tests="5" failures="0" skipped="0" time="34.002" errors="0">
+<testcase name="RQ1 — Alta de usuarios por el administrador › Crear un estudiante" classname="rq1-alta-de-usuarios.spec.ts" time="6.148">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-a91e6-strador-Crear-un-estudiante-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-a91e6-strador-Crear-un-estudiante-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ1 — Alta de usuarios por el administrador › El dominio cambia con el tipo" classname="rq1-alta-de-usuarios.spec.ts" time="4.118">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-c7817--dominio-cambia-con-el-tipo-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-c7817--dominio-cambia-con-el-tipo-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ1 — Alta de usuarios por el administrador › Correo duplicado" classname="rq1-alta-de-usuarios.spec.ts" time="10.76">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-81968-inistrador-Correo-duplicado-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-81968-inistrador-Correo-duplicado-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ1 — Alta de usuarios por el administrador › Clave débil" classname="rq1-alta-de-usuarios.spec.ts" time="10.562">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-e30ef-l-administrador-Clave-débil-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-e30ef-l-administrador-Clave-débil-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ1 — Un estudiante no entra a la administración" classname="rq1-alta-de-usuarios.spec.ts" time="2.414">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-b7d6f-o-entra-a-la-administración-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq1-alta-de-usuarios-RQ1-—-b7d6f-o-entra-a-la-administración-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="rq2-inicio-de-sesion.spec.ts" timestamp="2026-10-26T16:19:36.977Z" hostname="chromium" tests="6" failures="0" skipped="0" time="36.377" errors="0">
+<testcase name="RQ2 — Inicio de sesión › Estudiante inicia sesión y llega a su panel" classname="rq2-inicio-de-sesion.spec.ts" time="3.988">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-2609e-a-sesión-y-llega-a-su-panel-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-2609e-a-sesión-y-llega-a-su-panel-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ2 — Inicio de sesión › El profesor elige &quot;Docente&quot; y llega a su panel" classname="rq2-inicio-de-sesion.spec.ts" time="6.129">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-6dcfc--Docente-y-llega-a-su-panel-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-6dcfc--Docente-y-llega-a-su-panel-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ2 — Inicio de sesión › Clave incorrecta" classname="rq2-inicio-de-sesion.spec.ts" time="7.919">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-Inicio-de-sesión-Clave-incorrecta-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-Inicio-de-sesión-Clave-incorrecta-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ2 — Inicio de sesión › Cuenta inactiva" classname="rq2-inicio-de-sesion.spec.ts" time="4.035">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-Inicio-de-sesión-Cuenta-inactiva-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-Inicio-de-sesión-Cuenta-inactiva-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ2 — Inicio de sesión › Tipo de usuario incorrecto" classname="rq2-inicio-de-sesion.spec.ts" time="9.531">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-1ff8f--Tipo-de-usuario-incorrecto-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-1ff8f--Tipo-de-usuario-incorrecto-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ2 — Inicio de sesión › Correo con formato inválido" classname="rq2-inicio-de-sesion.spec.ts" time="4.775">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-126da-Correo-con-formato-inválido-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq2-inicio-de-sesion-RQ2-—-126da-Correo-con-formato-inválido-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="rq3-rq4-recuperacion.spec.ts" timestamp="2026-10-26T16:19:36.977Z" hostname="chromium" tests="6" failures="0" skipped="0" time="33.633" errors="0">
+<testcase name="RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Correo registrado" classname="rq3-rq4-recuperacion.spec.ts" time="3.976">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-1-7703a-uperación-Correo-registrado-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-1-7703a-uperación-Correo-registrado-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Correo no registrado" classname="rq3-rq4-recuperacion.spec.ts" time="8.56">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-1-c6eef-ración-Correo-no-registrado-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-1-c6eef-ración-Correo-no-registrado-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Formato inválido" classname="rq3-rq4-recuperacion.spec.ts" time="4.926">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-1-97fde-cuperación-Formato-inválido-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-1-97fde-cuperación-Formato-inválido-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ3.2 — Validación del token › Enlace vigente" classname="rq3-rq4-recuperacion.spec.ts" time="3.747">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-2-a379c-ón-del-token-Enlace-vigente-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-2-a379c-ón-del-token-Enlace-vigente-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ3.2 — Validación del token › Enlace vencido" classname="rq3-rq4-recuperacion.spec.ts" time="8.823">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-2-d5a17-ón-del-token-Enlace-vencido-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-2-d5a17-ón-del-token-Enlace-vencido-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ3.2 — Validación del token › Enlace incompleto" classname="rq3-rq4-recuperacion.spec.ts" time="3.601">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-2-83301-del-token-Enlace-incompleto-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq3-rq4-recuperacion-RQ3-2-83301-del-token-Enlace-incompleto-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="rq5-nueva-contrasena.spec.ts" timestamp="2026-10-26T16:19:36.977Z" hostname="chromium" tests="9" failures="0" skipped="0" time="82.006" errors="1">
+<testcase name="RQ5 — Nueva contraseña › Cambio exitoso" classname="rq5-nueva-contrasena.spec.ts" time="9.843">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-Nueva-contraseña-Cambio-exitoso-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-Nueva-contraseña-Cambio-exitoso-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ5 — Nueva contraseña › Enlace de un solo uso" classname="rq5-nueva-contrasena.spec.ts" time="6.832">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-17de6-aseña-Enlace-de-un-solo-uso-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-17de6-aseña-Enlace-de-un-solo-uso-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ5 — Nueva contraseña › Las contraseñas no coinciden" classname="rq5-nueva-contrasena.spec.ts" time="8.632">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-a4b9a-as-contraseñas-no-coinciden-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-a4b9a-as-contraseñas-no-coinciden-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ5 — Nueva contraseña › Política de clave: «Ab#1» → al menos 8 caracteres" classname="rq5-nueva-contrasena.spec.ts" time="6.84">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-e2d84--1»-→-al-menos-8-caracteres-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-e2d84--1»-→-al-menos-8-caracteres-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ5 — Nueva contraseña › Política de clave: «claveminus#1» → al menos una letra mayúscula" classname="rq5-nueva-contrasena.spec.ts" time="4.234">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-9a864-l-menos-una-letra-mayúscula-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-9a864-l-menos-una-letra-mayúscula-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ5 — Nueva contraseña › Política de clave: «CLAVEMAYUS#1» → al menos una letra minúscula" classname="rq5-nueva-contrasena.spec.ts" time="4.317">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-a49c4-l-menos-una-letra-minúscula-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-a49c4-l-menos-una-letra-minúscula-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ5 — Nueva contraseña › Política de clave: «ClaveSinNum#» → al menos un número" classname="rq5-nueva-contrasena.spec.ts" time="5.404">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-a6603-nNum-»-→-al-menos-un-número-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-a6603-nNum-»-→-al-menos-un-número-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ5 — Nueva contraseña › Política de clave: «ClaveSinEsp1» → al menos un carácter especial" classname="rq5-nueva-contrasena.spec.ts" time="4.526">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-04c7f--menos-un-carácter-especial-chromium/test-finished-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-04c7f--menos-un-carácter-especial-chromium/trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="RQ5 — Nueva contraseña › Mostrar u ocultar contraseña con un botón con nombre accesible (DEF-FE-08)" classname="rq5-nueva-contrasena.spec.ts" time="31.378">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/test-failed-1.png]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/video.webm]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/error-context.md]]
+
+[[ATTACHMENT|resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/trace.zip]]
+]]>
+</system-out>
+<error message="Test timeout of 30000ms exceeded." type="Error">
+<![CDATA[  [chromium] › rq5-nueva-contrasena.spec.ts:66:7 › RQ5 — Nueva contraseña › Mostrar u ocultar contraseña con un botón con nombre accesible (DEF-FE-08) 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: /mostrar contraseña/i }).first()
+
+
+      68 |     await campo.fill(NUEVA)
+      69 |     await expect(campo).toHaveAttribute('type', 'password')
+    > 70 |     await page.getByRole('button', { name: /mostrar contraseña/i }).first().click()
+         |                                                                             ^
+      71 |     await expect(campo).toHaveAttribute('type', 'text')
+      72 |   })
+      73 | })
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rq5-nueva-contrasena.spec.ts:70:77
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</error>
+</testcase>
+</testsuite>
+</testsuites>

@@ -1,0 +1,17 @@
+{
+  "name": "entre-aulas-playwright-ia",
+  "private": true,
+  "description": "Pruebas E2E de RQ1–RQ5 generadas con los agentes de IA de Playwright (planner, generator, healer).",
+  "scripts": {
+    "front": "npm --prefix ../.. run dev -- --port 3001 --strictPort",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report ../../reports/playwright/html",
+    "agents:init": "playwright init-agents --loop=claude"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  }
+}

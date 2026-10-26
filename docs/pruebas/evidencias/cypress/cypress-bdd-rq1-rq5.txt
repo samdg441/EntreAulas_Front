@@ -1,0 +1,260 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config video=false,retries=0 --config-file cypress.bdd.config.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.11.1 (/usr/bin/node)                                                       │
+  │ Specs:          6 found (rq1-acceso-restringido.feature, rq1-registro-de-usuarios.feature, rq2 │
+  │                 -inicio-de-sesion.feature, rq3-solicitud-y-validacion.feature, rq4-envio-del-e │
+  │                 nlace.feature, rq5-restablecer-contrasena.feature)                             │
+  │ Searched:       cypress/features/**/*.feature                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq1-acceso-restringido.feature                                                  (1 of 6)
+
+
+  RQ1 - Solo un administrador entra a la gestión de usuarios
+    ✓ Un estudiante no puede entrar a la administración de usuarios (6627ms)
+    ✓ Sin sesión, la administración de usuarios lleva al login (2664ms)
+
+
+  2 passing (10s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        2                                                                                │
+  │ Passing:      2                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     9 seconds                                                                        │
+  │ Spec Ran:     rq1-acceso-restringido.feature                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/bdd/videos/rq1-acceso-restringido.feature.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq1-registro-de-usuarios.feature                                                (2 of 6)
+
+
+  RQ1 - Registro de usuarios desde el administrador
+    ✓ La administradora crea un estudiante con el dominio que le corresponde (example #1) (8974ms)
+    ✓ La administradora crea un profesor con el dominio que le corresponde (example #2) (8659ms)
+    ✓ No se registra un correo que ya existe (5952ms)
+    ✓ Una clave que incumple la política se rechaza antes de llamar al back (example #1) (8283ms)
+    ✓ Una clave que incumple la política se rechaza antes de llamar al back (example #2) (8554ms)
+    ✓ Una clave que incumple la política se rechaza antes de llamar al back (example #3) (7237ms)
+
+
+  6 passing (48s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      6                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     48 seconds                                                                       │
+  │ Spec Ran:     rq1-registro-de-usuarios.feature                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/bdd/videos/rq1-registro-de-usuarios.feature.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq2-inicio-de-sesion.feature                                                    (3 of 6)
+
+
+  RQ2 - Inicio de sesión
+    ✓ Cada rol llega a su panel (example #1) (4969ms)
+    ✓ Cada rol llega a su panel (example #2) (3125ms)
+    ✓ Cada rol llega a su panel (example #3) (4207ms)
+    ✓ Cada rol llega a su panel (example #4) (3855ms)
+    ✓ El tipo de usuario elegido no coincide con la cuenta (3724ms)
+    ✓ Credenciales que no permiten entrar responden igual (example #1) (3408ms)
+    ✓ Credenciales que no permiten entrar responden igual (example #2) (2576ms)
+    ✓ Credenciales que no permiten entrar responden igual (example #3) (2282ms)
+    ✓ Un correo sin arroba se rechaza antes de llamar al servidor (2344ms)
+
+
+  9 passing (31s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        9                                                                                │
+  │ Passing:      9                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     31 seconds                                                                       │
+  │ Spec Ran:     rq2-inicio-de-sesion.feature                                                     │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/bdd/videos/rq2-inicio-de-sesion.feature.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq3-solicitud-y-validacion.feature                                              (4 of 6)
+
+
+  RQ3 - Solicitud de recuperación (RQ3.1) y validación del token (RQ3.2)
+    ✓ Un correo registrado recibe la confirmación genérica (5526ms)
+    ✓ Un correo no registrado recibe exactamente la misma confirmación (3329ms)
+    ✓ Un correo con formato inválido no se envía (3460ms)
+    ✓ Un enlace vigente muestra el formulario de nueva contraseña (2776ms)
+    ✓ Un enlace vencido se rechaza (3055ms)
+    ✓ Un enlace incompleto se rechaza sin consultar al back (2600ms)
+
+
+  6 passing (21s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      6                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     21 seconds                                                                       │
+  │ Spec Ran:     rq3-solicitud-y-validacion.feature                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/bdd/videos/rq3-solicitud-y-validacion.feature.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq4-envio-del-enlace.feature                                                    (5 of 6)
+
+
+  RQ4 - Envío del enlace de recuperación por correo
+    ✓ Una solicitud de un correo registrado envía exactamente un correo con el enlace (4321ms)
+    ✓ Un correo no registrado no recibe nada (3378ms)
+    ✓ La API real responde igual a un correo no registrado y no expone el token (13664ms)
+    ✓ La API real rechaza un correo con formato inválido (563ms)
+
+
+  4 passing (23s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      4                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     22 seconds                                                                       │
+  │ Spec Ran:     rq4-envio-del-enlace.feature                                                     │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/bdd/videos/rq4-envio-del-enlace.feature.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq5-restablecer-contrasena.feature                                              (6 of 6)
+
+
+  RQ5 - Restablecer la contraseña
+    ✓ Cambia la contraseña, la nueva funciona y la anterior no (13543ms)
+    ✓ Un enlace ya usado no sirve una segunda vez (4290ms)
+    ✓ Las contraseñas no coinciden (2169ms)
+    ✓ La contraseña nueva incumple la política (longitud) (example #1) (2165ms)
+    ✓ La contraseña nueva incumple la política (mayúscula) (example #2) (3043ms)
+    ✓ La contraseña nueva incumple la política (minúscula) (example #3) (2871ms)
+    ✓ La contraseña nueva incumple la política (número) (example #4) (2399ms)
+    ✓ La contraseña nueva incumple la política (especial) (example #5) (2988ms)
+
+
+  8 passing (34s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      8                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     34 seconds                                                                       │
+  │ Spec Ran:     rq5-restablecer-contrasena.feature                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/bdd/videos/rq5-restablecer-contrasena.feature.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  rq1-acceso-restringido.feature           00:09        2        2        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq1-registro-de-usuarios.feature         00:48        6        6        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq2-inicio-de-sesion.feature             00:31        9        9        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq3-solicitud-y-validacion.feature       00:21        6        6        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq4-envio-del-enlace.feature             00:22        4        4        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rq5-restablecer-contrasena.feature       00:34        8        8        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        02:47       35       35        -        -        -  
+

@@ -1,3 +1,5 @@
+import http from 'node:http'
+import https from 'node:https'
 import type { ClientLLM } from '@browserbasehq/stagehand'
 
 type GenerateInput = Parameters<ClientLLM['generate']>[0]
@@ -24,6 +26,26 @@ function contentAsText(content: GenerateInput['messages'][number]['content']): s
     .join('\n')
 }
 
+/**
+ * POST sin límite de tiempo: en CPU una inferencia de qwen2.5:7b sobre una página grande supera los 300 s
+ * que fetch (undici) espera por las cabeceras, y la prueba caía con «fetch failed».
+ */
+function postJson(url: string, headers: Record<string, string>, body: string): Promise<{ status: number; text: string }> {
+  const destino = new URL(url)
+  const cliente = destino.protocol === 'https:' ? https : http
+  return new Promise((resolve, reject) => {
+    const req = cliente.request(destino, { method: 'POST', headers: { ...headers, 'Content-Length': Buffer.byteLength(body) } }, (res) => {
+      let text = ''
+      res.setEncoding('utf8')
+      res.on('data', (parte) => (text += parte))
+      res.on('end', () => resolve({ status: res.statusCode ?? 0, text }))
+    })
+    req.setTimeout(0)
+    req.on('error', reject)
+    req.end(body)
+  })
+}
+
 /** Adaptador Ollama → API compatible con OpenAI (Stagehand 4 no trae proveedor nativo "ollama/..."). */
 export function createOllamaClient(): ClientLLM {
   const baseUrl = (process.env.OLLAMA_BASE_URL ?? 'http://localhost:11434/v1').replace(/\/$/, '')
@@ -40,13 +62,10 @@ export function createOllamaClient(): ClientLLM {
       })),
     ]
 
-    const response = await fetch(`${baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    const response = await postJson(
+      `${baseUrl}/chat/completions`,
+      { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      JSON.stringify({
         model,
         messages,
         temperature: input.temperature ?? 0,
@@ -63,14 +82,14 @@ export function createOllamaClient(): ClientLLM {
               },
             }
           : {}),
-      }),
-    })
+      })
+    )
 
-    if (!response.ok) {
-      throw new Error(`Ollama respondió ${response.status}: ${await response.text()}`)
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(`Ollama respondió ${response.status}: ${response.text}`)
     }
 
-    const result = (await response.json()) as OllamaResponse
+    const result = JSON.parse(response.text) as OllamaResponse
     const text = result.choices?.[0]?.message?.content
     if (!text) throw new Error('Ollama no devolvió contenido.')
 

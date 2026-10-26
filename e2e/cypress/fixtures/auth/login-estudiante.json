@@ -1,0 +1,14 @@
+{
+  "message": "Login exitoso",
+  "token": "token-e2e-estudiante",
+  "user": {
+    "id": "u-est",
+    "email": "eva@soyudemedellin.edu.co",
+    "nombre": "EVA",
+    "apellido": "ESTUDIANTE",
+    "tipo_usuario": "estudiante",
+    "roles": ["estudiante"]
+  },
+  "available_roles": ["estudiante"],
+  "requires_role_selection": false
+}

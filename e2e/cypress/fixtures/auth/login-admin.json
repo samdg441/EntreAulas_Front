@@ -1,0 +1,14 @@
+{
+  "message": "Login exitoso",
+  "token": "token-e2e-admin",
+  "user": {
+    "id": "u-admin",
+    "email": "ada@udemedellin.edu.co",
+    "nombre": "ADA",
+    "apellido": "ADMIN",
+    "tipo_usuario": "admin",
+    "roles": ["admin"]
+  },
+  "available_roles": ["admin"],
+  "requires_role_selection": false
+}

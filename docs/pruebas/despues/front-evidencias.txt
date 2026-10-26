@@ -1,0 +1,588 @@
+npm notice run entre-aulas-front@0.0.1 test:evidencias
+npm notice run node scripts/vitest.mjs run src/test/unit/autenticacion src/test/integration/rq1- src/test/integration/rq2- src/test/integration/rq3- src/test/integration/rq5- src/test/api/rq1-rq5 src/test/security/rq1- src/test/security/rq2- src/test/security/rq3- --testTimeout=30000 --reporter=default --reporter=junit --outputFile.junit=reports/junit/rq1-rq5.xml --coverage --coverage.reportsDirectory=coverage-rq1-rq5 --coverage.reporter=text --coverage.reporter=html --coverage.reporter=lcov --coverage.include='src/features/auth/**' --coverage.include=src/api/auth.ts --coverage.include=src/api/passwordReset.ts --coverage.include=src/api/users.ts --coverage.include=src/api/client.ts --coverage.include=src/lib/validation.ts --coverage.include=src/features/dashboard-admin/AdminUsersPage.tsx --coverage.exclude=src/features/auth/ProfilePage.tsx --coverage.exclude='src/test/**'
+
+ RUN  v5.0.3 EntreAulas_Front
+      Coverage enabled with v8
+
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/integration/rq3-componente-forgot.test.tsx (10 tests) 4370ms
+   ✓ RQ3 / RQ3.1 — Componente ForgotPassword (10)
+     ✓ RQ3·C-P1 (estado inicial): formulario vacío, botón habilitado y sin mensajes 441ms
+     ✓ RQ3·C-P2 (cargando): el botón se deshabilita con "Enviando…" y una segunda orden no duplica la petición 937ms
+     ✓ RQ3·C-P3 (éxito): llama con el correo escrito y muestra la confirmación genérica del servidor 595ms
+     ✓ RQ3·C-N1 (error del servidor): muestra el mensaje, mantiene el formulario y rehabilita el botón 562ms
+     ✓ RQ3·C-N2 (excepción inesperada): muestra un mensaje de respaldo y no se queda cargando 549ms
+     ✓ RQ3·C-N3 (validación propia): un correo que el navegador acepta pero la regla rechaza → mensaje y ninguna petición 385ms
+     ✓ RQ3·C-N4 (validación nativa) correo sin arroba → el navegador bloquea el envío y no hay petición 487ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/integration/rq1-registro-usuarios-admin.integration.test.tsx (4 tests) 5616ms
+   ✓ RQ1 — Registro de usuarios desde admin (integración) (4)
+     ✓ bloquea la creación con una contraseña que no cumple la política y no llama a la API 2366ms
+     ✓ con una contraseña válida, crea el usuario, lo agrega a la tabla y cierra el modal 1498ms
+     ✓ si la API rechaza la creación, muestra el mensaje de error y deja el modal abierto 1605ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/integration/rq5-componente-reset.test.tsx (18 tests) 8747ms
+   ✓ RQ3 / RQ5 — Componente ResetPassword (18)
+     ✓ RQ5·C-P2 (token válido): aparece el formulario con el correo bloqueado y el botón habilitado 387ms
+     ✓ RQ5·C-P3 (cargando): al enviar, el botón se deshabilita con "Actualizando…" y no se duplica la petición 1220ms
+     ✓ RQ5·C-P4 (éxito): envía token, correo y contraseña, y muestra "Contraseña actualizada" con acceso al login 823ms
+     ✓ RQ5·C-N3 (rechazo del servidor): muestra el motivo, conserva el formulario y rehabilita el botón 813ms
+     ✓ RQ5·C-N4 (excepción inesperada): mensaje de respaldo y no queda cargando 929ms
+     ✓ RQ5·C-N5 (política) contraseña menos de 8 caracteres → "Ab1!" y ninguna petición 470ms
+     ✓ RQ5·C-N5 (política) contraseña sin mayúscula → "passw0rd!" y ninguna petición 567ms
+     ✓ RQ5·C-N5 (política) contraseña sin minúscula → "PASSW0RD!" y ninguna petición 601ms
+     ✓ RQ5·C-N5 (política) contraseña sin número → "Password!" y ninguna petición 571ms
+     ✓ RQ5·C-N5 (política) contraseña sin carácter especial → "Passw0rd1" y ninguna petición 553ms
+     ✓ RQ5·C-N6 (confirmación distinta): "Las contraseñas no coinciden" y ninguna petición 717ms
+     ✓ RQ5·C-P5 (corrección): al volver a escribir se limpia el error del campo 483ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/integration/rq2-componente-login.test.tsx (13 tests) 9694ms
+   ✓ RQ2 — Componente Login (13)
+     ✓ RQ2·C-P1 (estado inicial): campos vacíos, botón habilitado, sin mensaje de error y sin llamadas 536ms
+     ✓ RQ2·C-P2 (cargando): mientras espera, el botón queda deshabilitado con "Iniciando sesión…" 1153ms
+     ✓ RQ2·C-N1 (anti doble envío): varios clics y Enter durante la espera producen UNA sola petición 1064ms
+     ✓ RQ2·C-P3 (éxito): guarda el token, entra al panel y deja de mostrar el formulario 777ms
+     ✓ RQ2·C-P4 (teclado): se puede enviar con Enter desde el campo de contraseña 596ms
+     ✓ RQ2·C-N2 (error del servidor): muestra el mensaje, conserva el correo, rehabilita el botón y no guarda sesión 793ms
+     ✓ RQ2·C-N3 (error sin mensaje del servidor (red caída)) muestra un mensaje comprensible y permite reintentar 783ms
+     ✓ RQ2·C-N3 (error con 500 y mensaje) muestra un mensaje comprensible y permite reintentar 826ms
+     ✓ RQ2·C-N4 (reintento): tras un error, un segundo intento correcto entra y borra el mensaje 1000ms
+     ✓ RQ2·C-N5 (validación) correo sin arroba → mensaje de formato y ninguna petición 698ms
+     ✓ RQ2·C-N5 (validación) correo sin dominio → mensaje de formato y ninguna petición 606ms
+     ✓ RQ2·C-N5 (validación) correo con espacios → mensaje de formato y ninguna petición 723ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/security/rq2-login-sesion.security.test.tsx (10 tests) 4387ms
+   ✓ RQ2 — Seguridad del login en el front (6)
+     ✓ un mensaje de error con HTML se muestra como texto, sin crear elementos 1159ms
+     ✓ un login fallido no deja token ni usuario en el almacenamiento 752ms
+     ✓ la contraseña nunca se escribe en la consola ni en el almacenamiento 719ms
+     ✓ con un login correcto el JWT queda en localStorage (riesgo conocido: lo lee cualquier XSS; ver documento) 715ms
+     ✓ regreso pendiente a una ruta interna se respeta 710ms
+ ✓ src/test/integration/rq5-restablecer-contrasena.integration.test.tsx (7 tests) 3607ms
+   ✓ RQ5 — Restablecimiento de contraseña (integración) (7)
+     ✓ con token válido, una contraseña débil bloquea el envío y no llama a resetPassword 608ms
+     ✓ con contraseñas que no coinciden, muestra el error de confirmación 590ms
+     ✓ con una contraseña válida y confirmada, llama a resetPassword y muestra la pantalla de éxito 686ms
+     ✓ muestra el rechazo del servidor, pide la clave y deja ver la contraseña 1092ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/integration/rq2-login-page.integration.test.tsx (7 tests) 14034ms
+   ✓ RQ2 — Login (pantalla real) (7)
+     ✓ valida el formato del correo antes de intentar el login 2317ms
+     ✓ con credenciales correctas, inicia sesión y redirige al dashboard del rol 1409ms
+     ✓ con contraseña incorrecta, muestra el error del backend y no navega 1381ms
+     ✓ el campo de contraseña es obligatorio a nivel de formulario (HTML5) antes de poder enviarlo 715ms
+     ✓ abre los tipos de usuario, limpia el correo y manda a recuperar la contraseña 5571ms
+     ✓ si el rol no coincide, muestra ese error y respeta un regreso pendiente 1753ms
+     ✓ el envío directo sin contraseña o con correo inválido no llama al login 870ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/security/rq3-rq5-recuperacion.security.test.tsx (21 tests) 3414ms
+   ✓ RQ3 / RQ3.1 — Solicitud de recuperación en el front (7)
+     ✓ muestra exactamente el mensaje genérico del servidor y no confirma si el correo existe 1407ms
+     ✓ un mensaje del back con HTML se muestra como texto 530ms
+   ✓ RQ3 / RQ5 — Restablecer contraseña en el front (7)
+     ✓ con enlace válido: contraseñas débiles o distintas no llegan a la API 450ms
+     ✓ con enlace válido y contraseña correcta, el POST lleva token, correo y contraseña, y la respuesta no deja rastro en pantalla 778ms
+Error: Uncaught [Error: useAuth must be used within an AuthProvider]
+    at reportException (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+    at innerInvokeEventListeners (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+    at invokeEventListeners (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+    at HTMLUnknownElementImpl._dispatch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+    at HTMLUnknownElementImpl.dispatchEvent (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+    at HTMLUnknownElement.dispatchEvent (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+    at Object.invokeGuardedCallbackDev (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:4213:16)
+    at invokeGuardedCallback (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:4277:31)
+    at beginWork$1 (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:27490:7)
+    at performUnitOfWork (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:26599:12) Error: useAuth must be used within an AuthProvider
+    at Module.useAuth (EntreAulas_Front/src/context/AuthContext.tsx:47:11)
+    at Panel (EntreAulas_Front/src/test/unit/autenticacion/rq2-auth-context.test.tsx:37:16)
+    at renderWithHooks (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+    at innerInvokeEventListeners (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+    at invokeEventListeners (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+    at HTMLUnknownElementImpl._dispatch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+Error: Uncaught [Error: useAuth must be used within an AuthProvider]
+    at reportException (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+    at innerInvokeEventListeners (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+    at invokeEventListeners (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+    at HTMLUnknownElementImpl._dispatch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+    at HTMLUnknownElementImpl.dispatchEvent (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+    at HTMLUnknownElement.dispatchEvent (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+    at Object.invokeGuardedCallbackDev (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:4213:16)
+    at invokeGuardedCallback (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:4277:31)
+    at beginWork$1 (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:27490:7)
+    at performUnitOfWork (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:26599:12) Error: useAuth must be used within an AuthProvider
+    at Module.useAuth (EntreAulas_Front/src/context/AuthContext.tsx:47:11)
+    at Panel (EntreAulas_Front/src/test/unit/autenticacion/rq2-auth-context.test.tsx:37:16)
+    at renderWithHooks (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+    at innerInvokeEventListeners (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+    at invokeEventListeners (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+    at HTMLUnknownElementImpl._dispatch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+stderr | src/test/unit/autenticacion/rq2-auth-context.test.tsx > RQ2 — sesión del contexto > fuera del proveedor no hay sesión
+The above error occurred in the <Panel> component:
+
+    at Panel (EntreAulas_Front/src/test/unit/autenticacion/rq2-auth-context.test.tsx:44:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at Object.logout (EntreAulas_Front/src/context/AuthContext.tsx:116:25)
+    at onClick (EntreAulas_Front/src/test/unit/autenticacion/rq2-auth-context.test.tsx:53:49)
+    at HTMLUnknownElement.callCallback (EntreAulas_Front/node_modules/react-dom/cjs/react-dom.development.js:4164:14) undefined
+ ✓ src/test/unit/autenticacion/rq2-auth-context.test.tsx (7 tests) 1180ms
+   ✓ RQ2 — sesión del contexto (7)
+     ✓ con sesión reconoce el permiso, cambia de rol y entra con un rol elegido 487ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/integration/rq3-4-solicitud-y-envio-recuperacion.integration.test.tsx (6 tests) 3292ms
+   ✓ RQ3.1 + RQ4 — Solicitud y envío de correo de recuperación (integración) (6)
+     ✓ monta sin lanzar y muestra el formulario de solicitud 548ms
+     ✓ con un correo con formato inválido, bloquea el envío y no llama a la API 851ms
+     ✓ con un correo válido, solicita el envío y muestra la pantalla de confirmación 553ms
+     ✓ si el backend falla, muestra el mensaje de error y se queda en el formulario 488ms
+     ✓ si la petición se cae, muestra el error de red y el enlace de regreso sigue en la pantalla 725ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/integration/rq2-login.integration.test.tsx (4 tests) 718ms
+   ✓ RQ2 — Login (integración) (4)
+     ✓ con credenciales válidas y un solo rol, guarda el token y el usuario en la sesión 498ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/api/rq1-rq5-contrato-cliente.api.test.ts (30 tests) 341ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/integration/rq1-rq5-accesibilidad.test.tsx (5 tests) 1904ms
+   ✓ RQ1–RQ5 — Accesibilidad básica de las pantallas (5)
+     ✓ RQ2·AX-P1: Login — todos los campos tienen etiqueta y el botón de envío tiene texto 598ms
+     ✓ RQ2·AX-P2: Login — con solo el teclado se llega correo → contraseña → botón de envío (y Enter lo activa) 407ms
+     ✓ RQ1·AX-P5: AdminUsersPage — los campos del modal de alta tienen etiqueta y "Cerrar" tiene nombre 733ms
+ ✓ src/test/integration/rq1-componente-admin-usuarios.test.tsx (16 tests) 18836ms
+   ✓ RQ1 — Componente AdminUsersPage (16)
+     ✓ RQ1·C-P1 (cargando la lista): muestra "Cargando usuarios…" y luego lo oculta 502ms
+     ✓ RQ1·C-P3 (abrir y cerrar el modal): "Cerrar" descarta el formulario sin llamar a la API 862ms
+     ✓ RQ1·C-P4 (guardando): el botón se deshabilita con "Guardando…" y varios clics producen UNA sola creación 1783ms
+     ✓ RQ1·C-P5 (éxito): envía el correo institucional completo, cierra el modal y agrega la fila 1596ms
+     ✓ RQ1·C-N2 (error 400 correo duplicado) muestra "{ response: [Object] }", deja el modal abierto y rehabilita el botón 1619ms
+     ✓ RQ1·C-N2 (error 401 sesión vencida) muestra "{ response: [Object] }", deja el modal abierto y rehabilita el botón 1574ms
+     ✓ RQ1·C-N2 (error 403 sin permiso) muestra "{ response: [Object] }", deja el modal abierto y rehabilita el botón 1587ms
+     ✓ RQ1·C-N2 (error 500 interno) muestra "{ response: [Object] }", deja el modal abierto y rehabilita el botón 1523ms
+     ✓ RQ1·C-N2 (error sin respuesta (red caída)) muestra "Error: Network Error", deja el modal abierto y rehabilita el botón 1864ms
+     ✓ RQ1·C-N3 (validación) contraseña corta → "corta" y ninguna petición 1221ms
+     ✓ RQ1·C-N3 (validación) sin mayúscula → "abcdef1!" y ninguna petición 1308ms
+     ✓ RQ1·C-N4 (dominio impuesto): aunque se escriba otro dominio, el correo enviado tiene una sola @ y es el institucional del tipo elegido 1330ms
+     ✓ RQ1·C-N5 (caracteres inválidos): un usuario de correo con símbolos no se envía y se explica el formato 1326ms
+     ✓ RQ1·C-P6 (búsqueda): filtra la tabla por texto y muestra el mensaje cuando nada coincide 405ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/unit/autenticacion/rq1-registro-usuarios-admin.test.ts (28 tests) 63ms
+ ✓ src/test/unit/autenticacion/rq3-2-validacion-token.test.ts (9 tests) 32ms
+ ✓ src/test/unit/autenticacion/rq5-restablecer-contrasena.test.ts (10 tests) 39ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+ ✓ src/test/unit/autenticacion/rq2-login.test.ts (21 tests) 40ms
+ ✓ src/test/unit/autenticacion/rq4-envio-correo-recuperacion.test.ts (5 tests) 25ms
+ ✓ src/test/unit/autenticacion/rq3-1-solicitud-recuperacion.test.ts (4 tests) 15ms
+ ✓ src/test/security/rq1-admin-usuarios.security.test.tsx (20 tests) 21299ms
+   ✓ RQ1 — Entradas del formulario de alta (12)
+     ✓ un usuario de correo con arroba y dominio ajeno no puede cambiar el dominio ni inyectar cabeceras 4852ms
+     ✓ un usuario de correo con arroba no puede cambiar el dominio ni inyectar cabeceras 2608ms
+     ✓ un usuario de correo con espacios no puede cambiar el dominio ni inyectar cabeceras 2131ms
+     ✓ un usuario de correo con salto de línea (CRLF) no puede cambiar el dominio ni inyectar cabeceras 2349ms
+     ✓ contraseña débil "12345678" → no se llama a la API 2195ms
+     ✓ contraseña débil "abcdefgh" → no se llama a la API 1699ms
+     ✓ contraseña débil "ABCDEFGH" → no se llama a la API 1392ms
+     ✓ contraseña débil "Abcdefgh" → no se llama a la API 1481ms
+     ✓ contraseña débil "Abcdefg1" → no se llama a la API 1312ms
+     ✓ un mensaje de error del back con HTML se muestra como texto 930ms
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (EntreAulas_Front/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at navigateFetch (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:77:3)
+    at exports.navigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/navigation.js:55:3)
+    at LocationImpl._locationObjectNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:30:5)
+    at LocationImpl._locationObjectSetterNavigate (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:24:17)
+    at LocationImpl.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js:46:10)
+    at Location.set href [as href] (EntreAulas_Front/node_modules/jsdom/lib/jsdom/living/generated/Location.js:125:37)
+    at EntreAulas_Front/src/api/client.ts:40:25
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Axios.request (file://EntreAulas_Front/node_modules/axios/lib/core/Axios.js:42:14) undefined
+
+ Test Files  21 passed (21)
+      Tests  255 passed (255)
+   Start at  15:04:42
+   Duration  25.69s (tests 64%, environment 18%, import 9%, setup 6%, transform 2%, worker 2%)
+
+    Isolate  21 workers spawned · ~1.73s startup each (spawn + environment, per file)
+             at least ~3.47s faster with isolate: false — reuses workers across files instead of one per file
+
+JUNIT report written to EntreAulas_Front/reports/junit/rq1-rq5.xml
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   78.52 |    79.42 |   66.93 |   80.54 |                   
+ api               |   74.19 |       95 |   59.09 |   73.77 |                   
+  auth.ts          |      75 |      100 |   71.42 |      75 | 49-50,56          
+  client.ts        |   95.65 |    92.85 |      80 |   95.45 | 23                
+  users.ts         |      20 |      100 |   14.28 |      20 | 68-74,83-103      
+ features/auth     |    96.8 |    93.75 |   95.91 |    98.7 |                   
+  ...tPassword.tsx |   96.42 |    92.85 |     100 |     100 | 79                
+  Login.tsx        |   98.36 |    94.87 |     100 |   98.36 | 121               
+  ...tPassword.tsx |   97.29 |    97.01 |    92.3 |   98.55 | 153               
+  ...board-path.ts |   87.87 |       80 |   85.71 |   95.83 | 49                
+ ...ashboard-admin |   53.47 |    46.72 |   41.17 |   55.95 |                   
+  ...UsersPage.tsx |   53.47 |    46.72 |   41.17 |   55.95 | ...70,556,580-668 
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 78.52% ( 406/517 )
+Branches     : 79.42% ( 274/345 )
+Functions    : 66.93% ( 83/124 )
+Lines        : 80.54% ( 385/478 )
+================================================================================

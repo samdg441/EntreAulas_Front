@@ -69,3 +69,12 @@ export function getRoleDescription(role: string): string {
   }
   return 'Acceso administrativo'
 }
+
+/**
+ * DEF-FE-04: solo se vuelve a rutas internas de la SPA («/algo»). Se descartan URLs absolutas,
+ * protocol-relative («//evil»), «/\\evil» y esquemas como «javascript:», que convertirían el login en una redirección abierta.
+ */
+export function esRutaInterna(destino: string | null | undefined): destino is string {
+  return typeof destino === 'string' && /^\/(?![/\\])/.test(destino)
+}
+

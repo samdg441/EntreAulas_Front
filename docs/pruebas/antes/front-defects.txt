@@ -1,0 +1,2051 @@
+npm notice run entre-aulas-front@0.0.1 test:defects
+npm notice run node scripts/vitest.mjs run src/test/defects
+
+ RUN  v5.0.3 EntreAulas_Front
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts (13 tests | 13 failed) 43ms
+   ❯ DEF-FE-05 — nginx.conf (7)
+     × envía content-security-policy 14ms
+     × envía x-content-type-options 2ms
+     × envía x-frame-options (o frame-ancestors) 2ms
+     × envía referrer-policy 2ms
+     × envía strict-transport-security 2ms
+     × comprime las respuestas (gzip on) 2ms
+     × oculta la versión de nginx (server_tokens off) 1ms
+   ❯ DEF-FE-05 — vercel.json (5)
+     × envía content-security-policy 4ms
+     × envía x-content-type-options 1ms
+     × envía referrer-policy 1ms
+     × envía x-frame-options 1ms
+     × envía strict-transport-security 1ms
+   ❯ DEF-FE-05 — index.html (1)
+     × declara una política de contenido (meta CSP) como defensa mínima si el servidor no la envía 1ms
+ ❯ src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx (6 tests | 6 failed) 2794ms
+   ❯ DEF-FE-08 — Botones de icono con nombre accesible (1)
+     × los botones de mostrar/ocultar contraseña de ResetPassword tienen aria-label 184ms
+   ❯ DEF-FE-09 — Los errores se anuncian (role="alert" o aria-live) (3)
+     × Login: «Credenciales inválidas» está en una región de alerta 672ms
+     × ForgotPassword: el error del servidor está en una región de alerta 275ms
+     × ResetPassword: el rechazo del servidor está en una región de alerta 421ms
+   ❯ DEF-FE-10 — El campo con error queda enlazado a su mensaje (1)
+     × ResetPassword: una contraseña débil marca el campo con aria-invalid 1177ms
+   ❯ DEF-FE-11 — Un solo punto de tabulación para el botón de login (1)
+     × desde la contraseña, UNA tabulación llega al botón «Iniciar sesión» 56ms
+ ❯ src/test/defects/DEF-FE-04-redireccion-abierta-tras-login.test.tsx (4 tests | 4 failed) 5335ms
+   ❯ DEF-FE-04 — Redirección tras el login solo a rutas internas (4)
+     × redirectTo = https://evil.example/phishing no se usa como destino 1614ms
+     × redirectTo = //evil.example/phishing no se usa como destino 1238ms
+     × redirectTo = javascript:alert(1) no se usa como destino 1230ms
+     × redirectTo = http://localhost.evil.example no se usa como destino 1242ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 23 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/defects/DEF-FE-04-redireccion-abierta-tras-login.test.tsx > DEF-FE-04 — Redirección tras el login solo a rutas internas > redirectTo = https://evil.example/phishing no se usa como destino
+ FAIL  src/test/defects/DEF-FE-04-redireccion-abierta-tras-login.test.tsx > DEF-FE-04 — Redirección tras el login solo a rutas internas > redirectTo = //evil.example/phishing no se usa como destino
+ FAIL  src/test/defects/DEF-FE-04-redireccion-abierta-tras-login.test.tsx > DEF-FE-04 — Redirección tras el login solo a rutas internas > redirectTo = javascript:alert(1) no se usa como destino
+ FAIL  src/test/defects/DEF-FE-04-redireccion-abierta-tras-login.test.tsx > DEF-FE-04 — Redirección tras el login solo a rutas internas > redirectTo = http://localhost.evil.example no se usa como destino
+TestingLibraryElementError: Unable to find an element by: [data-testid="ubicacion"]
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen flex items-center justify-center p-4 bg-gray-100"
+      style="background-image: url(\"/src/assets/fondo.webp\"); background-size: cover; background-position: center;"
+    >
+      <div
+        class="absolute inset-0 bg-black bg-opacity-60"
+      />
+      <div
+        class="w-full max-w-md sm:max-w-lg relative z-10"
+        style="opacity: 1; transform: none;"
+      >
+        <div
+          class="bg-card text-card-foreground rounded-xl border border-border bg-white shadow-xl p-4 sm:p-8"
+        >
+          <div
+            class="text-center mb-8"
+          >
+            <div
+              class="flex justify-center mb-3"
+              style="transform: none;"
+            >
+              <img
+                alt="Logo Universidad de Medellín"
+                class="h-20 w-20 sm:h-[140px] sm:w-[150px] object-contain"
+                src="/src/assets/logo_conciencia.webp"
+              />
+            </div>
+            <h1
+              class="text-xl sm:text-2xl font-bold text-gray-800"
+            >
+              EntreAulas
+            </h1>
+            <p
+              class="text-gray-600 mt-2 text-xs sm:text-sm"
+            >
+              Accede con tus credenciales institucionales
+            </p>
+          </div>
+          <form
+            class="space-y-4"
+          >
+            <div>
+              <h2
+                class="text-base font-medium text-gray-700 mb-3"
+              >
+                Tipo de Usuario
+              </h2>
+              <div
+                class="relative z-10"
+              >
+                <button
+                  class="flex items-center justify-between w-full p-3 border border-gray-300 rounded-lg bg-white hover:border-red-500 transition-colors text-base"
+                  type="button"
+                >
+                  <div
+                    class="flex items-center"
+                  >
+                    <span
+                      class="mr-2 text-red-600"
+                    >
+                      <svg
+                        class="h-4 w-4"
+                        fill="currentColor"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 640 512"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="text-gray-800"
+                    >
+                      Estudiante
+                    </span>
+                  </div>
+                  <svg
+                    class="h-4 w-4 text-gray-500 transition-transform "
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="correo-institucional"
+              >
+                Correo Institucional
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 512 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+                  id="correo-institucional"
+                  placeholder="estudiante@universidad.edu"
+                  required=""
+                  type="email"
+                  value="e@uni.edu"
+                />
+              </div>
+            </div>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="contraseña"
+              >
+                Contraseña
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+                  id="contraseña"
+                  placeholder="••••••••"
+                  required=""
+                  type="password"
+                  value="Abcdef1!"
+                />
+              </div>
+            </div>
+            <div
+              class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+              style="opacity: 1; transform: none;"
+            >
+              Error en la autenticación
+            </div>
+            <div
+              style="transform: scale(1.02) translateZ(0);"
+              tabindex="0"
+            >
+              <button
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+                style="transform: scale(1.02) translateZ(0);"
+                tabindex="0"
+                type="submit"
+              >
+                <div
+                  class="flex items-center justify-center gap-2"
+                >
+                  <svg
+                    class="h-4 w-4"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 640 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z"
+                    />
+                  </svg>
+                  Iniciar sesión como 
+                  Estudiante
+                </div>
+              </button>
+            </div>
+          </form>
+          <div
+            class="text-center mt-4"
+          >
+            <button
+              class="text-sm text-red-600 hover:text-red-800 transition-colors"
+            >
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+          <div
+            class="my-4 border-t border-gray-300"
+          />
+          <div
+            class="text-center"
+          >
+            <p
+              class="text-xs text-gray-600"
+            >
+              Universidad de Medellín - EntreAulas
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen flex items-center justify-center p-4 bg-gray-100"
+      style="background-image: url(\"/src/assets/fondo.webp\"); background-size: cover; background-position: center;"
+    >
+      <div
+        class="absolute inset-0 bg-black bg-opacity-60"
+      />
+      <div
+        class="w-full max-w-md sm:max-w-lg relative z-10"
+        style="opacity: 1; transform: none;"
+      >
+        <div
+          class="bg-card text-card-foreground rounded-xl border border-border bg-white shadow-xl p-4 sm:p-8"
+        >
+          <div
+            class="text-center mb-8"
+          >
+            <div
+              class="flex justify-center mb-3"
+              style="transform: none;"
+            >
+              <img
+                alt="Logo Universidad de Medellín"
+                class="h-20 w-20 sm:h-[140px] sm:w-[150px] object-contain"
+                src="/src/assets/logo_conciencia.webp"
+              />
+            </div>
+            <h1
+              class="text-xl sm:text-2xl font-bold text-gray-800"
+            >
+              EntreAulas
+            </h1>
+            <p
+              class="text-gray-600 mt-2 text-xs sm:text-sm"
+            >
+              Accede con tus credenciales institucionales
+            </p>
+          </div>
+          <form
+            class="space-y-4"
+          >
+            <div>
+              <h2
+                class="text-base font-medium text-gray-700 mb-3"
+              >
+                Tipo de Usuario
+              </h2>
+              <div
+                class="relative z-10"
+              >
+                <button
+                  class="flex items-center justify-between w-full p-3 border border-gray-300 rounded-lg bg-white hover:border-red-500 transition-colors text-base"
+                  type="button"
+                >
+                  <div
+                    class="flex items-center"
+                  >
+                    <span
+                      class="mr-2 text-red-600"
+                    >
+                      <svg
+                        class="h-4 w-4"
+                        fill="currentColor"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 640 512"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="text-gray-800"
+                    >
+                      Estudiante
+                    </span>
+                  </div>
+                  <svg
+                    class="h-4 w-4 text-gray-500 transition-transform "
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="correo-institucional"
+              >
+                Correo Institucional
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 512 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+                  id="correo-institucional"
+                  placeholder="estudiante@universidad.edu"
+                  required=""
+                  type="email"
+                  value="e@uni.edu"
+                />
+              </div>
+            </div>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="contraseña"
+              >
+                Contraseña
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+                  id="contraseña"
+                  placeholder="••••••••"
+                  required=""
+                  type="password"
+                  value="Abcdef1!"
+                />
+              </div>
+            </div>
+            <div
+              class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+              style="opacity: 1; transform: none;"
+            >
+              Error en la autenticación
+            </div>
+            <div
+              style="transform: scale(1.02) translateZ(0);"
+              tabindex="0"
+            >
+              <button
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+                style="transform: scale(1.02) translateZ(0);"
+                tabindex="0"
+                type="submit"
+              >
+                <div
+                  class="flex items-center justify-center gap-2"
+                >
+                  <svg
+                    class="h-4 w-4"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 640 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z"
+                    />
+                  </svg>
+                  Iniciar sesión como 
+                  Estudiante
+                </div>
+              </button>
+            </div>
+          </form>
+          <div
+            class="text-center mt-4"
+          >
+            <button
+              class="text-sm text-red-600 hover:text-red-800 transition-colors"
+            >
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+          <div
+            class="my-4 border-t border-gray-300"
+          />
+          <div
+            class="text-center"
+          >
+            <p
+              class="text-xs text-gray-600"
+            >
+              Universidad de Medellín - EntreAulas
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/test/defects/DEF-FE-04-redireccion-abierta-tras-login.test.tsx:68:38
+     66|       await user.click(screen.getByRole('button', { name: /iniciar ses…
+     67|
+     68|       const ubicacion = await screen.findByTestId('ubicacion')
+       |                                      ^
+     69|       expect(ubicacion.textContent).toBe('/dashboard-estudiante')
+     70|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — nginx.conf > envía content-security-policy
+AssertionError: expected 'server {\n  listen 80;\n  server_name…' to match /add_header\s+Content-Security-Policy/i
+
+- Expected:
+/add_header\s+Content-Security-Policy/i
+
++ Received:
+"server {
+  listen 80;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location /assets/ {
+    add_header Cache-Control \"public, max-age=31536000, immutable\";
+    try_files $uri =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+"
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:38:19
+     36| describe('DEF-FE-05 — nginx.conf', () => {
+     37|   it.each(cabecerasRequeridas)('envía %s', (_nombre, patron) => {
+     38|     expect(nginx).toMatch(patron)
+       |                   ^
+     39|   })
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — nginx.conf > envía x-content-type-options
+AssertionError: expected 'server {\n  listen 80;\n  server_name…' to match /add_header\s+X-Content-Type-Options/i
+
+- Expected:
+/add_header\s+X-Content-Type-Options/i
+
++ Received:
+"server {
+  listen 80;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location /assets/ {
+    add_header Cache-Control \"public, max-age=31536000, immutable\";
+    try_files $uri =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+"
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:38:19
+     36| describe('DEF-FE-05 — nginx.conf', () => {
+     37|   it.each(cabecerasRequeridas)('envía %s', (_nombre, patron) => {
+     38|     expect(nginx).toMatch(patron)
+       |                   ^
+     39|   })
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — nginx.conf > envía x-frame-options (o frame-ancestors)
+AssertionError: expected 'server {\n  listen 80;\n  server_name…' to match /add_header\s+(X-Frame-Options|Conten…/i
+
+- Expected:
+/add_header\s+(X-Frame-Options|Content-Security-Policy[^;]*frame-ancestors)/i
+
++ Received:
+"server {
+  listen 80;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location /assets/ {
+    add_header Cache-Control \"public, max-age=31536000, immutable\";
+    try_files $uri =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+"
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:38:19
+     36| describe('DEF-FE-05 — nginx.conf', () => {
+     37|   it.each(cabecerasRequeridas)('envía %s', (_nombre, patron) => {
+     38|     expect(nginx).toMatch(patron)
+       |                   ^
+     39|   })
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — nginx.conf > envía referrer-policy
+AssertionError: expected 'server {\n  listen 80;\n  server_name…' to match /add_header\s+Referrer-Policy/i
+
+- Expected:
+/add_header\s+Referrer-Policy/i
+
++ Received:
+"server {
+  listen 80;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location /assets/ {
+    add_header Cache-Control \"public, max-age=31536000, immutable\";
+    try_files $uri =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+"
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:38:19
+     36| describe('DEF-FE-05 — nginx.conf', () => {
+     37|   it.each(cabecerasRequeridas)('envía %s', (_nombre, patron) => {
+     38|     expect(nginx).toMatch(patron)
+       |                   ^
+     39|   })
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — nginx.conf > envía strict-transport-security
+AssertionError: expected 'server {\n  listen 80;\n  server_name…' to match /add_header\s+Strict-Transport-Securi…/i
+
+- Expected:
+/add_header\s+Strict-Transport-Security/i
+
++ Received:
+"server {
+  listen 80;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location /assets/ {
+    add_header Cache-Control \"public, max-age=31536000, immutable\";
+    try_files $uri =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+"
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:38:19
+     36| describe('DEF-FE-05 — nginx.conf', () => {
+     37|   it.each(cabecerasRequeridas)('envía %s', (_nombre, patron) => {
+     38|     expect(nginx).toMatch(patron)
+       |                   ^
+     39|   })
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — nginx.conf > comprime las respuestas (gzip on)
+AssertionError: expected 'server {\n  listen 80;\n  server_name…' to match /gzip\s+on/
+
+- Expected:
+/gzip\s+on/
+
++ Received:
+"server {
+  listen 80;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location /assets/ {
+    add_header Cache-Control \"public, max-age=31536000, immutable\";
+    try_files $uri =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+"
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:42:19
+     40|
+     41|   it('comprime las respuestas (gzip on)', () => {
+     42|     expect(nginx).toMatch(/gzip\s+on/)
+       |                   ^
+     43|   })
+     44|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — nginx.conf > oculta la versión de nginx (server_tokens off)
+AssertionError: expected 'server {\n  listen 80;\n  server_name…' to match /server_tokens\s+off/
+
+- Expected:
+/server_tokens\s+off/
+
++ Received:
+"server {
+  listen 80;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location /assets/ {
+    add_header Cache-Control \"public, max-age=31536000, immutable\";
+    try_files $uri =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+"
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:46:19
+     44|
+     45|   it('oculta la versión de nginx (server_tokens off)', () => {
+     46|     expect(nginx).toMatch(/server_tokens\s+off/)
+       |                   ^
+     47|   })
+     48| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — vercel.json > envía content-security-policy
+AssertionError: expected [ 'cache-control', 'cache-control' ] to include 'content-security-policy'
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:52:29
+     50| describe('DEF-FE-05 — vercel.json', () => {
+     51|   it.each(['content-security-policy', 'x-content-type-options', 'refer…
+     52|     expect(cabecerasVercel).toContain(cabecera)
+       |                             ^
+     53|   })
+     54| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — vercel.json > envía x-content-type-options
+AssertionError: expected [ 'cache-control', 'cache-control' ] to include 'x-content-type-options'
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:52:29
+     50| describe('DEF-FE-05 — vercel.json', () => {
+     51|   it.each(['content-security-policy', 'x-content-type-options', 'refer…
+     52|     expect(cabecerasVercel).toContain(cabecera)
+       |                             ^
+     53|   })
+     54| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — vercel.json > envía referrer-policy
+AssertionError: expected [ 'cache-control', 'cache-control' ] to include 'referrer-policy'
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:52:29
+     50| describe('DEF-FE-05 — vercel.json', () => {
+     51|   it.each(['content-security-policy', 'x-content-type-options', 'refer…
+     52|     expect(cabecerasVercel).toContain(cabecera)
+       |                             ^
+     53|   })
+     54| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — vercel.json > envía x-frame-options
+AssertionError: expected [ 'cache-control', 'cache-control' ] to include 'x-frame-options'
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:52:29
+     50| describe('DEF-FE-05 — vercel.json', () => {
+     51|   it.each(['content-security-policy', 'x-content-type-options', 'refer…
+     52|     expect(cabecerasVercel).toContain(cabecera)
+       |                             ^
+     53|   })
+     54| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — vercel.json > envía strict-transport-security
+AssertionError: expected [ 'cache-control', 'cache-control' ] to include 'strict-transport-security'
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:52:29
+     50| describe('DEF-FE-05 — vercel.json', () => {
+     51|   it.each(['content-security-policy', 'x-content-type-options', 'refer…
+     52|     expect(cabecerasVercel).toContain(cabecera)
+       |                             ^
+     53|   })
+     54| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts > DEF-FE-05 — index.html > declara una política de contenido (meta CSP) como defensa mínima si el servidor no la envía
+AssertionError: expected '<!doctype html>\n<html lang="es">\n  …' to match /http-equiv=["']Content-Security-Poli…/i
+
+- Expected:
+/http-equiv=["']Content-Security-Policy["']/i
+
++ Received:
+"<!doctype html>
+<html lang=\"es\">
+  <head>
+    <meta charset=\"UTF-8\" />
+    <link rel=\"icon\" type=\"image/x-icon\" href=\"/favicon.ico\" />
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
+    <title>EntreAulas</title>
+  </head>
+  <body>
+    <div id=\"root\"></div>
+    <script type=\"module\" src=\"/src/main.tsx\"></script>
+  </body>
+</html>
+"
+
+ ❯ src/test/defects/DEF-FE-05-despliegue-sin-cabeceras-de-seguridad.test.ts:58:19
+     56| describe('DEF-FE-05 — index.html', () => {
+     57|   it('declara una política de contenido (meta CSP) como defensa mínima…
+     58|     expect(index).toMatch(/http-equiv=["']Content-Security-Policy["']/…
+       |                   ^
+     59|   })
+     60| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx > DEF-FE-08 — Botones de icono con nombre accesible > los botones de mostrar/ocultar contraseña de ResetPassword tienen aria-label
+AssertionError: expected [ <button …(2)>…(1)</button>, …(1) ] to have a length of +0 but got 2
+
+- Expected
++ Received
+
+- 0
++ 2
+
+ ❯ src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx:49:23
+     47|     )
+     48|
+     49|     expect(sinNombre).toHaveLength(0)
+       |                       ^
+     50|   })
+     51| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx > DEF-FE-09 — Los errores se anuncian (role="alert" o aria-live) > Login: «Credenciales inválidas» está en una región de alerta
+TestingLibraryElementError: Unable to find an accessible element with the role "alert"
+
+Here are the accessible roles:
+
+  img:
+
+  Name "Logo Universidad de Medellín":
+  <img
+    alt="Logo Universidad de Medellín"
+    class="h-20 w-20 sm:h-[140px] sm:w-[150px] object-contain"
+    src="/src/assets/logo_conciencia.webp"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "EntreAulas":
+  <h1
+    class="text-xl sm:text-2xl font-bold text-gray-800"
+  />
+
+  Name "Tipo de Usuario":
+  <h2
+    class="text-base font-medium text-gray-700 mb-3"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="text-gray-600 mt-2 text-xs sm:text-sm"
+  />
+
+  Name "":
+  <p
+    class="text-xs text-gray-600"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Estudiante":
+  <button
+    class="flex items-center justify-between w-full p-3 border border-gray-300 rounded-lg bg-white hover:border-red-500 transition-colors text-base"
+    type="button"
+  />
+
+  Name "Iniciar sesión como Estudiante":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+    style="transform: scale(1.0017885063171486) translateZ(0);"
+    tabindex="0"
+    type="submit"
+  />
+
+  Name "¿Olvidaste tu contraseña?":
+  <button
+    class="text-sm text-red-600 hover:text-red-800 transition-colors"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Correo Institucional":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+    id="correo-institucional"
+    placeholder="estudiante@universidad.edu"
+    required=""
+    type="email"
+    value="estudiante@uni.edu"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen flex items-center justify-center p-4 bg-gray-100"
+      style="background-image: url(\"/src/assets/fondo.webp\"); background-size: cover; background-position: center;"
+    >
+      <div
+        class="absolute inset-0 bg-black bg-opacity-60"
+      />
+      <div
+        class="w-full max-w-md sm:max-w-lg relative z-10"
+        style="opacity: 0.9973488823452499; transform: translateY(0.05302235309500247px) translateZ(0);"
+      >
+        <div
+          class="bg-card text-card-foreground rounded-xl border border-border bg-white shadow-xl p-4 sm:p-8"
+        >
+          <div
+            class="text-center mb-8"
+          >
+            <div
+              class="flex justify-center mb-3"
+              style="transform: scale(0.9987358961196151) translateZ(0);"
+            >
+              <img
+                alt="Logo Universidad de Medellín"
+                class="h-20 w-20 sm:h-[140px] sm:w-[150px] object-contain"
+                src="/src/assets/logo_conciencia.webp"
+              />
+            </div>
+            <h1
+              class="text-xl sm:text-2xl font-bold text-gray-800"
+            >
+              EntreAulas
+            </h1>
+            <p
+              class="text-gray-600 mt-2 text-xs sm:text-sm"
+            >
+              Accede con tus credenciales institucionales
+            </p>
+          </div>
+          <form
+            class="space-y-4"
+          >
+            <div>
+              <h2
+                class="text-base font-medium text-gray-700 mb-3"
+              >
+                Tipo de Usuario
+              </h2>
+              <div
+                class="relative z-10"
+              >
+                <button
+                  class="flex items-center justify-between w-full p-3 border border-gray-300 rounded-lg bg-white hover:border-red-500 transition-colors text-base"
+                  type="button"
+                >
+                  <div
+                    class="flex items-center"
+                  >
+                    <span
+                      class="mr-2 text-red-600"
+                    >
+                      <svg
+                        class="h-4 w-4"
+                        fill="currentColor"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 640 512"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="text-gray-800"
+                    >
+                      Estudiante
+                    </span>
+                  </div>
+                  <svg
+                    class="h-4 w-4 text-gray-500 transition-transform "
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="correo-institucional"
+              >
+                Correo Institucional
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 512 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+                  id="correo-institucional"
+                  placeholder="estudiante@universidad.edu"
+                  required=""
+                  type="email"
+                  value="estudiante@uni.edu"
+                />
+              </div>
+            </div>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="contraseña"
+              >
+                Contraseña
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+                  id="contraseña"
+                  placeholder="••••••••"
+                  required=""
+                  type="password"
+                  value="mala"
+                />
+              </div>
+            </div>
+            <div
+              class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+              style="opacity: 0.0014430733470362615; transform: translateY(-5px) translateZ(0);"
+            >
+              Credenciales inválidas
+            </div>
+            <div
+              style="transform: scale(1.0016685596951154) translateZ(0);"
+              tabindex="0"
+            >
+              <button
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+                style="transform: scale(1.0017885063171486) translateZ(0);"
+                tabindex="0"
+                type="submit"
+              >
+                <div
+                  class="flex items-center justify-center gap-2"
+                >
+                  <svg
+                    class="h-4 w-4"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 640 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z"
+                    />
+                  </svg>
+                  Iniciar sesión como 
+                  Estudiante
+                </div>
+              </button>
+            </div>
+          </form>
+          <div
+            class="text-center mt-4"
+          >
+            <button
+              class="text-sm text-red-600 hover:text-red-800 transition-colors"
+            >
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+          <div
+            class="my-4 border-t border-gray-300"
+          />
+          <div
+            class="text-center"
+          >
+            <p
+              class="text-xs text-gray-600"
+            >
+              Universidad de Medellín - EntreAulas
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx:71:19
+     69|     await screen.findByText('Credenciales inválidas')
+     70|
+     71|     expect(screen.getByRole('alert')).toHaveTextContent('Credenciales …
+       |                   ^
+     72|   })
+     73|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx > DEF-FE-09 — Los errores se anuncian (role="alert" o aria-live) > ForgotPassword: el error del servidor está en una región de alerta
+TestingLibraryElementError: Unable to find an accessible element with the role "alert"
+
+Here are the accessible roles:
+
+  img:
+
+  Name "Logo Universidad de Medellín":
+  <img
+    alt="Logo Universidad de Medellín"
+    class="h-16 w-16 sm:h-24 sm:w-24 object-contain"
+    src="/src/assets/logo_conciencia.webp"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "EntreAulas":
+  <h1
+    class="text-xl sm:text-2xl font-bold text-gray-800"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="text-gray-600 mt-2 text-xs sm:text-sm"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600"
+  />
+
+  Name "":
+  <p
+    class="text-xs text-gray-600"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Correo Institucional":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+    id="correo-institucional"
+    placeholder="tu.correo@universidad.edu"
+    required=""
+    type="email"
+    value="ana@soyudemedellin.edu.co"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Enviar enlace de recuperación":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+    style="transform: scale(1.0007084958115557) translateZ(0);"
+    tabindex="0"
+    type="submit"
+  />
+
+  Name "Volver al inicio de sesión":
+  <button
+    class="flex items-center justify-center gap-2 text-sm text-red-600 hover:text-red-800 transition-colors mx-auto"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen flex items-center justify-center p-4 bg-gray-100"
+      style="background-image: url(\"/src/assets/fondo.webp\"); background-size: cover; background-position: center;"
+    >
+      <div
+        class="absolute inset-0 bg-black bg-opacity-60"
+      />
+      <div
+        class="w-full max-w-sm sm:max-w-md relative z-10"
+        style="opacity: 0.54936687022564; transform: translateY(9.071016534580849px) translateZ(0);"
+      >
+        <div
+          class="bg-card text-card-foreground rounded-xl border border-border bg-white shadow-xl p-4 sm:p-8"
+        >
+          <div
+            class="text-center mb-8"
+          >
+            <div
+              class="flex justify-center mb-3"
+              style="transform: scale(0.8) translateZ(0);"
+            >
+              <img
+                alt="Logo Universidad de Medellín"
+                class="h-16 w-16 sm:h-24 sm:w-24 object-contain"
+                src="/src/assets/logo_conciencia.webp"
+              />
+            </div>
+            <h1
+              class="text-xl sm:text-2xl font-bold text-gray-800"
+            >
+              EntreAulas
+            </h1>
+            <p
+              class="text-gray-600 mt-2 text-xs sm:text-sm"
+            >
+              Recuperar tu contraseña
+            </p>
+          </div>
+          <form
+            class="space-y-4"
+          >
+            <p
+              class="text-sm text-gray-600"
+            >
+              Ingresa tu correo institucional y te enviaremos un enlace para restablecer tu contraseña. El enlace caduca en 1 hora.
+            </p>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="correo-institucional"
+              >
+                Correo Institucional
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 512 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300"
+                  id="correo-institucional"
+                  placeholder="tu.correo@universidad.edu"
+                  required=""
+                  type="email"
+                  value="ana@soyudemedellin.edu.co"
+                />
+              </div>
+            </div>
+            <div
+              class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+            >
+              Error interno del servidor
+            </div>
+            <button
+              class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+              style="transform: scale(1.0007084958115557) translateZ(0);"
+              tabindex="0"
+              type="submit"
+            >
+              Enviar enlace de recuperación
+            </button>
+          </form>
+          <div
+            class="text-center mt-6"
+          >
+            <button
+              class="flex items-center justify-center gap-2 text-sm text-red-600 hover:text-red-800 transition-colors mx-auto"
+            >
+              <svg
+                class="h-3 w-3"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"
+                />
+              </svg>
+              Volver al inicio de sesión
+            </button>
+          </div>
+          <div
+            class="text-center mt-6 pt-4 border-t border-gray-200"
+          >
+            <p
+              class="text-xs text-gray-600"
+            >
+              Universidad de Medellín - EntreAulas
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx:82:19
+     80|     await screen.findByText('Error interno del servidor')
+     81|
+     82|     expect(screen.getByRole('alert')).toHaveTextContent('Error interno…
+       |                   ^
+     83|   })
+     84|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx > DEF-FE-09 — Los errores se anuncian (role="alert" o aria-live) > ResetPassword: el rechazo del servidor está en una región de alerta
+TestingLibraryElementError: Unable to find an accessible element with the role "alert"
+
+Here are the accessible roles:
+
+  img:
+
+  Name "Logo Universidad de Medellín":
+  <img
+    alt="Logo Universidad de Medellín"
+    class="h-16 w-16 sm:h-24 sm:w-24 object-contain"
+    src="/src/assets/logo_conciencia.webp"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "EntreAulas":
+  <h1
+    class="text-xl sm:text-2xl font-bold text-gray-800"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="text-gray-600 mt-2 text-xs sm:text-sm"
+  />
+
+  Name "":
+  <p
+    class="text-xs text-gray-500"
+  />
+
+  Name "":
+  <p
+    class="text-xs text-gray-600"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Correo Institucional":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300 bg-gray-50 text-gray-600"
+    disabled=""
+    id="correo-institucional"
+    type="email"
+    value="a@b.co"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "":
+  <button
+    class="flex items-center"
+    type="button"
+  />
+
+  Name "":
+  <button
+    class="flex items-center"
+    type="button"
+  />
+
+  Name "Actualizar contraseña":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+    style="transform: scale(1.0004064870280842) translateZ(0);"
+    tabindex="0"
+    type="submit"
+  />
+
+  Name "Volver al inicio de sesión":
+  <button
+    class="flex items-center justify-center gap-2 text-sm text-red-600 hover:text-red-800 transition-colors mx-auto"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen flex items-center justify-center p-4 bg-gray-100"
+      style="background-image: url(\"/src/assets/fondo.webp\"); background-size: cover; background-position: center;"
+    >
+      <div
+        class="absolute inset-0 bg-black bg-opacity-60"
+      />
+      <div
+        class="w-full max-w-sm sm:max-w-md relative z-10"
+        style="opacity: 0.7505592175002676; transform: translateY(4.988815649994649px) translateZ(0);"
+      >
+        <div
+          class="bg-card text-card-foreground rounded-xl border border-border bg-white shadow-xl p-4 sm:p-8"
+        >
+          <div
+            class="text-center mb-8"
+          >
+            <div
+              class="flex justify-center mb-3"
+              style="transform: scale(0.8819968941097613) translateZ(0);"
+            >
+              <img
+                alt="Logo Universidad de Medellín"
+                class="h-16 w-16 sm:h-24 sm:w-24 object-contain"
+                src="/src/assets/logo_conciencia.webp"
+              />
+            </div>
+            <h1
+              class="text-xl sm:text-2xl font-bold text-gray-800"
+            >
+              EntreAulas
+            </h1>
+            <p
+              class="text-gray-600 mt-2 text-xs sm:text-sm"
+            >
+              Crear nueva contraseña
+            </p>
+          </div>
+          <form
+            class="space-y-4"
+          >
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="correo-institucional"
+              >
+                Correo Institucional
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 512 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300 bg-gray-50 text-gray-600"
+                  disabled=""
+                  id="correo-institucional"
+                  type="email"
+                  value="a@b.co"
+                />
+              </div>
+            </div>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="nueva-contraseña"
+              >
+                Nueva Contraseña
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-10 border-gray-300"
+                  id="nueva-contraseña"
+                  placeholder="••••••••"
+                  required=""
+                  type="password"
+                  value="Nueva-Clave2026!"
+                />
+                <div
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                >
+                  <button
+                    class="flex items-center"
+                    type="button"
+                  >
+                    <svg
+                      class="h-4 w-4 text-gray-500"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 576 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="space-y-1"
+            >
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="confirmar-nueva-contraseña"
+              >
+                Confirmar Nueva Contraseña
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-500"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-10 border-gray-300"
+                  id="confirmar-nueva-contraseña"
+                  placeholder="••••••••"
+                  required=""
+                  type="password"
+                  value="Nueva-Clave2026!"
+                />
+                <div
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                >
+                  <button
+                    class="flex items-center"
+                    type="button"
+                  >
+                    <svg
+                      class="h-4 w-4 text-gray-500"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 576 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p
+              class="text-xs text-gray-500"
+            >
+              Mínimo 8 caracteres, con mayúscula, minúscula, número y carácter especial.
+            </p>
+            <div
+              class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+            >
+              Token inválido o ya utilizado
+            </div>
+            <button
+              class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+              style="transform: scale(1.0004064870280842) translateZ(0);"
+              tabindex="0"
+              type="submit"
+            >
+              Actualizar contraseña
+            </button>
+          </form>
+          <div
+            class="text-center mt-6"
+          >
+            <button
+              class="flex items-center justify-center gap-2 text-sm text-red-600 hover:text-red-800 transition-colors mx-auto"
+            >
+              <svg
+                class="h-3 w-3"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"
+                />
+              </svg>
+              Volver al inicio de sesión
+            </button>
+          </div>
+          <div
+            class="text-center mt-6 pt-4 border-t border-gray-200"
+          >
+            <p
+              class="text-xs text-gray-600"
+            >
+              Universidad de Medellín - EntreAulas
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx:95:19
+     93|     await screen.findByText('Token inválido o ya utilizado')
+     94|
+     95|     expect(screen.getByRole('alert')).toHaveTextContent('Token inválid…
+       |                   ^
+     96|   })
+     97| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx > DEF-FE-10 — El campo con error queda enlazado a su mensaje > ResetPassword: una contraseña débil marca el campo con aria-invalid
+Error: expect(element).toHaveAttribute("aria-invalid", "true") // element.getAttribute("aria-invalid") === "true"
+
+Expected the element to have attribute:
+  aria-invalid="true"
+Received:
+  null
+
+Ignored nodes: comments, script, style
+<html>
+  <head />
+  <body>
+    <div>
+      <div
+        class="min-h-screen flex items-center justify-center p-4 bg-gray-100"
+        style="background-image: url(\"/src/assets/fondo.webp\"); background-size: cover; background-position: center;"
+      >
+        <div
+          class="absolute inset-0 bg-black bg-opacity-60"
+        />
+        <div
+          class="w-full max-w-sm sm:max-w-md relative z-10"
+          style="opacity: 1; transform: none;"
+        >
+          <div
+            class="bg-card text-card-foreground rounded-xl border border-border bg-white shadow-xl p-4 sm:p-8"
+          >
+            <div
+              class="text-center mb-8"
+            >
+              <div
+                class="flex justify-center mb-3"
+                style="transform: none;"
+              >
+                <img
+                  alt="Logo Universidad de Medellín"
+                  class="h-16 w-16 sm:h-24 sm:w-24 object-contain"
+                  src="/src/assets/logo_conciencia.webp"
+                />
+              </div>
+              <h1
+                class="text-xl sm:text-2xl font-bold text-gray-800"
+              >
+                EntreAulas
+              </h1>
+              <p
+                class="text-gray-600 mt-2 text-xs sm:text-sm"
+              >
+                Crear nueva contraseña
+              </p>
+            </div>
+            <form
+              class="space-y-4"
+            >
+              <div
+                class="space-y-1"
+              >
+                <label
+                  class="block text-sm font-medium text-gray-700"
+                  for="correo-institucional"
+                >
+                  Correo Institucional
+                </label>
+                <div
+                  class="relative"
+                >
+                  <div
+                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                  >
+                    <svg
+                      class="h-4 w-4 text-gray-500"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-3 border-gray-300 bg-gray-50 text-gray-600"
+                    disabled=""
+                    id="correo-institucional"
+                    type="email"
+                    value="a@b.co"
+                  />
+                </div>
+              </div>
+              <div
+                class="space-y-1"
+              >
+                <label
+                  class="block text-sm font-medium text-gray-700"
+                  for="nueva-contraseña"
+                >
+                  Nueva Contraseña
+                </label>
+                <div
+                  class="relative"
+                >
+                  <div
+                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                  >
+                    <svg
+                      class="h-4 w-4 text-gray-500"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-10 pr-10 border-red-500 focus:border-red-500 focus:ring-red-500"
+                    id="nueva-contraseña"
+                    placeholder="••••••••"
+                    required=""
+                    type="password"
+                    value="Ab1!"
+                  />
+                  <div
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    <button
+...
+ ❯ src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx:110:39
+    108|     await screen.findByText('La contraseña debe tener al menos 8 carac…
+    109|
+    110|     await waitFor(() => expect(campo).toHaveAttribute('aria-invalid', …
+       |                                       ^
+    111|   })
+    112| })
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/23]⎯
+
+ FAIL  src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx > DEF-FE-11 — Un solo punto de tabulación para el botón de login > desde la contraseña, UNA tabulación llega al botón «Iniciar sesión»
+Error: expect(element).toHaveFocus()
+
+Expected element with focus:
+  <button
+  class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+  tabindex="0"
+  type="submit"
+>
+  <div
+    class="flex items-center justify-center gap-2"
+  >
+    <svg
+      class="h-4 w-4"
+      fill="currentColor"
+      height="1em"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 640 512"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z"
+      />
+    </svg>
+    Iniciar sesión como·
+    Estudiante
+  </div>
+</button>
+Received element with focus:
+  <div
+  tabindex="0"
+>
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+    tabindex="0"
+    type="submit"
+  >
+    <div
+      class="flex items-center justify-center gap-2"
+    >
+      <svg
+        class="h-4 w-4"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 640 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z"
+        />
+      </svg>
+      Iniciar sesión como·
+      Estudiante
+    </div>
+  </button>
+</div>
+ ❯ src/test/defects/DEF-FE-08-accesibilidad-formularios-auth.test.tsx:130:69
+    128|     await user.tab()
+    129|
+    130|     expect(screen.getByRole('button', { name: /iniciar sesión/i })).to…
+       |                                                                     ^
+    131|   })
+    132| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/23]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  23 failed (23)
+   Start at  15:50:47
+   Duration  7.34s (tests 64%, environment 18%, import 6%, transform 6%, setup 5%)
+

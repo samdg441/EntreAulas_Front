@@ -28,7 +28,9 @@ import {
   dominioCorreoPorRoles,
   dominioCorreoPorTipo,
   rolesDelUsuario,
+  siguienteUsuarioCorreo,
   usuarioDeCorreo,
+  type EstadoUsuarioCorreo,
   type UsuarioLista,
 } from './gestionar-usuarios'
 
@@ -78,7 +80,10 @@ export default function AdminUsersPage() {
   const [editingUser, setEditingUser] = useState<UserSummary | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<UserSummary | null>(null)
   const [activateTarget, setActivateTarget] = useState<UserSummary | null>(null)
-  const [correoLocal, setCorreoLocal] = useState('')
+  const [correo, setCorreo] = useState<EstadoUsuarioCorreo>({ valor: '', descartandoDominio: false })
+  const correoLocal = correo.valor
+  const setCorreoLocal = (valor: string) => setCorreo({ valor, descartandoDominio: false })
+  const escribirCorreo = (escrito: string) => setCorreo((estado) => siguienteUsuarioCorreo(estado, escrito))
   const [rolesEdicion, setRolesEdicion] = useState<string[]>([])
 
   const loadUsers = async () => {
@@ -493,7 +498,7 @@ export default function AdminUsersPage() {
             </h2>
 
             {formError && (
-              <p className="mb-3 text-sm text-red-600 bg-red-50 border border-red-100 rounded-md p-2">
+              <p role="alert" className="mb-3 text-sm text-red-600 bg-red-50 border border-red-100 rounded-md p-2">
                 {formError}
               </p>
             )}
@@ -520,7 +525,7 @@ export default function AdminUsersPage() {
                     <input
                       id="correo-institucional"
                       value={correoLocal}
-                      onChange={(e) => setCorreoLocal(usuarioDeCorreo(e.target.value))}
+                      onChange={(e) => escribirCorreo(e.target.value)}
                       required
                       autoComplete="off"
                       placeholder="usuario"
@@ -589,7 +594,7 @@ export default function AdminUsersPage() {
                     <input
                       id="correo-edicion"
                       value={correoLocal}
-                      onChange={(e) => setCorreoLocal(usuarioDeCorreo(e.target.value))}
+                      onChange={(e) => escribirCorreo(e.target.value)}
                       required
                       autoComplete="off"
                       placeholder="usuario"
