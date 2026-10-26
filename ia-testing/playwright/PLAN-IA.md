@@ -49,7 +49,7 @@ Para repetir el ciclo con los agentes interactivos, abre Claude Code en esta car
 |---|---|---|---|
 | Antes del healer | 21 | 5 | 4 por localizadores ambiguos y 1 por DEF-FE-08 |
 | Después del healer (línea base) | 25 | 1 | La que falla es DEF-FE-08: el botón del ojo no tiene nombre accesible |
-| Después de la refactorización | Ver `docs/pruebas/despues/` | | |
+| Después de la refactorización (contra el despliegue en nginx) | 26 | 0 | Con `aria-label` en los botones del ojo, la prueba de DEF-FE-08 pasa sin tocarla |
 
 Las evidencias están en `docs/pruebas/evidencias/playwright/` (salida de consola y JUnit). El reporte HTML, con trazas, capturas y video, se abre con `npm run report`.
 

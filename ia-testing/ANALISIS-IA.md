@@ -49,7 +49,7 @@ Cada herramienta incluye escenarios **exitosos**, **alternativos** y **de error*
 
 | Herramienta | Línea base (antes de la refactorización) | Después del despliegue final |
 |---|---|---|
-| Playwright | **25 de 26.** La que falla detecta DEF-FE-08 (botón del ojo sin nombre accesible). Ver `docs/pruebas/evidencias/playwright/` | Ver `docs/pruebas/despues/` |
+| Playwright | **25 de 26.** La que falla detecta DEF-FE-08 (botón del ojo sin nombre accesible). Ver `docs/pruebas/evidencias/playwright/` | **26 de 26** contra el despliegue en nginx `:3001` (`docs/pruebas/despues/playwright-despues.txt`) |
 | Testsigma | Lo registra el equipo en `testsigma/resultados.md` | `testsigma/resultados.md` |
 | BugBug | Lo registra el equipo en `bugbug/resultados.md` | `bugbug/resultados.md` |
 
