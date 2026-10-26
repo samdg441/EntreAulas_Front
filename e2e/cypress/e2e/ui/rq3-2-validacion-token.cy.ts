@@ -67,3 +67,5 @@ describe('RQ3.2 — UI: validación del enlace de recuperación', () => {
     cy.wait('@validar').its('request.url').should('contain', '/validate-reset-token/..%2Fx%3Fy')
   })
 })
+
+export {}

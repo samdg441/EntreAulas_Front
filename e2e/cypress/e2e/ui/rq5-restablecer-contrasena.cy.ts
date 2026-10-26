@@ -92,3 +92,5 @@ describe('RQ5 — UI: restablecer la contraseña', () => {
     })
   })
 })
+
+export {}

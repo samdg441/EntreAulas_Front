@@ -11,5 +11,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["cypress/**/*.ts", "cypress.config.ts", "cypress.api.config.ts"]
+  "include": ["cypress/**/*.ts", "cypress.config.ts", "cypress.api.config.ts", "cypress.bdd.config.ts"]
 }

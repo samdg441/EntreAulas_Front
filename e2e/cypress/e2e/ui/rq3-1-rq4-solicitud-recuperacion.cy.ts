@@ -89,3 +89,5 @@ describe('RQ3.1 / RQ4 — UI: solicitud del enlace de recuperación', () => {
     })
   })
 })
+
+export {}

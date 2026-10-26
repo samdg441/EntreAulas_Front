@@ -10,14 +10,34 @@
     "cy:security": "cypress run --e2e --config-file cypress.api.config.ts --spec 'cypress/e2e/security/**/*.cy.ts'",
     "cy:a11y": "cypress run --e2e --browser ${CY_BROWSER:-chromium} --spec 'cypress/e2e/accessibility/**/*.cy.ts'",
     "cy:rq1-rq5": "cypress run --e2e --browser ${CY_BROWSER:-chromium} --spec 'cypress/e2e/ui/rq[1-5]-*.cy.ts,cypress/e2e/regression/rq1-rq5-*.cy.ts,cypress/e2e/accessibility/rq1-rq5-*.cy.ts,cypress/e2e/api/rq1-rq5-*.cy.ts,cypress/e2e/security/rq1-rq5-*.cy.ts'",
+    "cy:bdd": "cypress run --e2e --browser ${CY_BROWSER:-chromium} --config-file cypress.bdd.config.ts",
+    "cy:bdd:rq1-rq5": "cypress run --e2e --browser ${CY_BROWSER:-chromium} --config-file cypress.bdd.config.ts --spec 'cypress/features/rq[1-5]-*.feature'",
     "cy:ci": "cypress run --e2e --reporter junit --reporter-options mochaFile=../reports/cypress/junit-[hash].xml",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test:e2e": "start-server-and-test front http://localhost:3001 cy:run"
   },
   "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^28.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
     "axe-core": "^4.10.3",
     "cypress": "16.1.1",
+    "esbuild": "^0.28.2",
     "start-server-and-test": "^3.0.13",
     "typescript": "^7.0.2"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": "cypress/step-definitions/**/*.ts",
+    "messages": {
+      "enabled": true,
+      "output": "../reports/cypress/bdd/cucumber-messages.ndjson"
+    },
+    "json": {
+      "enabled": true,
+      "output": "../reports/cypress/bdd/cucumber-report.json"
+    },
+    "html": {
+      "enabled": true,
+      "output": "../reports/cypress/bdd/cucumber-report.html"
+    }
   }
 }

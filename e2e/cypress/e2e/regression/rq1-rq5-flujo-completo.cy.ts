@@ -8,65 +8,11 @@
  * determinista y se pueda repetir en cada cambio: si un paso deja de enviar o validar lo que debe, la cadena se rompe.
  */
 import { usuarios } from '../../support/commands'
-
-type Cuenta = { email: string; password: string; nombre: string; apellido: string; tipo_usuario: string }
-type Token = { token: string; email: string; usado: boolean }
+import { levantarBackEnMemoria } from '../../support/back-en-memoria'
 
 const CLAVE_INICIAL = 'Clave-Inicial2026!'
 const CLAVE_NUEVA = 'Clave-Nueva2026!'
 const EMAIL = 'flujo.e2e@soyudemedellin.edu.co'
-
-function backEnMemoria() {
-  const cuentas: Cuenta[] = []
-  const tokens: Token[] = []
-  const correos: Array<{ para: string; enlace: string }> = []
-
-  cy.intercept('GET', '**/api/users', { users: [] })
-
-  cy.intercept('POST', '**/api/auth/create-user', (req) => {
-    const c = req.body as Cuenta
-    if (cuentas.some((x) => x.email === c.email)) return req.reply(400, { error: 'El email ya está registrado' })
-    cuentas.push(c)
-    req.reply(201, { message: 'Usuario creado', user: { id: `u-${cuentas.length}` } })
-  }).as('crear')
-
-  cy.intercept('POST', '**/api/auth/login', (req) => {
-    const c = cuentas.find((x) => x.email === req.body.email && x.password === req.body.password)
-    if (!c) return req.reply(401, { error: 'Credenciales inválidas' })
-    req.reply({
-      token: `jwt-${c.email}`,
-      user: { id: 'u-1', email: c.email, nombre: c.nombre, apellido: c.apellido, tipo_usuario: c.tipo_usuario, roles: [c.tipo_usuario] },
-    })
-  }).as('login')
-
-  cy.intercept('POST', '**/api/auth/forgot-password', (req) => {
-    const c = cuentas.find((x) => x.email === req.body.email)
-    if (c) {
-      const token = Cypress._.padStart(String(tokens.length + 1), 64, 'e')
-      tokens.push({ token, email: c.email, usado: false })
-      correos.push({ para: c.email, enlace: `/reset-password?token=${token}&email=${encodeURIComponent(c.email)}` })
-    }
-    req.reply({ message: 'Si el correo electrónico existe en nuestro sistema, recibirás un enlace de recuperación' })
-  }).as('solicitud')
-
-  cy.intercept('GET', '**/api/auth/validate-reset-token/*', (req) => {
-    const token = decodeURIComponent(req.url.split('/validate-reset-token/')[1].split('?')[0])
-    const email = new URL(req.url).searchParams.get('email')
-    const t = tokens.find((x) => x.token === token && x.email === email && !x.usado)
-    if (!t) return req.reply(400, { error: 'Token inválido o ya utilizado' })
-    req.reply({ message: 'Token válido', valid: true })
-  }).as('validar')
-
-  cy.intercept('POST', '**/api/auth/reset-password', (req) => {
-    const t = tokens.find((x) => x.token === req.body.token && x.email === req.body.email && !x.usado)
-    if (!t) return req.reply(400, { error: 'Token inválido o ya utilizado' })
-    t.usado = true
-    cuentas.find((x) => x.email === t.email)!.password = req.body.newPassword
-    req.reply({ message: 'Contraseña actualizada exitosamente' })
-  }).as('reset')
-
-  return { cuentas, tokens, correos }
-}
 
 function iniciarSesion(email: string, clave: string) {
   cy.visit('/login')
@@ -83,7 +29,7 @@ function cerrarSesion() {
 describe('RQ1–RQ5 — Regresión: ciclo de vida de una cuenta', () => {
   it('alta → login → recuperación → nueva clave → login con la clave nueva', () => {
     cy.simularBackVacio()
-    const back = backEnMemoria()
+    const back = levantarBackEnMemoria()
 
     // RQ1: el admin crea la cuenta
     cy.visitarConSesion('/admin/users', usuarios.admin)
@@ -136,7 +82,7 @@ describe('RQ1–RQ5 — Regresión: ciclo de vida de una cuenta', () => {
 
   it('un correo no registrado no genera token ni correo, pero la UI responde igual', () => {
     cy.simularBackVacio()
-    const back = backEnMemoria()
+    const back = levantarBackEnMemoria()
     cy.visit('/forgot-password')
     cy.get('input[type="email"]').type('desconocido@soyudemedellin.edu.co')
     cy.contains('button', 'Enviar enlace de recuperación').click()
@@ -148,7 +94,7 @@ describe('RQ1–RQ5 — Regresión: ciclo de vida de una cuenta', () => {
 
   it('el alta duplicada se rechaza y la cuenta original sigue intacta', () => {
     cy.simularBackVacio()
-    const back = backEnMemoria()
+    const back = levantarBackEnMemoria()
     cy.visitarConSesion('/admin/users', usuarios.admin)
     Cypress._.times(2, () => {
       cy.contains('button', 'Agregar usuario').click()

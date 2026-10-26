@@ -132,3 +132,5 @@ describe('RQ2 — UI: inicio de sesión', () => {
     })
   })
 })
+
+export {}
