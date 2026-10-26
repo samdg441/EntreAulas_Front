@@ -73,17 +73,11 @@ export default function Header({
             {(title || subtitle) && (
               <div className="hidden lg:flex flex-col items-center flex-1 mx-4">
                 {title && (
-                  <h2
-                    className="text-xl font-semibold text-gray-900 text-center"
-                    style={{ marginLeft: '-330px' }}
-                  >
+                  <h2 className="text-xl font-semibold text-gray-900 text-center">
                     {title}
                   </h2>
                 )}
-                <p
-                  className="text-sm text-gray-600 text-center mt-1"
-                  style={{ marginLeft: '-330px' }}
-                >
+                <p className="text-sm text-gray-600 text-center mt-1">
                   {subtitle}
                 </p>
               </div>

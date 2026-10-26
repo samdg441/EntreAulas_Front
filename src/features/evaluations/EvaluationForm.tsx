@@ -25,6 +25,20 @@ import {
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
+function agruparPreguntas(preguntas: EvaluationQuestion[]) {
+  const bloques: { categoria: string; items: { pregunta: EvaluationQuestion; indice: number }[] }[] = []
+  const indicePorCategoria = new Map<string, number>()
+  preguntas.forEach((pregunta, indice) => {
+    const categoria = pregunta.category || 'General'
+    if (!indicePorCategoria.has(categoria)) {
+      indicePorCategoria.set(categoria, bloques.length)
+      bloques.push({ categoria, items: [] })
+    }
+    bloques[indicePorCategoria.get(categoria)!].items.push({ pregunta, indice })
+  })
+  return bloques
+}
+
 interface EvaluationQuestion {
   id: string;
   category: string;
@@ -348,25 +362,30 @@ export default function EvaluationForm() {
                   Preguntas de evaluación
                 </CardTitle>
                 <CardDescription className="text-xl text-gray-700 mt-2">
-                  Desplázate, responde y al final finaliza la evaluación.
+                  Escala: 1 = Muy deficiente … 5 = Excelente. Tus respuestas son 100% anónimas y confidenciales.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-8">
-                  {questions.map((q, idx) => {
-                    const rating = ratings[idx] ?? 0
-                    const text = textAnswers[idx] ?? ''
-
-                    return (
+                <div className="space-y-10">
+                  {agruparPreguntas(questions).map((bloque, indiceCategoria) => (
+                    <section key={bloque.categoria} className="space-y-6">
+                      <h3 className="text-lg font-bold text-university-red border-b border-red-100 pb-2">
+                        {indiceCategoria + 1}. {bloque.categoria}
+                      </h3>
+                      {bloque.items.map((item, indicePregunta) => {
+                        const q = item.pregunta
+                        const idx = item.indice
+                        const rating = ratings[idx] ?? 0
+                        const text = textAnswers[idx] ?? ''
+                        return (
                       <div key={q.id} className="space-y-4 pb-6 border-b border-gray-100">
                         <div className="space-y-2">
-                          <h3 className="text-xl font-bold text-gray-900 flex items-center gap-3">
-                            <span className="text-university-red text-base font-extrabold">
-                              {idx + 1}
+                          <p className="text-lg text-gray-700">
+                            <span className="text-university-red font-extrabold mr-2">
+                              {indiceCategoria + 1}.{indicePregunta + 1}
                             </span>
-                            <span className="text-gray-900">{q.category}</span>
-                          </h3>
-                          <p className="text-lg text-gray-700">{q.question}</p>
+                            {q.question}
+                          </p>
                         </div>
 
                         {q.type === 'rating' ? (
@@ -379,8 +398,8 @@ export default function EvaluationForm() {
                                 setRatings(next)
                               }}
                               options={5}
-                              leftLabel="En desacuerdo"
-                              rightLabel="De acuerdo"
+                              leftLabel="1 = Muy deficiente"
+                              rightLabel="5 = Excelente"
                             />
 
                             {rating > 0 && (
@@ -444,8 +463,10 @@ export default function EvaluationForm() {
                           </div>
                         )}
                       </div>
-                    )
-                  })}
+                        )
+                      })}
+                    </section>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -458,7 +479,7 @@ export default function EvaluationForm() {
                     Comentarios Adicionales
                   </CardTitle>
                   <CardDescription className="text-xl text-gray-700 mt-2">
-                    ¿Tienes algún comentario adicional sobre el desempeño del profesor? (Opcional)
+                    ¿Tienes algún comentario adicional sobre el desempeño del docente? (Opcional)
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

@@ -249,7 +249,7 @@ export default function CareerResultsPage({ user }: CareerResultsPageProps) {
                     <div>
                       <CardTitle className="text-lg">Generar resultados para todas las carreras</CardTitle>
                       <CardDescription>
-                        Informe global de la Facultad de Ingeniería
+                        Informe global de la facultad
                       </CardDescription>
                     </div>
                   </div>
@@ -365,7 +365,7 @@ export default function CareerResultsPage({ user }: CareerResultsPageProps) {
                   Carreras Disponibles
                 </CardTitle>
                 <CardDescription>
-                  Lista de todas las carreras de la Facultad de Ingeniería
+                  Lista de las carreras de la facultad. Para el detalle de un programa, usa los filtros.
                 </CardDescription>
               </CardHeader>
               <CardContent>

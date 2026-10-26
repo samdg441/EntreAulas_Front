@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/Header'
@@ -12,6 +12,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
 import { guardarVentanaEvaluacion } from '../../api/periodos.api'
 import { getApiErrorMessage } from '../../lib/apiError'
+import { limitesPeriodoAcademico } from '../../lib/periodo-academico'
 
 interface CursoGrupo {
   id: number;
@@ -57,6 +58,8 @@ export default function ScheduleSurveys() {
   const [emailTo, setEmailTo] = useState('')
   const [emailSubject, setEmailSubject] = useState('Encuestas de evaluación temprana - Códigos QR')
   const [emailMessage, setEmailMessage] = useState('Hola,\n\nTe comparto los códigos QR para responder las encuestas de evaluación temprana.\n\nSaludos.')
+  const [cursosError, setCursosError] = useState<string | null>(null)
+  const limitesFecha = limitesPeriodoAcademico()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -66,14 +69,23 @@ export default function ScheduleSurveys() {
   const loadCursos = async () => {
     try {
       setLoadingCursos(true)
+      setCursosError(null)
       const data = await fetchCursosConProfesor()
       setCursos(data as CursoGrupo[])
     } catch (err) {
       console.error('Error cargando cursos para QRs:', err)
+      setCursos([])
+      setCursosError('No se pudieron cargar los cursos.')
     } finally {
       setLoadingCursos(false)
     }
   }
+
+  useEffect(() => {
+    void loadCursos()
+    // Solo al entrar: los cursos de la carrera se cargan sin un paso manual.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const toggleSelect = (id: number) => {
     setSelectedIds(prev =>
@@ -278,9 +290,10 @@ export default function ScheduleSurveys() {
 
   const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
-  const mensajeTablaVacia =
-    cursos.length === 0
-      ? 'No hay cursos cargados. Haz clic en "Cargar cursos".'
+  const mensajeTablaVacia = cursosError
+    ? cursosError
+    : cursos.length === 0
+      ? 'No hay cursos de tu carrera para este periodo.'
       : 'No hay resultados para tu búsqueda.'
 
   let filasTabla
@@ -338,7 +351,7 @@ export default function ScheduleSurveys() {
             <CardHeader className="pb-4">
               <CardTitle className="text-2xl text-gray-900">Programar Encuestas</CardTitle>
               <CardDescription>
-                Define el período y selecciona los cursos que tendrán código QR para esta encuesta.
+                Alcance de carrera. 1. Periodo → 2. Fechas del semestre → 3. Cursos (se cargan solos) → 4. Generar QR → 5. Notificar.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -347,12 +360,12 @@ export default function ScheduleSurveys() {
 
                   <div>
                     <label htmlFor="survey-start-date" className="block text-sm font-medium text-gray-700 mb-2">Fecha de inicio</label>
-                    <input id="survey-start-date" type="date" name="startDate" value={form.startDate} onChange={handleChange} required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+                    <input id="survey-start-date" type="date" name="startDate" value={form.startDate} onChange={handleChange} required min={limitesFecha.min} max={limitesFecha.max} className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
                   </div>
 
                   <div>
                     <label htmlFor="survey-end-date" className="block text-sm font-medium text-gray-700 mb-2">Fecha de cierre</label>
-                    <input id="survey-end-date" type="date" name="endDate" value={form.endDate} onChange={handleChange} required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+                    <input id="survey-end-date" type="date" name="endDate" value={form.endDate} onChange={handleChange} required min={limitesFecha.min} max={limitesFecha.max} className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
                   </div>
                   <div>
                     <label htmlFor="survey-period" className="block text-sm font-medium text-gray-700 mb-2">Período</label>
@@ -374,7 +387,7 @@ export default function ScheduleSurveys() {
                     </div>
                     <div className="flex gap-2">
                       <Button type="button" variant="outline" onClick={loadCursos}>
-                        {loadingCursos ? 'Cargando...' : 'Cargar cursos'}
+                        {loadingCursos ? 'Cargando...' : 'Reintentar'}
                       </Button>
                       <Button type="button" variant="outline" onClick={selectAll} disabled={cursos.length === 0}>
                         Seleccionar todos

@@ -165,7 +165,10 @@ export default function Login() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Tipo de Usuario - Dropdown */}
             <div>
-              <h2 className="text-base font-medium text-gray-700 mb-3">Tipo de Usuario</h2>
+              <h2 className="text-base font-medium text-gray-700 mb-1">Tipo de usuario</h2>
+              <p className="text-sm text-gray-500 mb-3">
+                Selecciona el rol con el que deseas ingresar en esta sesión. Si tienes múltiples roles, podrás alternarlos desde el menú de usuario.
+              </p>
               <div className="relative z-10">
                 <button
                   type="button"
@@ -211,7 +214,7 @@ export default function Login() {
             </div>
 
             <Input
-              label={userType === 'student' ? 'Correo Institucional' : 'Email Institucional'}
+              label="Correo institucional"
               type="email"
               value={email}
               onChange={handleEmailChange}

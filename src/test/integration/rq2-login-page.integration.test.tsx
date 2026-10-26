@@ -122,7 +122,7 @@ describe('RQ2 — Login (pantalla real)', () => {
     await user.click(screen.getByRole('button', { name: /^administrador$/i }))
     await waitFor(() => expect(screen.getAllByRole('button', { name: /^administrador$/i })).toHaveLength(1))
 
-    const correo = screen.getByLabelText(/email institucional/i)
+    const correo = screen.getByLabelText(/correo institucional/i)
     await user.type(correo, 'a')
     await user.clear(correo)
     expect(screen.queryByText('Por favor, ingresa un correo electrónico válido')).not.toBeInTheDocument()

@@ -133,7 +133,7 @@ export default function ProfilePage() {
                       {nombre || 'Tu cuenta'}
                     </h1>
                     {email && (
-                      <p className="mt-2 flex items-center gap-2 text-gray-600 break-all">
+                      <p className="mt-2 flex items-center gap-2 text-gray-600 truncate" title={email}>
                         <Mail className="h-4 w-4 shrink-0 text-gray-400" />
                         {email}
                       </p>
@@ -182,7 +182,7 @@ export default function ProfilePage() {
                       )}
                     </section>
 
-                    {roles.length > 0 && (
+                    {roles.length > 1 && (
                       <section>
                         <h2 className="text-lg font-semibold text-gray-900">Roles</h2>
                         <ul className="mt-4 flex flex-wrap gap-2">
@@ -206,7 +206,7 @@ export default function ProfilePage() {
                       </section>
                     )}
 
-                    {permisos.length > 0 && (
+                    {permisos.length > 0 && roles.length > 1 && (
                       <section>
                         <h2 className="text-lg font-semibold text-gray-900">Qué puedes hacer</h2>
                         <ul className="mt-4 flex flex-wrap gap-2">
@@ -247,7 +247,7 @@ function Dato({
         {icono}
         {etiqueta}
       </div>
-      <p className="mt-1 text-gray-900 break-words">{valor}</p>
+      <p className="mt-1 text-gray-900 truncate" title={valor}>{valor}</p>
     </div>
   )
 }
