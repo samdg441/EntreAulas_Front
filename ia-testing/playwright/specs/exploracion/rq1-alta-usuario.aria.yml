@@ -1,0 +1,18 @@
+- text: Nombre
+- textbox "Nombre"
+- text: Apellido
+- textbox "Apellido"
+- text: Correo
+- textbox "Correo":
+  - /placeholder: usuario
+- text: "@soyudemedellin.edu.co Contraseña"
+- textbox "Contraseña"
+- text: Tipo de usuario
+- combobox "Tipo de usuario":
+  - option "estudiante" [selected]
+  - option "profesor"
+  - option "coordinador"
+  - option "decano"
+  - option "admin"
+- button "Cancelar"
+- button "Crear"
