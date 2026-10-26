@@ -2,7 +2,7 @@
   "name": "entre-aulas-stagehand-e2e-ai",
   "private": true,
   "version": "1.0.0",
-  "description": "E2E con Stagehand + Ollama para RQ18, RQ19 y RQ22–RQ25 (basado en Stagehand-E2E-AI).",
+  "description": "E2E con Stagehand + Ollama para RQ1–RQ5, RQ18, RQ19 y RQ22–RQ25 (basado en Stagehand-E2E-AI).",
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -12,7 +12,11 @@
     "test:rq18": "node --import tsx tests/rq18-qr-ollama.e2e.ts",
     "test:rq24": "node --import tsx tests/rq24-panel-ollama.e2e.ts",
     "test:rq23-rq25": "node --import tsx tests/rq23-rq25-reportes-ollama.e2e.ts",
-    "test:e2e:all": "npm run test:observe && npm run test:ollama && npm run test:rq24 && npm run test:rq23-rq25 && npm run test:rq18"
+    "test:e2e:all": "npm run test:observe && npm run test:ollama && npm run test:rq24 && npm run test:rq23-rq25 && npm run test:rq18",
+    "test:rq1": "node --import tsx tests/rq1-crear-usuario-ollama.e2e.ts",
+    "test:rq2": "node --import tsx tests/rq2-login-ollama.e2e.ts",
+    "test:rq3-rq5": "node --import tsx tests/rq3-rq5-recuperacion-ollama.e2e.ts",
+    "test:rq1-rq5": "npm run test:rq2 && npm run test:rq1 && npm run test:rq3-rq5"
   },
   "dependencies": {
     "@browserbasehq/stagehand": "4.3.0",

@@ -1,0 +1,29 @@
+{
+  "nombre": "rq5-login-clave-nueva-ollama",
+  "fecha": "2026-10-26T18:30:05.629Z",
+  "url": "http://localhost:3001/dashboard-estudiante",
+  "metrics": {
+    "actPromptTokens": 0,
+    "actCompletionTokens": 0,
+    "actReasoningTokens": 0,
+    "actCachedInputTokens": 0,
+    "actInferenceTimeMs": 0,
+    "extractPromptTokens": 2016,
+    "extractCompletionTokens": 190,
+    "extractReasoningTokens": 0,
+    "extractCachedInputTokens": 0,
+    "extractInferenceTimeMs": 134368,
+    "observePromptTokens": 4552,
+    "observeCompletionTokens": 425,
+    "observeReasoningTokens": 0,
+    "observeCachedInputTokens": 0,
+    "observeInferenceTimeMs": 404884,
+    "totalPromptTokens": 6568,
+    "totalCompletionTokens": 615,
+    "totalReasoningTokens": 0,
+    "totalCachedInputTokens": 0,
+    "totalInferenceTimeMs": 539252
+  },
+  "ruta": "/dashboard-estudiante",
+  "respaldosDeterministicos": []
+}

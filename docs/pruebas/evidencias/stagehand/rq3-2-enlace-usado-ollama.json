@@ -1,0 +1,32 @@
+{
+  "nombre": "rq3-2-enlace-usado-ollama",
+  "fecha": "2026-10-26T18:28:36.987Z",
+  "url": "http://localhost:3001/reset-password?token=eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1&email=eva%40soyudemedellin.edu.co",
+  "metrics": {
+    "actPromptTokens": 0,
+    "actCompletionTokens": 0,
+    "actReasoningTokens": 0,
+    "actCachedInputTokens": 0,
+    "actInferenceTimeMs": 0,
+    "extractPromptTokens": 2016,
+    "extractCompletionTokens": 190,
+    "extractReasoningTokens": 0,
+    "extractCachedInputTokens": 0,
+    "extractInferenceTimeMs": 134368,
+    "observePromptTokens": 3786,
+    "observeCompletionTokens": 296,
+    "observeReasoningTokens": 0,
+    "observeCachedInputTokens": 0,
+    "observeInferenceTimeMs": 318350,
+    "totalPromptTokens": 5802,
+    "totalCompletionTokens": 486,
+    "totalReasoningTokens": 0,
+    "totalCachedInputTokens": 0,
+    "totalInferenceTimeMs": 452718
+  },
+  "extraido": {
+    "titulo": "Universidad de Medellín - EntreAulas",
+    "error": "Token inválido o ya utilizado",
+    "boton": "Solicitar un nuevo enlace"
+  }
+}
