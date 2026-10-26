@@ -1,7 +1,7 @@
 /**
  * DEF-FE-05 — El despliegue estático no envía cabeceras de seguridad ni compresión (RQ2/RQ3/RQ5)
  *
- * Severidad: Media | Estado: ABIERTO
+ * Severidad: Media | Estado: CORREGIDO (2026-10-26)
  *
  * `nginx.conf` (imagen Docker/Jenkins) y `vercel.json` solo definen caché. Faltan:
  *   - Content-Security-Policy: sin ella un XSS puede leer el JWT de localStorage y enviarlo fuera.
