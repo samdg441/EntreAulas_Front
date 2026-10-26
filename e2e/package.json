@@ -5,6 +5,7 @@
   "scripts": {
     "front": "npm --prefix .. run dev -- --port 3001 --strictPort",
     "cy:open": "cypress open --e2e",
+    "cy:prompt": "cypress run --e2e --browser chrome --spec cypress/e2e/studio/rq6-rq17-prompt.cy.ts",
     "cy:run": "cypress run --e2e",
     "cy:api": "cypress run --e2e --config-file cypress.api.config.ts",
     "cy:security": "cypress run --e2e --config-file cypress.api.config.ts --spec 'cypress/e2e/security/**/*.cy.ts'",

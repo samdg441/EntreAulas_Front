@@ -1,5 +1,5 @@
 # language: es
-@web
+@web @percy
 Característica: Acceso, QR y materias del estudiante
   Como estudiante o administrador de la Universidad de Medellín
   Quiero entrar solo a lo que me corresponde y usar el QR de evaluación

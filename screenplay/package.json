@@ -13,10 +13,13 @@
     "test:web": "start-server-and-test front http://localhost:3001 cucumber:web",
     "test:api": "cross-env SERENITY_API_ONLY=true npm run cucumber -- --tags @api",
     "test:smoke": "start-server-and-test front http://localhost:3001 cucumber:smoke",
-    "test:report": "html-reporter serve --dir ../reports/serenity-js --port 8080 --open"
+    "test:report": "html-reporter serve --dir ../reports/serenity-js --port 8080 --open",
+    "test:percy": "percy exec -- npm run cucumber -- --tags @percy"
   },
   "devDependencies": {
     "@cucumber/cucumber": "13.3.0",
+    "@percy/cli": "^1.32.12",
+    "@percy/playwright": "^1.1.2",
     "@serenity-js/assertions": "3.48.0",
     "@serenity-js/console-reporter": "3.48.0",
     "@serenity-js/core": "3.48.0",

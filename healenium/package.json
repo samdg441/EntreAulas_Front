@@ -1,0 +1,18 @@
+{
+  "name": "entre-aulas-healenium",
+  "private": true,
+  "description": "RQ6, RQ17 y RQ27 a través de Healenium-Proxy. El navegador es el Chrome de Selenium Grid.",
+  "scripts": {
+    "up": "docker compose up -d",
+    "down": "docker compose down",
+    "logs": "docker compose logs -f hlm-proxy",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx tests/rq6-rq17.e2e.ts"
+  },
+  "devDependencies": {
+    "@types/selenium-webdriver": "^4.35.7",
+    "selenium-webdriver": "4.27.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  }
+}
