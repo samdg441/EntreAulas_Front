@@ -1,7 +1,7 @@
 /**
  * DEF-FE-12 — Alta de usuario (RQ1): escribir el correo completo deja el dominio pegado al usuario
  *
- * Severidad: Media | Estado: ABIERTO. Encontrado con Cypress (e2e/cypress/e2e/ui/rq1-registro-admin.cy.ts).
+ * Severidad: Media | Estado: CORREGIDO (2026-10-26, siguienteUsuarioCorreo). Encontrado con Cypress (e2e/cypress/e2e/ui/rq1-registro-admin.cy.ts).
  *
  * El campo «Correo» del alta aplica usuarioDeCorreo() en cada pulsación. Al teclear «carla.ruiz@gmail.com»:
  * con la «@» el valor se recorta a «carla.ruiz», pero las teclas siguientes ya no traen «@» y se agregan
