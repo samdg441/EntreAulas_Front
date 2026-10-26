@@ -11,6 +11,17 @@ Característica: Inicio de sesión y acceso según el rol
     Cuando él inicia sesión como "Coordinador" con "carlos.coordinador@udemedellin.edu.co" y la clave válida
     Entonces él está en la ruta "/dashboard-coordinador"
 
+  @smoke @RQ19
+  Escenario: Con varios roles, elegir Coordinador abre el panel de coordinación
+    Dado que Gloria abre EntreAulas en "/login"
+    Cuando ella inicia sesión como "Coordinador" con "gloria.multiroles@udemedellin.edu.co" y la clave válida
+    Entonces ella está en la ruta "/dashboard-coordinador"
+
+  Escenario: Con varios roles, si deja Docente no entra al panel de coordinación
+    Dado que Gloria abre EntreAulas en "/login"
+    Cuando ella inicia sesión como "Docente" con "gloria.multiroles@udemedellin.edu.co" y la clave válida
+    Entonces ella está en la ruta "/dashboard-profesor"
+
   Escenario: Credenciales inválidas
     Dado que Carlos abre EntreAulas en "/login"
     Cuando él inicia sesión como "Coordinador" con "carlos.coordinador@udemedellin.edu.co" y la clave "Clave-Incorrecta2026!"

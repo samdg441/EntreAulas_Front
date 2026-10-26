@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://api.bugbug.io/v2/schema/yaml/v1/
+schema_version: '1.0'
+schema_type: test
+data:
+  slug: bb-rq1-03-dominio-por-tipo
+  name: BB-RQ1-03 El dominio cambia con el tipo (alternativo)
+  runtime: browser
+  screen_size: desktop
+  notes: 'Generado desde ia-testing/bugbug/guiones-rq1-rq5.md. Variables requeridas: url, admin_email, admin_password, estudiante_email, estudiante_password, clave_valida.'
+  groups:
+  - group_name: Login como admin
+    slug: bb-rq1-03-dominio-por-tipo-1
+    steps:
+    - action: goto
+      name: Abrir /login
+      action_details:
+        url: '{{url}}/login'
+    - action: click
+      name: Abrir el selector de tipo de usuario
+      action_details:
+        selector: xpath=(//form//button[@type="button"])[1]
+    - action: click
+      name: Elegir «Administrador»
+      action_details:
+        selector: xpath=//form//button[@type="button" and normalize-space(.)="Administrador"]
+    - action: type
+      name: Escribir el correo
+      action_details:
+        selector: xpath=//input[@type="email"]
+        value: '{{admin_email}}'
+    - action: type
+      name: Escribir la contraseña
+      action_details:
+        selector: xpath=//input[@type="password"]
+        value: '{{admin_password}}'
+        has_secret_value: true
+    - action: click
+      name: Iniciar sesión
+      action_details:
+        selector: xpath=//button[@type="submit"]
+    - action: assert
+      name: La URL contiene /dashboard-admin
+      action_details:
+        assertion_property: pageUrlIs
+        assertion_type: contain
+        assertion_expected_value: /dashboard-admin
+  - group_name: Alta
+    slug: bb-rq1-03-dominio-por-tipo-2
+    steps:
+    - action: goto
+      name: Abrir /admin/users
+      action_details:
+        url: '{{url}}/admin/users'
+    - action: click
+      name: Abrir «Agregar usuario»
+      action_details:
+        selector: xpath=//button[normalize-space(.)="Agregar usuario"]
+    - action: assert
+      name: El formulario de alta está abierto
+      action_details:
+        selector: xpath=//h2[normalize-space(.)="Agregar usuario"]
+        assertion_property: visible
+        assertion_type: any
+    - action: assert
+      name: La página muestra «@soyudemedellin.edu.co»
+      action_details:
+        assertion_property: pageShowsText
+        assertion_type: contain
+        assertion_expected_value: '@soyudemedellin.edu.co'
+    - action: select
+      name: Elegir profesor
+      action_details:
+        selector: xpath=//*[@id="tipo-usuario"]
+        select_type: text
+        value: profesor
+    - action: assert
+      name: El sufijo cambia a @udemedellin.edu.co
+      action_details:
+        selector: xpath=//form//span[normalize-space(.)="@udemedellin.edu.co"]
+        assertion_property: visible
+        assertion_type: any

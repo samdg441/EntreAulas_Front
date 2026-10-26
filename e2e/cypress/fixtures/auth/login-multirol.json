@@ -1,0 +1,14 @@
+{
+  "message": "Selecciona un rol",
+  "token": "",
+  "user": {
+    "id": "u-multi",
+    "email": "mia@udemedellin.edu.co",
+    "nombre": "MIA",
+    "apellido": "MULTIROL",
+    "tipo_usuario": "profesor",
+    "roles": ["profesor", "coordinador"]
+  },
+  "available_roles": ["profesor", "coordinador"],
+  "requires_role_selection": true
+}

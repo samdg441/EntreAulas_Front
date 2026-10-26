@@ -1,0 +1,6 @@
+{
+  "users": [
+    { "id": "u-admin", "email": "ada@udemedellin.edu.co", "nombre": "ADA", "apellido": "ADMIN", "tipo_usuario": "admin", "activo": true, "roles": ["admin"] },
+    { "id": "u-est", "email": "eva@soyudemedellin.edu.co", "nombre": "EVA", "apellido": "ESTUDIANTE", "tipo_usuario": "estudiante", "activo": true, "roles": ["estudiante"] }
+  ]
+}

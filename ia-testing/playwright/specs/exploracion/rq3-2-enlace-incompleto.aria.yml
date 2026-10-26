@@ -1,0 +1,10 @@
+- img "Logo Universidad de Medellín"
+- heading "EntreAulas" [level=1]
+- paragraph: Enlace no válido
+- text: El enlace de recuperación es inválido o está incompleto.
+- button "Solicitar un nuevo enlace"
+- button "Volver al inicio de sesión":
+  - img
+  - text: Volver al inicio de sesión
+- paragraph: Universidad de Medellín - EntreAulas
+- region "Notifications alt+T"

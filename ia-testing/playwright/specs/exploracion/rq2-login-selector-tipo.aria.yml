@@ -1,0 +1,31 @@
+- heading "Tipo de Usuario" [level=2]
+- button "Estudiante":
+  - img
+  - text: Estudiante
+  - img
+- button "Estudiante":
+  - img
+  - text: Estudiante
+- button "Docente":
+  - img
+  - text: Docente
+- button "Coordinador":
+  - img
+  - text: Coordinador
+- button "Decano":
+  - img
+  - text: Decano
+- button "Administrador":
+  - img
+  - text: Administrador
+- text: Correo Institucional
+- img
+- textbox "Correo Institucional":
+  - /placeholder: estudiante@universidad.edu
+- text: Contraseña
+- img
+- textbox "Contraseña":
+  - /placeholder: ••••••••
+- button "Iniciar sesión como Estudiante":
+  - img
+  - text: Iniciar sesión como Estudiante

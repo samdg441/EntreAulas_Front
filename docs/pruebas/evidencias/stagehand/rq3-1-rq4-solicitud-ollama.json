@@ -1,0 +1,33 @@
+{
+  "nombre": "rq3-1-rq4-solicitud-ollama",
+  "fecha": "2026-10-26T18:23:32.466Z",
+  "url": "http://localhost:3001/forgot-password",
+  "metrics": {
+    "actPromptTokens": 0,
+    "actCompletionTokens": 0,
+    "actReasoningTokens": 0,
+    "actCachedInputTokens": 0,
+    "actInferenceTimeMs": 0,
+    "extractPromptTokens": 603,
+    "extractCompletionTokens": 57,
+    "extractReasoningTokens": 0,
+    "extractCachedInputTokens": 0,
+    "extractInferenceTimeMs": 59861,
+    "observePromptTokens": 1207,
+    "observeCompletionTokens": 99,
+    "observeReasoningTokens": 0,
+    "observeCachedInputTokens": 0,
+    "observeInferenceTimeMs": 93403,
+    "totalPromptTokens": 1810,
+    "totalCompletionTokens": 156,
+    "totalReasoningTokens": 0,
+    "totalCachedInputTokens": 0,
+    "totalInferenceTimeMs": 153264
+  },
+  "extraido": {
+    "titulo": "Solicitud enviada",
+    "mensaje": "Si el correo electrónico existe en nuestro sistema, recibirás un enlace de recuperación"
+  },
+  "mensajeEsperado": "Si el correo electrónico existe en nuestro sistema, recibirás un enlace de recuperación",
+  "enlace": "/reset-password?token=eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1&email=eva%40soyudemedellin.edu.co"
+}

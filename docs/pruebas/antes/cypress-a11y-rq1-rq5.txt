@@ -1,0 +1,133 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config video=false,retries=0 --spec cypress/e2e/accessibility/*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.11.1 (/usr/bin/node)                                                       │
+  │ Specs:          1 found (rq1-rq5-accesibilidad.cy.ts)                                          │
+  │ Searched:       cypress/e2e/accessibility/*.cy.ts                                              │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rq1-rq5-accesibilidad.cy.ts                                                     (1 of 1)
+
+
+  RQ1–RQ5 — Accesibilidad de autenticación
+    ✓ RQ2: el login no tiene violaciones serias de WCAG (3710ms)
+    (Attempt 1 of 2) RQ2 [DEF-FE-11]: con una sola tabulación desde la contraseña se llega al botón de envío
+    1) RQ2 [DEF-FE-11]: con una sola tabulación desde la contraseña se llega al botón de envío
+    (Attempt 1 of 2) RQ2 [DEF-FE-09]: el error de credenciales se anuncia (role="alert" o aria-live)
+    2) RQ2 [DEF-FE-09]: el error de credenciales se anuncia (role="alert" o aria-live)
+    ✓ RQ3.1 / RQ4: la solicitud de recuperación no tiene violaciones serias (1638ms)
+    (Attempt 1 of 2) RQ3.1 [DEF-FE-10]: el campo con error declara aria-invalid y se une a su mensaje
+    3) RQ3.1 [DEF-FE-10]: el campo con error declara aria-invalid y se une a su mensaje
+    ✓ RQ3.2: el aviso de enlace no válido no tiene violaciones serias (2516ms)
+    (Attempt 1 of 2) RQ5 [DEF-FE-08]: el formulario de nueva contraseña no tiene violaciones serias (botones del ojo con nombre)
+    4) RQ5 [DEF-FE-08]: el formulario de nueva contraseña no tiene violaciones serias (botones del ojo con nombre)
+    ✓ RQ1: el formulario de alta de usuarios no tiene violaciones serias (1456ms)
+
+
+  4 passing (1m)
+  4 failing
+
+  1) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ2 [DEF-FE-11]: con una sola tabulación desde la contraseña se llega al botón de envío:
+     AssertionError: Timed out retrying after 8000ms: expected '<div>' to have attribute 'type'
+
+  2) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ2 [DEF-FE-09]: el error de credenciales se anuncia (role="alert" o aria-live):
+     AssertionError: Timed out retrying after 8000ms: Expected to find element: `[role="alert"], [aria-live]`, but never found it. Queried from:
+
+              > cy.contains(Credenciales inválidas)
+
+  3) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ3.1 [DEF-FE-10]: el campo con error declara aria-invalid y se une a su mensaje:
+     AssertionError: Timed out retrying after 8000ms: expected '<input#correo-institucional.w-full.py-2.border.rounded-lg.bg-white.outline-none.transition-colors.focus:border-red-500.focus:ring-1.focus:ring-red-500.text-sm.pl-10.pr-10.border-red-500.focus:border-red-500.focus:ring-red-500>' to have attribute 'aria-invalid'
+
+  4) RQ1–RQ5 — Accesibilidad de autenticación
+       RQ5 [DEF-FE-08]: el formulario de nueva contraseña no tiene violaciones serias (botones del ojo con nombre):
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'button-name (critical): Buttons must have discernible text → .space-y-1:nth-child(2) > .relative > .right-0.pr-3.inset-y-0 > button[type="button"], .space-y-1:nth-child(3) > .relative > .right-0.pr-3.inset-y-0 > button[type="button"]' ]
+      +[]
+      
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      4                                                                                │
+  │ Failing:      4                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  8                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     1 minute, 13 seconds                                                             │
+  │ Spec Ran:     rq1-rq5-accesibilidad.cy.ts                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibilidad de auten               
+     ticación -- RQ2 [DEF-FE-11] con una sola tabulación desde la contraseña se llega               
+      al botón de envío (failed).png                                                                
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibilidad de auten               
+     ticación -- RQ2 [DEF-FE-11] con una sola tabulación desde la contraseña se llega               
+      al botón de envío (failed) (attempt 2).png                                                    
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibilidad de auten               
+     ticación -- RQ2 [DEF-FE-09] el error de credenciales se anuncia (role=alert o ar               
+     ia-live) (failed).png                                                                          
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibilidad de auten               
+     ticación -- RQ2 [DEF-FE-09] el error de credenciales se anuncia (role=alert o ar               
+     ia-live) (failed) (attempt 2).png                                                              
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibilidad de auten               
+     ticación -- RQ3.1 [DEF-FE-10] el campo con error declara aria-invalid y se une a               
+      su mensaje (failed).png                                                                       
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibilidad de auten               
+     ticación -- RQ3.1 [DEF-FE-10] el campo con error declara aria-invalid y se une a               
+      su mensaje (failed) (attempt 2).png                                                           
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibilidad de auten               
+     ticación -- RQ5 [DEF-FE-08] el formulario de nueva contraseña no tiene violacion               
+     es serias (botones del ojo con nombre) (failed).png                                            
+  -  EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rq1-rq5-accesibilidad.cy.ts/RQ1–RQ5 — Accesibilidad de auten               
+     ticación -- RQ5 [DEF-FE-08] el formulario de nueva contraseña no tiene violacion               
+     es serias (botones del ojo con nombre) (failed) (attempt 2).png                                
+
+
+  (Video)
+
+  -  Video output: EntreAulas_Front/reports/cypress/videos/rq1-rq5-accesibilidad.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✖  rq1-rq5-accesibilidad.cy.ts              01:13        8        4        4        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  1 of 1 failed (100%)                     01:13        8        4        4        -        -  
+

@@ -1,0 +1,70 @@
+
+Running 26 tests using 4 workers
+
+  ✓   3 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:55:7 › RQ1 — Alta de usuarios por el administrador › Clave débil (5.2s)
+  ✓   1 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:31:7 › RQ1 — Alta de usuarios por el administrador › Crear un estudiante (5.4s)
+  ✓   2 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:39:7 › RQ1 — Alta de usuarios por el administrador › El dominio cambia con el tipo (6.3s)
+  ✓   5 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:63:5 › RQ1 — Un estudiante no entra a la administración (3.1s)
+  ✓   6 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:20:7 › RQ2 — Inicio de sesión › Estudiante inicia sesión y llega a su panel (4.7s)
+  ✓   8 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:35:7 › RQ2 — Inicio de sesión › Clave incorrecta (4.5s)
+  ✓   7 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:29:7 › RQ2 — Inicio de sesión › El profesor elige "Docente" y llega a su panel (7.5s)
+  ✓   4 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:47:7 › RQ1 — Alta de usuarios por el administrador › Correo duplicado (13.9s)
+  ✓   9 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:43:7 › RQ2 — Inicio de sesión › Cuenta inactiva (4.2s)
+  ✓  10 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:50:7 › RQ2 — Inicio de sesión › Tipo de usuario incorrecto (5.8s)
+  ✓  13 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:22:7 › RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Correo no registrado (4.7s)
+  ✓  11 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:57:7 › RQ2 — Inicio de sesión › Correo con formato inválido (7.1s)
+  ✓  14 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:28:7 › RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Formato inválido (4.3s)
+  ✓  15 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:36:7 › RQ3.2 — Validación del token › Enlace vigente (4.1s)
+  ✓  16 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:43:7 › RQ3.2 — Validación del token › Enlace vencido (4.5s)
+  ✓  12 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:13:7 › RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Correo registrado (12.9s)
+  ✓  17 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:49:7 › RQ3.2 — Validación del token › Enlace incompleto (4.4s)
+  ✓  18 [chromium] › tests/rq5-nueva-contrasena.spec.ts:31:7 › RQ5 — Nueva contraseña › Cambio exitoso (10.3s)
+  ✓  21 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «Ab#1» → al menos 8 caracteres (6.0s)
+  ✓  19 [chromium] › tests/rq5-nueva-contrasena.spec.ts:40:7 › RQ5 — Nueva contraseña › Enlace de un solo uso (8.6s)
+  ✓  22 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «claveminus#1» → al menos una letra mayúscula (4.0s)
+  ✓  20 [chromium] › tests/rq5-nueva-contrasena.spec.ts:47:7 › RQ5 — Nueva contraseña › Las contraseñas no coinciden (11.6s)
+  ✓  23 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «CLAVEMAYUS#1» → al menos una letra minúscula (4.7s)
+  ✓  24 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «ClaveSinNum#» → al menos un número (4.6s)
+  ✓  25 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «ClaveSinEsp1» → al menos un carácter especial (3.9s)
+  ✘  26 [chromium] › tests/rq5-nueva-contrasena.spec.ts:66:7 › RQ5 — Nueva contraseña › Mostrar u ocultar contraseña con un botón con nombre accesible (DEF-FE-08) (31.5s)
+
+
+  1) [chromium] › tests/rq5-nueva-contrasena.spec.ts:66:7 › RQ5 — Nueva contraseña › Mostrar u ocultar contraseña con un botón con nombre accesible (DEF-FE-08) 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: /mostrar contraseña/i }).first()
+
+
+      68 |     await campo.fill(NUEVA)
+      69 |     await expect(campo).toHaveAttribute('type', 'password')
+    > 70 |     await page.getByRole('button', { name: /mostrar contraseña/i }).first().click()
+         |                                                                             ^
+      71 |     await expect(campo).toHaveAttribute('type', 'text')
+      72 |   })
+      73 | })
+        at EntreAulas_Front/ia-testing/playwright/tests/rq5-nueva-contrasena.spec.ts:70:77
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rq5-nueva-contrasena-RQ5-—-0daf7-nombre-accesible-DEF-FE-08--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/rq5-nueva-contrasena.spec.ts:66:7 › RQ5 — Nueva contraseña › Mostrar u ocultar contraseña con un botón con nombre accesible (DEF-FE-08) 
+  25 passed (1.3m)

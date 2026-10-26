@@ -11,6 +11,8 @@ import {
   muestraBotonDesactivar,
   esAutoDesactivacion,
   mensajeErrorAccion,
+  siguienteUsuarioCorreo,
+  type EstadoUsuarioCorreo,
   type UsuarioLista,
 } from '../../../features/dashboard-admin/gestionar-usuarios'
 
@@ -188,6 +190,33 @@ describe('RQ1 — Registro de usuarios desde admin', () => {
       expect(mensajeErrorAccion(null, 'No se pudo completar la acción')).toBe(
         'No se pudo completar la acción'
       )
+    })
+  })
+
+  describe('siguienteUsuarioCorreo — el campo «Correo» guarda solo el usuario (DEF-FE-12)', () => {
+    const teclear = (texto: string, desde: EstadoUsuarioCorreo = { valor: '', descartandoDominio: false }) => {
+      let estado = desde
+      for (const tecla of texto) estado = siguienteUsuarioCorreo(estado, estado.valor + tecla)
+      return estado
+    }
+
+    it('al teclear el correo completo descarta el dominio', () => {
+      expect(teclear('Carla.Ruiz@gmail.com')).toEqual({ valor: 'carla.ruiz', descartandoDominio: true })
+    })
+
+    it('pegar el correo completo deja el usuario', () => {
+      expect(siguienteUsuarioCorreo({ valor: '', descartandoDominio: false }, 'ana.gomez@udemedellin.edu.co').valor).toBe('ana.gomez')
+    })
+
+    it('borrar después del dominio vuelve al modo normal y permite corregir el usuario', () => {
+      const tras = teclear('ana@x')
+      const borrado = siguienteUsuarioCorreo(tras, 'an')
+      expect(borrado).toEqual({ valor: 'an', descartandoDominio: false })
+      expect(teclear('ita', borrado).valor).toBe('anita')
+    })
+
+    it('sin «@» funciona como antes (minúsculas y sin espacios)', () => {
+      expect(teclear('Luis Perez').valor).toBe('luisperez')
     })
   })
 })

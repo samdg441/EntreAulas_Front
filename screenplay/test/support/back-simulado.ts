@@ -12,6 +12,14 @@ export const CLAVE_VALIDA = 'Clave-Segura2026!'
 
 export const cuentas: Record<string, { id: string; nombre: string; apellido: string; tipo_usuario: string; roles: string[] }> = {
   'carlos.coordinador@udemedellin.edu.co': { id: 'u-coord', nombre: 'Carlos', apellido: 'Coordinador', tipo_usuario: 'coordinador', roles: ['coordinador'] },
+  // Cuenta con varios roles (como en producción): el dropdown "Tipo de Usuario" define la sesión.
+  'gloria.multiroles@udemedellin.edu.co': {
+    id: 'u-gloria',
+    nombre: 'Gloria',
+    apellido: 'Gasca',
+    tipo_usuario: 'coordinador',
+    roles: ['coordinador', 'profesor'],
+  },
   'eva.estudiante@soyudemedellin.edu.co': { id: 'u-est', nombre: 'Eva', apellido: 'Estudiante', tipo_usuario: 'estudiante', roles: ['estudiante'] },
   'lia.estudiante@soyudemedellin.edu.co': { id: 'u-lia', nombre: 'Lía', apellido: 'Nieto', tipo_usuario: 'estudiante', roles: ['estudiante'] },
   'ada.admin@udemedellin.edu.co': { id: 'u-ada', nombre: 'Ada', apellido: 'Admin', tipo_usuario: 'admin', roles: ['admin'] },
@@ -127,7 +135,41 @@ function responder(
     const clave = typeof cuerpo?.password === 'string' ? cuerpo.password : ''
     const cuenta = cuentas[email]
     if (!cuenta || clave !== CLAVE_VALIDA) return json(route, 401, { error: 'Credenciales inválidas' })
-    return json(route, 200, { token: `token-simulado-${cuenta.id}`, user: { ...cuenta, email } })
+    const user = { ...cuenta, email }
+    if (cuenta.roles.length > 1) {
+      return json(route, 200, {
+        message: 'Usuario con múltiples roles detectado',
+        user: { ...user, multiple_roles: true },
+        available_roles: cuenta.roles,
+        requires_role_selection: true,
+      })
+    }
+    return json(route, 200, { token: `token-simulado-${cuenta.id}`, user })
+  }
+
+  if (ruta === '/api/auth/login-with-role' && metodo === 'POST') {
+    const email = typeof cuerpo?.email === 'string' ? cuerpo.email : ''
+    const clave = typeof cuerpo?.password === 'string' ? cuerpo.password : ''
+    const selectedRole = typeof cuerpo?.selectedRole === 'string' ? cuerpo.selectedRole : ''
+    const cuenta = cuentas[email]
+    if (!cuenta || clave !== CLAVE_VALIDA || !cuenta.roles.includes(selectedRole)) {
+      return json(route, 401, { error: 'Credenciales inválidas' })
+    }
+    const dashboard =
+      selectedRole === 'coordinador'
+        ? '/dashboard-coordinador'
+        : selectedRole === 'profesor' || selectedRole === 'docente'
+          ? '/dashboard-profesor'
+          : '/dashboard'
+    return json(route, 200, {
+      token: `token-simulado-${cuenta.id}-${selectedRole}`,
+      user: {
+        ...cuenta,
+        email,
+        selected_role: selectedRole,
+        dashboard,
+      },
+    })
   }
 
   if (ruta === '/api/coordinador/dashboard-summary') {

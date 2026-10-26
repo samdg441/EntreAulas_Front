@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://api.bugbug.io/v2/schema/yaml/v1/
+schema_version: '1.0'
+schema_type: test
+data:
+  slug: bb-rq3-03-formato-invalido
+  name: BB-RQ3-03 Formato de correo inválido (error)
+  runtime: browser
+  screen_size: desktop
+  notes: 'Generado desde ia-testing/bugbug/guiones-rq1-rq5.md. Variables requeridas: url, admin_email, admin_password, estudiante_email, estudiante_password, clave_valida.'
+  groups:
+  - group_name: Solicitud
+    slug: bb-rq3-03-formato-invalido-1
+    steps:
+    - action: goto
+      name: Abrir /forgot-password
+      action_details:
+        url: '{{url}}/forgot-password'
+    - action: type
+      name: Escribir el correo
+      action_details:
+        selector: xpath=//input[@type="email"]
+        value: usuario@dominio
+    - action: click
+      name: Enviar enlace de recuperación
+      action_details:
+        selector: xpath=//button[normalize-space(.)="Enviar enlace de recuperación"]
+    - action: assert
+      name: La página muestra «Por favor, ingresa un correo electrónico válido»
+      action_details:
+        assertion_property: pageShowsText
+        assertion_type: contain
+        assertion_expected_value: Por favor, ingresa un correo electrónico válido

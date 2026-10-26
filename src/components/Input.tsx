@@ -20,6 +20,8 @@ export default function Input({
   ...props
 }: InputProps) {
   const inputId = id || props.name || label.toLowerCase().replace(/\s+/g, '-')
+  // DEF-FE-10: el campo con error lo declara y queda unido a su mensaje para los lectores de pantalla.
+  const errorId = `${inputId}-error`
   const hasLeft = Boolean(leftIcon)
   const hasRight = Boolean(rightElement) || Boolean(error && showErrorIcon)
 
@@ -36,6 +38,8 @@ export default function Input({
         )}
         <input
           id={inputId}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
           className={[
             'w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm',
             hasLeft ? 'pl-10' : 'pl-3',
@@ -60,7 +64,7 @@ export default function Input({
         )}
       </div>
       {error && (
-        <p className="text-sm text-red-600 flex items-center gap-1 mt-1">
+        <p id={errorId} className="text-sm text-red-600 flex items-center gap-1 mt-1">
           <FaExclamationCircle className="h-3 w-3" />
           {error}
         </p>

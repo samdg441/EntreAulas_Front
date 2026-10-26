@@ -128,6 +128,21 @@ export function usuarioDeCorreo(valor: string): string {
   return valor.split('@')[0].replace(/\s/g, '').toLowerCase()
 }
 
+export type EstadoUsuarioCorreo = { valor: string; descartandoDominio: boolean }
+
+/**
+ * DEF-FE-12: el campo «Correo» del alta guarda solo el usuario. Al teclear «ana@gmail.com», la «@» recorta el valor,
+ * pero las teclas siguientes ya no traen «@» y se pegaban al usuario («anagmail.com»). Mientras se siga escribiendo
+ * el dominio (el texto solo crece a partir del valor mostrado) se ignora; borrar o corregir vuelve al modo normal.
+ */
+export function siguienteUsuarioCorreo(estado: EstadoUsuarioCorreo, escrito: string): EstadoUsuarioCorreo {
+  if (escrito.includes('@')) return { valor: usuarioDeCorreo(escrito), descartandoDominio: true }
+  if (estado.descartandoDominio && escrito.length > estado.valor.length && escrito.startsWith(estado.valor)) {
+    return estado
+  }
+  return { valor: usuarioDeCorreo(escrito), descartandoDominio: false }
+}
+
 export function armarCorreoInstitucional(usuario: string, tipoORoles: string | string[]): string | null {
   const local = usuarioDeCorreo(usuario)
   if (!local || !/^[a-z0-9._+-]+$/.test(local)) return null

@@ -1,7 +1,7 @@
 /**
  * DEF-FE-04 — El login navega a cualquier valor guardado en `redirectTo` sin validarlo (RQ2)
  *
- * Severidad: Baja (hoy) | Estado: ABIERTO
+ * Severidad: Baja (hoy) | Estado: CORREGIDO (2026-10-26)
  *
  * `Login.tsx` hace `navigate(authStorage.consumeRedirectTo())` sin validar el destino. Con React Router 7
  * una URL absoluta se interpreta como ruta relativa (`/login/https://evil...`, pantalla rota) y `//host`

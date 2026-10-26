@@ -1,0 +1,85 @@
+{
+  "nombre": "rq1-crear-usuario-ollama",
+  "fecha": "2026-10-26T18:20:54.083Z",
+  "url": "http://localhost:3001/admin/users",
+  "metrics": {
+    "actPromptTokens": 0,
+    "actCompletionTokens": 0,
+    "actReasoningTokens": 0,
+    "actCachedInputTokens": 0,
+    "actInferenceTimeMs": 0,
+    "extractPromptTokens": 1187,
+    "extractCompletionTokens": 103,
+    "extractReasoningTokens": 0,
+    "extractCachedInputTokens": 0,
+    "extractInferenceTimeMs": 115428,
+    "observePromptTokens": 8060,
+    "observeCompletionTokens": 374,
+    "observeReasoningTokens": 0,
+    "observeCachedInputTokens": 0,
+    "observeInferenceTimeMs": 494505,
+    "totalPromptTokens": 9247,
+    "totalCompletionTokens": 477,
+    "totalReasoningTokens": 0,
+    "totalCachedInputTokens": 0,
+    "totalInferenceTimeMs": 609933
+  },
+  "campos": [
+    {
+      "selector": "xpath=/html[1]/body[1]/div[1]/div[1]/div[4]/div[1]/form[1]/div[1]/div[1]/input[1]",
+      "description": "fill Nombre",
+      "method": "fill",
+      "arguments": [
+        "Nombre"
+      ]
+    },
+    {
+      "selector": "xpath=/html[1]/body[1]/div[1]/div[1]/div[4]/div[1]/form[1]/div[2]/div[1]/input[1]",
+      "description": "fill Apellido",
+      "method": "fill",
+      "arguments": [
+        "Apellido"
+      ]
+    },
+    {
+      "selector": "xpath=/html[1]/body[1]/div[1]/div[1]/div[4]/div[1]/form[1]/div[3]/div[1]",
+      "description": "fill Correo",
+      "method": "fill",
+      "arguments": [
+        "Correo"
+      ]
+    },
+    {
+      "selector": "xpath=/html[1]/body[1]/div[1]/div[1]/div[4]/div[1]/form[1]/div[4]/div[1]/input[1]",
+      "description": "fill Contraseña",
+      "method": "fill",
+      "arguments": [
+        "Contraseña"
+      ]
+    },
+    {
+      "selector": "xpath=/html[1]/body[1]/div[1]/div[1]/div[4]/div[1]/form[1]/div[5]/select[1]",
+      "description": "selectOptionFromDropdown Tipo de usuario",
+      "method": "selectOptionFromDropdown",
+      "arguments": [
+        "admin"
+      ]
+    }
+  ],
+  "extraido": {
+    "correos": [
+      "ada@udemedellin.edu.co",
+      "eva@soyudemedellin.edu.co",
+      "pablo@udemedellin.edu.co",
+      "sh.1793038241379@soyudemedellin.edu.co"
+    ]
+  },
+  "enviadoAlBack": {
+    "email": "sh.1793038241379@soyudemedellin.edu.co",
+    "password": "***",
+    "nombre": "STAGEHAND",
+    "apellido": "PRUEBA",
+    "tipo_usuario": "estudiante"
+  },
+  "respaldosDeterministicos": []
+}

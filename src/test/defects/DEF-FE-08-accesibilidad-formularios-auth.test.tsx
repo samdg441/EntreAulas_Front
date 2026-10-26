@@ -1,7 +1,7 @@
 /**
  * DEF-FE-08 / DEF-FE-09 / DEF-FE-10 — Accesibilidad de los formularios de autenticación (RQ2, RQ3, RQ5)
  *
- * Severidad: Media | Estado: ABIERTO. Estas pruebas expresan el comportamiento CORRECTO y fallan a propósito.
+ * Severidad: Media | Estado: CORREGIDO (2026-10-26). Estas pruebas expresan el comportamiento CORRECTO y hoy pasan.
  *
  * DEF-FE-08  Los botones de «mostrar/ocultar contraseña» de ResetPassword solo contienen un icono: un lector de
  *            pantalla anuncia «botón» sin nombre. Falta aria-label (WCAG 4.1.2 Nombre, función, valor).

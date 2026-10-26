@@ -1,4 +1,4 @@
-# Cypress — RQ6, RQ14–RQ17, RQ18, RQ19, RQ22–RQ25 y RQ27
+# Cypress — RQ1–RQ5,RQ6,RQ14–RQ17, RQ18, RQ19, RQ22–RQ25 y RQ27
 
 Proyecto aparte (como [CYPRESS-ENTERPRISE](https://github.com/mauricioramirezv/CYPRESS-ENTERPRISE)):
 `npm ci` del front **no** descarga Cypress.
@@ -7,10 +7,41 @@ Proyecto aparte (como [CYPRESS-ENTERPRISE](https://github.com/mauricioramirezv/C
 
 | Carpeta | Qué prueba | Back |
 |---|---|---|
-| `cypress/e2e/ui/` | Validación de formularios (RQ15 y RQ19) | No se llama |
-| `cypress/e2e/regression/` | RQ6, RQ14–RQ17 y RQ27, más RQ18, RQ19 y RQ22–RQ25 | Simulado con `cy.intercept` |
-| `cypress/e2e/api/` | Contrato HTTP real (RQ6, RQ14–RQ17, RQ27, RQ18 y RQ22–RQ25) | Render |
-| `cypress/e2e/security/` | Tokens falsos y rechazos (RQ6, RQ15–RQ17 y RQ19) | Render |
+| `cypress/e2e/ui/` | Validación del formulario de login (RQ19) | No se llama |
+| `cypress/e2e/regression/` | Flujos de pantalla RQ18, RQ19, RQ22–RQ25 | Simulado con `cy.intercept` |
+| `cypress/e2e/api/` | Contrato HTTP real (RQ18, RQ22–RQ25) | Render |
+| `cypress/e2e/security/` | Tokens falsos, CORS, cabeceras (RQ19) | Render |
+| `cypress/e2e/ui/rq[1-5]-*` | Formularios de alta (RQ1), login (RQ2), recuperación (RQ3.1, RQ4), validación del token (RQ3.2) y nueva clave (RQ5): casos exitosos, alternativos y de error | Simulado con `cy.intercept` |
+| `cypress/e2e/regression/rq1-rq5-*` | Ciclo de vida completo de la cuenta: alta → login → recuperación → nueva clave → login | Back en memoria (`support/back-en-memoria.ts`) |
+| `cypress/e2e/accessibility/` | WCAG 2.1 AA con axe-core y teclado (RQ1–RQ5) | Simulado |
+| `cypress/e2e/api/rq1-rq5-*`, `security/rq1-rq5-*` | Contrato y seguridad de la API de autenticación (JWT falsos, inyección, rate limit, cabeceras) | Render |
+| `cypress/features/` + `cypress/screenplay/` | BDD en Gherkin (español) con el patrón Screenplay | `@web` back en memoria, `@api` Render |
+
+## Screenplay + Gherkin (RQ1–RQ5)
+
+```
+cypress/
+├── features/            ← escenarios Dado/Cuando/Entonces (# language: es)
+├── step-definitions/    ← traducen cada paso en lo que hace el actor
+│   ├── elenco.ts        ← reparte habilidades a los actores en cada escenario
+│   └── pasos.steps.ts
+└── screenplay/
+    ├── actor.ts         ← Actor (whoCan / attemptsTo / asksFor / remember) y Elenco
+    ├── abilities/       ← NavegarLaWeb, UsarElBackSimulado, LlamarALaApi
+    ├── interactions/    ← Visitar, Escribir, Pulsar, Seleccionar, OlvidarLaSesion, Pedir
+    ├── tasks/           ← IniciarSesion, CrearUsuario, SolicitarRecuperacion, AbrirElEnlaceDelCorreo, RestablecerContrasena, PedirEnlaceDeRecuperacionPorApi
+    ├── questions/       ← RutaActual, MensajeVisible, FilaDeUsuario, CorreosRecibidos, CuentasRegistradas, UltimaRespuesta
+    └── ui.ts            ← localizadores
+```
+
+```bash
+npm run cy:bdd          # 35 escenarios; reporte en ../reports/cypress/bdd/cucumber-report.html
+npm run cy:rq1-rq5      # UI + regresión + accesibilidad + API + seguridad de RQ1–RQ5
+```
+
+> En Linux con VS Code, si Cypress responde `bad option: --no-sandbox`, la terminal heredó
+> `ELECTRON_RUN_AS_NODE=1`: ejecuta con `env -u ELECTRON_RUN_AS_NODE npm run ...`.
+> Los scripts usan Chromium (`CY_BROWSER` para cambiarlo) porque Electron no capturaba pantallas en esta máquina.
 
 ## Instalación (una vez)
 
@@ -49,6 +80,7 @@ npm run test:e2e
 |---|---|
 | `API_URL` | Back (por defecto `https://entreaulas-back.onrender.com`) |
 | `CYPRESS_TOKEN_COORDINADOR` | JWT de coordinador; sin él, la suite de contrato se omite |
+| `CYPRESS_ADMIN_EMAIL` / `CYPRESS_ADMIN_PASSWORD` | Admin de pruebas para los casos positivos de RQ1–RQ5 contra el back real; sin ellos se omiten |
 
 Cypress 16: valores públicos van en `expose` (`apiUrl`); el token se lee con `cy.env(['TOKEN_COORDINADOR'])`.
 

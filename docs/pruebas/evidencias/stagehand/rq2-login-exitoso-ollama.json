@@ -1,0 +1,28 @@
+{
+  "nombre": "rq2-login-exitoso-ollama",
+  "fecha": "2026-10-26T16:49:23.657Z",
+  "url": "http://localhost:3001/dashboard-estudiante",
+  "metrics": {
+    "actPromptTokens": 0,
+    "actCompletionTokens": 0,
+    "actReasoningTokens": 0,
+    "actCachedInputTokens": 0,
+    "actInferenceTimeMs": 0,
+    "extractPromptTokens": 847,
+    "extractCompletionTokens": 42,
+    "extractReasoningTokens": 0,
+    "extractCachedInputTokens": 0,
+    "extractInferenceTimeMs": 119182,
+    "observePromptTokens": 726,
+    "observeCompletionTokens": 121,
+    "observeReasoningTokens": 0,
+    "observeCachedInputTokens": 0,
+    "observeInferenceTimeMs": 107867,
+    "totalPromptTokens": 1573,
+    "totalCompletionTokens": 163,
+    "totalReasoningTokens": 0,
+    "totalCachedInputTokens": 0,
+    "totalInferenceTimeMs": 227049
+  },
+  "ruta": "/dashboard-estudiante"
+}
