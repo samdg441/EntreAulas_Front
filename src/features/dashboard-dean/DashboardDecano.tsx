@@ -26,6 +26,7 @@ import { fetchProfessorSubjects, fetchDetailedFacultyProfessors, fetchAllCareerR
 
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
+import EmptyState from '../../components/EmptyState';
 
 // Importar la imagen de fondo
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
@@ -89,6 +90,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
 
   const [errorCarga, setErrorCarga] = useState<string | null>(null);
   const [promedioGeneral, setPromedioGeneral] = useState<number | null>(null);
+  const [promedioPorCarrera, setPromedioPorCarrera] = useState<Record<string, number>>({});
   const [intentoCarga, setIntentoCarga] = useState(0);
 
   // Cargar datos de la facultad
@@ -121,6 +123,18 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
       const promedio =
         resultados.status === 'fulfilled' ? Number(resultados.value?.estadisticas_generales?.promedio_general) : Number.NaN;
       setPromedioGeneral(Number.isFinite(promedio) && promedio > 0 ? promedio : null);
+      const porCarrera =
+        resultados.status === 'fulfilled' && Array.isArray(resultados.value?.resultados_por_carrera)
+          ? resultados.value.resultados_por_carrera
+          : [];
+      setPromedioPorCarrera(
+        Object.fromEntries(
+          porCarrera.map((fila: { carrera_id?: string | number; calificacion_promedio?: number }) => [
+            String(fila.carrera_id),
+            Number(fila.calificacion_promedio) || 0,
+          ])
+        )
+      );
       setLoadingCareers(false);
     };
 
@@ -227,7 +241,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                   {getGreeting()}, Decano {currentUser.name.split(' ')[0]}!
                 </h2>
                 <p className="text-lg text-gray-600">
-                  Bienvenido al panel de control de la Facultad de Ingenierías. Aquí puedes gestionar todas las carreras y supervisar el rendimiento académico.
+                  Vista consolidada de facultad. Para métricas por programa específico, utiliza los filtros en Reportes.
                 </p>
                 {!checkDecanoRole() && (
                   <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
@@ -403,15 +417,16 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
               >
-                <SectionCard title="Carreras Destacadas" icon={GraduationCap}>
+                <SectionCard title="Carreras destacadas" icon={GraduationCap}>
                   <div className="space-y-3">
                     {careers.length > 0 ? (
                       careers
                         .map((career: any) => ({
                           ...career,
-                          professorCount: professorsByCareer[career.id.toString()]?.length || 0
+                          professorCount: professorsByCareer[career.id.toString()]?.length || 0,
+                          promedio: promedioPorCarrera[String(career.id)] || 0,
                         }))
-                        .sort((a: any, b: any) => b.professorCount - a.professorCount)
+                        .sort((a: any, b: any) => b.promedio - a.promedio || b.professorCount - a.professorCount)
                         .slice(0, 3)
                         .map((career: any, index: number) => (
                           <div
@@ -428,16 +443,24 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                               <p className="font-medium text-gray-900 text-sm">{career.nombre}</p>
                               <div className="flex items-center gap-2 mt-1">
                                 <Users className="h-3 w-3 text-gray-500" />
-                                <span className="text-xs text-gray-600">{career.professorCount} profesores</span>
+                                <span className="text-xs text-gray-600">
+                                  {career.promedio > 0 ? `${career.promedio.toFixed(1)}/5 · ` : ''}
+                                  {career.professorCount} docentes
+                                </span>
                               </div>
                             </div>
                             <ChevronRight className="h-4 w-4 text-gray-400" />
                           </div>
                         ))
                     ) : (
-                      <div className="text-center py-4 text-gray-500 text-sm">
-                        Cargando datos de carreras...
-                      </div>
+                      <EmptyState
+                        titulo={loadingCareers ? 'Cargando carreras' : 'Sin carreras para mostrar'}
+                        descripcion={
+                          loadingCareers
+                            ? 'Estamos consultando la facultad.'
+                            : 'No hay carreras con datos en este momento. Revisa Reportes o vuelve a intentar.'
+                        }
+                      />
                     )}
                   </div>
                 </SectionCard>

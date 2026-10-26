@@ -26,6 +26,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { fetchCoordinatorDashboardSummary, CoordinatorTeacherSummary } from '../../api/coordinador.api';
 import { statsVaciasCoordinador } from './docentes';
 import { promedioVisible } from '../../lib/calificaciones';
+import HelpTooltip from '../../components/HelpTooltip';
+import OnboardingBanner from '../../components/OnboardingBanner';
 
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
@@ -178,6 +180,14 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
         <Header user={currentUser} />
         
         <main className="max-w-[1700px] mx-auto p-6 lg:p-8 space-y-8">
+          <OnboardingBanner
+            rol="coordinador"
+            pasos={[
+              'Revisa docentes en atención (promedio inferior a 4.0).',
+              'Programa la ventana: periodo, fechas y cursos.',
+              'Genera los QR y notifica a los grupos.',
+            ]}
+          />
           {/* Welcome Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -190,7 +200,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                   {getGreeting()}, Coord. {currentUser.name.split(' ')[0]}!
                 </h2>
                 <p className="text-lg text-gray-600">
-                  Bienvenido a tu panel de control como coordinador. Aquí puedes supervisar los profesores de tu carrera y gestionar la actividad académica.
+                  Panel de coordinación de tu carrera. Supervisa docentes, ventanas de evaluación y códigos QR. El alcance es la carrera, no toda la facultad.
                 </p>
               </CardContent>
             </Card>
@@ -262,8 +272,9 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             >
               <Card className={`shadow-md p-6 border ${riesgoGlobal ? 'bg-red-50 border-red-200' : 'bg-white border-gray-200'}`}>
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Promedio General
+                    <HelpTooltip texto="Docente en atención: promedio ponderado inferior a 4.0 con al menos 5 encuestas completadas." />
                   </CardTitle>
                   {riesgoGlobal
                     ? <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
@@ -279,7 +290,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                     )}
                   </div>
                   <p className="text-sm text-gray-500 mt-2 text-left">
-                    {riesgoGlobal ? 'Atención: promedio menor a 4.0' : 'Promedio general de evaluaciones'}
+                    {riesgoGlobal ? 'Docente en atención: promedio inferior a 4.0' : 'Promedio general de evaluaciones'}
                   </p>
                 </CardContent>
               </Card>

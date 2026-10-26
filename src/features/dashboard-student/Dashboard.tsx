@@ -21,6 +21,8 @@ import { useState, useEffect } from 'react';
 import { fetchStudentStats, fetchStudentEnrolledSubjects } from '../../api/teachers';
 import { filasVistaMaterias, materiasDesdeApi, MateriaMatriculadaVista } from './estudiante-materias';
 import Calendar from '../../components/Calendar';
+import EmptyState from '../../components/EmptyState';
+import OnboardingBanner from '../../components/OnboardingBanner';
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
@@ -321,11 +323,13 @@ async function fetchDashboardData(
     });
   } catch (error: unknown) {
     const err = error as { response?: { data?: { error?: string } }; message?: string };
-    console.warn(
-      '⚠️ Error loading student data, showing dashboard with zeros:',
-      err.response?.data?.error || err.message
-    );
-    apply({ stats: EMPTY_STUDENT_STATS, materias: [], loading: false, error: '' });
+    const mensaje = err.response?.data?.error || err.message || 'No se pudieron cargar tus materias.'
+    apply({
+      stats: EMPTY_STUDENT_STATS,
+      materias: [],
+      loading: false,
+      error: mensaje,
+    });
   }
 }
 
@@ -344,7 +348,7 @@ function DashboardLoading({ user }: Readonly<{ user: User }>) {
       <main className="max-w-[1700px] mx-auto p-6 lg:p-8 flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="inline-block h-10 w-10 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
-          <p className="mt-4 text-gray-700">Cargando tu dashboard...</p>
+          <p className="mt-4 text-gray-700">Cargando tu panel...</p>
         </div>
       </main>
     </Shell>
@@ -488,7 +492,14 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
 
 function MateriasList({ filas }: Readonly<{ filas: MateriaMatriculadaVista[] }>) {
   if (filas.length === 0) {
-    return <p className="text-sm text-gray-600">No tienes materias matriculadas este semestre.</p>;
+    return (
+      <EmptyState
+        titulo="No tienes materias matriculadas"
+        descripcion="Solo se listan materias en las que estás matriculado. Si acabas de inscribirte, actualiza el panel."
+        accion="Actualizar"
+        onAccion={() => window.location.reload()}
+      />
+    );
   }
 
   return (
@@ -527,7 +538,7 @@ function MateriasCard({ filas }: Readonly<{ filas: MateriaMatriculadaVista[] }>)
             <CardTitle className="text-xl text-gray-900">Mis materias matriculadas</CardTitle>
           </div>
           <CardDescription className="text-base">
-            Relación estudiante–materia del periodo actual
+            Solo se listan materias en las que estás matriculado. Evalúa en las fechas vigentes o escaneando el QR en clase.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -571,6 +582,17 @@ function DashboardReady({
         <Header user={currentUser} />
 
         <main className="max-w-[1700px] mx-auto p-6 lg:p-8 space-y-8">
+          {user.type === 'student' && (
+            <OnboardingBanner
+              rol="estudiante"
+              pasos={[
+                'Revisa las materias en las que estás matriculado.',
+                'Evalúa en las fechas vigentes o con el QR de la clase.',
+                'Al terminar puedes volver al panel o evaluar la siguiente materia.',
+              ]}
+            />
+          )}
+
           <WelcomeCard user={user} />
 
           <div className="flex flex-col gap-8">
@@ -583,7 +605,9 @@ function DashboardReady({
             </div>
           </div>
 
-          {user.type === 'student' && <MateriasCard filas={filasMaterias} />}
+          {user.type === 'student' && (
+            <MateriasCard filas={filasMaterias} />
+          )}
         </main>
       </div>
 

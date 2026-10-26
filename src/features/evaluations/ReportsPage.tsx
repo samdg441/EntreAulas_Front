@@ -48,6 +48,7 @@ import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Badge from '../../components/Badge';
 import Header from '../../components/Header';
+import HelpTooltip from '../../components/HelpTooltip';
 import { User } from '../../types';
 import { 
   ArrowLeft, 
@@ -562,6 +563,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                    <CardTitle className="flex items-center gap-2">
                      <Users className="h-5 w-5 text-blue-600" />
                      Tasa de Respuesta
+                     <HelpTooltip texto="Porcentaje de estudiantes elegibles que enviaron la encuesta en el periodo. No es el promedio de calificación." />
                    </CardTitle>
                    <CardDescription>De estudiantes elegibles</CardDescription>
                  </CardHeader>
@@ -877,7 +879,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                     params={{
                       periodo_id: currentPeriod
                     }}
-                    title="Resumen IA (Facultad de Ingeniería)"
+                    title="Resumen IA (facultad)"
                     description="Generado con Google Gemini y extracción local de temas - Todas las evaluaciones de la facultad"
                   />
                 )

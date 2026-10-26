@@ -123,25 +123,31 @@ function App() {
         <Route 
           path="/dashboard-estudiante" 
           element={
-            user ? <DashboardWrapper onViewReports={handleViewReports} /> : <Navigate to="/login" replace />
+            <ProtectedRoute allowedRoles={['estudiante']}>
+              <DashboardWrapper onViewReports={handleViewReports} />
+            </ProtectedRoute>
           } 
         />
         <Route 
           path="/dashboard-profesor" 
           element={
-            user ? <DashboardProfesorWrapper /> : <Navigate to="/login" replace />
+            <ProtectedRoute allowedRoles={['profesor']}>
+              <DashboardProfesorWrapper />
+            </ProtectedRoute>
           } 
         />
         <Route 
           path="/dashboard-coordinador" 
           element={
-            user ? <DashboardCoordinadorWrapper /> : <Navigate to="/login" replace />
+            <ProtectedRoute allowedRoles={['coordinador']}>
+              <DashboardCoordinadorWrapper />
+            </ProtectedRoute>
           } 
         />
         <Route 
           path="/dashboard-decano" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['decano']}>
               <DashboardDecanoWrapper />
             </ProtectedRoute>
           } 
@@ -149,7 +155,7 @@ function App() {
         <Route 
           path="/career-subjects" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['decano']}>
               <CareerSubjectsPageWrapper />
             </ProtectedRoute>
           } 
@@ -157,7 +163,7 @@ function App() {
         <Route 
           path="/professors" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['decano']}>
               <ProfessorsPageWrapper />
             </ProtectedRoute>
           } 
@@ -165,7 +171,7 @@ function App() {
         <Route 
           path="/career-results" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['decano']}>
               <CareerResultsPageWrapper />
             </ProtectedRoute>
           } 
@@ -180,51 +186,68 @@ function App() {
         />        <Route 
           path="/evaluate/selection" 
           element={
-            <TeacherSelectionWrapper 
-              onTeacherCourseSelected={handleTeacherCourseSelected}
-              onBack={handleBackFromEvaluation}
-            />
+            <ProtectedRoute allowedRoles={['estudiante']}>
+              <TeacherSelectionWrapper 
+                onTeacherCourseSelected={handleTeacherCourseSelected}
+                onBack={handleBackFromEvaluation}
+              />
+            </ProtectedRoute>
           } 
         />
         <Route 
           path="/evaluate/form" 
           element={
-            <EvaluationFormWrapper />
+            <ProtectedRoute allowedRoles={['estudiante']}>
+              <EvaluationFormWrapper />
+            </ProtectedRoute>
           } 
         />
         <Route
           path="/evaluate/goodbye"
-          element={<EvaluationGoodbyeWrapper />}
+          element={
+            <ProtectedRoute allowedRoles={['estudiante']}>
+              <EvaluationGoodbyeWrapper />
+            </ProtectedRoute>
+          }
         />
-        {/* Nueva ruta para reportes */}
         <Route 
           path="/reports" 
           element={
-            <ReportsPageWrapper />
+            <ProtectedRoute allowedRoles={['profesor', 'coordinador', 'decano', 'admin']}>
+              <ReportsPageWrapper />
+            </ProtectedRoute>
           } 
         />
         <Route 
           path="/surveys/schedule" 
           element={
-            <ScheduleSurveys />
+            <ProtectedRoute allowedRoles={['coordinador', 'admin']}>
+              <ScheduleSurveys />
+            </ProtectedRoute>
           } 
         />
         <Route 
           path="/profesores/gestionar" 
           element={
-            <ManageProfessors />
+            <ProtectedRoute allowedRoles={['coordinador']}>
+              <ManageProfessors />
+            </ProtectedRoute>
           } 
         />
         <Route 
           path="/survey" 
           element={
-            <SurveyViewWrapper />
+            <ProtectedRoute allowedRoles={['profesor']}>
+              <SurveyViewWrapper />
+            </ProtectedRoute>
           } 
         />
         <Route 
           path="/reports/survey-results" 
           element={
-            <SurveyResultsWrapper />
+            <ProtectedRoute allowedRoles={['profesor', 'coordinador', 'decano', 'admin']}>
+              <SurveyResultsWrapper />
+            </ProtectedRoute>
           } 
         />
       </Routes>
