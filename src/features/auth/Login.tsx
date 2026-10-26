@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext'
 import { isValidEmail } from '../../lib/validation'
 import { authStorage } from '../../lib/storage'
 import { getApiErrorMessage } from '../../lib/apiError'
-import { getUserTypeLabel } from './login-flow'
+import { esRutaInterna, getUserTypeLabel } from './login-flow'
 import { RoleMismatchError } from './errors'
 import {
   FaGraduationCap,
@@ -58,7 +58,7 @@ export default function Login() {
 
   const redirectAfterLogin = (fallback: () => void) => {
     const redirectTo = authStorage.consumeRedirectTo()
-    if (redirectTo) {
+    if (esRutaInterna(redirectTo)) {
       navigate(redirectTo)
       return
     }
