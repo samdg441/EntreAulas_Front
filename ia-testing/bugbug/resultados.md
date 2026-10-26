@@ -73,7 +73,7 @@ En la columna "¿Verifica?" se indica si la prueba termina con una aserción, es
 
 | Métrica | Valor |
 |---|---|
-| Pruebas importadas desde YAML (sin grabar) | 13 archivos generados y validados contra el esquema oficial. 5 quedaron en la suite tal como se importaron |
+| Pruebas importadas desde YAML (sin grabar) | 13 archivos generados y validados contra el esquema oficial. 5 quedaron en la suite tal como se importaron. Los YAML se quitaron del repositorio y siguen en el historial (`c14ec89`) |
 | Pruebas que hubo que regrabar | 6 |
 | Pruebas eliminadas | BB-RQ32-01 |
 | Pruebas inestables (pasan y fallan sin cambios) | No se observan en esta ejecución, porque hubo una sola |
