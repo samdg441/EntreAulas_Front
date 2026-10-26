@@ -234,6 +234,7 @@ export default function Login() {
             {/* Mostrar error si existe */}
             {error && (
               <motion.div
+                role="alert"
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
@@ -243,10 +244,11 @@ export default function Login() {
             )}
 
             {/* Botón de Ingresar con icono dinámico */}
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            {/* DEF-FE-11: whileTap de framer-motion agregaba un <div tabindex="0"> antes del botón; el efecto va en CSS. */}
+            <div>
               <Button
                 type="submit"
-                className="w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base"
+                className="w-full py-2 bg-red-600 hover:bg-red-700 text-white text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -261,7 +263,7 @@ export default function Login() {
                   </div>
                 )}
               </Button>
-            </motion.div>
+            </div>
           </form>
 
           {/* Enlace de olvidé contraseña */}

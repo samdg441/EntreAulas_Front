@@ -493,7 +493,7 @@ export default function AdminUsersPage() {
             </h2>
 
             {formError && (
-              <p className="mb-3 text-sm text-red-600 bg-red-50 border border-red-100 rounded-md p-2">
+              <p role="alert" className="mb-3 text-sm text-red-600 bg-red-50 border border-red-100 rounded-md p-2">
                 {formError}
               </p>
             )}

@@ -146,7 +146,7 @@ export default function ResetPassword() {
 
           {!isValidating && !success && !tokenValid && (
             <div className="space-y-4">
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+              <div role="alert" className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
                 {errors.general || 'Token inválido o expirado'}
               </div>
               <Button
@@ -182,7 +182,13 @@ export default function ResetPassword() {
                 showErrorIcon={false}
                 leftIcon={<FaLock className="h-4 w-4 text-gray-500" />}
                 rightElement={
-                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="flex items-center">
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="flex items-center"
+                    aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                    aria-pressed={showPassword}
+                  >
                     {showPassword ? (
                       <FaEyeSlash className="h-4 w-4 text-gray-500" />
                     ) : (
@@ -212,6 +218,8 @@ export default function ResetPassword() {
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="flex items-center"
+                    aria-label={showConfirmPassword ? 'Ocultar contraseña de confirmación' : 'Mostrar contraseña de confirmación'}
+                    aria-pressed={showConfirmPassword}
                   >
                     {showConfirmPassword ? (
                       <FaEyeSlash className="h-4 w-4 text-gray-500" />
@@ -227,7 +235,7 @@ export default function ResetPassword() {
               </p>
 
               {errors.general && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                <div role="alert" className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
                   {errors.general}
                 </div>
               )}
