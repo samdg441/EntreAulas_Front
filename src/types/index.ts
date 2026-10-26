@@ -8,11 +8,19 @@ export interface User {
   roles?: string[];
 }
 
+export interface CourseGroupRef {
+  id: string | number;
+  numero?: string | number;
+  evaluada?: boolean;
+}
+
 export interface Course {
   id: string;
   name: string;
   code: string;
   schedule: string;
+  evaluada?: boolean;
+  groups?: CourseGroupRef[];
 }
 
 export interface Teacher {

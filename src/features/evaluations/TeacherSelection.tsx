@@ -12,6 +12,16 @@ import Button from '../../components/Button';
 import Badge from '../../components/Badge';
 import Header from '../../components/Header';
 import { Teacher, Course, User } from '../../types';
+
+function cursoEvaluado(course: Course) {
+  if (course.evaluada) return true
+  const groups = course.groups || []
+  return groups.length > 0 && groups.every((group) => group.evaluada)
+}
+
+function docenteEvaluado(teacher: Teacher) {
+  return teacher.courses.length > 0 && teacher.courses.every(cursoEvaluado)
+}
 import { fetchTeachersWithCourses, fetchCourseGroups } from '../../api/teachers'
 import { 
   Search, 
@@ -44,17 +54,19 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
   const [loadingGroups, setLoadingGroups] = useState<boolean>(false)
   const [selectedGroup, setSelectedGroup] = useState<any>(null)
 
-  useEffect(() => {
+  const cargarDocentes = () => {
     let active = true
+    setLoading(true)
+    setError(null)
     ;(async () => {
       try {
-        setLoading(true)
         const data = await fetchTeachersWithCourses()
         if (!active) return
         setTeachers(data)
       } catch (e: any) {
         if (!active) return
-        setError(e?.message ?? 'Error cargando docentes')
+        setTeachers([])
+        setError(e?.message ?? 'No se pudieron cargar las materias. Reintenta.')
       } finally {
         if (active) setLoading(false)
       }
@@ -62,7 +74,9 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
     return () => {
       active = false
     }
-  }, [])
+  }
+
+  useEffect(() => cargarDocentes(), [])
 
   const filteredTeachers = useMemo(() => {
     const source = teachers
@@ -78,6 +92,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
   }, [searchTerm, teachers]);
 
   const handleTeacherSelect = (teacher: Teacher) => {
+    if (docenteEvaluado(teacher)) return
     console.log('🔍 handleTeacherSelect called with teacher:', teacher);
     console.log('🔍 Teacher courses:', teacher.courses);
     setSelectedTeacher(teacher);
@@ -103,6 +118,8 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
     });
     console.log('🔍 Found course:', course);
     
+    if (course && cursoEvaluado(course)) return
+
     if (course) {
       console.log('✅ Setting selectedCourse and loading groups...');
       setSelectedCourse(course);
@@ -132,11 +149,13 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
   };
 
   const handleGroupSelect = (group: any) => {
+    if (group?.evaluada) return
     console.log('🔍 Group selected:', group);
     setSelectedGroup(group);
   };
 
   const handleContinue = () => {
+    if (selectedGroup?.evaluada || (selectedCourse && cursoEvaluado(selectedCourse))) return
     if (selectedTeacher && selectedCourse && selectedGroup) {
       onTeacherCourseSelected(selectedTeacher, selectedCourse);
       navigate('/evaluate/form', { 
@@ -173,8 +192,8 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
         {/* Header sin botón de volver */}
         <Header 
           user={user}
-          title="Evaluación Docente - Paso 1 de 2"
-          subtitle="Selecciona el profesor y curso a evaluar"
+          title="Evaluación docente - Paso 1 de 2"
+          subtitle="Selecciona el docente y la materia a evaluar"
         />
 
         <main className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
@@ -187,7 +206,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
               className="text-sm sm:text-base py-2 px-3 sm:px-4 bg-white bg-opacity-90 rounded-lg shadow-md hover:bg-gray-100 transition-colors"
             >
               <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Volver al Dashboard</span>
+              <span className="hidden sm:inline">Volver al panel</span>
               <span className="sm:hidden">Volver</span>
             </Button>
           </div>
@@ -202,10 +221,10 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
               <CardHeader className="pb-3 sm:pb-4">
                 <CardTitle className="flex items-center gap-2 text-gray-900 text-base sm:text-lg">
                   <Search className="h-4 w-4 sm:h-5 sm:w-5" />
-                  Buscar Profesor
+                  Buscar docente
                 </CardTitle>
                 <CardDescription className="text-xs sm:text-sm">
-                  Busca por nombre del profesor, departamento o nombre del curso
+                  Solo aparecen materias en las que estás matriculado. Evalúa en las fechas vigentes o escaneando el QR en clase.
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
@@ -213,7 +232,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                   <input
                     type="text"
-                    placeholder="Buscar profesor o curso..."
+                    placeholder="Buscar docente o materia..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm sm:text-base"
@@ -232,9 +251,9 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
             >
               <Card className="bg-white shadow-md border border-gray-200 p-3 sm:p-4 lg:p-6">
                 <CardHeader className="pb-3 sm:pb-4">
-                  <CardTitle className="text-gray-900 text-base sm:text-lg">Profesores Disponibles</CardTitle>
+                  <CardTitle className="text-gray-900 text-base sm:text-lg">Docentes disponibles</CardTitle>
                   <CardDescription className="text-xs sm:text-sm">
-                    {filteredTeachers.length} profesor(es) encontrado(s)
+                    {filteredTeachers.length} docente(s) encontrado(s)
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2 sm:space-y-3 max-h-80 sm:max-h-96 overflow-y-auto pt-0">
@@ -242,21 +261,29 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                     <div className="text-center text-gray-500">Cargando docentes...</div>
                   )}
                   {error && (
-                    <div className="text-center text-red-600">{error}</div>
+                    <div className="text-center space-y-3" role="alert">
+                      <p className="text-red-600">{error}</p>
+                      <Button type="button" onClick={cargarDocentes}>Reintentar</Button>
+                    </div>
                   )}
                   {!loading && !error && filteredTeachers.length === 0 && (
                     <div className="text-center text-gray-500">No se encontraron docentes</div>
                   )}
-                  {!loading && !error && filteredTeachers.map((teacher, index) => (
+                  {!loading && !error && filteredTeachers.map((teacher, index) => {
+                    const completado = docenteEvaluado(teacher)
+                    return (
                     <motion.div
                       key={teacher.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + index * 0.1 }}
-                      className={`p-3 sm:p-4 rounded-lg border cursor-pointer transition-all duration-200 ${
-                        selectedTeacher?.id === teacher.id
-                          ? 'border-red-500 bg-red-50 shadow-md'
-                          : 'border-gray-200 hover:border-red-300 hover:bg-gray-50'
+                      aria-disabled={completado}
+                      className={`p-3 sm:p-4 rounded-lg border transition-all duration-200 ${
+                        completado
+                          ? 'border-gray-200 bg-gray-100 opacity-70 cursor-not-allowed'
+                          : selectedTeacher?.id === teacher.id
+                          ? 'border-red-500 bg-red-50 shadow-md cursor-pointer'
+                          : 'border-gray-200 hover:border-red-300 hover:bg-gray-50 cursor-pointer'
                       }`}
                       onClick={() => handleTeacherSelect(teacher)}
                       whileHover={{ scale: 1.01 }}
@@ -264,7 +291,12 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                     >
                       <div className="flex items-start gap-2 sm:gap-3">
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-gray-900 text-sm sm:text-base truncate">{teacher.name}</h3>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-medium text-gray-900 text-sm sm:text-base truncate">{teacher.name}</h3>
+                            {completado && (
+                              <Badge className="bg-green-600 text-white border-transparent">Completada</Badge>
+                            )}
+                          </div>
                           <p className="text-xs sm:text-sm text-gray-600 truncate">{teacher.department}</p>
                           <div className="flex flex-wrap gap-1 mt-2">
                             {teacher.courses.map(course => (
@@ -285,7 +317,8 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                         )}
                       </div>
                     </motion.div>
-                  ))}
+                    )
+                  })}
                 </CardContent>
               </Card>
             </motion.div>
@@ -301,8 +334,8 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                   <CardTitle className="text-gray-900 text-base sm:text-lg">Seleccionar Curso</CardTitle>
                   <CardDescription className="text-xs sm:text-sm">
                     {selectedTeacher 
-                      ? `Cursos impartidos por ${selectedTeacher.name}`
-                      : 'Primero selecciona un profesor'
+                      ? `Materias de ${selectedTeacher.name}`
+                      : 'Primero selecciona un docente'
                     }
                   </CardDescription>
                 </CardHeader>
@@ -322,10 +355,10 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                           >
                             <option value="">Selecciona un curso</option>
                             {selectedTeacher.courses.map(course => {
-                              console.log('🔍 Rendering course option:', course);
+                              const completado = cursoEvaluado(course)
                               return (
-                                <option key={course.id} value={course.id}>
-                                  {course.name} ({course.code})
+                                <option key={course.id} value={course.id} disabled={completado}>
+                                  {course.name} ({course.code}){completado ? ' — Completada' : ''}
                                 </option>
                               );
                             })}
@@ -367,10 +400,13 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                                 {courseGroups.map((group: any) => (
                                   <div 
                                     key={group.id} 
-                                    className={`p-2.5 sm:p-3 rounded-lg border cursor-pointer transition-all duration-200 ${
-                                      selectedGroup?.id === group.id
-                                        ? 'border-red-500 bg-red-50 shadow-md'
-                                        : 'border-gray-200 bg-white hover:border-red-300 hover:bg-gray-50'
+                                    aria-disabled={Boolean(group.evaluada)}
+                                    className={`p-2.5 sm:p-3 rounded-lg border transition-all duration-200 ${
+                                      group.evaluada
+                                        ? 'border-gray-200 bg-gray-100 opacity-70 cursor-not-allowed'
+                                        : selectedGroup?.id === group.id
+                                        ? 'border-red-500 bg-red-50 shadow-md cursor-pointer'
+                                        : 'border-gray-200 bg-white hover:border-red-300 hover:bg-gray-50 cursor-pointer'
                                     }`}
                                     onClick={() => handleGroupSelect(group)}
                                   >
@@ -385,6 +421,9 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                                         )}
                                       </div>
                                       <div className="flex items-center gap-2">
+                                        {group.evaluada && (
+                                          <Badge className="bg-green-600 text-white border-transparent">Completada</Badge>
+                                        )}
                                         {group.cup && (
                                           <Badge variant="outline" className="text-xs">
                                             {group.cup} cupos
@@ -406,7 +445,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                           </div>
 
                           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
-                            <h4 className="font-medium text-gray-900">Información del Profesor</h4>
+                            <h4 className="font-medium text-gray-900">Información del docente</h4>
                             <div className="flex items-start gap-3">
                               <div>
                                 <p className="font-medium text-gray-900">{selectedTeacher.name}</p>
@@ -444,7 +483,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                   ) : (
                     <div className="text-center py-6 sm:py-8 text-gray-500">
                       <GraduationCap className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 opacity-50" />
-                      <p className="text-xs sm:text-sm">Selecciona un profesor para ver sus cursos disponibles</p>
+                      <p className="text-xs sm:text-sm">Selecciona un docente para ver sus materias disponibles</p>
                     </div>
                   )}
                 </CardContent>

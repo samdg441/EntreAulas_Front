@@ -108,62 +108,8 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
         // - Información del curso
         // - Información del grupo
         
-        // Datos mock solo para gráficas mientras no hay endpoint de resultados
-        const mockData = {
-          totalEvaluations: 45,
-          averageRating: 4.3,
-          responseRate: 87,
-          improvement: 5.2,
-          categoryData: [
-            { category: 'Claridad Expositiva', rating: 4.2, total: 45 },
-            { category: 'Conocimiento del Tema', rating: 4.7, total: 45 },
-            { category: 'Responsabilidad', rating: 4.5, total: 45 },
-            { category: 'Interacción con Estudiantes', rating: 3.8, total: 45 },
-            { category: 'Metodología de Enseñanza', rating: 4.1, total: 45 },
-            { category: 'Sistema de Evaluación', rating: 4.3, total: 45 },
-            { category: 'Trato Personal', rating: 4.6, total: 45 },
-            { category: 'Motivación al Aprendizaje', rating: 3.9, total: 45 },
-            { category: 'Disponibilidad', rating: 4.0, total: 45 },
-            { category: 'Recomendación General', rating: 4.4, total: 45 }
-          ],
-          trendData: [
-            { period: '2023-1', rating: 4.0 },
-            { period: '2023-2', rating: 4.1 },
-            { period: '2024-1', rating: 4.2 },
-            { period: '2024-2', rating: 4.3 },
-            { period: '2025-1', rating: 4.2 },
-            { period: '2025-2', rating: 4.3 }
-          ],
-          distributionData: [
-            { name: '5 Estrellas', value: 16, color: '#10B981' },
-            { name: '4 Estrellas', value: 13, color: '#3B82F6' },
-            { name: '3 Estrellas', value: 9, color: '#F59E0B' },
-            { name: '2 Estrellas', value: 5, color: '#EF4444' },
-            { name: '1 Estrella', value: 2, color: '#6B7280' }
-          ],
-          radarData: [
-            { subject: 'Claridad', A: 4.2, fullMark: 5 },
-            { subject: 'Conocimiento', A: 4.7, fullMark: 5 },
-            { subject: 'Metodología', A: 4.1, fullMark: 5 },
-            { subject: 'Evaluación', A: 4.3, fullMark: 5 },
-            { subject: 'Trato', A: 4.6, fullMark: 5 },
-            { subject: 'Motivación', A: 3.9, fullMark: 5 }
-          ],
-          openResponses: [
-            'El ritmo de la clase es muy rápido y a veces cuesta seguir.',
-            'Me gustan los ejemplos prácticos, ayudan a entender mejor.',
-            'Falta un poco de claridad en las explicaciones de algunos temas.',
-            'Sería bueno tener más tiempo para resolver dudas al final de clase.',
-            'El profesor domina el tema, pero podría mejorar la distribución del tiempo.',
-            'Los materiales son buenos, pero a veces llegan tarde.',
-            'El sistema de evaluación no refleja del todo el aprendizaje.',
-            'Se agradece la disponibilidad del profesor para atender fuera de clase.',
-            'Más ejercicios guiados ayudarían a consolidar los contenidos.',
-            'Buen trato, pero el ritmo podría ser más pausado.'
-          ]
-        };
-
-        setSurveyData(mockData);
+        setSurveyData(null);
+        setError('Aún no hay un resultado real para esta encuesta. Los gráficos solo se muestran con respuestas registradas.');
         // Mantener la info enviada desde la navegación; si no vino, usar placeholders mínimos
         if (!professorInfo) {
           setProfessorInfo({ name: 'Profesor', email: '', department: '' });

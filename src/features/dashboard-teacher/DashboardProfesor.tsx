@@ -29,6 +29,14 @@ import Calendar from '../../components/Calendar';
 // Importar la imagen de fondo
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
+function estadoCohorte(respondidas: number, estudiantes: number): 'completed' | 'progress' | 'empty' {
+  const respuestas = Number(respondidas) || 0
+  const total = Number(estudiantes) || 0
+  if (respuestas <= 0) return 'empty'
+  if (total > 0 && respuestas >= total) return 'completed'
+  return 'progress'
+}
+
 interface DashboardProfesorProps {
   user: User;
 }
@@ -155,7 +163,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
     answeredSurveys: curso.encuestasRespondidas ?? curso.total ?? 0,
     average: promedioVisible(curso.promedio),
     period: `Semestre ${activePeriodCode}`,
-    status: 'completed'
+    status: estadoCohorte(curso.encuestasRespondidas ?? curso.total ?? 0, curso.total)
   })) || [];
 
   const gruposDelCurso = (teacherStats?.evaluacionesPorGrupo || []).filter(
@@ -170,7 +178,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
     answeredSurveys: grupo.encuestasRespondidas ?? grupo.total ?? 0,
     average: promedioVisible(grupo.promedio),
     period: `Semestre ${activePeriodCode}`,
-    status: 'completed'
+    status: estadoCohorte(grupo.encuestasRespondidas ?? grupo.total ?? 0, grupo.total)
   }));
 
   const filasVisibles = selectedCourseFilter === 'all'
@@ -556,7 +564,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                     </div>
                   ) : filasVisibles.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
-                      No hay evaluaciones disponibles
+                      Sin datos: aún no se registran respuestas de estudiantes en el periodo activo.
                     </div>
                   ) : (
                     filasVisibles.map((evaluation: any, index: number) => (
@@ -575,10 +583,12 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                                 className={`text-sm py-1 ${
                                   evaluation.status === 'completed' 
                                     ? 'bg-green-50 text-green-700 border-green-200' 
+                                    : evaluation.status === 'empty'
+                                    ? 'bg-gray-50 text-gray-700 border-gray-200'
                                     : 'bg-yellow-50 text-yellow-700 border-yellow-200'
                                 }`}
                               >
-                                {evaluation.status === 'completed' ? 'Completada' : 'En Progreso'}
+                                {evaluation.status === 'completed' ? 'Completada' : evaluation.status === 'empty' ? 'Sin datos' : 'En progreso'}
                               </Badge>
                             </div>
                             <div className="grid grid-cols-3 gap-4 text-sm">
