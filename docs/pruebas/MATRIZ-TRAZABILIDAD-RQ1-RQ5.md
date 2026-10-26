@@ -81,4 +81,4 @@ Versión CSV: [`MATRIZ-TRAZABILIDAD-RQ1-RQ5.csv`](MATRIZ-TRAZABILIDAD-RQ1-RQ5.cs
 | RQ5 | Las mismas | DEF-42, DEF-45, DEF-FE-08 | 3/3 |
 | Transversal | Vitest, Cypress, SonarQube, Docker | DEF-40, DEF-31 (parcial), DEF-35, DEF-38, DEF-FE-05 | 4 + 1 parcial |
 
-\* Testsigma y BugBug quedaron preparados (casos, importación y configuración). Su ejecución y evidencias las registra la integrante en `ia-testing/*/resultados.md`.
+\* Testsigma quedó preparado (casos, importación y configuración); su ejecución la registra la integrante en `ia-testing/testsigma/resultados.md`. BugBug se ejecutó en la nube el 2026-10-26: 11 de 11 pasan, pero solo 4 tienen aserción real (BB-RQ1-02, BB-RQ1-03, BB-RQ2-04 y BB-RQ32-02). Detalle en `ia-testing/bugbug/resultados.md`.

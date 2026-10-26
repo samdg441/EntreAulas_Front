@@ -57,7 +57,8 @@
 | Seguridad | Cypress | 9/13 (Render) | **13/13** (despliegue) | Ídem |
 | BDD Gherkin + Screenplay (35 escenarios) | Cypress + cucumber | 35/35 | 35/35 | `evidencias/cypress/cucumber-bdd-rq1-rq5.html`, `despues/cucumber-bdd-despues.html` |
 | Generadas con IA (26) | Playwright agents | 25/26 | **26/26** | `evidencias/playwright/`, `despues/playwright-*` |
-| IA *low-code* (18 + 16) | Testsigma, BugBug | Preparadas | Preparadas | `ia-testing/*/resultados.md` (las ejecuta la integrante) |
+| IA *low-code*: Testsigma (18) | Testsigma | Preparadas | Preparadas | `ia-testing/testsigma/resultados.md` (las ejecuta la integrante) |
+| IA *low-code*: BugBug (11 de 16 ejecutadas) | BugBug, en la nube | **11/11** (solo 4 con aserción real) | Pendiente de publicar | `ia-testing/bugbug/resultados.md` y `evidencias/All_tests_2026-10-26_2.pdf` |
 | act, observe y extract (3 scripts) | Stagehand + Ollama | n/a | **3/3** | `evidencias/stagehand/` |
 | E2E previas | Selenium + Serenity | Pasan (entrega anterior) | Sin cambios | `screenplay-selenium/` |
 

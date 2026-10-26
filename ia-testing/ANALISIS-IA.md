@@ -51,7 +51,7 @@ Cada herramienta incluye escenarios **exitosos**, **alternativos** y **de error*
 |---|---|---|
 | Playwright | **25 de 26.** La que falla detecta DEF-FE-08 (botón del ojo sin nombre accesible). Ver `docs/pruebas/evidencias/playwright/` | **26 de 26** contra el despliegue en nginx `:3001` (`docs/pruebas/despues/playwright-despues.txt`) |
 | Testsigma | Lo registra el equipo en `testsigma/resultados.md` | `testsigma/resultados.md` |
-| BugBug | Lo registra el equipo en `bugbug/resultados.md` | `bugbug/resultados.md` |
+| BugBug | **11 de 11** en la nube (2026-10-26, Chrome 150, contra Vercel y Render). Solo 4 tienen una aserción real: las regrabadas no verifican el resultado. Ver `bugbug/resultados.md` y `bugbug/evidencias/All_tests_2026-10-26_2.pdf` | Pendiente: la refactorización no está publicada |
 
 ## 5. Aportes
 
@@ -67,7 +67,7 @@ Cada herramienta incluye escenarios **exitosos**, **alternativos** y **de error*
 | Las tres | No conocen las reglas de negocio ocultas: que el token es de un solo uso, que el mensaje es genérico para no enumerar cuentas o que la cuenta inactiva da 401. Hay que dárselas en el plan o en las aserciones |
 | Playwright healer | Sin supervisión puede "arreglar" una prueba que falla por un **defecto real**. Con DEF-FE-08 se decidió a mano dejarla en rojo |
 | Testsigma y BugBug | Necesitan cuentas reales en producción y crean datos (usuarios `ts.*` y `bb.*`). Las funciones de IA, el buzón y la nube dependen del plan contratado. No hay una forma sencilla de versionar las pruebas junto al código |
-| BugBug | Solo Chrome. Los selectores grabados sobre elementos sin nombre accesible (el botón del ojo) son rutas CSS frágiles hasta que se corrige la accesibilidad |
+| BugBug | Al grabar no se crean aserciones: en la ejecución real, 6 de 11 pruebas pasaban sin comprobar nada. La importación desde YAML sí conserva las aserciones, pero los XPath escritos a mano para el desplegable de tipo de usuario no se reprodujeron y hubo que regrabarlos. Solo Chrome. Los selectores grabados sobre elementos sin nombre accesible (el botón del ojo) son rutas CSS frágiles hasta que se corrige la accesibilidad |
 | Testsigma | El NLP es en inglés. Los nombres de los elementos hay que alinearlos con el Recorder la primera vez |
 
 ## 7. Conclusión
