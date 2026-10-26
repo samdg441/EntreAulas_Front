@@ -1,0 +1,33 @@
+npm notice run npx
+npm notice run 'playwright' test
+
+Running 26 tests using 4 workers
+
+  ✓   1 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:39:7 › RQ1 — Alta de usuarios por el administrador › El dominio cambia con el tipo (3.9s)
+  ✓   2 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:47:7 › RQ1 — Alta de usuarios por el administrador › Correo duplicado (4.8s)
+  ✓   3 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:55:7 › RQ1 — Alta de usuarios por el administrador › Clave débil (5.5s)
+  ✓   5 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:63:5 › RQ1 — Un estudiante no entra a la administración (1.8s)
+  ✓   4 [chromium] › tests/rq1-alta-de-usuarios.spec.ts:31:7 › RQ1 — Alta de usuarios por el administrador › Crear un estudiante (5.8s)
+  ✓   6 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:20:7 › RQ2 — Inicio de sesión › Estudiante inicia sesión y llega a su panel (3.9s)
+  ✓   8 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:35:7 › RQ2 — Inicio de sesión › Clave incorrecta (4.0s)
+  ✓   7 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:29:7 › RQ2 — Inicio de sesión › El profesor elige "Docente" y llega a su panel (5.9s)
+  ✓   9 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:43:7 › RQ2 — Inicio de sesión › Cuenta inactiva (5.4s)
+  ✓  10 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:50:7 › RQ2 — Inicio de sesión › Tipo de usuario incorrecto (4.2s)
+  ✓  11 [chromium] › tests/rq2-inicio-de-sesion.spec.ts:57:7 › RQ2 — Inicio de sesión › Correo con formato inválido (3.5s)
+  ✓  13 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:22:7 › RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Correo no registrado (4.4s)
+  ✓  12 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:13:7 › RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Correo registrado (4.9s)
+  ✓  14 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:28:7 › RQ3.1 / RQ4 — Solicitud del enlace de recuperación › Formato inválido (4.0s)
+  ✓  15 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:36:7 › RQ3.2 — Validación del token › Enlace vigente (3.9s)
+  ✓  16 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:43:7 › RQ3.2 — Validación del token › Enlace vencido (5.3s)
+  ✓  19 [chromium] › tests/rq5-nueva-contrasena.spec.ts:40:7 › RQ5 — Nueva contraseña › Enlace de un solo uso (6.1s)
+  ✓  17 [chromium] › tests/rq3-rq4-recuperacion.spec.ts:49:7 › RQ3.2 — Validación del token › Enlace incompleto (5.7s)
+  ✓  18 [chromium] › tests/rq5-nueva-contrasena.spec.ts:31:7 › RQ5 — Nueva contraseña › Cambio exitoso (7.9s)
+  ✓  20 [chromium] › tests/rq5-nueva-contrasena.spec.ts:47:7 › RQ5 — Nueva contraseña › Las contraseñas no coinciden (4.8s)
+  ✓  21 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «Ab#1» → al menos 8 caracteres (3.4s)
+  ✓  22 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «claveminus#1» → al menos una letra mayúscula (3.4s)
+  ✓  23 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «CLAVEMAYUS#1» → al menos una letra minúscula (3.3s)
+  ✓  25 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «ClaveSinEsp1» → al menos un carácter especial (3.0s)
+  ✓  24 [chromium] › tests/rq5-nueva-contrasena.spec.ts:60:9 › RQ5 — Nueva contraseña › Política de clave: «ClaveSinNum#» → al menos un número (3.5s)
+  ✓  26 [chromium] › tests/rq5-nueva-contrasena.spec.ts:66:7 › RQ5 — Nueva contraseña › Mostrar u ocultar contraseña con un botón con nombre accesible (DEF-FE-08) (3.0s)
+
+  26 passed (36.3s)
