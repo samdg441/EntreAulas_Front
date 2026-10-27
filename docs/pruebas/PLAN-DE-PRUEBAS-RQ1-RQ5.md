@@ -54,7 +54,7 @@ Se sigue una pirámide de pruebas con una línea base medida antes de refactoriz
 | BDD + Screenplay | ¿Los criterios de aceptación en Gherkin se cumplen? | Cypress `features/` + `screenplay/` |
 | Accesibilidad | ¿Cumple WCAG 2.1 AA? ¿Funciona con teclado y lector de pantalla? | Cypress `accessibility/` (axe-core); `defects/DEF-FE-08` |
 | Rendimiento y carga | ¿Responde dentro del presupuesto? ¿Resiste ráfagas? | Back `performance/`, `carga/carga-api.mjs` |
-| IA | ¿Qué aportan las herramientas con IA a la generación y el mantenimiento? | `ia-testing/` (Playwright agents, Testsigma, BugBug); `stagehand/` |
+| IA | ¿Qué aportan las herramientas con IA a la generación y el mantenimiento? | `ia-testing/` (Playwright agents, TestSprite, BugBug); `stagehand/` |
 | Estática | ¿Mantenibilidad, duplicación, cobertura y vulnerabilidades? | SonarQube (`sonar-project.properties`) |
 
 ### 2.1 Técnicas de diseño de casos
@@ -92,7 +92,7 @@ Se sigue una pirámide de pruebas con una línea base medida antes de refactoriz
 | axe-core | 4.10 | Auditoría WCAG 2.1 AA |
 | Serenity/JS + WebdriverIO (Selenium) | 3.x / 9.x | E2E previas de RQ1–RQ5 (entrega anterior) |
 | **Playwright + agentes de IA** | 1.63.0 | Planner, generator y healer: plan y pruebas generados con IA |
-| **Testsigma** | SaaS | Casos en lenguaje natural, Copilot y auto-healing |
+| **TestSprite** | SaaS + MCP | Agente de IA que genera el plan, el código, la ejecución y el reporte a partir de un PRD. Reemplaza a Testsigma, cuya cuenta necesitaba una aprobación del proveedor |
 | **BugBug** | SaaS | Grabación con selectores inteligentes y ejecución en la nube |
 | **Stagehand + Ollama** | 4.3.0 + qwen2.5:7b | `act`, `observe` y `extract` con IA local |
 | SonarQube Community + SonarScanner | Docker | Análisis estático y Quality Gate |
@@ -122,7 +122,7 @@ Se sigue una pirámide de pruebas con una línea base medida antes de refactoriz
 | 2026-10-11 | API, contrato, componente y seguridad | `api/`, `security/`, `integration/` |
 | 2026-10-12 | E2E con Selenium + Screenplay (Serenity) | `screenplay-selenium/features/rq1…rq5` |
 | 2026-10-25 | Línea base (tag `v-antes-refactor`); Cypress UI, API, seguridad, regresión y a11y | `docs/pruebas/antes/`, `e2e/cypress/e2e/*` |
-| 2026-10-26 | BDD + Screenplay en Cypress; Playwright con agentes; Testsigma; BugBug; Stagehand | `e2e/cypress/features`, `ia-testing/`, `stagehand/` |
+| 2026-10-26 | BDD + Screenplay en Cypress; Playwright con agentes; BugBug; TestSprite (en lugar de Testsigma); Stagehand | `e2e/cypress/features`, `ia-testing/`, `stagehand/` |
 | 2026-10-26 | Refactorización: 11 defectos del back, 7 del front y DEF-47 | Commits `fix(...)` y `refactor(...)` |
 | 2026-10-26 | SonarQube antes y después; despliegue en contenedores; pruebas posteriores | `docs/pruebas/despues/` |
 | Presentación | Exposición y demostración | `GUION-PRESENTACION.md` |
@@ -137,7 +137,8 @@ Se sigue una pirámide de pruebas con una línea base medida antes de refactoriz
 | E2E UI y BDD | Vite en `:3001` o nginx en `:3001` | Back simulado en memoria (`cy.intercept` y `page.route`) | Cuentas sembradas: admin, estudiante, profesor, coordinador e inactivo (clave `Clave#2026a`) |
 | API y seguridad | n/a | Render (antes) y contenedor `entreaulas-back` en `:3000` (después) | Correos inexistentes; nunca se crean usuarios sin el admin de pruebas |
 | Stagehand | Vite `:3001` | `stagehand/src/back-simulado.ts` en `:3000` | Mismas cuentas sembradas |
-| Testsigma y BugBug | Vercel | Render | Perfil de datos y variables, sin claves en el repositorio |
+| BugBug | Vercel | Render | Variables del proyecto, sin claves en el repositorio |
+| TestSprite | Despliegue local refactorizado (`:3001`, por túnel) | Despliegue local (`:3000`) | Credenciales en la configuración de TestSprite y en variables de entorno, sin claves en el repositorio |
 
 Los secretos (`.env`, tokens de Sonar y Jenkins, credenciales de admin) **nunca** se suben al repositorio.
 
