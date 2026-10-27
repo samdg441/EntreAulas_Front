@@ -57,7 +57,8 @@
 | Seguridad | Cypress | 9/13 (Render) | **13/13** (despliegue) | Ídem |
 | BDD Gherkin + Screenplay (35 escenarios) | Cypress + cucumber | 35/35 | 35/35 | `evidencias/cypress/cucumber-bdd-rq1-rq5.html`, `despues/cucumber-bdd-despues.html` |
 | Generadas con IA (26) | Playwright agents | 25/26 | **26/26** | `evidencias/playwright/`, `despues/playwright-*` |
-| IA *low-code* (18 + 16) | Testsigma, BugBug | Preparadas | Preparadas | `ia-testing/*/resultados.md` (las ejecuta la integrante) |
+| IA: agente TestSprite (12) | TestSprite por MCP, contra el despliegue local refactorizado | — (se incorporó después de la refactorización) | **12/12** en una sola corrida (plan depurado de 16 propuestos; 1 hallazgo abierto, TS-H7) | `ia-testing/testsprite/resultados.md` y `testsprite_tests/testsprite-mcp-test-report.md` |
+| IA *low-code*: BugBug (11 de 16 ejecutadas) | BugBug, en la nube | **11/11** (solo 4 con aserción real) | Pendiente de publicar | `ia-testing/bugbug/resultados.md` y `evidencias/All_tests_2026-10-26_2.pdf` |
 | act, observe y extract (3 scripts) | Stagehand + Ollama | n/a | **3/3** | `evidencias/stagehand/` |
 | E2E previas | Selenium + Serenity | Pasan (entrega anterior) | Sin cambios | `screenplay-selenium/` |
 
@@ -147,7 +148,8 @@ El detalle de cada cambio, con el antes y el después del código, está en [`AN
   - El healer reparó 4 localizadores ambiguos.
   - Se decidió, a mano, **no** "curar" la prueba de un defecto real.
   - Resultado: 25/26 → 26/26.
-- **Testsigma** (18 casos NLP, CSV importable y prompts para Copilot) y **BugBug** (16 guiones con variables y componente de login) quedaron listos para ejecutarse en la nube contra Vercel y Render.
+- **TestSprite** reemplazó a Testsigma, cuya cuenta necesitaba una aprobación del proveedor que no llegó a tiempo. A partir de un PRD de RQ1–RQ5, el agente planeó, programó, ejecutó y reportó 16 casos. Después de corregir dos falsos positivos (TC005, por una instrucción ambigua, y TC009, por un error del agente) y de retirar 4 casos que no se podían ejecutar sin un buzón o que estaban mal especificados, el plan final pasa 12 de 12 en una sola corrida. Además, encontró un hallazgo real (TS-H7): una cuenta con los roles de estudiante y admin que inicia sesión como «Estudiante» puede entrar a `/admin/users`. Su veredicto lo da un juez de IA, así que el código exportado no sirve tal cual como regresión.
+- **BugBug** pasó 11 de 11 en la nube, pero solo 4 pruebas tenían una aserción real. Las regrabadas a mano no comprobaban el resultado.
 - **Stagehand + Ollama:** tres scripts cubren las seis funcionalidades con `observe` (descubrir controles), `act` (ejecutar acciones observadas) y `extract` (leer mensajes, tablas y confirmaciones con esquemas Zod). Las aserciones finales son determinísticas: ruta, token y payload recibido por el back.
   - Hallazgos de la herramienta:
     1. `act("instrucción")` no funciona con un modelo de 7B en CPU; el patrón observe → act sí.
@@ -200,6 +202,6 @@ Esto verifica las **correcciones** (los casos `[DEF-xx]` que fallaban contra Ren
 | P1 | Crear una cuenta admin de pruebas dedicada (`CYPRESS_ADMIN_*` como credencial de Jenkins) para ejecutar los 5 casos *pending* y limpiar los usuarios `e2e.cy.*` al final |
 | P2 | Mover el JWT de `localStorage` a una cookie `HttpOnly; Secure; SameSite=Strict`, como defensa en profundidad además de la CSP |
 | P2 | Llevar las cabeceras de accesibilidad y `role="alert"` a los demás formularios (evaluación, QR y reportes) y agregar axe a sus specs |
-| P2 | Ejecutar Testsigma o BugBug programados después de cada despliegue, como prueba de aceptación sobre producción |
+| P2 | Ejecutar BugBug programado después de cada despliegue, como prueba de aceptación sobre producción, con una aserción al final de cada prueba. Usar TestSprite para una primera cobertura de requisitos nuevos, revisando el plan antes de ejecutarlo |
 | P3 | Revisar la Quality Gate para exigir 0 *hotspots* sin revisar y cobertura ≥ 90 % en el código nuevo de todo el proyecto, no solo de las inclusiones actuales |
 | P3 | Para Stagehand en CI usar un modelo en la nube (Gemini u OpenAI) o una GPU; en CPU cada inferencia tarda de 1 a 3 minutos |

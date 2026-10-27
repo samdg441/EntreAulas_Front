@@ -39,7 +39,8 @@ Antes de empezar, en otra terminal: `docker start entreaulas-back-container entr
 ## 5. Herramientas de IA (1,5 min)
 - Leer [`ia-testing/ANALISIS-IA.md`](../../ia-testing/ANALISIS-IA.md).
 - **Playwright:** el planner encontró DEF-FE-08; el healer reparó localizadores.
-- **Testsigma y BugBug:** mostrar `resultados.md` con las capturas.
+- **TestSprite:** mostrar `testsprite_tests/testsprite-mcp-test-report.md` y la grabación de un caso en su panel. Contar cómo se depuró el plan (falsos positivos de TC005 y TC009, y casos retirados) y el hallazgo TS-H7.
+- **BugBug:** mostrar el PDF y explicar que solo 4 de 11 pruebas tenían una aserción.
 - **Limitación clave:** la IA no conoce las reglas ocultas (un solo uso, mensaje genérico) y el healer puede ocultar defectos reales.
 
 ## 6. Conclusiones y recomendaciones (1 min)
@@ -52,7 +53,7 @@ Antes de empezar, en otra terminal: `docker start entreaulas-back-container entr
 - En esta entrega:
   - Cypress (UI, API, seguridad, regresión y a11y)
   - BDD + Screenplay
-  - Playwright con agentes, Testsigma y BugBug
+  - Playwright con agentes, TestSprite y BugBug
   - Stagehand
   - 20 defectos con prueba, 19 corregidos
   - Refactor validado con Sonar
