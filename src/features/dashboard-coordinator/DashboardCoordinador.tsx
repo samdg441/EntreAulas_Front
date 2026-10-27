@@ -26,6 +26,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { fetchCoordinatorDashboardSummary, CoordinatorTeacherSummary } from '../../api/coordinador.api';
 import { statsVaciasCoordinador } from './docentes';
 import { promedioVisible } from '../../lib/calificaciones';
+import HelpTooltip from '../../components/HelpTooltip';
+import OnboardingBanner from '../../components/OnboardingBanner';
 
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
@@ -116,6 +118,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
       icon: Users,
       label: 'Gestionar Profesores',
       description: 'Ver y administrar profesores',
+      ayuda: 'Lleva al listado de docentes de tu carrera, con sus promedios y el detalle de cada asignatura.',
       onClick: () => navigate('/profesores/gestionar'),
       variant: 'default' as const,
       className: 'bg-red-600 hover:bg-red-700 text-white'
@@ -124,6 +127,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
       icon: BookOpen,
       label: 'Programar Encuestas',
       description: 'Definir período y fechas para encuestas',
+      ayuda: 'Abre la programación del periodo, las fechas y los cursos en los que se abre la evaluación.',
       onClick: () => navigate('/surveys/schedule'),
       variant: 'outline' as const,
       className: 'border-red-300 text-red-600 hover:bg-red-50'
@@ -132,6 +136,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
       icon: BarChart3,
       label: 'Reportes Generales',
       description: 'Ver estadísticas de la carrera',
+      ayuda: 'Abre los reportes de calificaciones, tasa de respuesta y docentes en riesgo de tu carrera.',
       onClick: () => navigate('/reports'),
       variant: 'outline' as const,
       className: 'border-red-300 text-red-600 hover:bg-red-50'
@@ -140,6 +145,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
       icon: CalendarIcon,
       label: 'Calendario',
       description: 'Fechas importantes',
+      ayuda: 'Abre el calendario con la apertura y el cierre de las encuestas de tu carrera.',
       onClick: () => setShowCalendar(true),
       variant: 'outline' as const,
       className: 'border-red-300 text-red-600 hover:bg-red-50'
@@ -177,7 +183,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
         {/* Usamos el componente Header */}
         <Header user={currentUser} />
         
-        <main className="max-w-[1700px] mx-auto p-6 lg:p-8 space-y-8">
+        <main className="max-w-[1700px] mx-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
           {/* Welcome Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -190,11 +196,20 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                   {getGreeting()}, Coord. {currentUser.name.split(' ')[0]}!
                 </h2>
                 <p className="text-lg text-gray-600">
-                  Bienvenido a tu panel de control como coordinador. Aquí puedes supervisar los profesores de tu carrera y gestionar la actividad académica.
+                  Panel de coordinación de tu carrera. Supervisa docentes, ventanas de evaluación y códigos QR. El alcance es la carrera, no toda la facultad.
                 </p>
               </CardContent>
             </Card>
           </motion.div>
+
+          <OnboardingBanner
+            rol="coordinador"
+            pasos={[
+              'Revisa docentes en atención (promedio inferior a 4.0).',
+              'Programa la Encuesta: periodo, fechas y cursos.',
+              'Genera los Codigos QR y notifica a los grupos.',
+            ]}
+          />
 
           {/* Stats Cards - datos reales de BD */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -206,8 +221,9 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Total Profesores
+                    <HelpTooltip texto="Docentes activos vinculados a tu carrera. No incluye docentes de otras carreras de la facultad." />
                   </CardTitle>
                   <Users className="h-6 w-6 text-green-600 ml-4" />
                 </CardHeader>
@@ -234,8 +250,9 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Cursos Activos
+                    <HelpTooltip texto="Asignaturas con grupos abiertos en tu carrera. Sirve para estimar cuántas encuestas puedes programar en el periodo." />
                   </CardTitle>
                   <BookOpen className="h-6 w-6 text-purple-600 ml-4" />
                 </CardHeader>
@@ -262,8 +279,9 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             >
               <Card className={`shadow-md p-6 border ${riesgoGlobal ? 'bg-red-50 border-red-200' : 'bg-white border-gray-200'}`}>
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Promedio General
+                    <HelpTooltip texto="Promedio de las evaluaciones de tu carrera en escala de 1.0 a 5.0. Si baja de 4.0, la carrera entra en seguimiento y conviene revisar docentes y comentarios." />
                   </CardTitle>
                   {riesgoGlobal
                     ? <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
@@ -279,7 +297,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                     )}
                   </div>
                   <p className="text-sm text-gray-500 mt-2 text-left">
-                    {riesgoGlobal ? 'Atención: promedio menor a 4.0' : 'Promedio general de evaluaciones'}
+                    {riesgoGlobal ? 'Docente en atención: promedio inferior a 4.0' : 'Promedio general de evaluaciones'}
                   </p>
                 </CardContent>
               </Card>
@@ -293,8 +311,12 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Docentes en Riesgo
+                    <HelpTooltip
+                      etiqueta="Qué significa en riesgo"
+                      texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
+                    />
                   </CardTitle>
                   <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
                 </CardHeader>
@@ -325,24 +347,32 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {quickActions.map((action) => (
-                  <motion.button
-                    key={action.label}
-                    type="button"
-                    onClick={action.onClick}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    className={`w-full rounded-lg border px-4 py-5 flex flex-col items-center justify-center gap-2 text-center transition-colors ${
-                      action.variant === 'default'
-                        ? 'bg-red-600 border-red-600 text-white hover:bg-red-700'
-                        : 'bg-white border-red-200 text-red-600 hover:bg-red-50'
-                    }`}
-                  >
-                    <action.icon className="h-7 w-7" />
-                    <span className="font-medium text-base leading-tight">{action.label}</span>
-                    <span className={`text-sm ${action.variant === 'default' ? 'text-white/80' : 'text-gray-500'}`}>
-                      {action.description}
+                  <div key={action.label} className="relative">
+                    <motion.button
+                      type="button"
+                      onClick={action.onClick}
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      className={`w-full rounded-lg border px-4 py-5 pr-8 flex flex-col items-center justify-center gap-2 text-center transition-colors ${
+                        action.variant === 'default'
+                          ? 'bg-red-600 border-red-600 text-white hover:bg-red-700'
+                          : 'bg-white border-red-200 text-red-600 hover:bg-red-50'
+                      }`}
+                    >
+                      <action.icon className="h-7 w-7" />
+                      <span className="font-medium text-base leading-tight">{action.label}</span>
+                      <span className={`text-sm ${action.variant === 'default' ? 'text-white/80' : 'text-gray-500'}`}>
+                        {action.description}
+                      </span>
+                    </motion.button>
+                    <span className="absolute right-2 top-2 z-10">
+                      <HelpTooltip
+                        texto={action.ayuda}
+                        etiqueta={`Qué hace ${action.label}`}
+                        className={action.variant === 'default' ? 'text-white/90 hover:text-white' : 'text-red-600 hover:text-red-800'}
+                      />
                     </span>
-                  </motion.button>
+                  </div>
                 ))}
               </div>
             </CardContent>
@@ -378,7 +408,15 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                         <th className="px-4 py-3">Docente</th>
                         <th className="px-4 py-3">Correo</th>
                         <th className="px-4 py-3">Evaluaciones</th>
-                        <th className="px-4 py-3">Promedio</th>
+                        <th className="px-4 py-3">
+                          <span className="inline-flex items-center gap-1">
+                            Promedio
+                            <HelpTooltip
+                              etiqueta="Cómo se marca el riesgo"
+                              texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
+                            />
+                          </span>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -403,7 +441,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                               <td className="px-4 py-3 text-gray-600">{t.email || '-'}</td>
                               <td className="px-4 py-3 text-gray-700">{t.totalEvaluaciones}</td>
                               <td className="px-4 py-3">
-                                <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${
+                                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${
                                   low
                                     ? 'bg-red-100 text-red-700'
                                     : t.totalEvaluaciones === 0
@@ -411,6 +449,15 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                                       : 'bg-emerald-100 text-emerald-700'
                                 }`}>
                                   {t.totalEvaluaciones === 0 ? 'Sin datos' : promedioVisible(t.promedio).toFixed(2)}
+                                  {low && (
+                                    <>
+                                      <span>· En riesgo</span>
+                                      <HelpTooltip
+                                        etiqueta="Por qué este docente está en riesgo"
+                                        texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
+                                      />
+                                    </>
+                                  )}
                                 </span>
                               </td>
                             </tr>

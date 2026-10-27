@@ -21,6 +21,9 @@ import { useState, useEffect } from 'react';
 import { fetchStudentStats, fetchStudentEnrolledSubjects } from '../../api/teachers';
 import { filasVistaMaterias, materiasDesdeApi, MateriaMatriculadaVista } from './estudiante-materias';
 import Calendar from '../../components/Calendar';
+import EmptyState from '../../components/EmptyState';
+import OnboardingBanner from '../../components/OnboardingBanner';
+import HelpTooltip from '../../components/HelpTooltip';
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
@@ -41,6 +44,7 @@ type QuickAction = {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
   description: string;
+  ayuda: string;
   onClick: () => void;
   variant: 'default' | 'outline';
   className: string;
@@ -120,6 +124,7 @@ function getPrimaryStat(type: User['type'], stats: Record<string, unknown>) {
       value: stats.averageRating,
       suffix: '/5.0',
       description: 'Última evaluación',
+      help: 'Promedio de las respuestas recibidas, en escala de 1.0 a 5.0. Por debajo de 4.0 conviene revisar comentarios y la tendencia del periodo.',
       valueClass: 'text-yellow-600',
       Icon: Star,
       iconClass: 'h-6 w-6 text-yellow-600 ml-4',
@@ -131,6 +136,7 @@ function getPrimaryStat(type: User['type'], stats: Record<string, unknown>) {
       value: stats.totalTeachers,
       suffix: '',
       description: 'En el departamento',
+      help: 'Docentes activos de tu carrera. No incluye docentes de otros programas.',
       valueClass: 'text-red-600',
       Icon: Users,
       iconClass: 'h-6 w-6 text-red-600 ml-4',
@@ -141,6 +147,7 @@ function getPrimaryStat(type: User['type'], stats: Record<string, unknown>) {
     value: stats.evaluationsPending,
     suffix: '',
     description: 'Deben completarse pronto',
+    help: 'Materias del periodo vigente que aún no evalúas. Si el número es alto y la ventana está por cerrar, complétalas antes de la fecha límite.',
     valueClass: 'text-red-600',
     Icon: ClipboardCheck,
     iconClass: 'h-6 w-6 text-red-600 ml-4',
@@ -153,6 +160,7 @@ function getSecondaryStat(type: User['type'], stats: Record<string, unknown>) {
       title: 'Total Evaluaciones',
       value: stats.totalEvaluations,
       description: 'Evaluaciones recibidas',
+      help: 'Cantidad de encuestas completadas. Un número bajo con muchos estudiantes matriculados indica poca participación, no una mala calificación.',
     };
   }
   if (type === 'student') {
@@ -160,12 +168,14 @@ function getSecondaryStat(type: User['type'], stats: Record<string, unknown>) {
       title: 'Evaluaciones Completadas',
       value: stats.evaluationsCompleted,
       description: 'Este período académico',
+      help: 'Encuestas que ya enviaste en este periodo. Cada materia cuenta una sola vez.',
     };
   }
   return {
     title: 'Evaluaciones Completadas',
     value: stats.evaluationsCompleted,
     description: 'En el sistema',
+    help: 'Encuestas cerradas en el periodo. Sirve para ver cuánta participación ya se registró.',
   };
 }
 
@@ -175,6 +185,7 @@ function getTertiaryStat(type: User['type'], stats: Record<string, unknown>) {
       title: 'Cursos Impartidos',
       value: stats.coursesTeaching,
       description: 'Este semestre',
+      help: 'Asignaturas que impartes en el semestre. No mide calificaciones: solo tu carga docente.',
     };
   }
   if (type === 'coordinator') {
@@ -182,12 +193,14 @@ function getTertiaryStat(type: User['type'], stats: Record<string, unknown>) {
       title: 'Cursos Matriculados',
       value: stats.pendingApprovals,
       description: 'Por revisar',
+      help: 'Cursos de la carrera que aún requieren revisión de su ventana de evaluación.',
     };
   }
   return {
     title: 'Cursos Matriculados',
     value: stats.currentCourses,
     description: 'Este semestre',
+    help: 'Asignaturas en las que estás inscrito. Solo estas aparecen para evaluar, en las fechas vigentes o con el QR de la clase.',
   };
 }
 
@@ -204,6 +217,7 @@ function buildStudentData(stats: StudentStats, actions: DashboardActions): UserD
         icon: ClipboardCheck,
         label: 'Nueva Evaluación',
         description: 'Evaluar un docente',
+        ayuda: 'Abre la selección de docente, materia y grupo para responder la encuesta vigente del periodo.',
         onClick: actions.onStartEvaluation,
         variant: 'default',
         className: 'bg-red-600 hover:bg-red-700 text-white',
@@ -212,6 +226,7 @@ function buildStudentData(stats: StudentStats, actions: DashboardActions): UserD
         icon: CalendarIcon,
         label: 'Ver Calendario',
         description: 'Fechas importantes',
+        ayuda: 'Abre el calendario con la apertura y el cierre de las evaluaciones de tus materias.',
         onClick: actions.onToggleCalendar,
         variant: 'outline',
         className: 'border-gray-300',
@@ -233,6 +248,7 @@ function buildTeacherData(actions: DashboardActions): UserDashboardData {
         icon: BarChart3,
         label: 'Análisis y Reportes',
         description: 'Ver mis estadísticas',
+        ayuda: 'Abre el análisis de calificaciones y comentarios del periodo.',
         onClick: actions.onViewReports,
         variant: 'default',
         className: 'bg-red-600 hover:bg-red-650 text-white',
@@ -241,6 +257,7 @@ function buildTeacherData(actions: DashboardActions): UserDashboardData {
         icon: ClipboardCheck,
         label: 'Ver Encuesta',
         description: 'Ver la encuesta de mi carrera',
+        ayuda: 'Muestra las preguntas que responden los estudiantes de tu carrera.',
         onClick: actions.onViewSurvey,
         variant: 'outline',
         className: 'border-gray-300',
@@ -262,6 +279,7 @@ function buildCoordinatorData(actions: DashboardActions): UserDashboardData {
         icon: CalendarIcon,
         label: 'Calendario de evaluaciones',
         description: 'Ver cuándo abren y cierran las encuestas',
+        ayuda: 'Abre el calendario con las ventanas de evaluación de la carrera.',
         onClick: actions.onToggleCalendar,
         variant: 'default',
         className: 'bg-green-600 hover:bg-green-700 text-white',
@@ -270,6 +288,7 @@ function buildCoordinatorData(actions: DashboardActions): UserDashboardData {
         icon: BarChart3,
         label: 'Reportes Generales',
         description: 'Ver reportes del departamento',
+        ayuda: 'Abre los reportes de calificaciones y participación del departamento.',
         onClick: actions.onViewReports,
         variant: 'outline',
         className: 'border-gray-300',
@@ -321,11 +340,13 @@ async function fetchDashboardData(
     });
   } catch (error: unknown) {
     const err = error as { response?: { data?: { error?: string } }; message?: string };
-    console.warn(
-      '⚠️ Error loading student data, showing dashboard with zeros:',
-      err.response?.data?.error || err.message
-    );
-    apply({ stats: EMPTY_STUDENT_STATS, materias: [], loading: false, error: '' });
+    const mensaje = err.response?.data?.error || err.message || 'No se pudieron cargar tus materias.'
+    apply({
+      stats: EMPTY_STUDENT_STATS,
+      materias: [],
+      loading: false,
+      error: mensaje,
+    });
   }
 }
 
@@ -344,7 +365,7 @@ function DashboardLoading({ user }: Readonly<{ user: User }>) {
       <main className="max-w-[1700px] mx-auto p-6 lg:p-8 flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="inline-block h-10 w-10 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
-          <p className="mt-4 text-gray-700">Cargando tu dashboard...</p>
+          <p className="mt-4 text-gray-700">Cargando tu panel...</p>
         </div>
       </main>
     </Shell>
@@ -391,26 +412,49 @@ function WelcomeCard({ user }: Readonly<{ user: User }>) {
 
 function QuickActionsCard({ actions }: Readonly<{ actions: QuickAction[] }>) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {actions.map((action) => (
-        <motion.button
-          key={action.label}
-          type="button"
-          onClick={action.onClick}
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          className={`min-h-40 w-full rounded-xl shadow-md border px-6 py-8 flex flex-col items-center justify-center gap-2 text-center transition-colors ${
-            action.variant === 'default'
-              ? 'bg-red-600 border-red-600 text-white hover:bg-red-700'
-              : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50'
-          }`}
-        >
-          <action.icon className="h-8 w-8" />
-          <span className="text-xl font-semibold leading-tight">{action.label}</span>
-          <span className="text-base opacity-80">{action.description}</span>
-        </motion.button>
-      ))}
-    </div>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+      <Card className="bg-white shadow-md border border-gray-200 p-6">
+        <CardHeader className="pb-4">
+          <div className="flex items-center gap-2">
+            <ClipboardCheck className="h-5 w-5 text-gray-700" />
+            <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
+          </div>
+          <CardDescription className="text-base">
+            Aca estan las opciones de lo que puedes realizar
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {actions.map((action) => (
+              <div key={action.label} className="relative">
+                <motion.button
+                  type="button"
+                  onClick={action.onClick}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                  className={`min-h-36 w-full rounded-xl border px-6 py-6 pr-10 flex flex-col items-center justify-center gap-2 text-center transition-colors ${
+                    action.variant === 'default'
+                      ? 'bg-red-600 border-red-600 text-white hover:bg-red-700'
+                      : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50'
+                  }`}
+                >
+                  <action.icon className="h-8 w-8" />
+                  <span className="text-lg font-semibold leading-tight">{action.label}</span>
+                  <span className="text-sm opacity-80">{action.description}</span>
+                </motion.button>
+                <span className="absolute right-3 top-3 z-10">
+                  <HelpTooltip
+                    texto={action.ayuda}
+                    etiqueta={`Qué hace ${action.label}`}
+                    className={action.variant === 'default' ? 'text-white/90 hover:text-white' : undefined}
+                  />
+                </span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
 
@@ -419,6 +463,7 @@ function StatCard({
   value,
   suffix = '',
   description,
+  help,
   valueClass,
   delay,
   icon,
@@ -427,15 +472,19 @@ function StatCard({
   value: string;
   suffix?: string;
   description: string;
+  help?: string;
   valueClass: string;
   delay: number;
   icon: React.ReactNode;
 }>) {
   return (
     <motion.div variants={cardVariants} initial="hidden" animate="visible" transition={{ delay }}>
-      <Card className="bg-white shadow-md border border-gray-200 p-6">
+      <Card className="bg-white shadow-sm hover:shadow-md transition-all border border-gray-200/80 p-6">
         <CardHeader className="flex flex-row items-center justify-between pb-4">
-          <CardTitle className="text-lg font-medium text-gray-900 text-left">{title}</CardTitle>
+          <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+            {title}
+            {help ? <HelpTooltip texto={help} /> : null}
+          </CardTitle>
           {icon}
         </CardHeader>
         <CardContent>
@@ -462,6 +511,7 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
         value={textoEstadistica(primary.value)}
         suffix={primary.suffix}
         description={primary.description}
+        help={primary.help}
         valueClass={primary.valueClass}
         delay={0.2}
         icon={<primary.Icon className={primary.iconClass} />}
@@ -470,6 +520,7 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
         title={secondary.title}
         value={textoEstadistica(secondary.value)}
         description={secondary.description}
+        help={secondary.help}
         valueClass="text-green-600"
         delay={0.3}
         icon={<Star className="h-6 w-6 text-green-600 ml-4" />}
@@ -478,6 +529,7 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
         title={tertiary.title}
         value={textoEstadistica(tertiary.value)}
         description={tertiary.description}
+        help={tertiary.help}
         valueClass="text-university-red"
         delay={0.4}
         icon={<BookOpen className="h-6 w-6 text-university-red ml-4" />}
@@ -488,7 +540,14 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
 
 function MateriasList({ filas }: Readonly<{ filas: MateriaMatriculadaVista[] }>) {
   if (filas.length === 0) {
-    return <p className="text-sm text-gray-600">No tienes materias matriculadas este semestre.</p>;
+    return (
+      <EmptyState
+        titulo="No tienes materias matriculadas"
+        descripcion="Solo se listan materias en las que estás matriculado. Si acabas de inscribirte, actualiza el panel."
+        accion="Actualizar"
+        onAccion={() => window.location.reload()}
+      />
+    );
   }
 
   return (
@@ -527,7 +586,7 @@ function MateriasCard({ filas }: Readonly<{ filas: MateriaMatriculadaVista[] }>)
             <CardTitle className="text-xl text-gray-900">Mis materias matriculadas</CardTitle>
           </div>
           <CardDescription className="text-base">
-            Relación estudiante–materia del periodo actual
+            Solo se listan materias en las que estás matriculado. Evalúa en las fechas vigentes o escaneando el QR en clase.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -570,8 +629,19 @@ function DashboardReady({
       <div className="relative z-10">
         <Header user={currentUser} />
 
-        <main className="max-w-[1700px] mx-auto p-6 lg:p-8 space-y-8">
+        <main className="max-w-[1700px] mx-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
           <WelcomeCard user={user} />
+
+          {user.type === 'student' && (
+            <OnboardingBanner
+              rol="estudiante"
+              pasos={[
+                'Revisa las materias en las que estás matriculado.',
+                'Evalúa en las fechas vigentes o con el QR de la clase.',
+                'Al terminar puedes volver al panel o evaluar la siguiente materia.',
+              ]}
+            />
+          )}
 
           <div className="flex flex-col gap-8">
             <div className="order-1 lg:order-2">
@@ -583,7 +653,9 @@ function DashboardReady({
             </div>
           </div>
 
-          {user.type === 'student' && <MateriasCard filas={filasMaterias} />}
+          {user.type === 'student' && (
+            <MateriasCard filas={filasMaterias} />
+          )}
         </main>
       </div>
 

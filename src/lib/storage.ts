@@ -26,6 +26,7 @@ export const authStorage = {
   clear(): void {
     localStorage.removeItem(TOKEN_KEY)
     localStorage.removeItem(USER_KEY)
+    localStorage.removeItem('token_expires_at')
   },
   getRedirectTo(): string | null {
     return localStorage.getItem(REDIRECT_KEY)

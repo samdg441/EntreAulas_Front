@@ -1,19 +1,36 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import Card from '../../components/Card'
 import Button from '../../components/Button'
 import { useAuth } from '../../context/AuthContext'
+import { fetchTeachersWithCourses } from '../../api/teachers'
 
 import fondoImg from '../../assets/fondo.webp'
 import logoUniversidadImg from '../../assets/logo_conciencia.webp'
 
 export default function EvaluationGoodbye() {
   const navigate = useNavigate()
-  const { logout } = useAuth()
+  const { getDashboardPath } = useAuth()
+  const [hayPendientes, setHayPendientes] = useState(false)
 
-  const handleLogout = () => {
-    logout()
-  }
+  useEffect(() => {
+    let activo = true
+    fetchTeachersWithCourses()
+      .then((docentes) => {
+        if (!activo) return
+        const pendiente = docentes.some((docente) =>
+          (docente.courses || []).some((curso) => curso.evaluada !== true)
+        )
+        setHayPendientes(pendiente)
+      })
+      .catch(() => {
+        if (activo) setHayPendientes(false)
+      })
+    return () => {
+      activo = false
+    }
+  }, [])
 
   return (
     <div
@@ -50,25 +67,27 @@ export default function EvaluationGoodbye() {
             Gracias por tu participación
           </h1>
           <p className="text-gray-600 mb-8">
-            Tu encuesta fue enviada correctamente. Tu opinión ayuda a mejorar la calidad académica.
+            Tu encuesta fue enviada correctamente. Tus respuestas son anónimas y confidenciales.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col gap-3">
             <Button
               type="button"
-              variant="outline"
-              onClick={() => navigate('/login', { replace: true })}
-              className="w-full"
-            >
-              Ir a login
-            </Button>
-            <Button
-              type="button"
-              onClick={handleLogout}
+              onClick={() => navigate(getDashboardPath(), { replace: true })}
               className="w-full bg-red-600 hover:bg-red-700 text-white"
             >
-              Cerrar sesión
+              Volver al panel principal
             </Button>
+            {hayPendientes && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => navigate('/evaluate/selection')}
+                className="w-full"
+              >
+                Evaluar siguiente materia
+              </Button>
+            )}
           </div>
         </Card>
       </motion.div>

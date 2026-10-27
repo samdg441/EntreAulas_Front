@@ -44,7 +44,13 @@ export default function ProtectedRoute({
     }
     if (decision === 'forbidden') {
       setIsChecking(false);
-      navigate(forbiddenRedirect, { replace: true });
+      navigate(forbiddenRedirect, {
+        replace: true,
+        state: {
+          seccion: globalThis.location?.pathname,
+          roles: allowedRoles,
+        },
+      });
       return;
     }
 

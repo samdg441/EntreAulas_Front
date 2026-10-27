@@ -59,7 +59,7 @@ function ResumenBanner({ ventanas, hoy }: Readonly<{ ventanas: VentanaEvaluacion
           <p className="font-semibold text-[#991B1B]">La evaluación docente está abierta</p>
           <p className="text-sm text-gray-700">
             Del {formatoFechaLarga(resumen.ventana.fechaInicio)} al {formatoFechaLarga(resumen.ventana.fechaFin)}.
-            {' '}Cierra {textoDias(resumen.diasRestantes)}.
+            {' '}Cierra {textoDias(resumen.diasRestantes)}. Estas fechas son la ventana en la que la evaluación está habilitada.
           </p>
         </div>
       </div>

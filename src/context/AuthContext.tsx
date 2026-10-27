@@ -64,6 +64,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const guardarSesion = useCallback((sesion: AuthResponse) => {
     authStorage.setToken(sesion.token)
     authStorage.setUser(sesion.user)
+    if (sesion.expiresAt) localStorage.setItem('token_expires_at', sesion.expiresAt)
     setUser(sesion.user)
   }, [])
 
@@ -101,6 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     authStorage.setToken(response.token)
     authStorage.setUser(response.user)
+    if (response.expiresAt) localStorage.setItem('token_expires_at', response.expiresAt)
 
     setUser(response.user)
   }, [])

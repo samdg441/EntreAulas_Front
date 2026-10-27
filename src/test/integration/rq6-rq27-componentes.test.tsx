@@ -72,8 +72,9 @@ describe('RQ6, RQ14, RQ15, RQ17 y RQ27 — Componentes', () => {
   it('RQ6: la pantalla de acceso denegado explica que no hay permiso', () => {
     renderConSesion(<ForbiddenPage />)
 
-    expect(screen.getByRole('heading', { name: 'Acceso no permitido' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Volver al inicio' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Permisos insuficientes' })).toBeInTheDocument()
+    expect(screen.getByText(/no incluye el permiso/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Volver al panel' })).toBeInTheDocument()
   })
 
   it('RQ17: un QR sin token muestra el error y no llama al back', async () => {
@@ -129,12 +130,12 @@ describe('RQ6, RQ14, RQ15, RQ17 y RQ27 — Componentes', () => {
       <Dashboard user={{ id: 'u-ana', name: 'Ana Pérez', type: 'student', email: estudiante.email }} />
     )
 
-    expect(await screen.findByText('Relación estudiante–materia del periodo actual')).toBeInTheDocument()
+    expect(await screen.findByText(/Solo se listan materias en las que estás matriculado/)).toBeInTheDocument()
     expect(await screen.findByText('SIS-101 · Programación I')).toBeInTheDocument()
     expect(screen.getByText(/Ana Pérez/)).toBeInTheDocument()
   })
 
-  it('RQ27: sin materias matriculadas la lista queda vacía', async () => {
+  it('RQ27: si la API de materias falla se muestra el error y no un cero silencioso', async () => {
     vi.mocked(fetchStudentStats).mockRejectedValue(new Error('sin red'))
     vi.mocked(fetchStudentEnrolledSubjects).mockRejectedValue(new Error('sin red'))
 
@@ -142,6 +143,8 @@ describe('RQ6, RQ14, RQ15, RQ17 y RQ27 — Componentes', () => {
       <Dashboard user={{ id: 'u-ana', name: 'Ana Pérez', type: 'student', email: estudiante.email }} />
     )
 
-    await waitFor(() => expect(screen.getByText('No tienes materias matriculadas este semestre.')).toBeInTheDocument())
+    expect(await screen.findByText('Error al cargar los datos')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Reintentar' })).toBeInTheDocument()
+    expect(screen.queryByText('0')).not.toBeInTheDocument()
   })
 })

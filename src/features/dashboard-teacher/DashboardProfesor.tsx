@@ -25,9 +25,19 @@ import { fetchTeacherStats, fetchTeacherCourses, fetchTeacherId } from '../../ap
 
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
+import RoleGuideBanner from '../../components/OnboardingBanner';
+import HelpTooltip from '../../components/HelpTooltip';
 
 // Importar la imagen de fondo
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
+
+function estadoCohorte(respondidas: number, estudiantes: number): 'completed' | 'progress' | 'empty' {
+  const respuestas = Number(respondidas) || 0
+  const total = Number(estudiantes) || 0
+  if (respuestas <= 0) return 'empty'
+  if (total > 0 && respuestas >= total) return 'completed'
+  return 'progress'
+}
 
 interface DashboardProfesorProps {
   user: User;
@@ -155,7 +165,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
     answeredSurveys: curso.encuestasRespondidas ?? curso.total ?? 0,
     average: promedioVisible(curso.promedio),
     period: `Semestre ${activePeriodCode}`,
-    status: 'completed'
+    status: estadoCohorte(curso.encuestasRespondidas ?? curso.total ?? 0, curso.total)
   })) || [];
 
   const gruposDelCurso = (teacherStats?.evaluacionesPorGrupo || []).filter(
@@ -170,7 +180,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
     answeredSurveys: grupo.encuestasRespondidas ?? grupo.total ?? 0,
     average: promedioVisible(grupo.promedio),
     period: `Semestre ${activePeriodCode}`,
-    status: 'completed'
+    status: estadoCohorte(grupo.encuestasRespondidas ?? grupo.total ?? 0, grupo.total)
   }));
 
   const filasVisibles = selectedCourseFilter === 'all'
@@ -212,6 +222,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
           icon: BarChart3,
           label: 'Mis Estadísticas',
           description: 'Ver análisis detallado',
+          ayuda: 'Abre el análisis de tus calificaciones, tendencias y comentarios del periodo.',
           onClick: handleViewReports,
           variant: 'default' as const,
           className: 'bg-red-600 hover:bg-red-700 text-white'
@@ -220,6 +231,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
           icon: ClipboardCheck,
           label: 'Ver Encuesta',
           description: 'Ver la encuesta de mi carrera',
+          ayuda: 'Muestra las preguntas que responden tus estudiantes en la encuesta de tu carrera.',
           onClick: handleViewSurvey,
           variant: 'outline' as const,
           className: 'border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400'
@@ -228,6 +240,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
           icon: CalendarIcon,
           label: 'Calendario',
           description: 'Fechas importantes',
+          ayuda: 'Abre el calendario con la apertura y el cierre de las ventanas de evaluación.',
           onClick: toggleCalendar,
           variant: 'outline' as const,
           className: 'border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400'
@@ -262,7 +275,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
         {/* Usamos el componente Header */}
         <Header user={currentUser} />
         
-        <main className="max-w-[1700px] mx-auto p-6 lg:p-8 space-y-8">
+        <main className="max-w-[1700px] mx-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
           {/* Welcome Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -282,6 +295,16 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             </Card>
           </motion.div>
 
+          <RoleGuideBanner
+            storageKey="guide_dismissed_teacher"
+            titulo="¿Qué puedes hacer aquí?"
+            pasos={[
+              { titulo: 'Consulta tus resultados', detalle: 'Revisa las evaluaciones y comentarios enviados por tus estudiantes al cierre del periodo.' },
+              { titulo: 'Seguimiento en tiempo real', detalle: 'Monitorea la tasa de respuesta de tus materias activas.' },
+              { titulo: 'Reportes e histórico', detalle: 'Descarga o visualiza tus métricas comparativas por semestre.' },
+            ]}
+          />
+
           {/* Stats Cards - Específicas para profesores */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Calificación Promedio */}
@@ -293,8 +316,9 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-yellow-100 p-6 h-full">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Calificación Promedio
+                    <HelpTooltip texto="Promedio de todas las respuestas recibidas, en escala de 1.0 a 5.0. Por debajo de 4.0 es una señal de seguimiento: conviene leer los comentarios del periodo." />
                   </CardTitle>
                   <Star className="h-6 w-6 text-yellow-600 ml-4" />
                 </CardHeader>
@@ -324,8 +348,9 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-green-100 p-6 h-full">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Total Evaluaciones
+                    <HelpTooltip texto="Cantidad de encuestas completadas por estudiantes. Un valor bajo con muchos matriculados indica poca participación, no necesariamente una mala calificación." />
                   </CardTitle>
                   <ClipboardCheck className="h-6 w-6 text-green-600 ml-4" />
                 </CardHeader>
@@ -355,8 +380,9 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-red-100 p-6 h-full">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Carga Académica
+                    <HelpTooltip texto="Cursos y grupos asignados en el periodo activo. No mide calificaciones: solo tu carga docente." />
                   </CardTitle>
                   <BookOpen className="h-6 w-6 text-red-600 ml-4" />
                 </CardHeader>
@@ -403,23 +429,32 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {profesorData.quickActions.map((action, index) => (
-                    <motion.div key={index} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                      <Button
-                        onClick={action.onClick}
-                        variant={action.variant}
-                        className={`w-full h-auto py-5 flex flex-col items-center gap-3 ${action.className}`}
-                      >
-                        <action.icon className="h-8 w-8" />
-                        <div className="text-center">
-                          <div className="font-medium text-lg">
-                            {action.label}
+                    <div key={index} className="relative">
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button
+                          onClick={action.onClick}
+                          variant={action.variant}
+                          className={`w-full h-auto py-5 pr-8 flex flex-col items-center gap-3 ${action.className}`}
+                        >
+                          <action.icon className="h-8 w-8" />
+                          <div className="text-center">
+                            <div className="font-medium text-lg">
+                              {action.label}
+                            </div>
+                            <div className="text-sm opacity-80">
+                              {action.description}
+                            </div>
                           </div>
-                          <div className="text-sm opacity-80">
-                            {action.description}
-                          </div>
-                        </div>
-                      </Button>
-                    </motion.div>
+                        </Button>
+                      </motion.div>
+                      <span className="absolute right-3 top-3 z-10">
+                        <HelpTooltip
+                          texto={action.ayuda}
+                          etiqueta={`Qué hace ${action.label}`}
+                          className={action.variant === 'default' ? 'text-white/90 hover:text-white' : 'text-red-600 hover:text-red-800'}
+                        />
+                      </span>
+                    </div>
                   ))}
                 </div>
               </CardContent>
@@ -556,7 +591,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                     </div>
                   ) : filasVisibles.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
-                      No hay evaluaciones disponibles
+                      Sin datos: aún no se registran respuestas de estudiantes en el periodo activo.
                     </div>
                   ) : (
                     filasVisibles.map((evaluation: any, index: number) => (
@@ -575,10 +610,12 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                                 className={`text-sm py-1 ${
                                   evaluation.status === 'completed' 
                                     ? 'bg-green-50 text-green-700 border-green-200' 
+                                    : evaluation.status === 'empty'
+                                    ? 'bg-gray-50 text-gray-700 border-gray-200'
                                     : 'bg-yellow-50 text-yellow-700 border-yellow-200'
                                 }`}
                               >
-                                {evaluation.status === 'completed' ? 'Completada' : 'En Progreso'}
+                                {evaluation.status === 'completed' ? 'Completada' : evaluation.status === 'empty' ? 'Sin datos' : 'En progreso'}
                               </Badge>
                             </div>
                             <div className="grid grid-cols-3 gap-4 text-sm">

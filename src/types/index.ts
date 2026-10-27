@@ -8,11 +8,22 @@ export interface User {
   roles?: string[];
 }
 
+export interface CourseGroupRef {
+  id: string | number;
+  numero?: string | number;
+  evaluada?: boolean;
+  /** Fuera de la ventana de evaluación y aún sin respuesta. */
+  bloqueada?: boolean;
+}
+
 export interface Course {
   id: string;
   name: string;
   code: string;
   schedule: string;
+  evaluada?: boolean;
+  bloqueada?: boolean;
+  groups?: CourseGroupRef[];
 }
 
 export interface Teacher {

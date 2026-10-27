@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Card, { CardHeader, CardContent, CardDescription, CardTitle } from '../../components/Card'
-import Button from '../../components/Button'
 import Header from '../../components/Header'
 import { User } from '../../types'
 import { usersApi } from '../../api/users'
@@ -10,11 +9,11 @@ import {
   Users,
   Building2,
   QrCode,
-  Shield,
-  Mail,
-  User as UserIcon,
+  GraduationCap,
   ClipboardPlus,
 } from 'lucide-react'
+import RoleGuideBanner from '../../components/OnboardingBanner'
+import HelpTooltip from '../../components/HelpTooltip'
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
@@ -83,38 +82,61 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
     return '¡Buenas noches'
   }
 
+  const metrics = [
+    {
+      label: 'Usuarios',
+      value: userCount,
+      hint: 'Cuentas registradas en la plataforma',
+      help: 'Total de cuentas activas e inactivas. Incluye estudiantes, docentes y directivos. No es un conteo de sesiones abiertas.',
+      icon: Users,
+      iconClass: 'bg-red-50 text-red-600',
+    },
+    {
+      label: 'Facultades',
+      value: facultadCount,
+      hint: 'Unidades académicas configuradas',
+      help: 'Facultades dadas de alta. Cada una agrupa carreras. Un número bajo puede indicar que la estructura aún no está completa.',
+      icon: Building2,
+      iconClass: 'bg-amber-50 text-amber-700',
+    },
+    {
+      label: 'Carreras',
+      value: carreraCount,
+      hint: 'Programas vinculados a las facultades',
+      help: 'Programas académicos activos. Sirve para comprobar que cada facultad tiene sus carreras antes de abrir evaluaciones.',
+      icon: GraduationCap,
+      iconClass: 'bg-emerald-50 text-emerald-700',
+    },
+  ]
+
   const modules = [
     {
       icon: Users,
       label: 'Gestión de Usuarios',
-      description: 'Listar, crear, editar y desactivar cuentas',
+      description: 'Crea, edita y desactiva cuentas de estudiantes, docentes y directivos.',
       path: '/admin/users',
-      className: 'bg-red-600 hover:bg-red-700 text-white',
-      variant: 'default' as const,
+      iconClass: 'bg-red-50 text-red-600',
     },
     {
       icon: Building2,
       label: 'Entidades Académicas',
-      description: 'Consultar facultades y carreras',
+      description: 'Consulta facultades, carreras y la estructura académica activa.',
       path: '/admin/academic',
-      className: 'border-gray-300 text-gray-700 hover:bg-gray-50',
-      variant: 'outline' as const,
+      iconClass: 'bg-amber-50 text-amber-700',
     },
     {
       icon: QrCode,
       label: 'Generación de QR',
-      description: 'Tokens de evaluación por curso y grupo',
+      description: 'Descarga accesos masivos por asignatura para evaluación en el aula.',
       path: '/admin/qr',
-      className: 'border-red-300 text-red-600 hover:bg-red-50',
-      variant: 'outline' as const,
+      iconClass: 'bg-red-50 text-red-600',
     },
     {
       icon: ClipboardPlus,
       label: 'Agregar encuesta',
-      description: 'Crear preguntas y ampliar evaluaciones',
+      description: 'Crea preguntas y amplía los instrumentos de evaluación del periodo.',
       path: '/admin/surveys',
-      className: 'border-gray-300 text-gray-700 hover:bg-gray-50',
-      variant: 'outline' as const,
+      iconClass: 'bg-emerald-50 text-emerald-700',
     },
   ]
 
@@ -134,87 +156,83 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
       <div className="relative z-10">
         <Header user={currentUser} />
 
-        <main className="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8 lg:space-y-10">
+        <main className="max-w-6xl xl:max-w-[92rem] mx-auto px-4 py-6 sm:p-6 lg:p-10 space-y-6 lg:space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
-              <CardContent className="space-y-3 lg:py-2">
-                <h2 className="text-3xl lg:text-4xl font-semibold text-gray-900">
+            <Card className="bg-white/95 shadow-sm border border-gray-200/80 p-6 lg:p-8">
+              <CardContent className="space-y-2 lg:py-1">
+                <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-gray-900">
                   {getGreeting()}, {currentUser.name.split(' ')[0]}
                 </h2>
-                <p className="text-lg lg:text-xl text-gray-600">
-                  Panel de administración. Gestiona usuarios, estructura académica, accesos QR y
-                  encuestas.
+                <p className="text-base lg:text-lg text-gray-600">
+                  Panel de administración de la institución.
                 </p>
                 {statsError && <p className="text-sm text-amber-700">{statsError}</p>}
               </CardContent>
             </Card>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-8 lg:min-h-[11.5rem]">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg lg:text-2xl font-medium text-gray-900">Usuarios</CardTitle>
-                <Users className="h-5 w-5 lg:h-8 lg:w-8 text-red-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl lg:text-5xl font-bold text-red-600">
-                  {loadingStats ? '…' : userCount === null ? '—' : userCount}
+          <RoleGuideBanner
+            storageKey="guide_dismissed_admin"
+            titulo="¿Cómo gestionar la plataforma?"
+            pasos={[
+              { titulo: 'Usuarios y roles', detalle: 'Administra cuentas de estudiantes, docentes y directivos.' },
+              { titulo: 'Estructura académica', detalle: 'Configura facultades, carreras y asignaturas activas.' },
+              { titulo: 'Periodos y encuestas', detalle: 'Define ventanas de fechas y activa los instrumentos de evaluación.' },
+              { titulo: 'Códigos QR de facultad', detalle: 'Genera accesos masivos a nivel institucional.' },
+            ]}
+          />
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            {metrics.map((metric) => (
+              <Card
+                key={metric.label}
+                className="bg-white/95 border border-gray-200/80 shadow-sm transition-all hover:shadow-md p-5 sm:p-6"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-medium text-gray-600">{metric.label}</p>
+                      <HelpTooltip texto={metric.help} />
+                    </div>
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                      {loadingStats ? '…' : metric.value === null ? '—' : metric.value}
+                    </p>
+                    <p className="mt-1 text-sm text-gray-500">{metric.hint}</p>
+                  </div>
+                  <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${metric.iconClass}`}>
+                    <metric.icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
                 </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-8 lg:min-h-[11.5rem]">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg lg:text-2xl font-medium text-gray-900">Facultades</CardTitle>
-                <Building2 className="h-5 w-5 lg:h-8 lg:w-8 text-gray-700" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl lg:text-5xl font-bold text-gray-800">
-                  {loadingStats ? '…' : facultadCount === null ? '—' : facultadCount}
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-8 lg:min-h-[11.5rem]">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg lg:text-2xl font-medium text-gray-900">Carreras</CardTitle>
-                <Shield className="h-5 w-5 lg:h-8 lg:w-8 text-green-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl lg:text-5xl font-bold text-green-600">
-                  {loadingStats ? '…' : carreraCount === null ? '—' : carreraCount}
-                </div>
-              </CardContent>
-            </Card>
+              </Card>
+            ))}
           </div>
 
-          <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-2xl lg:text-3xl text-gray-900">Módulos administrativos</CardTitle>
-              <CardDescription className="text-base lg:text-lg">
-                Entornos de vital importancia para la administración del sistema.
+          <Card className="bg-white/95 shadow-sm border border-gray-200/80 p-5 sm:p-6 lg:p-8">
+            <CardHeader className="px-0 pt-0 pb-4">
+              <CardTitle className="text-2xl text-gray-900">Módulos administrativos</CardTitle>
+              <CardDescription className="text-base">
+                Accesos directos a la operación de la plataforma.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            <CardContent className="px-0 pb-0">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 {modules.map((mod) => (
-                  <motion.div key={mod.path} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button
-                      onClick={() => navigate(mod.path)}
-                      variant={mod.variant}
-                      className={`w-full h-auto min-h-[9.5rem] lg:min-h-[12.5rem] py-5 lg:py-8 flex flex-col items-center gap-3 ${mod.className}`}
-                    >
-                      <mod.icon className="h-8 w-8 lg:h-11 lg:w-11" />
-                      <div className="text-center">
-                        <div className="font-medium text-lg lg:text-xl">{mod.label}</div>
-                        <div className="text-sm lg:text-base opacity-80">{mod.description}</div>
-                      </div>
-                    </Button>
-                  </motion.div>
+                  <button
+                    key={mod.path}
+                    type="button"
+                    onClick={() => navigate(mod.path)}
+                    className="group flex h-full flex-col rounded-xl border border-gray-200/80 bg-white p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-red-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                  >
+                    <span className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${mod.iconClass}`}>
+                      <mod.icon className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <span className="mt-4 text-base font-semibold text-gray-900">{mod.label}</span>
+                    <span className="mt-1 text-sm leading-relaxed text-gray-600">{mod.description}</span>
+                  </button>
                 ))}
               </div>
             </CardContent>
           </Card>
-
-
         </main>
       </div>
     </div>

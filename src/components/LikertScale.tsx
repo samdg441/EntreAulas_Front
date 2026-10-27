@@ -13,8 +13,8 @@ export default function LikertScale({
   value,
   onChange,
   options = 5,
-  leftLabel = "En desacuerdo",
-  rightLabel = "De acuerdo"
+  leftLabel = "1 = Muy deficiente",
+  rightLabel = "5 = Excelente"
 }: LikertScaleProps) {
   // Tamaño uniforme (y ligeramente más grande) para que todas las esferas se vean del mismo tamaño.
   const getCircleSize = () => {

@@ -14,6 +14,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
 import { guardarVentanaEvaluacion } from '../../api/periodos.api'
 import { getApiErrorMessage } from '../../lib/apiError'
+import { limitesPeriodoAcademico } from '../../lib/periodo-academico'
+import HelpTooltip from '../../components/HelpTooltip'
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
@@ -62,6 +64,15 @@ export default function AdminQrPage() {
       ),
     [facultades]
   )
+
+  const limitesFecha = limitesPeriodoAcademico()
+
+  useEffect(() => {
+    if (!careerId) return
+    loadGrupos()
+    // Se recarga al elegir carrera; loadGrupos lee el estado actual.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [careerId])
 
   useEffect(() => {
     let cancelled = false
@@ -234,7 +245,7 @@ export default function AdminQrPage() {
 
   const mensajeTablaVacia =
     grupos.length === 0
-      ? 'No hay cursos cargados. Elige carrera y pulsa "Cargar cursos".'
+      ? 'Alcance de facultad: elige una carrera y los cursos se cargan solos.'
       : 'No hay resultados para tu búsqueda.'
 
   let filasTabla
@@ -296,10 +307,12 @@ export default function AdminQrPage() {
               <Link to="/dashboard-admin" className="text-sm lg:text-base text-red-600 hover:underline">
                 ← Volver al panel
               </Link>
-              <CardTitle className="text-2xl lg:text-3xl text-gray-900 mt-1">Generación de QR</CardTitle>
+              <CardTitle className="text-2xl lg:text-3xl text-gray-900 mt-1 inline-flex items-center gap-2">
+                Generación de QR
+                <HelpTooltip texto="Los códigos QR permiten a los estudiantes de la clase acceder y calificar al docente de forma rápida y confidencial durante la sesión académica." />
+              </CardTitle>
               <CardDescription className="text-base lg:text-lg">
-                Define el período y selecciona los cursos/grupos que tendrán código QR (mismo flujo
-                del coordinador, con alcance por carrera).
+                Alcance de facultad. 1. Carrera → 2. Periodo → 3. Fechas del semestre → 4. Cursos (carga automática) → 5. Generar QR.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -336,6 +349,8 @@ export default function AdminQrPage() {
                     <input
                       id="admin-qr-inicio"
                       type="date"
+                      min={limitesFecha.min}
+                      max={limitesFecha.max}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
                       className="w-full p-3 lg:p-4 lg:text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
@@ -346,6 +361,8 @@ export default function AdminQrPage() {
                     <input
                       id="admin-qr-cierre"
                       type="date"
+                      min={limitesFecha.min}
+                      max={limitesFecha.max}
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
                       className="w-full p-3 lg:p-4 lg:text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
@@ -363,7 +380,7 @@ export default function AdminQrPage() {
                     </div>
                     <div className="flex flex-wrap gap-2">
                       <Button type="button" variant="outline" onClick={loadGrupos}>
-                        {loadingGrupos ? 'Cargando...' : 'Cargar cursos'}
+                        {loadingGrupos ? 'Cargando...' : 'Reintentar'}
                       </Button>
                       <Button type="button" variant="outline" onClick={selectAll} disabled={grupos.length === 0}>
                         Seleccionar todos
