@@ -15,6 +15,7 @@ import {
   User as UserIcon,
   ClipboardPlus,
 } from 'lucide-react'
+import RoleGuideBanner from '../../components/OnboardingBanner'
 
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
@@ -103,7 +104,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
     {
       icon: QrCode,
       label: 'Generación de QR',
-      description: 'Tokens de evaluación por curso y grupo',
+      description: 'Accesos de evaluación por curso y grupo',
       path: '/admin/qr',
       className: 'border-red-300 text-red-600 hover:bg-red-50',
       variant: 'outline' as const,
@@ -135,6 +136,16 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
         <Header user={currentUser} />
 
         <main className="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8 lg:space-y-10">
+          <RoleGuideBanner
+            storageKey="guide_dismissed_admin"
+            titulo="¿Cómo gestionar la plataforma?"
+            pasos={[
+              { titulo: 'Usuarios y roles', detalle: 'Administra cuentas de estudiantes, docentes y directivos.' },
+              { titulo: 'Estructura académica', detalle: 'Configura facultades, carreras y asignaturas activas.' },
+              { titulo: 'Periodos y encuestas', detalle: 'Define ventanas de fechas y activa los instrumentos de evaluación.' },
+              { titulo: 'Códigos QR de facultad', detalle: 'Genera accesos masivos a nivel institucional.' },
+            ]}
+          />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Card className="bg-white shadow-md border border-gray-200 p-6 lg:p-10">
               <CardContent className="space-y-3 lg:py-2">
@@ -142,7 +153,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
                   {getGreeting()}, {currentUser.name.split(' ')[0]}
                 </h2>
                 <p className="text-lg lg:text-xl text-gray-600">
-                  Aqui podras gestionar los usuarios, las facultades, las carreras, los periodos y las encuestas. Tambien podras generar los codigos QR para las evaluaciones.
+                  Panel de administración de la institución.
                 </p>
                 {statsError && <p className="text-sm text-amber-700">{statsError}</p>}
               </CardContent>

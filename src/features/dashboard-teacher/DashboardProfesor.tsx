@@ -25,6 +25,8 @@ import { fetchTeacherStats, fetchTeacherCourses, fetchTeacherId } from '../../ap
 
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
+import RoleGuideBanner from '../../components/OnboardingBanner';
+import HelpTooltip from '../../components/HelpTooltip';
 
 // Importar la imagen de fondo
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
@@ -271,6 +273,15 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
         <Header user={currentUser} />
         
         <main className="max-w-[1700px] mx-auto p-6 lg:p-8 space-y-8">
+          <RoleGuideBanner
+            storageKey="guide_dismissed_teacher"
+            titulo="¿Qué puedes hacer aquí?"
+            pasos={[
+              { titulo: 'Consulta tus resultados', detalle: 'Revisa las evaluaciones y comentarios enviados por tus estudiantes al cierre del periodo.' },
+              { titulo: 'Seguimiento en tiempo real', detalle: 'Monitorea la tasa de respuesta de tus materias activas.' },
+              { titulo: 'Reportes e histórico', detalle: 'Descarga o visualiza tus métricas comparativas por semestre.' },
+            ]}
+          />
           {/* Welcome Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -301,8 +312,9 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-yellow-100 p-6 h-full">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Calificación Promedio
+                    <HelpTooltip texto="Promedio acumulado de todas las respuestas recibidas en la escala de 1.0 a 5.0." />
                   </CardTitle>
                   <Star className="h-6 w-6 text-yellow-600 ml-4" />
                 </CardHeader>
