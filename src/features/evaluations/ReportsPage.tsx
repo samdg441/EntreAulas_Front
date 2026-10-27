@@ -540,6 +540,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                    <CardTitle className="flex items-center gap-2">
                      <Star className="h-5 w-5 text-yellow-500" />
                      Calificación Promedio
+                     <HelpTooltip texto="Promedio acumulado de todas las respuestas recibidas en la escala de 1.0 a 5.0." />
                    </CardTitle>
                    <CardDescription>Promedio general de todas las evaluaciones</CardDescription>
                  </CardHeader>
@@ -563,7 +564,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                    <CardTitle className="flex items-center gap-2">
                      <Users className="h-5 w-5 text-blue-600" />
                      Tasa de Respuesta
-                     <HelpTooltip texto="Porcentaje de estudiantes elegibles que enviaron la encuesta en el periodo. No es el promedio de calificación." />
+                     <HelpTooltip texto="Porcentaje de estudiantes matriculados que han completado la encuesta frente al total esperado." />
                    </CardTitle>
                    <CardDescription>De estudiantes elegibles</CardDescription>
                  </CardHeader>
@@ -584,6 +585,13 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                    <CardTitle className="flex items-center gap-2">
                      <Calendar className="h-5 w-5 text-green-600" />
                      {vistaAgregada ? 'Docentes Evaluados' : 'Cursos Evaluados'}
+                     <HelpTooltip
+                       texto={
+                         vistaAgregada
+                           ? 'Docentes que ya recibieron al menos una evaluación en este periodo.'
+                           : 'Muestra la cantidad de asignaturas que ya cuentan con al menos una evaluación enviada en este periodo.'
+                       }
+                     />
                    </CardTitle>
                    <CardDescription>
                      {esDecano ? (selectedCareer === 'all' ? 'En la facultad' : 'En la carrera') : vistaAgregada ? 'En el departamento' : 'Cursos evaluados'}

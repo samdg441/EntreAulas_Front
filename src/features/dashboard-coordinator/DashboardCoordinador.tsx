@@ -274,7 +274,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
                   <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Promedio General
-                    <HelpTooltip texto="Docente en atención: promedio ponderado inferior a 4.0 con al menos 5 encuestas completadas." />
+                    <HelpTooltip texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes." />
                   </CardTitle>
                   {riesgoGlobal
                     ? <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
@@ -304,8 +304,12 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Docentes en Riesgo
+                    <HelpTooltip
+                      etiqueta="Qué significa en riesgo"
+                      texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
+                    />
                   </CardTitle>
                   <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
                 </CardHeader>
@@ -389,7 +393,15 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                         <th className="px-4 py-3">Docente</th>
                         <th className="px-4 py-3">Correo</th>
                         <th className="px-4 py-3">Evaluaciones</th>
-                        <th className="px-4 py-3">Promedio</th>
+                        <th className="px-4 py-3">
+                          <span className="inline-flex items-center gap-1">
+                            Promedio
+                            <HelpTooltip
+                              etiqueta="Cómo se marca el riesgo"
+                              texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
+                            />
+                          </span>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -414,7 +426,7 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                               <td className="px-4 py-3 text-gray-600">{t.email || '-'}</td>
                               <td className="px-4 py-3 text-gray-700">{t.totalEvaluaciones}</td>
                               <td className="px-4 py-3">
-                                <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${
+                                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${
                                   low
                                     ? 'bg-red-100 text-red-700'
                                     : t.totalEvaluaciones === 0
@@ -422,6 +434,15 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
                                       : 'bg-emerald-100 text-emerald-700'
                                 }`}>
                                   {t.totalEvaluaciones === 0 ? 'Sin datos' : promedioVisible(t.promedio).toFixed(2)}
+                                  {low && (
+                                    <>
+                                      <span>· En riesgo</span>
+                                      <HelpTooltip
+                                        etiqueta="Por qué este docente está en riesgo"
+                                        texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
+                                      />
+                                    </>
+                                  )}
                                 </span>
                               </td>
                             </tr>

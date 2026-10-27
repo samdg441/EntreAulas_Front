@@ -27,6 +27,7 @@ import { fetchProfessorSubjects, fetchDetailedFacultyProfessors, fetchAllCareerR
 // Importar el componente Calendar externo
 import Calendar from '../../components/Calendar';
 import EmptyState from '../../components/EmptyState';
+import HelpTooltip from '../../components/HelpTooltip';
 
 // Importar la imagen de fondo
 const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
@@ -343,8 +344,9 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Promedio General
+                    <HelpTooltip texto="Promedio de la facultad en la escala de 1.0 a 5.0. Un docente requiere seguimiento si su calificación queda por debajo de 4.0/5.0." />
                   </CardTitle>
                   <Award className="h-6 w-6 text-yellow-600 ml-4" />
                 </CardHeader>

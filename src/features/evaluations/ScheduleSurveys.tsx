@@ -13,6 +13,7 @@ import { toast } from 'sonner'
 import { guardarVentanaEvaluacion } from '../../api/periodos.api'
 import { getApiErrorMessage } from '../../lib/apiError'
 import { limitesPeriodoAcademico } from '../../lib/periodo-academico'
+import HelpTooltip from '../../components/HelpTooltip'
 
 interface CursoGrupo {
   id: number;
@@ -380,7 +381,10 @@ export default function ScheduleSurveys() {
                 <div className="mt-6 space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900">Cursos para generar QR</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 inline-flex items-center gap-2">
+                        Cursos para generar QR
+                        <HelpTooltip texto="Los códigos QR permiten a los estudiantes de la clase acceder y calificar al docente de forma rápida y confidencial durante la sesión académica." />
+                      </h3>
                       <p className="text-sm text-gray-600">
                         Marca los cursos/grupos que tendrán un QR para esta encuesta. Luego podrás descargar o imprimir los posters.
                       </p>

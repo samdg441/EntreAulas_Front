@@ -24,6 +24,9 @@ export default function HelpTooltip({ texto, etiqueta = 'Más información' }: H
         onMouseEnter={() => setAbierto(true)}
         onMouseLeave={() => setAbierto(false)}
         onFocus={() => setAbierto(true)}
+        onKeyDown={(evento) => {
+          if (evento.key === 'Escape') setAbierto(false)
+        }}
       >
         <CircleHelp className="h-4 w-4" aria-hidden="true" />
       </button>
