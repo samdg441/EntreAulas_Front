@@ -3,6 +3,7 @@ node_modules
 dist
 coverage
 test-results.xml
+test-results/
 reports/
 e2e/cypress/downloads/
 screenplay/descargas/
@@ -18,3 +19,13 @@ vite.config.d.ts
 *.tsbuildinfo
 coverage-rq1-rq5/
 screenplay-selenium/target/
+
+# Skills y configuración local de agentes. Se regeneran con npx momentic skills.
+.agents/
+.claude/
+.cursor/
+.vscode/
+.mcp.json
+AGENTS.md
+CLAUDE.md
+skills-lock.json
