@@ -142,7 +142,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
                   {getGreeting()}, {currentUser.name.split(' ')[0]}
                 </h2>
                 <p className="text-lg lg:text-xl text-gray-600">
-                  Orden sugerido: 1. Usuarios → 2. Estructura académica → 3. Periodos y encuestas → 4. Códigos QR. El alcance de los QR es de facultad; el del coordinador es de carrera.
+                  Aqui podras gestionar los usuarios, las facultades, las carreras, los periodos y las encuestas. Tambien podras generar los codigos QR para las evaluaciones.
                 </p>
                 {statsError && <p className="text-sm text-amber-700">{statsError}</p>}
               </CardContent>

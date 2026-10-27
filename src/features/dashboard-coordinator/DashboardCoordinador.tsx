@@ -184,8 +184,8 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
             rol="coordinador"
             pasos={[
               'Revisa docentes en atención (promedio inferior a 4.0).',
-              'Programa la ventana: periodo, fechas y cursos.',
-              'Genera los QR y notifica a los grupos.',
+              'Programa la Encuesta: periodo, fechas y cursos.',
+              'Genera los Codigos QR y notifica a los grupos.',
             ]}
           />
           {/* Welcome Section */}
