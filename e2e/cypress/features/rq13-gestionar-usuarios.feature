@@ -1,12 +1,13 @@
 # language: es
 @web @RQ13
-Característica: Gestionar usuarios
+Característica: RQ13 - Gestionar usuarios
   Como administrador
   Quiero crear, actualizar y desactivar usuarios
   Para mantener al día quién puede entrar a EntreAulas
 
   Antecedentes:
-    Dado que Ada ingresó como administrador
+    Dado que el back de EntreAulas tiene las cuentas de los requisitos 10 a 31
+    Y Ada inicia sesión como "admin" con "ada.admin@udemedellin.edu.co" y la clave "Clave-Segura2026!"
     Y ella abre directamente "/admin/users"
 
   @smoke
@@ -16,8 +17,6 @@ Característica: Gestionar usuarios
     Entonces ella ve el mensaje "LUIS GOMEZ"
     Y ella ve el mensaje "luis@soyudemedellin.edu.co"
     Y ella no ve el mensaje "Clave-Segura2026!"
-    Y el back recibió la petición "POST" "/api/auth/create-user"
-    Y la última petición "POST" "/api/auth/create-user" envió "tipo_usuario" = "estudiante"
 
   Escenario: Un correo ya registrado no crea otro usuario
     Cuando ella agrega a "Eva" "Estudiante" con el correo "eva.estudiante"
@@ -30,11 +29,10 @@ Característica: Gestionar usuarios
   Escenario: El administrador actualiza el nombre
     Cuando ella cambia el nombre de "eva.estudiante" a "Evelia"
     Entonces ella ve el mensaje "EVELIA Estudiante"
-    Y el back recibió la petición "PUT" "/api/users/u-est"
 
   Escenario: Desactiva a otro usuario
     Cuando ella desactiva a "eva.estudiante"
-    Entonces ella ve el mensaje "Inactivo"
+    Entonces ella ve a "eva.estudiante" como "Inactivo"
 
   Escenario: El administrador no se desactiva a sí mismo
     Cuando ella desactiva a "ada.admin"

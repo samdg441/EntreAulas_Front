@@ -1,0 +1,17 @@
+fileType: momentic/test/v2
+id: rq13-busqueda-vacia
+description: RQ13 una búsqueda sin coincidencias deja la tabla vacía
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Administrador
+        CORREO:
+          string: ada.admin@udemedellin.edu.co
+  - navigate: http://localhost:3001/admin/users
+  - type:
+      text: zzz
+      into: Buscar por nombre, email o rol…
+  - checkPageContains: No hay usuarios que coincidan con los filtros

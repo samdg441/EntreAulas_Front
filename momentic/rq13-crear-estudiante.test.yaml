@@ -1,0 +1,31 @@
+fileType: momentic/test/v2
+id: rq13-crear-estudiante
+description: RQ13 el administrador crea un estudiante
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Administrador
+        CORREO:
+          string: ada.admin@udemedellin.edu.co
+  - navigate: http://localhost:3001/admin/users
+  - checkPageContains: eva.estudiante@soyudemedellin.edu.co
+  - click: Agregar usuario
+  - type:
+      text: Luis
+      into: el campo Nombre
+  - type:
+      text: Gomez
+      into: el campo Apellido
+  - type:
+      text: luis
+      into: el campo Correo
+  - type:
+      text: Clave-Segura2026!
+      into: el campo Contraseña
+  - click: Crear
+  - checkPageContains: LUIS GOMEZ
+  - checkPageContains: luis@soyudemedellin.edu.co
+  - assert: La contraseña Clave-Segura2026! no aparece en la lista de usuarios

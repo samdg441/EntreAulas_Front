@@ -17,7 +17,8 @@
     "test:rq1": "node --import tsx tests/rq1-crear-usuario-ollama.e2e.ts",
     "test:rq2": "node --import tsx tests/rq2-login-ollama.e2e.ts",
     "test:rq3-rq5": "node --import tsx tests/rq3-rq5-recuperacion-ollama.e2e.ts",
-    "test:rq1-rq5": "npm run test:rq2 && npm run test:rq1 && npm run test:rq3-rq5"
+    "test:rq1-rq5": "npm run test:rq2 && npm run test:rq1 && npm run test:rq3-rq5",
+    "test:rq10-rq31": "node --import tsx tests/rq10-rq31-ollama.e2e.ts"
   },
   "dependencies": {
     "@browserbasehq/stagehand": "4.3.0",

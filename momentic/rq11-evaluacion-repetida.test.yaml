@@ -1,0 +1,20 @@
+fileType: momentic/test/v2
+id: rq11-eval-repetida
+description: RQ11 repetir la evaluación no crea otra
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Estudiante
+        CORREO:
+          string: eva.estudiante@soyudemedellin.edu.co
+  - module:
+      path: ./enviar-evaluacion.module.yaml
+      inputs:
+        COMENTARIO:
+          string: repetida
+  - waitForUrl:
+      substring: /evaluate/form
+  - checkPageContains: Ya has evaluado a este profesor para este curso y grupo

@@ -13,6 +13,8 @@
     "cy:rq1-rq5": "cypress run --e2e --browser ${CY_BROWSER:-chromium} --spec 'cypress/e2e/ui/rq[1-5]-*.cy.ts,cypress/e2e/regression/rq1-rq5-*.cy.ts,cypress/e2e/accessibility/rq1-rq5-*.cy.ts,cypress/e2e/api/rq1-rq5-*.cy.ts,cypress/e2e/security/rq1-rq5-*.cy.ts'",
     "cy:bdd": "cypress run --e2e --browser ${CY_BROWSER:-chromium} --config-file cypress.bdd.config.ts",
     "cy:bdd:rq1-rq5": "cypress run --e2e --browser ${CY_BROWSER:-chromium} --config-file cypress.bdd.config.ts --spec 'cypress/features/rq[1-5]-*.feature'",
+    "cy:bdd:rq10-rq31": "cypress run --e2e --browser ${CY_BROWSER:-chromium} --config-file cypress.bdd.config.ts --spec 'cypress/features/rq10-*.feature,cypress/features/rq11-*.feature,cypress/features/rq13-*.feature,cypress/features/rq29-*.feature,cypress/features/rq30-*.feature,cypress/features/rq31-*.feature'",
+    "cy:rq10-rq31": "cypress run --e2e --browser chrome --spec cypress/e2e/ui/rq10-rq31.cy.ts",
     "cy:ci": "cypress run --e2e --reporter junit --reporter-options mochaFile=../reports/cypress/junit-[hash].xml",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test:e2e": "start-server-and-test front http://localhost:3001 cy:run"

@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: rq30-resumen-carrera
+description: RQ30 el coordinador resume su carrera
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Coordinador
+        CORREO:
+          string: carlos.coordinador@udemedellin.edu.co
+  - navigate: http://localhost:3001/reports
+  - click: Generar resumen IA
+  - checkPageContains: Resumen de la carrera.

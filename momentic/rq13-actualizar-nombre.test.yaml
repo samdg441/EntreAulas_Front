@@ -1,0 +1,19 @@
+fileType: momentic/test/v2
+id: rq13-actualizar-nombre
+description: RQ13 el administrador actualiza el nombre
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Administrador
+        CORREO:
+          string: ada.admin@udemedellin.edu.co
+  - navigate: http://localhost:3001/admin/users
+  - click: el botón Editar de la fila de eva.estudiante
+  - type:
+      text: Evelia
+      into: el campo Nombre
+  - click: Actualizar
+  - checkPageContains: EVELIA Estudiante

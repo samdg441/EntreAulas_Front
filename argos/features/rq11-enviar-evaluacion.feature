@@ -1,5 +1,5 @@
 # language: es
-@web @RQ11
+@web @RQ11 @argos @eyes
 Característica: Enviar la evaluación docente
   Como estudiante
   Quiero calificar a mi docente y enviar la encuesta

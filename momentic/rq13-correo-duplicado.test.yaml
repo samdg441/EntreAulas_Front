@@ -1,0 +1,28 @@
+fileType: momentic/test/v2
+id: rq13-correo-duplicado
+description: RQ13 un correo ya registrado no crea otro usuario
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Administrador
+        CORREO:
+          string: ada.admin@udemedellin.edu.co
+  - navigate: http://localhost:3001/admin/users
+  - click: Agregar usuario
+  - type:
+      text: Eva
+      into: el campo Nombre
+  - type:
+      text: Estudiante
+      into: el campo Apellido
+  - type:
+      text: eva.estudiante
+      into: el campo Correo
+  - type:
+      text: Clave-Segura2026!
+      into: el campo Contraseña
+  - click: Crear
+  - checkPageContains: El email ya está registrado

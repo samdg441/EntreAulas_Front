@@ -1,5 +1,5 @@
 # language: es
-@web
+@web @argos @eyes
 Característica: Resúmenes de respuestas abiertas y alerta de acoso
   Como docente, coordinador o decano
   Quiero un resumen de los comentarios de las evaluaciones

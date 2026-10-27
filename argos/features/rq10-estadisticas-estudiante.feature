@@ -1,5 +1,5 @@
 # language: es
-@web @RQ10
+@web @RQ10 @argos @eyes
 Característica: Estadísticas del estudiante
   Como estudiante
   Quiero ver cuántas evaluaciones completé, cuántas me faltan y cuántas materias tengo

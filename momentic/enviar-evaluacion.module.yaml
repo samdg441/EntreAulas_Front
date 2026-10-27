@@ -1,0 +1,19 @@
+fileType: momentic/module/v2
+id: enviar-eval-ana
+name: enviar-evaluacion
+parameters:
+  - name: COMENTARIO
+steps:
+  - click: Nueva Evaluación
+  - click: Ana Pérez
+  - select:
+      from: el selector de curso
+      label: Programación I (SIS-101)
+  - click: Grupo 1
+  - click: Continuar a Evaluación
+  - click: el botón 5
+  - type:
+      text: "{{ env.COMENTARIO }}"
+      into: Escribe tus comentarios aquí...
+  - click: Finalizar Evaluación
+  - click: Confirmar y Enviar

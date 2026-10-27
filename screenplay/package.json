@@ -14,9 +14,17 @@
     "test:api": "cross-env SERENITY_API_ONLY=true npm run cucumber -- --tags @api",
     "test:smoke": "start-server-and-test front http://localhost:3001 cucumber:smoke",
     "test:report": "html-reporter serve --dir ../reports/serenity-js --port 8080 --open",
-    "test:percy": "percy exec -- npm run cucumber -- --tags @percy"
+    "test:percy": "percy exec -- npm run cucumber -- --tags @percy",
+    "cucumber:argos": "npm run cucumber -- --tags @argos",
+    "test:argos": "cross-env ARGOS=1 start-server-and-test front http://localhost:3001 cucumber:argos",
+    "argos:upload": "argos upload ../argos/screenshots",
+    "cucumber:eyes": "npm run cucumber -- --tags @eyes",
+    "test:eyes": "start-server-and-test front http://localhost:3001 cucumber:eyes"
   },
   "devDependencies": {
+    "@applitools/eyes-playwright": "^1.51.4",
+    "@argos-ci/cli": "^6.11.0",
+    "@argos-ci/playwright": "^7.8.0",
     "@cucumber/cucumber": "13.3.0",
     "@percy/cli": "^1.32.12",
     "@percy/playwright": "^1.1.2",

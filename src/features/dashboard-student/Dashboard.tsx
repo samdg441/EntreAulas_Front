@@ -377,7 +377,7 @@ function WelcomeCard({ user }: Readonly<{ user: User }>) {
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
       <Card className="bg-white shadow-md border border-gray-200 p-6">
         <CardContent className="space-y-3">
-          <h2 className="text-3xl font-semibold text-gray-900">
+          <h2 className="text-3xl font-semibold text-gray-900" data-visual-test="transparent">
             {getGreeting()}, {user.name.split(' ')[0]}!
           </h2>
           <p className="text-lg text-gray-600">

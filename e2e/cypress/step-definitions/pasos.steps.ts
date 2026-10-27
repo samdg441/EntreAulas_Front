@@ -22,7 +22,7 @@ const CUENTAS: Record<string, { email: string; tipo_usuario: string; activo?: bo
   inactivo: { email: 'inactivo@soyudemedellin.edu.co', tipo_usuario: 'estudiante', activo: false },
 }
 
-const ACTOR = '(Ana|Luis|ella|él)'
+const ACTOR = '(Ana|Luis|Eva|Lía|Ada|Pedro|Carlos|Dora|ella|él)'
 
 // ───────── Contexto ─────────
 
@@ -99,11 +99,11 @@ Then('la ruta actual es {string}', (ruta: string) => {
   actorLlamado('ella').asksFor(RutaActual.valor()).should('eq', ruta)
 })
 
-Then(/^(?:ve|ella ve) el mensaje "([^"]*)"$/, (texto: string) => {
+Then(/^(?:(?:ella|él) )?ve el mensaje "([^"]*)"$/, (texto: string) => {
   actorLlamado('ella').asksFor(MensajeVisible.que(texto))
 })
 
-Then('no ve el mensaje {string}', (texto: string) => {
+Then(/^(?:(?:ella|él) )?no ve el mensaje "([^"]*)"$/, (texto: string) => {
   actorLlamado('ella').asksFor(MensajeVisible.ausente(texto))
 })
 

@@ -1,0 +1,17 @@
+fileType: momentic/test/v2
+id: rq29-resumen-docente
+description: RQ29 el docente resume los comentarios de sus cursos
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Docente
+        CORREO:
+          string: pedro.docente@udemedellin.edu.co
+  - navigate: http://localhost:3001/reports
+  - click: Generar resumen IA
+  - checkPageContains: Resumen de los comentarios del docente.
+  - checkPageContains: claridad
+  - checkPageDoesNotContain: ALERTA DE ACOSO DETECTADO
