@@ -85,7 +85,7 @@ Usuarios por tipo:
 
 - Los mensajes de error están en una región con `role="alert"`.
 - Los campos con error tienen `aria-invalid` y `aria-describedby`.
-- Los botones para mostrar u ocultar la contraseña se llaman «Mostrar contraseña» y «Ocultar contraseña».
+- Solo el formulario de restablecimiento (`/reset-password`) tiene botones para mostrar u ocultar la contraseña; se llaman «Mostrar contraseña» y «Ocultar contraseña». El login y el alta de usuarios no los tienen.
 - **Front:** envía CSP, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer` y `X-Content-Type-Options: nosniff`.
 - **API:** envía las cabeceras de `helmet`, responde a un JSON malformado con 400 en JSON y nunca expone detalles internos en un 5xx.
 

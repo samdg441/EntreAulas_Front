@@ -1,0 +1,498 @@
+[
+  {
+    "id": "TC001",
+    "title": "Iniciar sesión como estudiante y llegar a su panel",
+    "description": "Verifica que un estudiante con credenciales válidas llega a /dashboard-estudiante.",
+    "category": "RQ2 · Login por tipo de usuario",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Choose the student user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the student dashboard is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Iniciar sesión como docente y llegar a su panel",
+    "description": "Verifica que un docente con credenciales válidas llega a /dashboard-profesor.",
+    "category": "RQ2 · Login por tipo de usuario",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Open the user type selector and choose «Docente»"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with the teacher account given in the additional instructions (not {{LOGIN_USER}})"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with the teacher password given in the additional instructions"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL contains /dashboard-profesor"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Solicitar un enlace de recuperación",
+    "description": "Verifica que un correo válido recibe la confirmación genérica «Solicitud enviada».",
+    "category": "RQ3.1/RQ4 · Solicitud de recuperación",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /forgot-password"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the recovery request"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a generic recovery confirmation is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Rechazar credenciales incorrectas",
+    "description": "Verifica que una contraseña incorrecta muestra «Credenciales inválidas» y el usuario sigue en /login.",
+    "category": "RQ2 · Login por tipo de usuario",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Keep the student user type (Estudiante)"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with a WRONG password such as Incorrecta#2026 (not {{LOGIN_PASSWORD}})"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the text «Credenciales inválidas» is visible and the URL still contains /login"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Crear un usuario nuevo",
+    "description": "Verifica que el administrador crea un usuario desde «Agregar usuario».",
+    "category": "RQ1 · Alta de usuarios desde admin",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Select the administrator user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /admin/users"
+      },
+      {
+        "type": "action",
+        "description": "Open the add user form"
+      },
+      {
+        "type": "action",
+        "description": "Choose a user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the first name field with a unique name"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the last name field with a unique surname"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username part field with a unique username"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with a valid password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the user creation form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new account appears in the users list"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Rechazar un correo con formato inválido en el login",
+    "description": "Verifica el mensaje «Por favor, ingresa un correo electrónico válido» en /login.",
+    "category": "RQ2 · Login por tipo de usuario",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Choose the student user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with an invalid email format"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an email validation error is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Rechazar un correo con formato inválido en la recuperación",
+    "description": "Verifica el mensaje de correo inválido en /forgot-password.",
+    "category": "RQ3.1/RQ4 · Solicitud de recuperación",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /forgot-password"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with an invalid email format"
+      },
+      {
+        "type": "action",
+        "description": "Submit the recovery request"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an email validation error is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "El dominio del correo cambia según el tipo de usuario",
+    "description": "Verifica que el sufijo pasa de @soyudemedellin.edu.co a @udemedellin.edu.co al elegir profesor.",
+    "category": "RQ1 · Alta de usuarios desde admin",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login, choose «Administrador» and log in with {{LOGIN_USER}} and {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /admin/users and click «Agregar usuario»"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the modal shows the suffix @soyudemedellin.edu.co next to the «usuario del correo» field (default type estudiante)"
+      },
+      {
+        "type": "action",
+        "description": "In the modal, select «profesor» in the «Tipo de usuario» list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the suffix next to the email field changes to @udemedellin.edu.co"
+      },
+      {
+        "type": "action",
+        "description": "Close the modal without creating the user"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Rechazar una contraseña débil en el alta",
+    "description": "Verifica el mensaje «al menos un carácter especial» y que el modal sigue abierto.",
+    "category": "RQ1 · Alta de usuarios desde admin",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Select the administrator user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /admin/users"
+      },
+      {
+        "type": "action",
+        "description": "Open the add user form"
+      },
+      {
+        "type": "action",
+        "description": "Choose a user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the first name field with a unique name"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the last name field with a unique surname"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username part field with a unique username"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with an invalid weak password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the user creation form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a password policy validation message is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC013",
+    "title": "Rechazar un correo duplicado en el alta",
+    "description": "Verifica «El correo ya está registrado».",
+    "category": "RQ1 · Alta de usuarios desde admin",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Select the administrator user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /admin/users"
+      },
+      {
+        "type": "action",
+        "description": "Open the add user form"
+      },
+      {
+        "type": "action",
+        "description": "Choose a user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the first name field with a unique name"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the last name field with a unique surname"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username part field with an already registered value"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with a valid password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the user creation form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a duplicate email message is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC014",
+    "title": "Encontrar el usuario creado en la tabla",
+    "description": "Verifica que el buscador de la tabla encuentra al usuario recién creado.",
+    "category": "RQ1 · Alta de usuarios desde admin",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Select the administrator user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /admin/users"
+      },
+      {
+        "type": "action",
+        "description": "Open the add user form"
+      },
+      {
+        "type": "action",
+        "description": "Choose a user type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the first name field with a unique name"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the last name field with a unique surname"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username part field with a unique username"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with a valid password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the user creation form"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the search field with the unique username"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the matching account appears in the filtered results"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC016",
+    "title": "Manejar un enlace de recuperación incompleto",
+    "description": "Verifica «El enlace de recuperación es inválido o está incompleto.» en /reset-password sin token.",
+    "category": "RQ3.2/RQ5 · Token y nueva contraseña",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reset-password"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an invalid or incomplete link message is visible"
+      }
+    ],
+    "priority": "Low"
+  }
+]

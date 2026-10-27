@@ -17,3 +17,4 @@ vite.config.d.ts
 coverage-rq1-rq5/
 screenplay-selenium/target/
 testsprite_tests/tmp/
+testsprite_tests/tmp/config.json
