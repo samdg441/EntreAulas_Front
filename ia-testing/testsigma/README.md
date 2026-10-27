@@ -1,5 +1,7 @@
 # Testsigma: pruebas de RQ1–RQ5
 
+> **Estado: reemplazada por TestSprite (2026-10-26).** Testsigma no permite crear la cuenta en el momento: el registro queda a la espera de una aprobación del proveedor, que no llegó antes de la entrega. Los 18 casos y el CSV se conservan como diseño de pruebas. La ejecución con IA se hizo con TestSprite (`../testsprite/`).
+
 ## Propósito
 
 Testsigma es una plataforma *low-code* con IA. En este proyecto se usa para tres cosas:
