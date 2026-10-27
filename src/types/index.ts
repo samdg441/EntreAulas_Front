@@ -12,6 +12,8 @@ export interface CourseGroupRef {
   id: string | number;
   numero?: string | number;
   evaluada?: boolean;
+  /** Fuera de la ventana de evaluación y aún sin respuesta. */
+  bloqueada?: boolean;
 }
 
 export interface Course {
@@ -20,6 +22,7 @@ export interface Course {
   code: string;
   schedule: string;
   evaluada?: boolean;
+  bloqueada?: boolean;
   groups?: CourseGroupRef[];
 }
 

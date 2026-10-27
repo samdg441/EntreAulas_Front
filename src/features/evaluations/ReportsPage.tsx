@@ -520,6 +520,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                    <CardTitle className="flex items-center gap-2">
                      <BarChart3 className="h-5 w-5 text-red-600" />
                      Total Evaluaciones
+                     <HelpTooltip texto="Número de encuestas completadas en el periodo seleccionado. Es un conteo, no una calificación: un valor alto indica participación, no mejor desempeño." />
                    </CardTitle>
                    <CardDescription>Este período académico</CardDescription>
                  </CardHeader>
@@ -540,7 +541,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                    <CardTitle className="flex items-center gap-2">
                      <Star className="h-5 w-5 text-yellow-500" />
                      Calificación Promedio
-                     <HelpTooltip texto="Promedio acumulado de todas las respuestas recibidas en la escala de 1.0 a 5.0." />
+                     <HelpTooltip texto="Promedio de todas las respuestas del periodo, en escala de 1.0 a 5.0. El porcentaje frente al periodo anterior muestra si la calificación sube o baja. Por debajo de 4.0 conviene revisar categorías y comentarios." />
                    </CardTitle>
                    <CardDescription>Promedio general de todas las evaluaciones</CardDescription>
                  </CardHeader>
@@ -564,7 +565,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                    <CardTitle className="flex items-center gap-2">
                      <Users className="h-5 w-5 text-blue-600" />
                      Tasa de Respuesta
-                     <HelpTooltip texto="Porcentaje de estudiantes matriculados que han completado la encuesta frente al total esperado." />
+                     <HelpTooltip texto="Porcentaje de estudiantes elegibles que ya respondieron. Una tasa muy baja (cerca de 0 %) no representa al grupo: no conviene concluir sobre la docencia con tan pocas respuestas." />
                    </CardTitle>
                    <CardDescription>De estudiantes elegibles</CardDescription>
                  </CardHeader>
@@ -628,7 +629,10 @@ export default function ReportsPage({ user }: ReportsPageProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200 h-full">
                 <CardHeader>
-                  <CardTitle>Calificaciones por Categoría</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Calificaciones por Categoría
+                    <HelpTooltip texto="Cada barra es el promedio (eje Y, de 0 a 5) de una dimensión del eje X: conocimiento, comunicación, disponibilidad, evaluación o metodología. Barras por debajo de 4.0 señalan qué aspecto reforzar." />
+                  </CardTitle>
                   <CardDescription>
                     Promedio de calificaciones en cada dimensión evaluada
                   </CardDescription>
@@ -683,7 +687,10 @@ export default function ReportsPage({ user }: ReportsPageProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200 h-full">
                 <CardHeader>
-                  <CardTitle>Tendencia Histórica</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Tendencia Histórica
+                    <HelpTooltip texto="El eje X son los periodos académicos y el eje Y la calificación promedio (0 a 5). Una curva que sube indica mejora. Un tramo pegado a 0 suele significar que ese periodo aún no tiene respuestas, no un desempeño bajo." />
+                  </CardTitle>
                   <CardDescription>
                     Evolución de las calificaciones a lo largo del tiempo
                   </CardDescription>
@@ -727,7 +734,10 @@ export default function ReportsPage({ user }: ReportsPageProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200 h-full">
                 <CardHeader>
-                  <CardTitle>Perfil de Competencias</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Perfil de Competencias
+                    <HelpTooltip texto="Cada eje del radar es una dimensión de 0 a 5. El polígono más amplio indica mejor valoración. Un vértice hundido muestra la competencia más débil frente a las demás." />
+                  </CardTitle>
                   <CardDescription>
                     Vista radial de las principales dimensiones
                   </CardDescription>
@@ -783,7 +793,10 @@ export default function ReportsPage({ user }: ReportsPageProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200 h-full">
                 <CardHeader>
-                  <CardTitle>Distribución de Calificaciones</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Distribución de Calificaciones
+                    <HelpTooltip texto="Porcentaje de respuestas en cada nivel. Una concentración en 1–2 es una alerta. La mayoría en 4–5 indica una valoración favorable. Los porcentajes de la leyenda suman 100 %." />
+                  </CardTitle>
                   <CardDescription>
                     Porcentaje de evaluaciones por nivel
                   </CardDescription>

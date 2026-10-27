@@ -4,10 +4,11 @@ import { CircleHelp } from 'lucide-react'
 interface HelpTooltipProps {
   texto: string
   etiqueta?: string
+  className?: string
 }
 
 /** Pista contextual accesible. Se abre con clic, foco o teclado. */
-export default function HelpTooltip({ texto, etiqueta = 'Más información' }: HelpTooltipProps) {
+export default function HelpTooltip({ texto, etiqueta = 'Más información', className }: HelpTooltipProps) {
   const id = useId()
   const [abierto, setAbierto] = useState(false)
 
@@ -15,7 +16,7 @@ export default function HelpTooltip({ texto, etiqueta = 'Más información' }: H
     <span className="relative inline-flex align-middle">
       <button
         type="button"
-        className="inline-flex h-5 w-5 items-center justify-center rounded-full text-gray-500 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500"
+        className={`inline-flex h-5 w-5 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 ${className || 'text-gray-500 hover:text-gray-800'}`}
         aria-label={etiqueta}
         aria-describedby={abierto ? id : undefined}
         aria-expanded={abierto}
@@ -34,7 +35,7 @@ export default function HelpTooltip({ texto, etiqueta = 'Más información' }: H
         <span
           id={id}
           role="tooltip"
-          className="absolute left-1/2 top-full z-50 mt-2 w-64 -translate-x-1/2 rounded-lg border border-gray-200 bg-white p-3 text-left text-xs font-normal leading-relaxed text-gray-700 shadow-lg"
+          className="absolute left-1/2 top-full z-50 mt-2 w-72 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-lg border border-gray-200 bg-white p-3 text-left text-xs font-normal leading-relaxed text-gray-700 shadow-lg"
         >
           {texto}
         </span>

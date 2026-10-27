@@ -163,6 +163,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
         icon: Building2,
         label: 'Ver Todos los Profesores',
         description: 'Explorar profesores por carrera',
+        ayuda: 'Abre el listado de docentes de cada carrera y el detalle de sus evaluaciones.',
         onClick: () => navigate('/professors'),
         variant: 'outline' as const,
         className: 'border-red-300 text-red-600 hover:bg-red-50'
@@ -171,6 +172,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
         icon: BarChart3,
         label: 'Reportes Generales',
         description: 'Ver estadísticas de la facultad',
+        ayuda: 'Abre los reportes de promedios, tendencias y tasa de respuesta de la facultad.',
         onClick: () => navigate('/reports'),
         variant: 'outline' as const,
         className: 'border-red-300 text-red-600 hover:bg-red-50'
@@ -179,6 +181,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
         icon: CalendarIcon,
         label: 'Calendario',
         description: 'Fechas importantes',
+        ayuda: 'Abre el calendario con la apertura y el cierre de las evaluaciones.',
         onClick: () => setShowCalendar(true),
         variant: 'outline' as const,
         className: 'border-red-300 text-red-600 hover:bg-red-50'
@@ -187,6 +190,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
         icon: BookOpen,
         label: 'Materias por Carrera',
         description: 'Ver materias de cada carrera',
+        ayuda: 'Abre las asignaturas activas de cada programa de la facultad.',
         onClick: () => navigate('/career-subjects'),
         variant: 'outline' as const,
         className: 'border-red-300 text-red-600 hover:bg-red-50'
@@ -195,6 +199,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
         icon: GraduationCap,
         label: 'Resultados por Carrera',
         description: 'Gestionar resultados académicos',
+        ayuda: 'Abre el detalle de calificaciones y participación de un programa.',
         onClick: () => navigate('/career-results'),
         variant: 'outline' as const,
         className: 'border-red-300 text-red-600 hover:bg-red-50'
@@ -289,8 +294,9 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Total de Carreras
+                    <HelpTooltip texto="Programas académicos de tu facultad. Cada carrera agrupa sus propios docentes y resultados." />
                   </CardTitle>
                   <Building2 className="h-6 w-6 text-blue-600 ml-4" />
                 </CardHeader>
@@ -314,8 +320,9 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Total de Profesores
+                    <HelpTooltip texto="Docentes con asignación vigente en alguna carrera de la facultad. Un cero indica que aún no hay profesores vinculados." />
                   </CardTitle>
                   <Users className="h-6 w-6 text-green-600 ml-4" />
                 </CardHeader>
@@ -386,23 +393,24 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {decanoData.quickActions.map((action, index) => (
-                        <motion.div
-                          key={index}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <Button
-                            onClick={action.onClick}
-                            variant={action.variant}
-                            className={`w-full p-4 h-auto flex flex-col items-start gap-2 ${action.className}`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <action.icon className="h-5 w-5" />
-                              <span className="font-medium">{action.label}</span>
-                            </div>
-                            <span className="text-sm opacity-90">{action.description}</span>
-                          </Button>
-                        </motion.div>
+                        <div key={index} className="relative">
+                          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                            <Button
+                              onClick={action.onClick}
+                              variant={action.variant}
+                              className={`w-full p-4 pr-10 h-auto flex flex-col items-start gap-2 ${action.className}`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <action.icon className="h-5 w-5" />
+                                <span className="font-medium">{action.label}</span>
+                              </div>
+                              <span className="text-sm opacity-90">{action.description}</span>
+                            </Button>
+                          </motion.div>
+                          <span className="absolute right-3 top-3 z-10">
+                            <HelpTooltip texto={action.ayuda} etiqueta={`Qué hace ${action.label}`} />
+                          </span>
+                        </div>
                       ))}
                     </div>
                   </CardContent>

@@ -222,6 +222,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
           icon: BarChart3,
           label: 'Mis Estadísticas',
           description: 'Ver análisis detallado',
+          ayuda: 'Abre el análisis de tus calificaciones, tendencias y comentarios del periodo.',
           onClick: handleViewReports,
           variant: 'default' as const,
           className: 'bg-red-600 hover:bg-red-700 text-white'
@@ -230,6 +231,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
           icon: ClipboardCheck,
           label: 'Ver Encuesta',
           description: 'Ver la encuesta de mi carrera',
+          ayuda: 'Muestra las preguntas que responden tus estudiantes en la encuesta de tu carrera.',
           onClick: handleViewSurvey,
           variant: 'outline' as const,
           className: 'border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400'
@@ -238,6 +240,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
           icon: CalendarIcon,
           label: 'Calendario',
           description: 'Fechas importantes',
+          ayuda: 'Abre el calendario con la apertura y el cierre de las ventanas de evaluación.',
           onClick: toggleCalendar,
           variant: 'outline' as const,
           className: 'border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400'
@@ -272,16 +275,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
         {/* Usamos el componente Header */}
         <Header user={currentUser} />
         
-        <main className="max-w-[1700px] mx-auto p-6 lg:p-8 space-y-8">
-          <RoleGuideBanner
-            storageKey="guide_dismissed_teacher"
-            titulo="¿Qué puedes hacer aquí?"
-            pasos={[
-              { titulo: 'Consulta tus resultados', detalle: 'Revisa las evaluaciones y comentarios enviados por tus estudiantes al cierre del periodo.' },
-              { titulo: 'Seguimiento en tiempo real', detalle: 'Monitorea la tasa de respuesta de tus materias activas.' },
-              { titulo: 'Reportes e histórico', detalle: 'Descarga o visualiza tus métricas comparativas por semestre.' },
-            ]}
-          />
+        <main className="max-w-[1700px] mx-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
           {/* Welcome Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -301,6 +295,16 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             </Card>
           </motion.div>
 
+          <RoleGuideBanner
+            storageKey="guide_dismissed_teacher"
+            titulo="¿Qué puedes hacer aquí?"
+            pasos={[
+              { titulo: 'Consulta tus resultados', detalle: 'Revisa las evaluaciones y comentarios enviados por tus estudiantes al cierre del periodo.' },
+              { titulo: 'Seguimiento en tiempo real', detalle: 'Monitorea la tasa de respuesta de tus materias activas.' },
+              { titulo: 'Reportes e histórico', detalle: 'Descarga o visualiza tus métricas comparativas por semestre.' },
+            ]}
+          />
+
           {/* Stats Cards - Específicas para profesores */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Calificación Promedio */}
@@ -314,7 +318,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
                   <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Calificación Promedio
-                    <HelpTooltip texto="Promedio acumulado de todas las respuestas recibidas en la escala de 1.0 a 5.0." />
+                    <HelpTooltip texto="Promedio de todas las respuestas recibidas, en escala de 1.0 a 5.0. Por debajo de 4.0 es una señal de seguimiento: conviene leer los comentarios del periodo." />
                   </CardTitle>
                   <Star className="h-6 w-6 text-yellow-600 ml-4" />
                 </CardHeader>
@@ -344,8 +348,9 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-green-100 p-6 h-full">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Total Evaluaciones
+                    <HelpTooltip texto="Cantidad de encuestas completadas por estudiantes. Un valor bajo con muchos matriculados indica poca participación, no necesariamente una mala calificación." />
                   </CardTitle>
                   <ClipboardCheck className="h-6 w-6 text-green-600 ml-4" />
                 </CardHeader>
@@ -375,8 +380,9 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-red-100 p-6 h-full">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left">
+                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
                     Carga Académica
+                    <HelpTooltip texto="Cursos y grupos asignados en el periodo activo. No mide calificaciones: solo tu carga docente." />
                   </CardTitle>
                   <BookOpen className="h-6 w-6 text-red-600 ml-4" />
                 </CardHeader>
@@ -423,23 +429,32 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {profesorData.quickActions.map((action, index) => (
-                    <motion.div key={index} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                      <Button
-                        onClick={action.onClick}
-                        variant={action.variant}
-                        className={`w-full h-auto py-5 flex flex-col items-center gap-3 ${action.className}`}
-                      >
-                        <action.icon className="h-8 w-8" />
-                        <div className="text-center">
-                          <div className="font-medium text-lg">
-                            {action.label}
+                    <div key={index} className="relative">
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button
+                          onClick={action.onClick}
+                          variant={action.variant}
+                          className={`w-full h-auto py-5 pr-8 flex flex-col items-center gap-3 ${action.className}`}
+                        >
+                          <action.icon className="h-8 w-8" />
+                          <div className="text-center">
+                            <div className="font-medium text-lg">
+                              {action.label}
+                            </div>
+                            <div className="text-sm opacity-80">
+                              {action.description}
+                            </div>
                           </div>
-                          <div className="text-sm opacity-80">
-                            {action.description}
-                          </div>
-                        </div>
-                      </Button>
-                    </motion.div>
+                        </Button>
+                      </motion.div>
+                      <span className="absolute right-3 top-3 z-10">
+                        <HelpTooltip
+                          texto={action.ayuda}
+                          etiqueta={`Qué hace ${action.label}`}
+                          className={action.variant === 'default' ? 'text-white/90 hover:text-white' : 'text-red-600 hover:text-red-800'}
+                        />
+                      </span>
+                    </div>
                   ))}
                 </div>
               </CardContent>

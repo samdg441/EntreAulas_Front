@@ -48,6 +48,7 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import AISummaryCard from '../../components/AISummaryCard';
+import HelpTooltip from '../../components/HelpTooltip';
 import html2canvas from 'html2canvas';
 
 // Importar la imagen de fondo
@@ -465,7 +466,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Evaluaciones</CardTitle>
+                  <CardTitle className="text-sm font-medium flex items-center gap-1">
+                    Total Evaluaciones
+                    <HelpTooltip texto="Encuestas completadas en este grupo y periodo. Es un conteo de participación, no una calificación." />
+                  </CardTitle>
                   <BarChart3 className="h-4 w-4 text-red-600" />
                 </CardHeader>
                 <CardContent>
@@ -482,7 +486,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Calificación Promedio</CardTitle>
+                  <CardTitle className="text-sm font-medium flex items-center gap-1">
+                    Calificación Promedio
+                    <HelpTooltip texto="Promedio del grupo en escala de 1.0 a 5.0. El porcentaje compara con el periodo anterior. Por debajo de 4.0 conviene revisar las categorías." />
+                  </CardTitle>
                   <Star className="h-4 w-4 text-yellow-500" />
               </CardHeader>
                 <CardContent>
@@ -502,7 +509,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Tasa de Respuesta</CardTitle>
+                  <CardTitle className="text-sm font-medium flex items-center gap-1">
+                    Tasa de Respuesta
+                    <HelpTooltip texto="Porcentaje de estudiantes elegibles del grupo que ya respondieron. Una tasa cercana a 0 % no alcanza para concluir sobre la docencia." />
+                  </CardTitle>
                   <Users className="h-4 w-4 text-red-600" />
                 </CardHeader>
                 <CardContent>
@@ -519,7 +529,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Estudiantes Evaluadores</CardTitle>
+                  <CardTitle className="text-sm font-medium flex items-center gap-1">
+                    Estudiantes Evaluadores
+                    <HelpTooltip texto="Estudiantes de este grupo que enviaron la encuesta. Coincide con el total de evaluaciones del grupo cuando cada persona responde una vez." />
+                  </CardTitle>
                   <Calendar className="h-4 w-4 text-green-600" />
                 </CardHeader>
                 <CardContent>
@@ -539,7 +552,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
                 <CardHeader>
-                  <CardTitle>Calificaciones por Categoría</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Calificaciones por Categoría
+                    <HelpTooltip texto="Cada barra es el promedio (eje Y, de 0 a 5) de una dimensión del eje X. Barras por debajo de 4.0 señalan el aspecto a reforzar en este grupo." />
+                  </CardTitle>
                   <CardDescription>
                     Promedio de calificaciones en cada dimensión evaluada
                   </CardDescription>
@@ -572,7 +588,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
                 <CardHeader>
-                  <CardTitle>Tendencia Histórica</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Tendencia Histórica
+                    <HelpTooltip texto="El eje X son los periodos y el eje Y la calificación (0 a 5). Una curva que sube indica mejora. Un punto en 0 suele indicar que ese periodo aún no tiene respuestas." />
+                  </CardTitle>
                   <CardDescription>
                     Evolución de las calificaciones a lo largo del tiempo
                   </CardDescription>
@@ -607,7 +626,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
                 <CardHeader>
-                  <CardTitle>Perfil de Competencias</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Perfil de Competencias
+                    <HelpTooltip texto="Cada eje va de 0 a 5. Un vértice más corto que el resto muestra la competencia más débil de este grupo." />
+                  </CardTitle>
                   <CardDescription>
                     Vista radial de las principales dimensiones
                   </CardDescription>
@@ -640,7 +662,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
                 <CardHeader>
-                  <CardTitle>Distribución de Calificaciones</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Distribución de Calificaciones
+                    <HelpTooltip texto="Porcentaje de respuestas en cada nivel. Concentración en 1–2 es una alerta; la mayoría en 4–5 es una valoración favorable." />
+                  </CardTitle>
                   <CardDescription>
                     Porcentaje de evaluaciones por nivel
                   </CardDescription>
@@ -675,7 +700,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
             >
               <Card className="bg-white shadow-md border border-gray-200">
               <CardHeader>
-                  <CardTitle>Estadísticas Rápidas</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    Estadísticas Rápidas
+                    <HelpTooltip texto="Resumen del mismo periodo: participación, promedio y variación. Úsalo para contrastar el gráfico, no como una métrica distinta." />
+                  </CardTitle>
                   <CardDescription>
                     Métricas clave del período
                   </CardDescription>

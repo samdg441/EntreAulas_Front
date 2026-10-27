@@ -22,6 +22,13 @@ function cursoEvaluado(course: Course) {
 function docenteEvaluado(teacher: Teacher) {
   return teacher.courses.length > 0 && teacher.courses.every(cursoEvaluado)
 }
+
+function estadoDocente(teacher: Teacher): 'respondida' | 'bloqueado' | null {
+  if (teacher.courses.length === 0) return null
+  if (docenteEvaluado(teacher)) return 'respondida'
+  if (teacher.courses.every((course) => course.bloqueada || cursoEvaluado(course))) return 'bloqueado'
+  return null
+}
 import { fetchTeachersWithCourses, fetchCourseGroups } from '../../api/teachers'
 import { 
   Search, 
@@ -92,7 +99,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
   }, [searchTerm, teachers]);
 
   const handleTeacherSelect = (teacher: Teacher) => {
-    if (docenteEvaluado(teacher)) return
+    if (estadoDocente(teacher)) return
     console.log('🔍 handleTeacherSelect called with teacher:', teacher);
     console.log('🔍 Teacher courses:', teacher.courses);
     setSelectedTeacher(teacher);
@@ -118,7 +125,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
     });
     console.log('🔍 Found course:', course);
     
-    if (course && cursoEvaluado(course)) return
+    if (course && (cursoEvaluado(course) || course.bloqueada)) return
 
     if (course) {
       console.log('✅ Setting selectedCourse and loading groups...');
@@ -149,7 +156,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
   };
 
   const handleGroupSelect = (group: any) => {
-    if (group?.evaluada) return
+    if (group?.evaluada || group?.bloqueada) return
     console.log('🔍 Group selected:', group);
     setSelectedGroup(group);
   };
@@ -270,16 +277,16 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                     <div className="text-center text-gray-500">No se encontraron docentes</div>
                   )}
                   {!loading && !error && filteredTeachers.map((teacher, index) => {
-                    const completado = docenteEvaluado(teacher)
+                    const estado = estadoDocente(teacher)
                     return (
                     <motion.div
                       key={teacher.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + index * 0.1 }}
-                      aria-disabled={completado}
+                      aria-disabled={Boolean(estado)}
                       className={`p-3 sm:p-4 rounded-lg border transition-all duration-200 ${
-                        completado
+                        estado
                           ? 'border-gray-200 bg-gray-100 opacity-70 cursor-not-allowed'
                           : selectedTeacher?.id === teacher.id
                           ? 'border-red-500 bg-red-50 shadow-md cursor-pointer'
@@ -293,8 +300,11 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <h3 className="font-medium text-gray-900 text-sm sm:text-base truncate">{teacher.name}</h3>
-                            {completado && (
-                              <Badge className="bg-green-600 text-white border-transparent">Completada</Badge>
+                            {estado === 'respondida' && (
+                              <Badge className="bg-green-600 text-white border-transparent">Respondida</Badge>
+                            )}
+                            {estado === 'bloqueado' && (
+                              <Badge className="bg-gray-600 text-white border-transparent">Bloqueado</Badge>
                             )}
                           </div>
                           <p className="text-xs sm:text-sm text-gray-600 truncate">{teacher.department}</p>
@@ -355,10 +365,11 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                           >
                             <option value="">Selecciona un curso</option>
                             {selectedTeacher.courses.map(course => {
-                              const completado = cursoEvaluado(course)
+                              const respondida = cursoEvaluado(course)
+                              const bloqueada = Boolean(course.bloqueada) && !respondida
                               return (
-                                <option key={course.id} value={course.id} disabled={completado}>
-                                  {course.name} ({course.code}){completado ? ' — Completada' : ''}
+                                <option key={course.id} value={course.id} disabled={respondida || bloqueada}>
+                                  {course.name} ({course.code}){respondida ? ' — Respondida' : bloqueada ? ' — Bloqueado' : ''}
                                 </option>
                               );
                             })}
@@ -400,9 +411,9 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                                 {courseGroups.map((group: any) => (
                                   <div 
                                     key={group.id} 
-                                    aria-disabled={Boolean(group.evaluada)}
+                                    aria-disabled={Boolean(group.evaluada || group.bloqueada)}
                                     className={`p-2.5 sm:p-3 rounded-lg border transition-all duration-200 ${
-                                      group.evaluada
+                                      group.evaluada || group.bloqueada
                                         ? 'border-gray-200 bg-gray-100 opacity-70 cursor-not-allowed'
                                         : selectedGroup?.id === group.id
                                         ? 'border-red-500 bg-red-50 shadow-md cursor-pointer'
@@ -422,7 +433,10 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                                       </div>
                                       <div className="flex items-center gap-2">
                                         {group.evaluada && (
-                                          <Badge className="bg-green-600 text-white border-transparent">Completada</Badge>
+                                          <Badge className="bg-green-600 text-white border-transparent">Respondida</Badge>
+                                        )}
+                                        {!group.evaluada && group.bloqueada && (
+                                          <Badge className="bg-gray-600 text-white border-transparent">Bloqueado</Badge>
                                         )}
                                         {group.cup && (
                                           <Badge variant="outline" className="text-xs">

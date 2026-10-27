@@ -15,6 +15,9 @@ export interface LoginWithRoleData {
 export interface AuthResponse {
   message?: string
   token: string
+  /** Segundos Unix del claim `exp`. La sesión dura 3 horas. */
+  exp?: number
+  expiresAt?: string
   user: {
     id: string
     email: string
@@ -48,6 +51,16 @@ export const authApi = {
   logout: () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    localStorage.removeItem('token_expires_at')
+  },
+
+  /** Nuevo access token de 3 horas. Requiere que el actual siga vigente. */
+  refresh: async () => {
+    const response = await apiClient.post('/api/auth/refresh')
+    const data = response.data as { token: string; exp: number; expiresAt: string }
+    authStorage.setToken(data.token)
+    if (data.expiresAt) localStorage.setItem('token_expires_at', data.expiresAt)
+    return data
   },
 
   getCurrentUser: () => authStorage.getUser<any>(),
