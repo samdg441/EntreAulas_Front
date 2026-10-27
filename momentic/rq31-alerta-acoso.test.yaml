@@ -1,0 +1,17 @@
+fileType: momentic/test/v2
+id: rq31-alerta-acoso
+description: RQ31 la alerta de acoso viaja con el resumen de la carrera
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Coordinador
+        CORREO:
+          string: carlos.coordinador@udemedellin.edu.co
+  - navigate: http://localhost:3001/reports
+  - click: Generar resumen IA
+  - checkPageContains: ALERTA DE ACOSO DETECTADO
+  - checkPageContains: Hubo acoso en una respuesta.
+  - checkPageContains: "Ana Perez: 1 mención(es)"

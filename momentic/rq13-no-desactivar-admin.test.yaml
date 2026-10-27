@@ -1,0 +1,16 @@
+fileType: momentic/test/v2
+id: rq13-no-autodesactivar
+description: RQ13 el administrador no se desactiva a sí mismo
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Administrador
+        CORREO:
+          string: ada.admin@udemedellin.edu.co
+  - navigate: http://localhost:3001/admin/users
+  - click: el botón Desactivar de la fila de ada.admin
+  - click: el botón Desactivar del cuadro de confirmación
+  - checkPageContains: No puedes desactivar tu propia cuenta

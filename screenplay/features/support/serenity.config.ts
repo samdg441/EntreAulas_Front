@@ -16,13 +16,20 @@ setDefaultTimeout(60_000)
  * Chromium de Playwright si está instalado (CI); si no se pudo descargar, el Edge que trae
  * Windows. NAVEGADOR=msedge|chrome fuerza un canal concreto.
  */
+/** Argos pide estas flags para que el texto no cambie entre tu máquina y la de CI. */
+function opcionesDeArgos(): { args?: string[] } {
+  if (!process.env.ARGOS) return {}
+  return { args: ['--disable-lcd-text', '--font-render-hinting=none'] }
+}
+
 async function lanzarNavegador(): Promise<Browser> {
   const headless = process.env.HEADLESS !== 'false'
-  if (process.env.NAVEGADOR) return chromium.launch({ headless, channel: process.env.NAVEGADOR })
+  const extra = opcionesDeArgos()
+  if (process.env.NAVEGADOR) return chromium.launch({ headless, channel: process.env.NAVEGADOR, ...extra })
   try {
-    return await chromium.launch({ headless })
+    return await chromium.launch({ headless, ...extra })
   } catch {
-    return chromium.launch({ headless, channel: 'msedge' })
+    return chromium.launch({ headless, channel: 'msedge', ...extra })
   }
 }
 

@@ -8,4 +8,5 @@ default:
     - '@serenity-js/cucumber'
   paths:
     - features/**/*.feature
+    - ../argos/features/**/*.feature
   language: es

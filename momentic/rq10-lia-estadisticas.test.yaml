@@ -1,0 +1,13 @@
+fileType: momentic/test/v2
+id: rq10-lia-stats
+description: RQ10 Lía ve las estadísticas en cero
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Estudiante
+        CORREO:
+          string: lia.estudiante@soyudemedellin.edu.co
+  - assert: Evaluaciones Completadas muestra 0, Evaluaciones Pendientes muestra 0 y Cursos Matriculados muestra 0

@@ -1,0 +1,28 @@
+fileType: momentic/test/v2
+id: rq13-clave-debil
+description: RQ13 una clave sin mayúscula no sale del formulario
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Administrador
+        CORREO:
+          string: ada.admin@udemedellin.edu.co
+  - navigate: http://localhost:3001/admin/users
+  - click: Agregar usuario
+  - type:
+      text: Ana
+      into: el campo Nombre
+  - type:
+      text: Perez
+      into: el campo Apellido
+  - type:
+      text: ana
+      into: el campo Correo
+  - type:
+      text: cortacorta
+      into: el campo Contraseña
+  - click: Crear
+  - checkPageContains: La contraseña debe contener al menos una letra mayúscula

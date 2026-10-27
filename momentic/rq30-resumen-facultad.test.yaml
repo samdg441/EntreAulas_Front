@@ -1,0 +1,17 @@
+fileType: momentic/test/v2
+id: rq30-resumen-facultad
+description: RQ30 un texto corto de facultad no cuenta como comentario
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Decano
+        CORREO:
+          string: dora.decano@udemedellin.edu.co
+  - navigate: http://localhost:3001/reports
+  - click: Generar resumen IA
+  - checkPageContains: No se encontraron respuestas abiertas
+  - checkPageContains: No hay comentarios suficientes en la facultad.
+  - checkPageDoesNotContain: ALERTA DE ACOSO DETECTADO

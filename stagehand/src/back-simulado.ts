@@ -13,7 +13,10 @@ export const MENSAJE_GENERICO = 'Si el correo electrónico existe en nuestro sis
 export const CUENTAS = {
   admin: { email: 'ada@udemedellin.edu.co', password: CLAVE, nombre: 'ADA', apellido: 'ADMIN', tipo_usuario: 'admin' },
   estudiante: { email: 'eva@soyudemedellin.edu.co', password: CLAVE, nombre: 'EVA', apellido: 'ESTUDIANTE', tipo_usuario: 'estudiante' },
+  lia: { email: 'lia@soyudemedellin.edu.co', password: CLAVE, nombre: 'LIA', apellido: 'ESTUDIANTE', tipo_usuario: 'estudiante' },
   profesor: { email: 'pablo@udemedellin.edu.co', password: CLAVE, nombre: 'PABLO', apellido: 'PROFESOR', tipo_usuario: 'profesor' },
+  coordinador: { email: 'carlos@udemedellin.edu.co', password: CLAVE, nombre: 'CARLOS', apellido: 'COORDINADOR', tipo_usuario: 'coordinador' },
+  decano: { email: 'dora@udemedellin.edu.co', password: CLAVE, nombre: 'DORA', apellido: 'DECANO', tipo_usuario: 'decano' },
 } satisfies Record<string, Cuenta>
 
 export type BackSimulado = {
@@ -56,7 +59,8 @@ export async function levantarBackSimulado(puerto = Number(process.env.BACK_SIMU
     if (req.method === 'POST' && ruta === '/api/auth/login') {
       const c = cuentas.find((x) => x.email === cuerpo.email && x.password === cuerpo.password && x.activo !== false)
       if (!c) return responder(401, { error: 'Credenciales inválidas' })
-      return responder(200, { token: `jwt-${c.email}`, user: { id: 'u-1', ...c, password: undefined, roles: [c.tipo_usuario] } })
+      const indice = cuentas.findIndex((x) => x.email === c.email)
+      return responder(200, { token: `jwt-${c.email}`, user: { id: `u-${indice}`, ...c, password: undefined, roles: [c.tipo_usuario] } })
     }
     if (req.method === 'POST' && ruta === '/api/auth/create-user') {
       if (cuentas.some((x) => x.email === cuerpo.email)) return responder(400, { error: 'El email ya está registrado' })
@@ -87,6 +91,80 @@ export async function levantarBackSimulado(puerto = Number(process.env.BACK_SIMU
       return responder(200, { message: 'Contraseña actualizada exitosamente' })
     }
     if (ruta.startsWith('/api/teachers/teacher-courses/')) return responder(200, [])
+
+    const token = String(req.headers.authorization ?? '').replace(/^Bearer\s+/i, '')
+    const emailSesion = token.startsWith('jwt-') ? token.slice(4) : ''
+    const idSesion = `u-${cuentas.findIndex((x) => x.email === emailSesion)}`
+
+    if (req.method === 'GET' && ruta === '/api/teachers/student-stats') {
+      const eva = emailSesion === CUENTAS.estudiante.email
+      return responder(200, {
+        evaluacionesCompletadas: eva ? 1 : 0,
+        evaluacionesPendientes: 0,
+        materiasMatriculadas: eva ? 1 : 0,
+        promedioGeneral: eva ? 4 : 0,
+        progresoGeneral: 0,
+      })
+    }
+    if (req.method === 'GET' && ruta === '/api/teachers/student-enrolled-subjects') return responder(200, { materiasMatriculadas: [], total: 0 })
+    if (req.method === 'GET' && ruta === '/api/teachers/student-info') return responder(200, { id: idSesion, nombre: 'Eva' })
+    if (req.method === 'GET' && ruta === '/api/teachers') {
+      return responder(200, [
+        {
+          id: '7',
+          name: 'Ana Pérez',
+          department: 'Ingeniería de Sistemas',
+          email: 'ana.perez@udemedellin.edu.co',
+          courses: [{ id: '31', name: 'Programación I', code: 'SIS-101', schedule: 'Lun 8-10' }],
+        },
+      ])
+    }
+    if (/^\/api\/teachers\/[^/]+\/courses\/[^/]+\/groups$/.test(ruta)) {
+      return responder(200, [{ id: 4, numero_grupo: 1, horario: 'Lun 8-10', aula: 'A-101', cup: 30 }])
+    }
+    if (ruta.startsWith('/api/teachers/evaluation-questions/')) {
+      return responder(200, {
+        questions: [{ id: '1', category: 'Claridad Expositiva', question: 'El profesor explica claramente los conceptos del curso', type: 'rating' }],
+        courseName: 'Programación I',
+        courseCode: 'SIS-101',
+      })
+    }
+    if (req.method === 'POST' && ruta === '/api/teachers/evaluations') {
+      if (cuerpo.comments === 'repetida') return responder(409, { error: 'Ya has evaluado a este profesor para este curso y grupo' })
+      return responder(200, { success: true, evaluationId: 'eval-1' })
+    }
+    if (req.method === 'GET' && ruta === '/api/teachers/teacher-id') return responder(200, { teacherId: '7' })
+    if (ruta.includes('/stats/historical') || ruta.startsWith('/api/teachers/period-stats')) {
+      return responder(200, { totalEvaluaciones: 0, calificacionPromedio: 0, evaluacionesPorCurso: [], evaluacionesPorGrupo: [] })
+    }
+    if (ruta.startsWith('/api/teachers/period-category-stats')) return responder(200, [])
+    if (ruta === '/api/teachers/career-subjects') return responder(200, { carreras: [] })
+    if (ruta.startsWith('/api/coordinador/reports-overview') || ruta.startsWith('/api/decano/reports-overview')) {
+      return responder(200, { teachers: [], distribution: [], trend: [], categoryStats: [] })
+    }
+    if (ruta.startsWith('/api/ai/summarize/by-professor')) {
+      return responder(200, { summary: 'Resumen de los comentarios del docente.', topics: ['claridad'], textsCount: 1, analysisSource: 'open_text', acosoDetectado: false })
+    }
+    if (ruta.startsWith('/api/ai/summarize/by-career')) {
+      return responder(200, {
+        summary: 'Resumen de la carrera.',
+        topics: ['acoso'],
+        textsCount: 1,
+        analysisSource: 'open_text',
+        acosoDetectado: true,
+        mensajeAcoso: 'Hubo acoso en una respuesta.',
+        acosoProfesores: [{ profesorId: '7', nombre: 'Ana Perez', menciones: 1, ejemplos: ['Hubo acoso'] }],
+      })
+    }
+    if (ruta.startsWith('/api/ai/summarize/by-faculty')) {
+      return responder(200, { summary: 'No hay comentarios suficientes en la facultad.', topics: [], textsCount: 0, analysisSource: 'open_text', acosoDetectado: false })
+    }
+    if (req.method === 'PUT' && /^\/api\/users\/[^/]+$/.test(ruta)) return responder(200, { ok: true })
+    if (req.method === 'DELETE' && /^\/api\/users\/[^/]+$/.test(ruta)) {
+      const id = ruta.split('/').pop()
+      if (id === idSesion) return responder(400, { error: 'No puedes desactivar tu propia cuenta' })
+      return responder(200, { ok: true })
+    }
     return responder(200, {})
   })
 

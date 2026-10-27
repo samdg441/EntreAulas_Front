@@ -64,9 +64,10 @@ export function levantarBackEnMemoria(): BackEnMemoria {
   cy.intercept('POST', '**/api/auth/login', (req) => {
     const c = back.cuentas.find((x) => x.email === req.body.email && x.password === req.body.password && x.activo !== false)
     if (!c) return req.reply(401, { error: 'Credenciales inválidas' })
+    const indice = back.cuentas.findIndex((x) => x.email === c.email)
     req.reply({
       token: `jwt-${c.email}`,
-      user: { id: 'u-1', email: c.email, nombre: c.nombre, apellido: c.apellido, tipo_usuario: c.tipo_usuario, roles: [c.tipo_usuario] },
+      user: { id: `u-${indice + 1}`, email: c.email, nombre: c.nombre, apellido: c.apellido, tipo_usuario: c.tipo_usuario, roles: [c.tipo_usuario] },
     })
   }).as('login')
 
@@ -97,6 +98,94 @@ export function levantarBackEnMemoria(): BackEnMemoria {
     back.cuentas.find((x) => x.email === t!.email)!.password = req.body.newPassword
     req.reply({ message: 'Contraseña actualizada exitosamente' })
   }).as('reset')
+
+  const sesionDe = (req: { headers: Record<string, string | string[] | undefined> }) => {
+    const encabezado = req.headers.authorization ?? req.headers.Authorization
+    const token = String(Array.isArray(encabezado) ? encabezado[0] : encabezado || '').replace(/^Bearer\s+/i, '')
+    const email = token.startsWith('jwt-') ? token.slice(4) : ''
+    const indice = back.cuentas.findIndex((c) => c.email === email)
+    return { email, id: indice >= 0 ? `u-${indice + 1}` : '' }
+  }
+
+  cy.intercept('GET', '**/api/teachers/student-stats', (req) => {
+    const eva = sesionDe(req).email === 'eva.estudiante@soyudemedellin.edu.co'
+    req.reply({
+      evaluacionesCompletadas: eva ? 1 : 0,
+      evaluacionesPendientes: 0,
+      materiasMatriculadas: eva ? 1 : 0,
+      promedioGeneral: eva ? 4 : 0,
+      progresoGeneral: 0,
+    })
+  })
+
+  cy.intercept('GET', '**/api/teachers/student-enrolled-subjects', { materiasMatriculadas: [], total: 0 })
+  cy.intercept('GET', '**/api/teachers/student-info', { id: 'u-est', nombre: 'Eva' })
+  cy.intercept({ method: 'GET', url: /\/api\/teachers\/?$/ }, [
+    {
+      id: '7',
+      name: 'Ana Pérez',
+      department: 'Ingeniería de Sistemas',
+      email: 'ana.perez@udemedellin.edu.co',
+      courses: [{ id: '31', name: 'Programación I', code: 'SIS-101', schedule: 'Lun 8-10' }],
+    },
+  ])
+  cy.intercept('GET', /\/api\/teachers\/[^/]+\/courses\/[^/]+\/groups/, [
+    { id: 4, numero_grupo: 1, horario: 'Lun 8-10', aula: 'A-101', cup: 30 },
+  ])
+  cy.intercept('GET', '**/api/teachers/evaluation-questions/**', {
+    questions: [
+      { id: '1', category: 'Claridad Expositiva', question: 'El profesor explica claramente los conceptos del curso', type: 'rating' },
+    ],
+    courseName: 'Programación I',
+    courseCode: 'SIS-101',
+  })
+  cy.intercept('POST', '**/api/teachers/evaluations', (req) => {
+    if (req.body?.comments === 'repetida') {
+      return req.reply(409, { error: 'Ya has evaluado a este profesor para este curso y grupo' })
+    }
+    req.reply(200, { success: true, message: 'Evaluación guardada exitosamente', evaluationId: 'eval-1' })
+  })
+
+  const statsDocente = { totalEvaluaciones: 0, calificacionPromedio: 0, totalCursos: 0, evaluacionesPorCurso: [], evaluacionesPorGrupo: [] }
+  const resumenVacio = { teachers: [], distribution: [], trend: [], categoryStats: [] }
+  cy.intercept('GET', '**/api/teachers/teacher-id', { teacherId: '7' })
+  cy.intercept('GET', '**/api/teachers/**/stats/historical*', statsDocente)
+  cy.intercept('GET', '**/api/teachers/period-stats*', statsDocente)
+  cy.intercept('GET', '**/api/teachers/period-category-stats*', [])
+  cy.intercept('GET', '**/api/teachers/career-subjects', { carreras: [] })
+  cy.intercept('GET', '**/api/coordinador/reports-overview*', resumenVacio)
+  cy.intercept('GET', '**/api/decano/reports-overview*', resumenVacio)
+
+  cy.intercept('GET', '**/api/ai/summarize/by-professor*', {
+    summary: 'Resumen de los comentarios del docente.',
+    topics: ['claridad'],
+    textsCount: 1,
+    analysisSource: 'open_text',
+    acosoDetectado: false,
+  })
+  cy.intercept('GET', '**/api/ai/summarize/by-career*', {
+    summary: 'Resumen de la carrera.',
+    topics: ['acoso'],
+    textsCount: 1,
+    analysisSource: 'open_text',
+    acosoDetectado: true,
+    mensajeAcoso: 'Hubo acoso en una respuesta.',
+    acosoProfesores: [{ profesorId: '7', nombre: 'Ana Perez', menciones: 1, ejemplos: ['Hubo acoso'] }],
+  })
+  cy.intercept('GET', '**/api/ai/summarize/by-faculty*', {
+    summary: 'No hay comentarios suficientes en la facultad.',
+    topics: [],
+    textsCount: 0,
+    analysisSource: 'open_text',
+    acosoDetectado: false,
+  })
+
+  cy.intercept({ method: 'PUT', url: /\/api\/users\/[^/]+$/ }, { statusCode: 200, body: { ok: true } })
+  cy.intercept({ method: 'DELETE', url: /\/api\/users\/([^/?]+)/ }, (req) => {
+    const id = req.url.match(/\/api\/users\/([^/?]+)/)?.[1]
+    if (id && id === sesionDe(req).id) return req.reply(400, { error: 'No puedes desactivar tu propia cuenta' })
+    req.reply(200, { ok: true })
+  })
 
   return back
 }

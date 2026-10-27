@@ -1,0 +1,20 @@
+fileType: momentic/test/v2
+id: rq11-eval-guardada
+description: RQ11 la evaluación se guarda y llega a la despedida
+url: http://localhost:3001/login
+steps:
+  - module:
+      path: ./iniciar-sesion.module.yaml
+      inputs:
+        TIPO:
+          string: Estudiante
+        CORREO:
+          string: eva.estudiante@soyudemedellin.edu.co
+  - module:
+      path: ./enviar-evaluacion.module.yaml
+      inputs:
+        COMENTARIO:
+          string: La explicación fue clara
+  - waitForUrl:
+      substring: /evaluate/goodbye
+  - checkPageContains: Gracias por tu participación

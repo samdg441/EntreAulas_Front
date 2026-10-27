@@ -1,0 +1,15 @@
+fileType: momentic/test/v2
+id: rq10-eva-stats
+description: RQ10 el estudiante ve completadas, pendientes y materias
+url: http://localhost:3001/login
+steps:
+  - click: el selector de tipo de usuario
+  - click: Estudiante
+  - type:
+      text: eva.estudiante@soyudemedellin.edu.co
+      into: el campo de correo institucional
+  - type:
+      text: Clave-Segura2026!
+      into: el campo de contraseña
+  - click: Iniciar sesión
+  - assert: Evaluaciones Completadas muestra 1, Evaluaciones Pendientes muestra 0 y Cursos Matriculados muestra 1

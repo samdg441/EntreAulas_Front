@@ -1,0 +1,16 @@
+fileType: momentic/module/v2
+id: login-entre-aulas
+name: iniciar-sesion
+parameters:
+  - name: TIPO
+  - name: CORREO
+steps:
+  - click: el selector de tipo de usuario
+  - click: "{{ env.TIPO }}"
+  - type:
+      text: "{{ env.CORREO }}"
+      into: el campo de correo institucional
+  - type:
+      text: Clave-Segura2026!
+      into: el campo de contraseña
+  - click: Iniciar sesión
