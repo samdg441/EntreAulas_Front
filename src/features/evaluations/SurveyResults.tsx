@@ -182,10 +182,10 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
           <Header user={user} />
           <main className="max-w-7xl mx-auto p-4 lg:p-6">
             <div className="flex items-center justify-center h-96">
-              <div className="text-center">
-                <p className="text-red-500 text-lg mb-4">{error}</p>
+              <div id="aviso-resultados" className="text-center bg-white rounded-lg shadow-md p-6 max-w-xl">
+                <p role="alert" className="text-red-800 text-lg mb-4">{error}</p>
                 <Button onClick={() => navigate(-1)}>
-                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
                   Volver
             </Button>
           </div>

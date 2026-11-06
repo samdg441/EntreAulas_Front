@@ -845,11 +845,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
           </div>
 
           {/* IA: Resumen de respuestas abiertas */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
-          >
+          <div id="resumen-ia">
             {(() => {
               const currentPeriod = periodoId || selectedPeriod
               const currentProfesorId = teacherId || user.id
@@ -920,7 +916,7 @@ export default function ReportsPage({ user }: ReportsPageProps) {
                 />
               )
             })()}
-          </motion.div>
+          </div>
 
           {/* Export Options */}
           <motion.div

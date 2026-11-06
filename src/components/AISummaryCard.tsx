@@ -168,7 +168,7 @@ export default function AISummaryCard({ texts, title, description, endpoint, par
           )}
         </div>
         {error && (
-          <div className="text-sm text-red-600 mb-4 p-3 bg-red-50 border border-red-200 rounded">
+          <div role="alert" className="text-sm text-red-800 mb-4 p-3 bg-red-50 border border-red-200 rounded">
             <p className="font-semibold mb-1">❌ Error:</p>
             <p className="mb-2">{error}</p>
             {process.env.NODE_ENV === 'development' && (
@@ -184,7 +184,7 @@ export default function AISummaryCard({ texts, title, description, endpoint, par
           </div>
         )}
         {result && result.textsCount === 0 && result.analysisSource !== 'quantitative_fallback' && (
-          <div className="text-sm text-amber-600 mb-4 p-3 bg-amber-50 border border-amber-200 rounded">
+          <div role="status" className="text-sm text-amber-800 mb-4 p-3 bg-amber-50 border border-amber-200 rounded">
             <p className="font-semibold mb-2">⚠️ No se encontraron respuestas abiertas</p>
             <p className="mb-2">{result.summary}</p>
             {process.env.NODE_ENV === 'development' && result.sqlCommand && (

@@ -306,7 +306,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
           />
 
           {/* Stats Cards - Específicas para profesores */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div id="metricas-profesor" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Calificación Promedio */}
             <motion.div
               variants={cardVariants}
@@ -328,7 +328,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                       Cargando...
                     </div>
                   ) : (
-                    <div className="text-3xl font-bold text-yellow-600 tracking-tight">
+                    <div className="text-3xl font-bold text-yellow-800 tracking-tight">
                       {profesorData.stats.averageRating > 0 ? `${profesorData.stats.averageRating}/5.0` : '0.0/5.0'}
                     </div>
                   )}
@@ -586,7 +586,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                       Cargando evaluaciones...
                     </div>
                   ) : statsError ? (
-                    <div className="text-center py-8 text-red-500">
+                    <div role="alert" className="text-center py-8 text-red-800">
                       Error al cargar las evaluaciones
                     </div>
                   ) : filasVisibles.length === 0 ? (
