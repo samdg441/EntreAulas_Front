@@ -35,6 +35,7 @@
     "test:stagehand:rq18": "npm --prefix stagehand run test:rq18",
     "test:stagehand:rq24": "npm --prefix stagehand run test:rq24",
     "test:stagehand:reportes": "npm --prefix stagehand run test:rq23-rq25",
+    "test:stagehand:rf-rep": "npm --prefix stagehand run test:rf-rep",
     "sonar": "node scripts/vitest.mjs run src/test/unit src/test/integration src/test/regression src/test/api src/test/security --coverage && node scripts/clean-lcov.cjs && npx @sonar/scan"
   },
   "dependencies": {

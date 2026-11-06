@@ -134,6 +134,9 @@ export async function levantarBackSimulado(puerto = Number(process.env.BACK_SIMU
       return responder(200, { success: true, evaluationId: 'eval-1' })
     }
     if (req.method === 'GET' && ruta === '/api/teachers/teacher-id') return responder(200, { teacherId: '7' })
+    if (ruta.includes('/teacher-stats')) {
+      return responder(200, { calificacionPromedio: 4, totalEvaluaciones: 3, evaluacionesPorCurso: [], evaluacionesPorGrupo: [] })
+    }
     if (ruta.includes('/stats/historical') || ruta.startsWith('/api/teachers/period-stats')) {
       return responder(200, { totalEvaluaciones: 0, calificacionPromedio: 0, evaluacionesPorCurso: [], evaluacionesPorGrupo: [] })
     }

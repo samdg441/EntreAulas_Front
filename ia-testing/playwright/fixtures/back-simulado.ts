@@ -80,6 +80,21 @@ export class BackSimulado {
         return json(route, 200, { message: 'Contraseña actualizada exitosamente' })
       }
       if (ruta.startsWith('/api/teachers/teacher-courses/')) return json(route, 200, [])
+      if (ruta === '/api/teachers/teacher-id') return json(route, 200, { teacherId: '7' })
+      if (ruta.includes('/teacher-stats')) {
+        return json(route, 200, { calificacionPromedio: 4, totalEvaluaciones: 3, evaluacionesPorCurso: [], evaluacionesPorGrupo: [] })
+      }
+      if (ruta.includes('/stats/historical') || ruta.startsWith('/api/teachers/period-stats')) {
+        return json(route, 200, { totalEvaluaciones: 0, calificacionPromedio: 0, evaluacionesPorCurso: [] })
+      }
+      if (ruta.startsWith('/api/ai/summarize/')) {
+        return json(route, 200, {
+          summary: 'Los estudiantes destacan la claridad.',
+          topics: ['claridad'],
+          textsCount: 2,
+          analysisSource: 'open_text',
+        })
+      }
       return json(route, 200, {})
     })
   }
