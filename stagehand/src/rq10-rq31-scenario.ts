@@ -44,7 +44,7 @@ async function pulsarEnFila(session: TestSession, fila: string, boton: string): 
   if (!hecho) throw new Error(`No está «${boton}» en la fila ${fila}`)
 }
 
-async function entrar(session: TestSession, cuenta: Cuenta): Promise<void> {
+export async function entrar(session: TestSession, cuenta: Cuenta): Promise<void> {
   await session.page.goto(`${frontUrl()}/login`, { waitUntil: 'domcontentloaded' })
   await esperarTexto(session, 'EntreAulas', 30_000)
   const etiqueta = ETIQUETA[cuenta.tipo_usuario] ?? cuenta.tipo_usuario

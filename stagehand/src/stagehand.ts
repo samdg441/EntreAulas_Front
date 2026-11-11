@@ -23,7 +23,7 @@ function cloudModel(provider: Exclude<Provider, 'ollama'>): ModelConfig {
   }
 
   return {
-    modelName: (process.env.GEMINI_MODEL ?? 'google/gemini-2.5-flash') as `google/${string}`,
+    modelName: (process.env.GEMINI_MODEL ?? 'google/gemini-flash-latest') as `google/${string}`,
     apiKey: requireEnv('GOOGLE_GENERATIVE_AI_API_KEY'),
   }
 }

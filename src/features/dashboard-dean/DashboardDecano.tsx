@@ -7,6 +7,7 @@ import {
 } from '../../components/Card';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones';
 import Header from '../../components/Header';
 import { User } from '../../types';
 import { 
@@ -28,9 +29,6 @@ import { fetchProfessorSubjects, fetchDetailedFacultyProfessors, fetchAllCareerR
 import Calendar from '../../components/Calendar';
 import EmptyState from '../../components/EmptyState';
 import HelpTooltip from '../../components/HelpTooltip';
-
-// Importar la imagen de fondo
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface DashboardDecanoProps {
   user: User;
@@ -214,20 +212,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      {/* Fondo fijo que cubre toda la página */}
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-      </div>
       
-      {/* Overlay más oscuro para mejor contraste */}
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0"></div>
       
       {/* Contenido principal */}
       <div className="relative z-10">
@@ -283,8 +268,9 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
             </div>
           )}
 
-          {/* Stats Cards - Específicas para decanos */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Métricas apiladas a la izquierda y calendario a la derecha */}
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+          <div className="grid grid-cols-1 gap-6">
             {/* Total de Carreras */}
             <motion.div
               variants={cardVariants}
@@ -373,51 +359,10 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
             </motion.div>
 
           </div>
+          <AgendaEvaluaciones />
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Columna principal */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Acciones Rápidas */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-              >
-                <Card className="bg-white shadow-md border border-gray-200 p-6">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center gap-2">
-                      <Target className="h-5 w-5 text-gray-700" />
-                      <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {decanoData.quickActions.map((action, index) => (
-                        <div key={index} className="relative">
-                          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                            <Button
-                              onClick={action.onClick}
-                              variant={action.variant}
-                              className={`w-full p-4 pr-10 h-auto flex flex-col items-start gap-2 ${action.className}`}
-                            >
-                              <div className="flex items-center gap-3">
-                                <action.icon className="h-5 w-5" />
-                                <span className="font-medium">{action.label}</span>
-                              </div>
-                              <span className="text-sm opacity-90">{action.description}</span>
-                            </Button>
-                          </motion.div>
-                          <span className="absolute right-3 top-3 z-10">
-                            <HelpTooltip texto={action.ayuda} etiqueta={`Qué hace ${action.label}`} />
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-            </div>
+          <div className="grid grid-cols-1 gap-8">
 
             {/* Columna lateral */}
             <div className="space-y-8">

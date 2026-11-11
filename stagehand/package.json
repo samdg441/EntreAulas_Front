@@ -19,7 +19,9 @@
     "test:rq3-rq5": "node --import tsx tests/rq3-rq5-recuperacion-ollama.e2e.ts",
     "test:rq1-rq5": "npm run test:rq2 && npm run test:rq1 && npm run test:rq3-rq5",
     "test:rq10-rq31": "node --import tsx tests/rq10-rq31-ollama.e2e.ts",
-    "test:rf-rep": "node --import tsx tests/rf-rep-25-32-ollama.e2e.ts"
+    "test:rf-rep": "node --import tsx tests/rf-rep-25-32-ollama.e2e.ts",
+    "test:rediseno": "node --import tsx tests/rediseno-ollama.e2e.ts",
+    "demo": "node --import tsx src/servir-demo.ts"
   },
   "dependencies": {
     "@browserbasehq/stagehand": "4.3.0",

@@ -1,0 +1,8 @@
+workflow-aggregator
+git
+docker-workflow
+sonar
+junit
+htmlpublisher
+credentials-binding
+timestamper

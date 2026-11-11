@@ -39,6 +39,7 @@
     "sonar": "node scripts/vitest.mjs run src/test/unit src/test/integration src/test/regression src/test/api src/test/security --coverage && node scripts/clean-lcov.cjs && npx @sonar/scan"
   },
   "dependencies": {
+    "@fontsource-variable/schibsted-grotesk": "^5.3.0",
     "axios": "^1.12.2",
     "exceljs": "^3.4.0",
     "file-saver": "^2.0.5",

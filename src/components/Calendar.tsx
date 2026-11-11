@@ -227,7 +227,7 @@ const Calendar = ({ onClose }: CalendarProps) => {
               >
                 <span>{dia.getDate()}</span>
                 {(ETIQUETA_DIA[estado] || esHoy) && (
-                  <span className="text-[10px] font-medium uppercase leading-none sm:text-[11px]" aria-hidden="true">
+                  <span className="text-sm font-medium uppercase leading-none sm:text-sm" aria-hidden="true">
                     {ETIQUETA_DIA[estado] || 'Hoy'}
                   </span>
                 )}

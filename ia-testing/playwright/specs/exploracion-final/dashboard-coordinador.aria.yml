@@ -1,0 +1,193 @@
+- link "Saltar al contenido":
+  - /url: "#contenido"
+- complementary:
+  - link "Ir al inicio":
+    - /url: /dashboard
+  - paragraph: EntreAulas
+  - paragraph: Universidad de Medellín
+  - navigation "Navegación principal":
+    - paragraph: Principal
+    - list:
+      - listitem:
+        - link "Inicio":
+          - /url: /dashboard-coordinador
+    - paragraph: Docentes
+    - list:
+      - listitem:
+        - link "Gestión de profesores":
+          - /url: /profesores/gestionar
+    - paragraph: Encuestas
+    - list:
+      - listitem:
+        - link "Programar encuestas":
+          - /url: /surveys/schedule
+    - paragraph: Reportes y resultados
+    - list:
+      - listitem:
+        - link "Reportes generales":
+          - /url: /reports
+      - listitem:
+        - link "Resultados de encuestas":
+          - /url: /reports/survey-results
+    - paragraph: Control
+    - list:
+      - listitem:
+        - link "Auditoría":
+          - /url: /auditoria
+    - paragraph: Mi cuenta
+    - list:
+      - listitem:
+        - link "Mi perfil":
+          - /url: /profile
+- banner:
+  - paragraph: Inicio
+  - paragraph: Seguimiento de los docentes y de las evaluaciones de tu carrera.
+  - button "Preferencias de visualización"
+  - button "Notificaciones (1 sin leer)"
+  - button
+- main:
+  - heading "Buenos días, DAVID" [level=1]
+  - region "Cómo empezar":
+    - paragraph: Cómo empezar
+    - list:
+      - listitem: Revisa los docentes en atención (promedio inferior a 4.0).
+      - listitem: "Programa la encuesta: periodo, fechas y cursos."
+      - listitem: Genera los códigos QR y avisa a los grupos.
+    - button "Ocultar guía"
+  - region "Indicadores de la carrera":
+    - term:
+      - text: Profesores
+      - button "Profesores"
+    - definition: 6 Activos en tu carrera
+    - term:
+      - text: Cursos activos
+      - button "Cursos activos"
+    - definition: 18 Con grupos abiertos
+    - term:
+      - text: Promedio general
+      - button "Promedio general"
+    - definition:
+      - text: 4.12 En una escala de 1.0 a 5.0
+      - meter "Promedio general"
+      - paragraph: Umbral 4.0
+    - term:
+      - text: Docentes en riesgo
+      - button "Docentes en riesgo"
+    - definition: 2 Promedio inferior a 4.0
+  - region "Resumen de docentes":
+    - heading "Resumen de docentes" [level=2]
+    - paragraph: Docentes de tu carrera. Los promedios menores a 4.0 aparecen resaltados.
+    - text: Buscar por nombre o correo...
+    - searchbox "Buscar por nombre o correo..."
+    - table "Resumen de docentes":
+      - caption: Resumen de docentes
+      - rowgroup:
+        - row "Docente Evaluaciones Promedio":
+          - columnheader "Docente"
+          - columnheader "Evaluaciones"
+          - columnheader "Promedio"
+      - rowgroup:
+        - 'row "Ver detalle: Ana María Pérez 42 4.60"':
+          - 'cell "Ver detalle: Ana María Pérez"':
+            - 'link "Ver detalle: Ana María Pérez"':
+              - /url: /profesores/gestionar?profesor=1
+              - text: Ana María Pérez
+          - cell "42"
+          - cell "4.60"
+        - 'row "Ver detalle: Carlos Restrepo 31 3.40 · En riesgo"':
+          - 'cell "Ver detalle: Carlos Restrepo"':
+            - 'link "Ver detalle: Carlos Restrepo"':
+              - /url: /profesores/gestionar?profesor=2
+              - text: Carlos Restrepo
+          - cell "31"
+          - cell "3.40 · En riesgo"
+        - 'row "Ver detalle: Luisa Fernanda Gómez 28 4.10"':
+          - 'cell "Ver detalle: Luisa Fernanda Gómez"':
+            - 'link "Ver detalle: Luisa Fernanda Gómez"':
+              - /url: /profesores/gestionar?profesor=3
+              - text: Luisa Fernanda Gómez
+          - cell "28"
+          - cell "4.10"
+        - 'row "Ver detalle: Jorge Ríos 0 Sin datos"':
+          - 'cell "Ver detalle: Jorge Ríos"':
+            - 'link "Ver detalle: Jorge Ríos"':
+              - /url: /profesores/gestionar?profesor=4
+              - text: Jorge Ríos
+          - cell "0"
+          - cell "Sin datos"
+        - 'row "Ver detalle: Marta Lucía Soto 19 3.80 · En riesgo"':
+          - 'cell "Ver detalle: Marta Lucía Soto"':
+            - 'link "Ver detalle: Marta Lucía Soto"':
+              - /url: /profesores/gestionar?profesor=5
+              - text: Marta Lucía Soto
+          - cell "19"
+          - cell "3.80 · En riesgo"
+        - 'row "Ver detalle: Esteban Cárdenas 37 4.80"':
+          - 'cell "Ver detalle: Esteban Cárdenas"':
+            - 'link "Ver detalle: Esteban Cárdenas"':
+              - /url: /profesores/gestionar?profesor=6
+              - text: Esteban Cárdenas
+          - cell "37"
+          - cell "4.80"
+    - paragraph: Mostrando 1 - 6 de 6
+    - button "Anterior" [disabled]
+    - text: Página 1 de 1
+    - button "Siguiente" [disabled]
+  - region "Calendario de evaluaciones":
+    - heading "Calendario de evaluaciones" [level=2]
+    - paragraph: Noviembre de 2026
+    - button "Hoy"
+    - button "Mes anterior"
+    - button "Mes siguiente"
+    - grid "Días de noviembre de 2026":
+      - columnheader "lun"
+      - columnheader "mar"
+      - columnheader "mié"
+      - columnheader "jue"
+      - columnheader "vie"
+      - columnheader "sáb"
+      - columnheader "dom"
+      - gridcell "domingo, 1 de noviembre, sin evaluación": "1"
+      - gridcell "lunes, 2 de noviembre, sin evaluación": "2"
+      - gridcell "martes, 3 de noviembre, sin evaluación": "3"
+      - gridcell "miércoles, 4 de noviembre, apertura de la evaluación": "4"
+      - gridcell "jueves, 5 de noviembre, evaluación abierta": "5"
+      - gridcell "viernes, 6 de noviembre, evaluación abierta": "6"
+      - gridcell "sábado, 7 de noviembre, evaluación abierta": "7"
+      - gridcell "domingo, 8 de noviembre, evaluación abierta": "8"
+      - gridcell "lunes, 9 de noviembre, evaluación abierta": "9"
+      - gridcell "martes, 10 de noviembre, evaluación abierta": "10"
+      - gridcell "miércoles, 11 de noviembre, hoy, evaluación abierta": "11"
+      - gridcell "jueves, 12 de noviembre, evaluación abierta": "12"
+      - gridcell "viernes, 13 de noviembre, evaluación abierta": "13"
+      - gridcell "sábado, 14 de noviembre, evaluación abierta": "14"
+      - gridcell "domingo, 15 de noviembre, evaluación abierta": "15"
+      - gridcell "lunes, 16 de noviembre, evaluación abierta": "16"
+      - gridcell "martes, 17 de noviembre, evaluación abierta": "17"
+      - gridcell "miércoles, 18 de noviembre, evaluación abierta": "18"
+      - gridcell "jueves, 19 de noviembre, evaluación abierta": "19"
+      - gridcell "viernes, 20 de noviembre, evaluación abierta": "20"
+      - gridcell "sábado, 21 de noviembre, evaluación abierta": "21"
+      - gridcell "domingo, 22 de noviembre, cierre de la evaluación": "22"
+      - gridcell "lunes, 23 de noviembre, sin evaluación": "23"
+      - gridcell "martes, 24 de noviembre, sin evaluación": "24"
+      - gridcell "miércoles, 25 de noviembre, sin evaluación": "25"
+      - gridcell "jueves, 26 de noviembre, sin evaluación": "26"
+      - gridcell "viernes, 27 de noviembre, sin evaluación": "27"
+      - gridcell "sábado, 28 de noviembre, sin evaluación": "28"
+      - gridcell "domingo, 29 de noviembre, sin evaluación": "29"
+      - gridcell "lunes, 30 de noviembre, sin evaluación": "30"
+    - list:
+      - listitem: Apertura y cierre
+      - listitem: Evaluación abierta
+    - heading "Próximas fechas" [level=3]
+    - list:
+      - listitem:
+        - paragraph: Periodo 2026-2
+        - paragraph: Del 4 de noviembre al 22 de noviembre
+        - paragraph: Evaluación abierta · Cierra en 11 días
+      - listitem:
+        - paragraph: Periodo 2027-1
+        - paragraph: Del 11 de marzo al 26 de marzo
+        - paragraph: Próxima evaluación · Abre en 120 días
+- region "Notifications alt+T"

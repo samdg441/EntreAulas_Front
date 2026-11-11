@@ -1,0 +1,18 @@
+- dialog "Preferencias de visualización":
+  - heading "Preferencias de visualización" [level=2]
+  - paragraph: Apariencia
+  - radiogroup "Apariencia":
+    - radio "Claro"
+    - radio "Noche"
+    - radio "Automático" [checked]
+  - paragraph: Idioma
+  - radiogroup "Idioma":
+    - radio "Español" [checked]
+    - radio "Inglés"
+  - paragraph: Tamaño de texto
+  - radiogroup "Tamaño de texto":
+    - radio "Pequeño"
+    - radio "Estándar" [checked]
+    - radio "Grande"
+    - radio "Muy grande"
+  - paragraph: Se guardan en este navegador.

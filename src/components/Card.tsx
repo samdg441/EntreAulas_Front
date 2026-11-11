@@ -9,7 +9,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 export default function Card({ children, className = '', ...props }: Readonly<CardProps>) {
   return (
     <div
-      className={`bg-card text-card-foreground rounded-xl border border-border ${className}`}
+      className={`rounded-2xl border border-gray-200 bg-white text-gray-900 ${className}`}
       {...props}
     >
       {children}
@@ -27,7 +27,7 @@ export function CardTitle({ className = '', ...props }: Readonly<HTMLAttributes<
 }
 
 export function CardDescription({ className = '', ...props }: Readonly<HTMLAttributes<HTMLParagraphElement>>) {
-  return <p className={`text-sm text-muted-foreground ${className}`} {...props} />
+  return <p className={`text-sm text-gray-600 ${className}`} {...props} />
 }
 
 export function CardContent({ className = '', ...props }: Readonly<HTMLAttributes<HTMLDivElement>>) {

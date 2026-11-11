@@ -34,8 +34,6 @@ import {
   type UsuarioLista,
 } from './gestionar-usuarios'
 
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
-
 const USER_TYPES = [
   'estudiante',
   'profesor',
@@ -291,16 +289,6 @@ export default function AdminUsersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0 pointer-events-none" />
 
       <div className="relative z-10">
         <Header user={headerUser} title="Gestión de Usuarios" subtitle="Administración del sistema" />

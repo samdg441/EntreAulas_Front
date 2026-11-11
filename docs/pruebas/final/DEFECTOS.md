@@ -1,0 +1,16 @@
+# Registro de defectos de la entrega final
+
+| ID | Hallado por | Severidad | Descripción | Evidencia (antes) | Corrección | Evidencia (después) | Estado |
+|---|---|---|---|---|---|---|---|
+| DEF-AUD-01 | Seguridad (Vitest, OWASP A03) | Baja | El 400 de `GET /api/coordinador/auditoria` repetía la acción enviada por el usuario (`La acción "…DROP TABLE…" no es válida`). | `evidencias/def-aud-01-rojo.txt` | Mensaje fijo con los valores permitidos (`fix(auditoria)`) | `evidencias/def-aud-01-verde.txt` | Corregido |
+| DEF-REDI-00 | Regresión (Vitest, dashboard del decano) | Media | El calendario embebido anunciaba su error con `role="alert"` e interrumpía al lector de pantalla; rompía la prueba del decano. | Fallo en `dashboard-decano-datos-reales` | `role="status"` | Suite del front 597/597 | Corregido |
+| DEF-REDI-01 | Cypress (visibilidad del menú móvil) | Alta | El menú lateral cerrado en móvil seguía en el orden de tabulación y del lector (WCAG 2.4.3 / 1.3.2). | `evidencias/cypress/rediseno-ui-1.txt` | `invisible` mientras está cerrado | `rediseno-ui-2.txt` | Corregido |
+| DEF-REDI-02 | Medición de reflujo (Cypress/Playwright) | Media | En `/profesores/gestionar` a 390 px con letra muy grande el contenido medía 570 px (WCAG 1.4.10). | `rediseno-ui-1.txt` | `min-w-0` en las columnas y `flex-wrap` | `rediseno-a11y-sec-2.txt` | Corregido |
+| DEF-REDI-03 | axe-core | Alta | `aria-required-children/parent` en el calendario (`role=grid` sin filas), `button-name` en el menú de usuario y `color-contrast` en el chip activo. | `rediseno-a11y-sec-1.txt` | Calendario con `role=row`, `aria-label` en el botón, sin `opacity-80` | `rediseno-a11y-sec-2.txt` (13/13) | Corregido |
+| DEF-REDI-04 | Medición de reflujo | Baja | La paginación desbordaba 1 px a 376 px de ancho. | Playwright (medición) | `flex-wrap` en los controles | `rediseno-a11y-sec-2.txt` | Corregido |
+| DEF-REDI-05 | Playwright (prueba 1.5) | Media | Si se pulsaba «Siguiente» antes de 350 ms, el *debounce* de la búsqueda ejecutaba `setPage(1)` y devolvía a la página 1 (ya existía en el dashboard original). | `evidencias/def-redi-05-rojo.txt` | Solo reiniciar la página cuando el texto cambia | `evidencias/def-redi-05-verde.txt` | Corregido |
+| DEF-IA-01 | DeepEval | Alta | La alerta de acoso (RQ31) no detecta formas conjugadas: 5 falsos negativos de 10 comentarios de acoso (recall 0.5). | `ia-testing/deepeval/resultados-final.json` | Recomendada: raíces léxicas con límite de palabra | — | Abierto (fuera del alcance del requisito) |
+| DEF-IA-02 | DeepEval | Media | 6 falsos positivos de 20 comentarios normales (`miedo`, `temor`, `tocar`, `abus`, `insegura`, `disgusto`); precisión 0.455. | ídem | Recomendada: contexto + raíces | — | Abierto |
+| DEF-HER-01…11 | Regresión Cypress (línea base `testing`) | Media | 11 pruebas de entregas anteriores (RQ1, RQ6, RQ11, RQ15, RQ18, RQ19, RQ27) fallan igual en la rama base; p. ej. `ForbiddenPage` ahora dice «Permisos insuficientes» y la prueba espera «Acceso no permitido». | `linea-base-testing-1/2.txt` | Actualizar las expectativas de esos specs | — | Abierto (deuda heredada) |
+
+Severidad: Crítica = escalada de privilegios · Alta = barrera de acceso o pérdida de control · Media = fuga o bloqueo parcial · Baja = endurecimiento o uso.

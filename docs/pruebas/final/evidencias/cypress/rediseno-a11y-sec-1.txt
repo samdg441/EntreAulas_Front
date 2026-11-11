@@ -1,0 +1,313 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config video=false --spec cypress/e2e/accessibility/rediseno-*.cy.ts,cypress/e2e/security/rediseno-*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.13.0 (/usr/bin/node)                                                       │
+  │ Specs:          2 found (accessibility/rediseno-accesibilidad.cy.ts, security/rediseno-segurid │
+  │                 ad-front.cy.ts)                                                                │
+  │ Searched:       cypress/e2e/accessibility/rediseno-*.cy.ts, cypress/e2e/security/rediseno-*.cy │
+  │                 .ts                                                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  accessibility/rediseno-accesibilidad.cy.ts                                      (1 of 2)
+
+
+  Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+    (Attempt 1 of 2) WCAG 1.4.3/4.1.2: Dashboard del coordinador en tema claro no tiene violaciones serias
+    1) WCAG 1.4.3/4.1.2: Dashboard del coordinador en tema claro no tiene violaciones serias
+    (Attempt 1 of 2) WCAG 1.4.3/4.1.2: Dashboard del coordinador en tema oscuro no tiene violaciones serias
+    2) WCAG 1.4.3/4.1.2: Dashboard del coordinador en tema oscuro no tiene violaciones serias
+    (Attempt 1 of 2) WCAG 1.4.3/4.1.2: Gestión de profesores en tema claro no tiene violaciones serias
+    3) WCAG 1.4.3/4.1.2: Gestión de profesores en tema claro no tiene violaciones serias
+    (Attempt 1 of 2) WCAG 1.4.3/4.1.2: Gestión de profesores en tema oscuro no tiene violaciones serias
+    4) WCAG 1.4.3/4.1.2: Gestión de profesores en tema oscuro no tiene violaciones serias
+    (Attempt 1 of 2) WCAG 1.4.3/4.1.2: Auditoría en tema claro no tiene violaciones serias
+    5) WCAG 1.4.3/4.1.2: Auditoría en tema claro no tiene violaciones serias
+    (Attempt 1 of 2) WCAG 1.4.3/4.1.2: Auditoría en tema oscuro no tiene violaciones serias
+    6) WCAG 1.4.3/4.1.2: Auditoría en tema oscuro no tiene violaciones serias
+    (Attempt 1 of 2) WCAG 3.1.1: el atributo lang de la página sigue el idioma elegido
+    7) WCAG 3.1.1: el atributo lang de la página sigue el idioma elegido
+    ✓ WCAG 2.4.1: el primer Tab muestra "Saltar al contenido" y Enter lleva el foco al contenido (1569ms)
+    ✓ WCAG 2.1.1 y 2.4.7: toda la barra lateral se recorre con Tab y el foco es visible (1617ms)
+    ✓ WCAG 4.1.2: el panel de preferencias usa radiogrupos con nombre y se cierra con Escape (3462ms)
+    ✓ WCAG 1.4.4 y 1.4.10: con letra muy grande y 320 px de ancho no hay desplazamiento horizontal ni se pierde contenido (2742ms)
+    ✓ WCAG 1.3.1 y 3.3.1: los filtros de auditoría tienen etiqueta y el error del rango se asocia al campo (2347ms)
+    ✓ WCAG 1.3.1: las tablas tienen caption, encabezados de columna y el indicador es un meter con valor (1513ms)
+
+
+  6 passing (1m)
+  7 failing
+
+  1) Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+       WCAG 1.4.3/4.1.2: Dashboard del coordinador en tema claro no tiene violaciones serias:
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'aria-required-children (critical): Certain ARIA roles must contain particular children → .grid-cols-7',
+      -  'aria-required-parent (critical): Certain ARIA roles must be contained by particular parents → .text-center.py-1[role="columnheader"]:nth-child(1), .text-center.py-1[role="columnheader"]:nth-child(2), .text-center.py-1[role="columnheader"]:nth-child(3), .text-center.py-1[role="columnheader"]:nth-child(4), .text-center.py-1[role="columnheader"]:nth-child(5), .text-center.py-1[role="columnheader"]:nth-child(6), .text-center.py-1[role="columnheader"]:nth-child(7), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(14), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(15), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(16), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(17), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(18), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(19), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(20), .rounded-l-full.rounded-r-full.text-white:nth-child(21), .rounded-l-full.text-red-800.bg-red-100, .text-red-800.bg-red-100.h-10:nth-child(23), .ring-2, .text-red-800.bg-red-100.h-10:nth-child(25), .text-red-800.bg-red-100.h-10:nth-child(26), .text-red-800.bg-red-100.h-10:nth-child(27), .rounded-r-full.text-red-800.bg-red-100, .rounded-l-full.rounded-r-full.text-white:nth-child(29), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(30), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(31), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(32), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(33), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(34), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(35), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(36), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(37), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(38), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(39), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(40), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(41), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(42), .hover\\:bg-gray-100.rounded-lg.h-10:nth-child(43)',
+      -  'button-name (critical): Buttons must have discernible text → .relative:nth-child(3) > .focus-visible\\:outline-none.focus-visible\\:ring-2.focus-visible\\:ring-ring' ]
+      +[]
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/support/accesibilidad.ts:48:85)
+      at getRet (http://localhost:3001/__cypress/runner/cypress_runner.js:120751:20)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+
+  2) Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+       WCAG 1.4.3/4.1.2: Dashboard del coordinador en tema oscuro no tiene violaciones serias:
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'aria-required-children (critical): Certain ARIA roles must contain particular children → .grid-cols-7',
+      -  'aria-required-parent (critical): Certain ARIA roles must be contained by particular parents → .py-1.text-center[role="columnheader"]:nth-child(1), .py-1.text-center[role="columnheader"]:nth-child(2), .py-1.text-center[role="columnheader"]:nth-child(3), .py-1.text-center[role="columnheader"]:nth-child(4), .py-1.text-center[role="columnheader"]:nth-child(5), .py-1.text-center[role="columnheader"]:nth-child(6), .py-1.text-center[role="columnheader"]:nth-child(7), .h-10.hover\\:bg-gray-100.justify-center:nth-child(14), .h-10.hover\\:bg-gray-100.justify-center:nth-child(15), .h-10.hover\\:bg-gray-100.justify-center:nth-child(16), .h-10.hover\\:bg-gray-100.justify-center:nth-child(17), .h-10.hover\\:bg-gray-100.justify-center:nth-child(18), .h-10.hover\\:bg-gray-100.justify-center:nth-child(19), .h-10.hover\\:bg-gray-100.justify-center:nth-child(20), .bg-red-600.text-white.font-semibold:nth-child(21), .bg-red-100:nth-child(22), .bg-red-100:nth-child(23), .bg-red-100:nth-child(24), .bg-red-100:nth-child(25), .bg-red-100:nth-child(26), .bg-red-100:nth-child(27), .bg-red-100:nth-child(28), .bg-red-600.text-white.font-semibold:nth-child(29), .h-10.hover\\:bg-gray-100.justify-center:nth-child(30), .h-10.hover\\:bg-gray-100.justify-center:nth-child(31), .h-10.hover\\:bg-gray-100.justify-center:nth-child(32), .h-10.hover\\:bg-gray-100.justify-center:nth-child(33), .h-10.hover\\:bg-gray-100.justify-center:nth-child(34), .h-10.hover\\:bg-gray-100.justify-center:nth-child(35), .h-10.hover\\:bg-gray-100.justify-center:nth-child(36), .h-10.hover\\:bg-gray-100.justify-center:nth-child(37), .h-10.hover\\:bg-gray-100.justify-center:nth-child(38), .h-10.hover\\:bg-gray-100.justify-center:nth-child(39), .h-10.hover\\:bg-gray-100.justify-center:nth-child(40), .h-10.hover\\:bg-gray-100.justify-center:nth-child(41), .h-10.hover\\:bg-gray-100.justify-center:nth-child(42), .h-10.hover\\:bg-gray-100.justify-center:nth-child(43)',
+      -  'button-name (critical): Buttons must have discernible text → .relative:nth-child(3) > .focus-visible\\:outline-none.focus-visible\\:ring-2.focus-visible\\:ring-ring' ]
+      +[]
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/support/accesibilidad.ts:48:85)
+      at getRet (http://localhost:3001/__cypress/runner/cypress_runner.js:120751:20)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+
+  3) Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+       WCAG 1.4.3/4.1.2: Gestión de profesores en tema claro no tiene violaciones serias:
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'button-name (critical): Buttons must have discernible text → .relative:nth-child(3) > .inline-flex.rounded-md.text-sm',
+      -  'color-contrast (serious): Elements must meet minimum color contrast ratio thresholds → .border-red-600 > .tabular-nums.opacity-80' ]
+      +[]
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/support/accesibilidad.ts:48:85)
+      at getRet (http://localhost:3001/__cypress/runner/cypress_runner.js:120751:20)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+
+  4) Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+       WCAG 1.4.3/4.1.2: Gestión de profesores en tema oscuro no tiene violaciones serias:
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'button-name (critical): Buttons must have discernible text → .relative:nth-child(3) > .inline-flex.rounded-md.text-sm',
+      -  'color-contrast (serious): Elements must meet minimum color contrast ratio thresholds → .border-red-600 > .tabular-nums.opacity-80' ]
+      +[]
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/support/accesibilidad.ts:48:85)
+      at getRet (http://localhost:3001/__cypress/runner/cypress_runner.js:120751:20)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+
+  5) Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+       WCAG 1.4.3/4.1.2: Auditoría en tema claro no tiene violaciones serias:
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'button-name (critical): Buttons must have discernible text → .relative:nth-child(3) > .rounded-md.text-sm.focus-visible\\:outline-none' ]
+      +[]
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/support/accesibilidad.ts:48:85)
+      at getRet (http://localhost:3001/__cypress/runner/cypress_runner.js:120751:20)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+
+  6) Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+       WCAG 1.4.3/4.1.2: Auditoría en tema oscuro no tiene violaciones serias:
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'button-name (critical): Buttons must have discernible text → .relative:nth-child(3) > .rounded-md.text-sm.focus-visible\\:outline-none' ]
+      +[]
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/support/accesibilidad.ts:48:85)
+      at getRet (http://localhost:3001/__cypress/runner/cypress_runner.js:120751:20)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+
+  7) Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+       WCAG 3.1.1: el atributo lang de la página sigue el idioma elegido:
+
+      violaciones serias o críticas de WCAG
+      + expected - actual
+
+      -[ 'aria-required-children (critical): Certain ARIA roles must contain particular children → .grid-cols-7',
+      -  'aria-required-parent (critical): Certain ARIA roles must be contained by particular parents → .text-center.py-1[role="columnheader"]:nth-child(1), .text-center.py-1[role="columnheader"]:nth-child(2), .text-center.py-1[role="columnheader"]:nth-child(3), .text-center.py-1[role="columnheader"]:nth-child(4), .text-center.py-1[role="columnheader"]:nth-child(5), .text-center.py-1[role="columnheader"]:nth-child(6), .text-center.py-1[role="columnheader"]:nth-child(7), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(14), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(15), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(16), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(17), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(18), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(19), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(20), .rounded-l-full.rounded-r-full.text-white:nth-child(21), .rounded-l-full.text-red-800.bg-red-100, .text-red-800.bg-red-100.h-10:nth-child(23), .ring-2, .text-red-800.bg-red-100.h-10:nth-child(25), .text-red-800.bg-red-100.h-10:nth-child(26), .text-red-800.bg-red-100.h-10:nth-child(27), .rounded-r-full.text-red-800.bg-red-100, .rounded-l-full.rounded-r-full.text-white:nth-child(29), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(30), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(31), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(32), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(33), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(34), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(35), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(36), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(37), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(38), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(39), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(40), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(41), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(42), .h-10.hover\\:bg-gray-100[role="gridcell"]:nth-child(43)',
+      -  'button-name (critical): Buttons must have discernible text → .relative:nth-child(3) > .focus-visible\\:outline-none.focus-visible\\:ring-2.focus-visible\\:ring-ring' ]
+      +[]
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/support/accesibilidad.ts:48:85)
+      at getRet (http://localhost:3001/__cypress/runner/cypress_runner.js:120751:20)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        13                                                                               │
+  │ Passing:      6                                                                                │
+  │ Failing:      7                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  14                                                                               │
+  │ Video:        true                                                                             │
+  │ Duration:     1 minute, 19 seconds                                                             │
+  │ Spec Ran:     accessibility/rediseno-accesibilidad.cy.ts                                       │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Dashboard del co               
+     ordinador en tema claro no tiene violaciones serias (failed).png                               
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Dashboard del co               
+     ordinador en tema claro no tiene violaciones serias (failed) (attempt 2).png                   
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Dashboard del co               
+     ordinador en tema oscuro no tiene violaciones serias (failed).png                              
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Dashboard del co               
+     ordinador en tema oscuro no tiene violaciones serias (failed) (attempt 2).png                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Gestión de profe               
+     sores en tema claro no tiene violaciones serias (failed).png                                   
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Gestión de profe               
+     sores en tema claro no tiene violaciones serias (failed) (attempt 2).png                       
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Gestión de profe               
+     sores en tema oscuro no tiene violaciones serias (failed).png                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Gestión de profe               
+     sores en tema oscuro no tiene violaciones serias (failed) (attempt 2).png                      
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Auditoría en tem               
+     a claro no tiene violaciones serias (failed).png                                               
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Auditoría en tem               
+     a claro no tiene violaciones serias (failed) (attempt 2).png                                   
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Auditoría en tem               
+     a oscuro no tiene violaciones serias (failed).png                                              
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 1.4.34.1.2 Auditoría en tem               
+     a oscuro no tiene violaciones serias (failed) (attempt 2).png                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 3.1.1 el atributo lang de l               
+     a página sigue el idioma elegido (failed).png                                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/accessibility/rediseno-accesibilidad.cy.ts/Rediseño — Accesi               
+     bilidad (axe-core + comprobaciones manuales) -- WCAG 3.1.1 el atributo lang de l               
+     a página sigue el idioma elegido (failed) (attempt 2).png                                      
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/accessibility/rediseno-accesibilidad.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  security/rediseno-seguridad-front.cy.ts                                         (2 of 2)
+
+
+  Rediseño — Seguridad del front (OWASP A01, A03, A05, A08)
+    ✓ A03: un detalle de auditoría con HTML/JS se muestra como texto y no se ejecuta (3037ms)
+    ✓ A03: un texto con <script> en los buscadores no ejecuta nada (2218ms)
+    (Attempt 1 of 2) A03: la búsqueda viaja codificada en la URL (no rompe la consulta)
+    1) A03: la búsqueda viaja codificada en la URL (no rompe la consulta)
+    ✓ A01: un estudiante, un profesor y un decano no abren la auditoría ni la gestión de profesores (6463ms)
+    ✓ A01: sin sesión la auditoría redirige al login y no pide datos (1167ms)
+    ✓ A05: el HTML servido no permite scripts en línea (la CSP de index.html se mantiene) (103ms)
+    ✓ A08: las preferencias guardadas con valores manipulados se ignoran (2473ms)
+    ✓ A08: el CSV exportado neutraliza las fórmulas (CSV injection) (1556ms)
+
+
+  7 passing (39s)
+  1 failing
+
+  1) Rediseño — Seguridad del front (OWASP A01, A03, A05, A08)
+       A03: la búsqueda viaja codificada en la URL (no rompe la consulta):
+     AssertionError: Timed out retrying after 8000ms: expected { page: '1', pageSize: '10' } to have deep property 'search'
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/security/rediseno-seguridad-front.cy.ts:49:47)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      7                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     38 seconds                                                                       │
+  │ Spec Ran:     security/rediseno-seguridad-front.cy.ts                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rediseno-seguridad-front.cy.ts/Rediseño — Seguridad               
+      del front (OWASP A01, A03, A05, A08) -- A03 la búsqueda viaja codificada en la                
+     URL (no rompe la consulta) (failed).png                                                        
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/security/rediseno-seguridad-front.cy.ts/Rediseño — Seguridad               
+      del front (OWASP A01, A03, A05, A08) -- A03 la búsqueda viaja codificada en la                
+     URL (no rompe la consulta) (failed) (attempt 2).png                                            
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/security/rediseno-seguridad-front.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✖  accessibility/rediseno-accesibilida      01:19       13        6        7        -        - │
+  │    d.cy.ts                                                                                     │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  security/rediseno-seguridad-front.c      00:38        8        7        1        -        - │
+  │    y.ts                                                                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  2 of 2 failed (100%)                     01:58       21       13        8        -        -  
+

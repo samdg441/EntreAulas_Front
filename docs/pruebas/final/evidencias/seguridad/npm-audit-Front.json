@@ -1,0 +1,286 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "dompurify": {
+      "name": "dompurify",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1242880,
+          "name": "dompurify",
+          "dependency": "dompurify",
+          "title": "DOMPurify SAFE_FOR_TEMPLATES bypass: split template expressions survive in attached shadow root content on DOM output modes",
+          "url": "https://github.com/advisories/GHSA-cg2g-xh64-v4q7",
+          "severity": "critical",
+          "cwe": [
+            "CWE-79"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=3.4.4 <=3.4.16"
+        },
+        {
+          "source": 1242881,
+          "name": "dompurify",
+          "dependency": "dompurify",
+          "title": "DOMPurify IN_PLACE: hook that removes a parent or sibling leaves the detached subtree's event handlers armed (incomplete fix for GHSA-p98j-92pf-mc4p)",
+          "url": "https://github.com/advisories/GHSA-mrv2-3pqr-j5jr",
+          "severity": "high",
+          "cwe": [
+            "CWE-79",
+            "CWE-693"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=3.4.16"
+        },
+        {
+          "source": 1242882,
+          "name": "dompurify",
+          "dependency": "dompurify",
+          "title": "DOMPurify: SMIL attributeName=href guard is skipped when PARSER_MEDIA_TYPE is application/xhtml+xml",
+          "url": "https://github.com/advisories/GHSA-c6gr-qvv4-5v3f",
+          "severity": "low",
+          "cwe": [
+            "CWE-79"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=3.4.16"
+        }
+      ],
+      "effects": [],
+      "range": "<=3.4.16",
+      "nodes": [
+        "node_modules/dompurify"
+      ],
+      "fixAvailable": true
+    },
+    "exceljs": {
+      "name": "exceljs",
+      "severity": "low",
+      "isDirect": true,
+      "via": [
+        "fast-csv",
+        "tmp"
+      ],
+      "effects": [],
+      "range": "0.1.10 - 3.9.0",
+      "nodes": [
+        "node_modules/exceljs"
+      ],
+      "fixAvailable": true
+    },
+    "fast-csv": {
+      "name": "fast-csv",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1090058,
+          "name": "fast-csv",
+          "dependency": "fast-csv",
+          "title": "Denial of service in fast-csv",
+          "url": "https://github.com/advisories/GHSA-8cv5-p934-3hwp",
+          "severity": "low",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 5.7,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:N/A:H"
+          },
+          "range": "<4.3.6"
+        }
+      ],
+      "effects": [
+        "exceljs"
+      ],
+      "range": "<4.3.6",
+      "nodes": [
+        "node_modules/fast-csv"
+      ],
+      "fixAvailable": true
+    },
+    "follow-redirects": {
+      "name": "follow-redirects",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1242604,
+          "name": "follow-redirects",
+          "dependency": "follow-redirects",
+          "title": "follow-redirects array-form headers bypass cross-origin credential stripping",
+          "url": "https://github.com/advisories/GHSA-q3jh-wrc6-jgq8",
+          "severity": "high",
+          "cwe": [
+            "CWE-200",
+            "CWE-212"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.16.0 <1.16.1"
+        },
+        {
+          "source": 1242605,
+          "name": "follow-redirects",
+          "dependency": "follow-redirects",
+          "title": "follow-redirects sensitiveHeaders regex escaping can expose credential headers",
+          "url": "https://github.com/advisories/GHSA-8r9p-f939-6h3c",
+          "severity": "high",
+          "cwe": [
+            "CWE-185",
+            "CWE-200"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.16.0 <1.16.1"
+        },
+        {
+          "source": 1244003,
+          "name": "follow-redirects",
+          "dependency": "follow-redirects",
+          "title": "follow-redirects: Cross-realm sensitiveHeaders arrays are discarded and custom credentials can follow redirects",
+          "url": "https://github.com/advisories/GHSA-mrwp-f3q8-3g9p",
+          "severity": "high",
+          "cwe": [
+            "CWE-201"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": ">=1.16.0 <=1.16.1"
+        }
+      ],
+      "effects": [],
+      "range": "1.16.0 - 1.16.1",
+      "nodes": [
+        "node_modules/follow-redirects"
+      ],
+      "fixAvailable": true
+    },
+    "tmp": {
+      "name": "tmp",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1109537,
+          "name": "tmp",
+          "dependency": "tmp",
+          "title": "tmp allows arbitrary temporary file / directory write via symbolic link `dir` parameter",
+          "url": "https://github.com/advisories/GHSA-52f5-9888-hmc6",
+          "severity": "low",
+          "cwe": [
+            "CWE-59"
+          ],
+          "cvss": {
+            "score": 2.5,
+            "vectorString": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:N"
+          },
+          "range": "<=0.2.3"
+        },
+        {
+          "source": 1120654,
+          "name": "tmp",
+          "dependency": "tmp",
+          "title": "tmp has Path Traversal via unsanitized prefix/postfix that enables directory escape",
+          "url": "https://github.com/advisories/GHSA-ph9p-34f9-6g65",
+          "severity": "high",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<0.2.6"
+        }
+      ],
+      "effects": [
+        "exceljs"
+      ],
+      "range": "<=0.2.5",
+      "nodes": [
+        "node_modules/tmp"
+      ],
+      "fixAvailable": true
+    },
+    "xlsx": {
+      "name": "xlsx",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1108110,
+          "name": "xlsx",
+          "dependency": "xlsx",
+          "title": "Prototype Pollution in sheetJS",
+          "url": "https://github.com/advisories/GHSA-4r6h-8v6p-xvw6",
+          "severity": "high",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 7.8,
+            "vectorString": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+          },
+          "range": "<0.19.3"
+        },
+        {
+          "source": 1108111,
+          "name": "xlsx",
+          "dependency": "xlsx",
+          "title": "SheetJS Regular Expression Denial of Service (ReDoS)",
+          "url": "https://github.com/advisories/GHSA-5pgg-2g8v-p4x9",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<0.20.2"
+        }
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/xlsx"
+      ],
+      "fixAvailable": false
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 2,
+      "moderate": 0,
+      "high": 3,
+      "critical": 1,
+      "total": 6
+    },
+    "dependencies": {
+      "prod": 206,
+      "dev": 1024,
+      "optional": 113,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 1242
+    }
+  }
+}

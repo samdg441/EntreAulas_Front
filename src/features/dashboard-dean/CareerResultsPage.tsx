@@ -30,9 +30,6 @@ import { useState, useEffect, useRef } from 'react';
 import { fetchCareerSubjects } from '../../api/teachers';
 import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../../utils/export';
 
-// Importar la imagen de fondo
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
-
 interface CareerResultsPageProps {
   user?: User | null;
 }
@@ -102,20 +99,7 @@ export default function CareerResultsPage({ user }: CareerResultsPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      {/* Fondo fijo que cubre toda la página */}
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-      </div>
       
-      {/* Overlay más oscuro para mejor contraste */}
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0"></div>
       
       {/* Contenido principal */}
       <div className="relative z-10">

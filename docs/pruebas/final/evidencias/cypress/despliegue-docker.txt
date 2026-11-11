@@ -1,0 +1,337 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config video=false --expose apiUrl=http://localhost:3000 --spec cypress/e2e/ui/rediseno-*.cy.ts,cypress/e2e/accessibility/rediseno-*.cy.ts,cypress/e2e/security/rediseno-*.cy.ts,cypress/e2e/api/rediseno-*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.13.0 (/usr/bin/node)                                                       │
+  │ Specs:          7 found (ui/rediseno-auditoria.cy.ts, ui/rediseno-dashboard-coordinador.cy.ts, │
+  │                  ui/rediseno-gestion-profesores.cy.ts, ui/rediseno-preferencias.cy.ts, accessi │
+  │                 bility/rediseno-accesibilidad.cy.ts, security/rediseno-seguridad-front.cy.ts,  │
+  │                 api/rediseno-auditoria...)                                                     │
+  │ Searched:       cypress/e2e/ui/rediseno-*.cy.ts, cypress/e2e/accessibility/rediseno-*.cy.ts, c │
+  │                 ypress/e2e/security/rediseno-*.cy.ts, cypress/e2e/api/rediseno-*.cy.ts         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rediseno-auditoria.cy.ts                                                     (1 of 7)
+
+
+  Rediseño — Vista de auditoría (UI)
+    escenarios exitosos
+      ✓ lista los eventos con fecha, persona, acción y detalle (2326ms)
+      ✓ el resumen indica el total y cuántos eventos hay por acción (492ms)
+      ✓ filtrar por acción pide ese filtro al servidor y reduce la tabla (634ms)
+      ✓ exporta un CSV con los eventos visibles y neutraliza las fórmulas (491ms)
+    escenarios alternativos
+      ✓ un rango de fechas invertido avisa y no consulta al servidor (710ms)
+      ✓ "Limpiar filtros" restablece la acción elegida (607ms)
+      ✓ en inglés toda la vista cambia de idioma (820ms)
+    escenarios de error
+      ✓ sin eventos muestra un estado vacío que explica cuándo aparecen (586ms)
+      ✓ si la tabla de auditoría aún no existe lo explica en lugar de mostrar una tabla vacía (440ms)
+      ✓ un error 500 se anuncia con role="alert" (391ms)
+      ✓ solo el coordinador entra: un estudiante es enviado a /forbidden (245ms)
+
+
+  11 passing (9s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        11                                                                               │
+  │ Passing:      11                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     8 seconds                                                                        │
+  │ Spec Ran:     ui/rediseno-auditoria.cy.ts                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rediseno-auditoria.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rediseno-dashboard-coordinador.cy.ts                                         (2 of 7)
+
+
+  Rediseño — Dashboard del coordinador (UI)
+    escenarios exitosos
+      ✓ muestra los cuatro indicadores de la carrera (1865ms)
+      ✓ la barra lateral agrupa las rutas del coordinador por secciones (605ms)
+      ✓ el calendario marca la apertura y el cierre de la evaluación programada (416ms)
+      ✓ desde la barra lateral se llega a la auditoría y la opción queda activa (583ms)
+      ✓ el nombre del docente enlaza a su detalle (557ms)
+    escenarios alternativos
+      ✓ ya no hay tarjetas de "Acciones rápidas": viven en la barra lateral (412ms)
+      ✓ en móvil la barra lateral se abre con el botón de menú y se cierra con Escape (651ms)
+      ✓ un solo clic en "Hoy" del calendario vuelve al mes actual (602ms)
+    escenarios de error
+      ✓ si el servidor falla, muestra una alerta y deja la pantalla usable (1039ms)
+      ✓ si falla el calendario avisa sin interrumpir (role=status) y el resto sigue disponible (922ms)
+
+
+  10 passing (8s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        10                                                                               │
+  │ Passing:      10                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     8 seconds                                                                        │
+  │ Spec Ran:     ui/rediseno-dashboard-coordinador.cy.ts                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rediseno-dashboard-coordinador.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rediseno-gestion-profesores.cy.ts                                            (3 of 7)
+
+
+  Rediseño — Gestión de profesores (UI)
+    escenarios exitosos
+      ✓ lista a los docentes de la carrera con su promedio (1527ms)
+      ✓ al elegir un docente muestra sus estadísticas por categoría y por curso (568ms)
+      ✓ el filtro "En riesgo" deja solo a los docentes con promedio menor a 4.0 (427ms)
+    escenarios alternativos
+      ✓ la búsqueda ignora tildes y mayúsculas (593ms)
+      ✓ ordenar por promedio (menor primero) pone primero al de menor promedio (496ms)
+      ✓ abre al docente indicado en la URL (?profesor=) (600ms)
+      ✓ cambiar el periodo vuelve a pedir las estadísticas de ese periodo (638ms)
+    escenarios de error
+      ✓ una búsqueda sin resultados muestra el estado vacío con ayuda (468ms)
+      ✓ si fallan las estadísticas avisa y no muestra datos inventados (432ms)
+
+
+  9 passing (6s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        9                                                                                │
+  │ Passing:      9                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     6 seconds                                                                        │
+  │ Spec Ran:     ui/rediseno-gestion-profesores.cy.ts                                             │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rediseno-gestion-profesores.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rediseno-preferencias.cy.ts                                                  (4 of 7)
+
+
+  Rediseño — Preferencias de visualización (UI)
+    ✓ modo noche: aplica la clase dark, cambia el fondo y se recuerda al recargar (1862ms)
+    ✓ idioma: pasa a inglés (menú, indicadores y calendario) y recarga conservando la elección (781ms)
+    ✓ tamaño de texto: cada nivel cambia el tamaño de letra base y "Estándar" lo restablece (809ms)
+    ✓ tipografía estándar: los títulos, subtítulos y textos usan solo cinco tamaños (371ms)
+    ✓ la elección de noche, inglés y letra grande sobrevive a navegar a otra pantalla (1012ms)
+    ✓ en móvil (390 px) no hay desplazamiento horizontal con letra muy grande (704ms)
+
+
+  6 passing (6s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      6                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     6 seconds                                                                        │
+  │ Spec Ran:     ui/rediseno-preferencias.cy.ts                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rediseno-preferencias.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  accessibility/rediseno-accesibilidad.cy.ts                                      (5 of 7)
+
+
+  Rediseño — Accesibilidad (axe-core + comprobaciones manuales)
+    ✓ WCAG 1.4.3/4.1.2: Dashboard del coordinador en tema claro no tiene violaciones serias (2748ms)
+    ✓ WCAG 1.4.3/4.1.2: Dashboard del coordinador en tema oscuro no tiene violaciones serias (1336ms)
+    ✓ WCAG 1.4.3/4.1.2: Gestión de profesores en tema claro no tiene violaciones serias (915ms)
+    ✓ WCAG 1.4.3/4.1.2: Gestión de profesores en tema oscuro no tiene violaciones serias (897ms)
+    ✓ WCAG 1.4.3/4.1.2: Auditoría en tema claro no tiene violaciones serias (1158ms)
+    ✓ WCAG 1.4.3/4.1.2: Auditoría en tema oscuro no tiene violaciones serias (1096ms)
+    ✓ WCAG 3.1.1: el atributo lang de la página sigue el idioma elegido (1369ms)
+    ✓ WCAG 2.4.1: el primer Tab muestra "Saltar al contenido" y Enter lleva el foco al contenido (533ms)
+    ✓ WCAG 2.1.1 y 2.4.7: toda la barra lateral se recorre con Tab y el foco es visible (483ms)
+    ✓ WCAG 4.1.2: el panel de preferencias usa radiogrupos con nombre y se cierra con Escape (903ms)
+    ✓ WCAG 1.4.4 y 1.4.10: con letra muy grande y 320 px de ancho no hay desplazamiento horizontal ni se pierde contenido (612ms)
+    ✓ WCAG 1.3.1 y 3.3.1: los filtros de auditoría tienen etiqueta y el error del rango se asocia al campo (1167ms)
+    ✓ WCAG 1.3.1: las tablas tienen caption, encabezados de columna y el indicador es un meter con valor (397ms)
+
+
+  13 passing (14s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        13                                                                               │
+  │ Passing:      13                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     14 seconds                                                                       │
+  │ Spec Ran:     accessibility/rediseno-accesibilidad.cy.ts                                       │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/accessibility/rediseno-accesibilidad.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  security/rediseno-seguridad-front.cy.ts                                         (6 of 7)
+
+
+  Rediseño — Seguridad del front (OWASP A01, A03, A05, A08)
+    ✓ A03: un detalle de auditoría con HTML/JS se muestra como texto y no se ejecuta (1406ms)
+    ✓ A03: un texto con <script> en los buscadores no ejecuta nada (803ms)
+    ✓ A03: la búsqueda viaja codificada en la URL (no rompe la consulta) (853ms)
+    ✓ A01: un estudiante, un profesor y un decano no abren la auditoría ni la gestión de profesores (1103ms)
+    ✓ A01: sin sesión la auditoría redirige al login y no pide datos (247ms)
+    ✓ A05: el HTML servido no permite scripts en línea (la CSP de index.html se mantiene) (92ms)
+    ✓ A08: las preferencias guardadas con valores manipulados se ignoran (474ms)
+    ✓ A08: el CSV exportado neutraliza las fórmulas (CSV injection) (490ms)
+
+
+  8 passing (6s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      8                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     5 seconds                                                                        │
+  │ Spec Ran:     security/rediseno-seguridad-front.cy.ts                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/security/rediseno-seguridad-front.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  api/rediseno-auditoria-api.cy.ts                                                (7 of 7)
+
+
+  Auditoría — API del coordinador
+    ✓ sin token → 401 con código NO_TOKEN (155ms)
+    ✓ con un token mal formado → 401 (55ms)
+    ✓ con un JWT "alg: none" (sin firma) → 401: el back no lo acepta (48ms)
+    ✓ el cuerpo del 401 no expone detalles internos ni rutas del servidor (42ms)
+    ✓ responde con las cabeceras de seguridad de helmet (42ms)
+    ✓ el método POST no está permitido en la auditoría (solo lectura) (142ms)
+    ✓ el contrato OpenAPI no filtra la tabla de auditoría a clientes anónimos más allá de lo documentado (49ms)
+
+
+  7 passing (825ms)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        7                                                                                │
+  │ Passing:      7                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     api/rediseno-auditoria-api.cy.ts                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/api/rediseno-auditoria-api.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  ui/rediseno-auditoria.cy.ts              00:08       11       11        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rediseno-dashboard-coordinador.c      00:08       10       10        -        -        - │
+  │    y.ts                                                                                        │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rediseno-gestion-profesores.cy.t      00:06        9        9        -        -        - │
+  │    s                                                                                           │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rediseno-preferencias.cy.ts           00:06        6        6        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  accessibility/rediseno-accesibilida      00:14       13       13        -        -        - │
+  │    d.cy.ts                                                                                     │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  security/rediseno-seguridad-front.c      00:05        8        8        -        -        - │
+  │    y.ts                                                                                        │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  api/rediseno-auditoria-api.cy.ts         829ms        7        7        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        00:50       64       64        -        -        -  
+

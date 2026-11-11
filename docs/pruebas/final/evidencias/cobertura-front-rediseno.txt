@@ -1,0 +1,44 @@
+
+ RUN  v5.0.2 /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front
+      Coverage enabled with v8
+
+
+ Test Files  13 passed (13)
+      Tests  172 passed (172)
+   Start at  14:15:36
+   Duration  33.17s (tests 35%, environment 28%, import 19%, transform 8%, setup 8%, worker 2%)
+
+Environment  jsdom was created 13 times · 57.95s total, 28% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   91.27 |    82.59 |   89.38 |   94.73 |                   
+ api               |    5.88 |        0 |       0 |    9.09 |                   
+  auditoria.api.ts |    5.88 |        0 |       0 |    9.09 | 38-47             
+ components        |    96.9 |    92.53 |   97.36 |   98.78 |                   
+  ...luaciones.tsx |   96.96 |    94.23 |      96 |   98.14 | 120               
+  ...nciasMenu.tsx |   96.77 |    86.66 |     100 |     100 | 58-64             
+ components/shell  |   83.78 |    68.75 |   69.23 |   90.62 |                   
+  AppShell.tsx     |   91.66 |      100 |      75 |     100 |                   
+  ShellContext.tsx |     100 |      100 |      50 |     100 |                   
+  Sidebar.tsx      |   78.26 |    64.28 |   71.42 |      85 | 64-66             
+ ...rd-coordinator |   93.86 |     83.1 |   91.11 |   96.65 |                   
+  ...toriaPage.tsx |   95.18 |    89.39 |    87.5 |   97.22 | 144,271           
+  ...ordinador.tsx |   93.33 |    80.24 |   86.66 |   98.11 | 295               
+  ...rofessors.tsx |   95.34 |    79.09 |   96.66 |    97.4 | 137,273           
+  docentes.ts      |   16.66 |        0 |   33.33 |      25 | 5-7               
+  ...profesores.ts |     100 |    92.85 |     100 |     100 | 44                
+ preferencias      |   94.44 |    93.33 |   80.76 |   97.91 |                   
+  ...asContext.tsx |    90.9 |       75 |      75 |   96.42 | 33                
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 91.27% ( 471/516 )
+Branches     : 82.59% ( 375/454 )
+Functions    : 89.38% ( 160/179 )
+Lines        : 94.73% ( 414/437 )
+================================================================================

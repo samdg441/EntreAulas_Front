@@ -1,0 +1,128 @@
+npm notice run npx
+npm notice run 'playwright' test tests/rediseno- --workers=3
+
+Running 25 tests using 3 workers
+
+  ✓   3 [chromium] › tests/rediseno-auditoria.spec.ts:16:7 › Auditoría del coordinador › 1.2 filtrar por acción reduce la tabla y la consulta viaja con ?accion= (3.8s)
+  ✓   2 [chromium] › tests/rediseno-auditoria.spec.ts:7:7 › Auditoría del coordinador › 1.1 muestra 10 de 23 eventos y el resumen por acción (3.9s)
+  ✓   1 [chromium] › tests/rediseno-auditoria.spec.ts:25:7 › Auditoría del coordinador › 1.3 la búsqueda por persona ignora tildes y mayúsculas (4.4s)
+  ✓   4 [chromium] › tests/rediseno-auditoria.spec.ts:34:7 › Auditoría del coordinador › 1.4 un rango invertido muestra el error y marca el campo (3.5s)
+  ✓   6 [chromium] › tests/rediseno-auditoria.spec.ts:53:7 › Auditoría del coordinador › 1.6 exportar CSV descarga el archivo con encabezado y fórmulas neutralizadas (3.2s)
+  ✓   7 [chromium] › tests/rediseno-auditoria.spec.ts:66:7 › Auditoría del coordinador › 1.7 si la auditoría aún no está activa lo explica y no muestra la tabla (2.5s)
+  ✓   8 [chromium] › tests/rediseno-auditoria.spec.ts:74:7 › Auditoría del coordinador › 1.8 un estudiante es enviado a /forbidden (2.2s)
+  ✓   9 [chromium] › tests/rediseno-auditoria.spec.ts:84:7 › Auditoría del coordinador › 1.9 un detalle con HTML se muestra como texto y no se ejecuta (XSS) (2.8s)
+  ✓  10 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:12:7 › Dashboard del coordinador › 3.1 muestra los indicadores y agrupa los accesos en la barra lateral por sección (2.9s)
+  ✘   5 [chromium] › tests/rediseno-auditoria.spec.ts:43:7 › Auditoría del coordinador › 1.5 la paginación llega a la página 3 con los 3 eventos restantes (9.8s)
+  ✓  11 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:24:7 › Dashboard del coordinador › 3.2 el calendario marca apertura y cierre y cuenta los días que faltan (3.2s)
+  ✓  12 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:33:7 › Dashboard del coordinador › 3.3 ya no existen las "Acciones rápidas" (3.1s)
+  ✓  14 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:58:7 › Preferencias de accesibilidad › 4.2 idioma inglés: traduce la interfaz y actualiza lang (4.4s)
+  ✓  15 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:67:7 › Preferencias de accesibilidad › 4.3 tamaño de texto: cada nivel cambia el tamaño base (5.1s)
+  ✓  13 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:47:7 › Preferencias de accesibilidad › 4.1 modo noche: clase dark, persiste al recargar y el texto principal cumple 4.5:1 (6.8s)
+  ✓  16 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:79:7 › Preferencias de accesibilidad › 4.4 teclado: el primer foco es "Saltar al contenido" y lleva a #contenido (8.7s)
+  ✓  19 [chromium] › tests/rediseno-gestion-profesores.spec.ts:7:7 › Gestión de profesores › 2.1 lista a los docentes con promedio y los chips muestran los conteos (5.8s)
+  ✓  20 [chromium] › tests/rediseno-gestion-profesores.spec.ts:16:7 › Gestión de profesores › 2.2 elegir un docente carga sus estadísticas del periodo (5.3s)
+  ✓  21 [chromium] › tests/rediseno-gestion-profesores.spec.ts:27:7 › Gestión de profesores › 2.3 el filtro "En riesgo" deja solo a quienes tienen promedio menor a 4.0 (6.0s)
+  ✓  22 [chromium] › tests/rediseno-gestion-profesores.spec.ts:36:7 › Gestión de profesores › 2.3b ordenar por promedio (menor primero) pone al final a quien no tiene evaluaciones (5.0s)
+  ✓  23 [chromium] › tests/rediseno-gestion-profesores.spec.ts:45:7 › Gestión de profesores › 2.4 una búsqueda sin resultados muestra el estado vacío con ayuda (3.7s)
+  ✘  17 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:90:7 › Preferencias de accesibilidad › 4.5 a 320 px con letra muy grande no hay desplazamiento horizontal (36.6s)
+  ✓  24 [chromium] › tests/rediseno-gestion-profesores.spec.ts:53:7 › Gestión de profesores › 2.5 en móvil la lista y el detalle se alternan con "Volver a la lista" (3.8s)
+  ✘  18 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:101:7 › Preferencias de accesibilidad › 4.6 las preferencias manipuladas en localStorage se ignoran sin romper la página (38.6s)
+  ✓  25 [chromium] › tests/rediseno-gestion-profesores.spec.ts:64:7 › Gestión de profesores › 2.6 el enlace desde el dashboard abre directamente el detalle (?profesor=) (3.6s)
+
+
+  1) [chromium] › tests/rediseno-auditoria.spec.ts:43:7 › Auditoría del coordinador › 1.5 la paginación llega a la página 3 con los 3 eventos restantes 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Página 3 de 3')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Página 3 de 3') with timeout 5000ms
+      - waiting for getByText('Página 3 de 3')
+
+
+      46 |     await page.getByRole('button', { name: 'Siguiente' }).click()
+      47 |
+    > 48 |     await expect(page.getByText('Página 3 de 3')).toBeVisible()
+         |                                                   ^
+      49 |     await expect(page.getByRole('row')).toHaveCount(4)
+      50 |     await expect(page.getByRole('button', { name: 'Siguiente' })).toBeDisabled()
+      51 |   })
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-auditoria.spec.ts:48:51
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:90:7 › Preferencias de accesibilidad › 4.5 a 320 px con letra muy grande no hay desplazamiento horizontal 
+
+    Error: page.reload: net::ERR_ABORTED; maybe frame was detached?
+    Call log:
+      - waiting for navigation until "load"
+
+
+      92 |     await page.goto('/auditoria')
+      93 |     await page.evaluate(() => localStorage.setItem('entreaulas.preferencias', JSON.stringify({ tema: 'claro', idioma: 'es', tamano: 'xlarge' })))
+    > 94 |     await page.reload()
+         |                ^
+      95 |     await page.getByRole('table').waitFor()
+      96 |
+      97 |     const sobra = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:94:16
+
+    Tearing down "context" exceeded the test timeout of 30000ms.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:101:7 › Preferencias de accesibilidad › 4.6 las preferencias manipuladas en localStorage se ignoran sin romper la página 
+
+    Tearing down "context" exceeded the test timeout of 30000ms.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/test-finished-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › tests/rediseno-auditoria.spec.ts:43:7 › Auditoría del coordinador › 1.5 la paginación llega a la página 3 con los 3 eventos restantes 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:90:7 › Preferencias de accesibilidad › 4.5 a 320 px con letra muy grande no hay desplazamiento horizontal 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:101:7 › Preferencias de accesibilidad › 4.6 las preferencias manipuladas en localStorage se ignoran sin romper la página 
+  22 passed (1.1m)

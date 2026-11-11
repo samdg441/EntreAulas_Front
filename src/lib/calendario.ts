@@ -71,8 +71,21 @@ export function celdasDelMes(mes: Date): (Date | null)[] {
   })
 }
 
-export function formatoFechaLarga(iso: string): string {
-  return parseFecha(iso).toLocaleDateString('es-CO', { day: 'numeric', month: 'long' })
+export function formatoFechaLarga(iso: string, locale = 'es-CO'): string {
+  return parseFecha(iso).toLocaleDateString(locale, { day: 'numeric', month: 'long' })
+}
+
+/** Días de diferencia entre dos fechas locales (positivo si `hasta` es posterior). */
+export function diasHasta(desde: Date, hasta: Date): number {
+  return diasEntre(desde, hasta)
+}
+
+/** Nombres cortos de los días de la semana, de lunes a domingo, en el idioma pedido. */
+export function nombresDiasSemana(locale = 'es-CO', formato: 'short' | 'long' = 'short'): string[] {
+  // 2024-01-01 fue lunes.
+  return Array.from({ length: 7 }, (_, i) =>
+    new Date(2024, 0, 1 + i).toLocaleDateString(locale, { weekday: formato })
+  )
 }
 
 export function textoDias(n: number): string {

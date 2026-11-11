@@ -1,0 +1,701 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "axios": {
+      "name": "axios",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1240600,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: Prototype pollution gadget in fetch adapter can alter outbound requests",
+          "url": "https://github.com/advisories/GHSA-vh66-26gq-q6x8",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.7.0 <1.20.0"
+        },
+        {
+          "source": 1240601,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: Prototype-Pollution Gadget in the Default Instance Allows Inherited Object.prototype.method to Override HTTP Method",
+          "url": "https://github.com/advisories/GHSA-9fr6-4gfg-395g",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.0.0 <1.20.0"
+        },
+        {
+          "source": 1240603,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: ReDoS in fromDataURI data: URL parser freezes the Node event loop (DoS)",
+          "url": "https://github.com/advisories/GHSA-c29m-xwm3-cm6r",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.16.1 <1.20.0"
+        },
+        {
+          "source": 1240604,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: ReDoS (O(N²)) in shouldBypassProxy host normalization, reachable via untrusted redirect Location",
+          "url": "https://github.com/advisories/GHSA-mghh-pgcx-3jjj",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.15.0 <1.20.0"
+        },
+        {
+          "source": 1240605,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: Prototype Pollution Gadget in axios toFormData Options",
+          "url": "https://github.com/advisories/GHSA-x97p-jq2g-jp4f",
+          "severity": "high",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.15.1 <1.20.0"
+        },
+        {
+          "source": 1240607,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: HTTP/2 adapter bypasses configured DNS lookup and proxy controls",
+          "url": "https://github.com/advisories/GHSA-3pq3-5fj3-cg6v",
+          "severity": "high",
+          "cwe": [
+            "CWE-918"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.13.0 <1.20.0"
+        },
+        {
+          "source": 1240608,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: Denial of Service via Unhandled 'error' Event in HTTP/2 ClientHttp2Session Initialization",
+          "url": "https://github.com/advisories/GHSA-542g-h47m-68v8",
+          "severity": "high",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.13.0 <1.20.0"
+        },
+        {
+          "source": 1240626,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: Header Injection via Inherited headers After Minimal Interceptor",
+          "url": "https://github.com/advisories/GHSA-j8rh-479h-cp32",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-74",
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.0.0 <1.20.0"
+        },
+        {
+          "source": 1240627,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: Fetch Adapter Header Injection via Inherited FormData getHeaders",
+          "url": "https://github.com/advisories/GHSA-4hqw-qxg8-jxx2",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-74",
+            "CWE-693",
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.12.0 <1.20.0"
+        },
+        {
+          "source": 1240628,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: Node HTTP adapter prototype-pollution gadget allows request socket hijack via inherited createConnection",
+          "url": "https://github.com/advisories/GHSA-m8m8-qj5v-23w3",
+          "severity": "high",
+          "cwe": [
+            "CWE-441",
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.15.2 <1.20.0"
+        },
+        {
+          "source": 1240629,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: CIDR-form NO_PROXY entries are ignored, causing proxy exclusion bypass for internal IP ranges",
+          "url": "https://github.com/advisories/GHSA-44g4-m2mj-wpvx",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-693"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.15.0 <1.20.0"
+        },
+        {
+          "source": 1240634,
+          "name": "axios",
+          "dependency": "axios",
+          "title": "Axios: maxRedirects: 0 is not enforced by the fetch adapter, allowing redirect-based SSRF",
+          "url": "https://github.com/advisories/GHSA-r4gj-5m52-g5wh",
+          "severity": "high",
+          "cwe": [
+            "CWE-441",
+            "CWE-601"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.17.0 <1.20.0"
+        }
+      ],
+      "effects": [],
+      "range": "1.0.0 - 1.19.0",
+      "nodes": [
+        "node_modules/axios"
+      ],
+      "fixAvailable": true
+    },
+    "body-parser": {
+      "name": "body-parser",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1243073,
+          "name": "body-parser",
+          "dependency": "body-parser",
+          "title": "body-parser vulnerable to Denial of Service via trailing bytes after a compressed request body",
+          "url": "https://github.com/advisories/GHSA-27r3-jxmh-p828",
+          "severity": "high",
+          "cwe": [
+            "CWE-248"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<1.20.9"
+        }
+      ],
+      "effects": [],
+      "range": "<1.20.9",
+      "nodes": [
+        "node_modules/body-parser"
+      ],
+      "fixAvailable": true
+    },
+    "follow-redirects": {
+      "name": "follow-redirects",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1242604,
+          "name": "follow-redirects",
+          "dependency": "follow-redirects",
+          "title": "follow-redirects array-form headers bypass cross-origin credential stripping",
+          "url": "https://github.com/advisories/GHSA-q3jh-wrc6-jgq8",
+          "severity": "high",
+          "cwe": [
+            "CWE-200",
+            "CWE-212"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.16.0 <1.16.1"
+        },
+        {
+          "source": 1242605,
+          "name": "follow-redirects",
+          "dependency": "follow-redirects",
+          "title": "follow-redirects sensitiveHeaders regex escaping can expose credential headers",
+          "url": "https://github.com/advisories/GHSA-8r9p-f939-6h3c",
+          "severity": "high",
+          "cwe": [
+            "CWE-185",
+            "CWE-200"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=1.16.0 <1.16.1"
+        },
+        {
+          "source": 1244003,
+          "name": "follow-redirects",
+          "dependency": "follow-redirects",
+          "title": "follow-redirects: Cross-realm sensitiveHeaders arrays are discarded and custom credentials can follow redirects",
+          "url": "https://github.com/advisories/GHSA-mrwp-f3q8-3g9p",
+          "severity": "high",
+          "cwe": [
+            "CWE-201"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": ">=1.16.0 <=1.16.1"
+        }
+      ],
+      "effects": [],
+      "range": "1.16.0 - 1.16.1",
+      "nodes": [
+        "node_modules/follow-redirects"
+      ],
+      "fixAvailable": true
+    },
+    "nodemailer": {
+      "name": "nodemailer",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1193741,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: resolveContent() on a MailMessage bypasses disableFileAccess/disableUrlAccess when called with the legacy signature",
+          "url": "https://github.com/advisories/GHSA-8m3c-c648-2xjj",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-73",
+            "CWE-918"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:L/A:N"
+          },
+          "range": "<=9.1.0"
+        },
+        {
+          "source": 1193770,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: IDN/Punycode domain allow-list bypass leads to email delivery to an attacker-controlled domain",
+          "url": "https://github.com/advisories/GHSA-wmmp-3585-3rmp",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-20",
+            "CWE-436"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+          },
+          "range": "<9.1.0"
+        },
+        {
+          "source": 1193778,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: Quadratic (O(n²)) time complexity in addressparser allows remote denial of service via a crafted address list",
+          "url": "https://github.com/advisories/GHSA-2x7j-588g-ccc2",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<9.1.0"
+        },
+        {
+          "source": 1193779,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: Recipient-domain validation bypass via RFC 5322 comment mis-parsing leads to email delivery to an attacker-controlled domain",
+          "url": "https://github.com/advisories/GHSA-cc9r-2j5m-2m83",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-20",
+            "CWE-436"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+          },
+          "range": ">=6.9.16 <9.1.0"
+        },
+        {
+          "source": 1239931,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: Process-global DNS cache reuses TLS `servername` across transports, enabling cross-tenant SMTP credential disclosure",
+          "url": "https://github.com/advisories/GHSA-6vj9-mwq6-2f5v",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-295"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:L/A:N"
+          },
+          "range": ">=5.0.0 <10.0.2"
+        },
+        {
+          "source": 1240033,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: Nested structured recipient arrays bypass the parser depth limit and cause stack exhaustion DoS",
+          "url": "https://github.com/advisories/GHSA-8vvx-rff5-p5rq",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<10.0.2"
+        },
+        {
+          "source": 1240114,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: Quadratic backtracking in the addressparser free-text fallback allows remote denial of service",
+          "url": "https://github.com/advisories/GHSA-v53p-9fqp-m79j",
+          "severity": "high",
+          "cwe": [
+            "CWE-407",
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<=10.0.5"
+        },
+        {
+          "source": 1242826,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: Quadratic (O(n^2)) DKIM header unfolding lets a large folded header cause remote denial of service during signing",
+          "url": "https://github.com/advisories/GHSA-39m8-27wv-hr27",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=3.0.0 <=10.0.9"
+        },
+        {
+          "source": 1243091,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: A nested comment ends early in addressparser, releasing the rest of the comment as a recipient",
+          "url": "https://github.com/advisories/GHSA-8c8m-p3m8-cjg8",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-20",
+            "CWE-436"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+          },
+          "range": ">=3.0.0 <10.1.4"
+        },
+        {
+          "source": 1243092,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: A \";\" inside a quoted string or comment ends an address group early in addressparser, turning display text into a recipient",
+          "url": "https://github.com/advisories/GHSA-m943-m63m-w62w",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-20",
+            "CWE-436"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+          },
+          "range": ">=3.0.0 <10.1.4"
+        },
+        {
+          "source": 1243093,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: A \">\" inside a quoted local part ends an angle-addr early in addressparser, delivering to a domain the header does not name",
+          "url": "https://github.com/advisories/GHSA-85x2-q946-cp5h",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-20",
+            "CWE-436"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+          },
+          "range": ">=3.0.0 <10.1.4"
+        },
+        {
+          "source": 1243442,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: Quadratic backtracking in SMTP AUTH mechanism detection regexes allows pre-auth remote denial of service",
+          "url": "https://github.com/advisories/GHSA-4ffr-jq9g-5ffx",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=3.0.0 <=10.0.12"
+        },
+        {
+          "source": 1243443,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: RFC 5322 comment inside an angle-bracket address is never stripped",
+          "url": "https://github.com/advisories/GHSA-g73g-hqqh-jr95",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-20",
+            "CWE-436"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+          },
+          "range": ">=3.0.0 <=10.0.12"
+        },
+        {
+          "source": 1243444,
+          "name": "nodemailer",
+          "dependency": "nodemailer",
+          "title": "Nodemailer: Quadratic (O(n^2)) SMTP client reply parsing lets a malicious server or MITM cause a pre-auth remote denial of service",
+          "url": "https://github.com/advisories/GHSA-4g23-2xm8-66gc",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=3.0.0 <=10.0.9"
+        }
+      ],
+      "effects": [],
+      "range": "<=10.1.3",
+      "nodes": [
+        "node_modules/nodemailer"
+      ],
+      "fixAvailable": true
+    },
+    "proxy-addr": {
+      "name": "proxy-addr",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1241210,
+          "name": "proxy-addr",
+          "dependency": "proxy-addr",
+          "title": "proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet",
+          "url": "https://github.com/advisories/GHSA-jqcg-44mw-7w3h",
+          "severity": "critical",
+          "cwe": [
+            "CWE-290",
+            "CWE-348",
+            "CWE-697"
+          ],
+          "cvss": {
+            "score": 9.1,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+          },
+          "range": ">=1.1.0 <2.0.8"
+        }
+      ],
+      "effects": [],
+      "range": "1.1.0 - 2.0.7",
+      "nodes": [
+        "node_modules/proxy-addr"
+      ],
+      "fixAvailable": true
+    },
+    "qs": {
+      "name": "qs",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1158506,
+          "name": "qs",
+          "dependency": "qs",
+          "title": "qs array-limit bypass via bracket-key comma parsing",
+          "url": "https://github.com/advisories/GHSA-x5fp-wj9c-mxmx",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-770"
+          ],
+          "cvss": {
+            "score": 3.7,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=6.14.2 <=6.15.3"
+        },
+        {
+          "source": 1158507,
+          "name": "qs",
+          "dependency": "qs",
+          "title": "qs: Denial of Service via Attacker Controlled isBuffer",
+          "url": "https://github.com/advisories/GHSA-4mjr-xmp4-gh2g",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-248",
+            "CWE-703"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=2.2.5 <6.16.0"
+        },
+        {
+          "source": 1243687,
+          "name": "qs",
+          "dependency": "qs",
+          "title": "qs : qs.stringify with arrayFormat 'comma' throws an uncaught TypeError on array elements carrying a non-callable own toString (DoS)",
+          "url": "https://github.com/advisories/GHSA-6pq8-jhm2-2vcw",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-248",
+            "CWE-704"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=6.7.0 <=6.16.0"
+        }
+      ],
+      "effects": [],
+      "range": "2.2.5 - 6.16.0",
+      "nodes": [
+        "node_modules/qs"
+      ],
+      "fixAvailable": true
+    },
+    "zod": {
+      "name": "zod",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1243066,
+          "name": "zod",
+          "dependency": "zod",
+          "title": "Zod can exhaust memory while validating oversized constrained collections",
+          "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+          "severity": "high",
+          "cwe": [
+            "CWE-770"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<4.6.6"
+        }
+      ],
+      "effects": [],
+      "range": "<4.6.6",
+      "nodes": [
+        "node_modules/zod"
+      ],
+      "fixAvailable": {
+        "name": "zod",
+        "version": "4.6.7",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 1,
+      "high": 5,
+      "critical": 1,
+      "total": 7
+    },
+    "dependencies": {
+      "prod": 169,
+      "dev": 311,
+      "optional": 51,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 479
+    }
+  }
+}

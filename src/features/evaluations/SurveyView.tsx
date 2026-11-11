@@ -19,9 +19,6 @@ import {
 } from 'lucide-react';
 import { fetchTeacherInfo, fetchSurveyByCareer, debugUserInfo, debugAuth } from '../../api/teachers';
 
-// Importar la imagen de fondo
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
-
 interface SurveyViewProps {
   user: User;
 }
@@ -135,19 +132,6 @@ export default function SurveyView({ user }: SurveyViewProps) {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 relative">
-        {/* Fondo fijo que cubre toda la página */}
-        <div 
-          className="fixed inset-0 z-0"
-          style={{
-            backgroundImage: `url(${fondo})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
-          }}
-        >
-          {/* Overlay oscuro que cubre toda la página */}
-          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-        </div>
         
         {/* Contenido de carga */}
         <div className="relative z-10 flex items-center justify-center min-h-screen">
@@ -163,19 +147,6 @@ export default function SurveyView({ user }: SurveyViewProps) {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 relative">
-        {/* Fondo fijo que cubre toda la página */}
-        <div 
-          className="fixed inset-0 z-0"
-          style={{
-            backgroundImage: `url(${fondo})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
-          }}
-        >
-          {/* Overlay oscuro que cubre toda la página */}
-          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-        </div>
         
         {/* Contenido principal */}
         <div className="relative z-10">
@@ -221,19 +192,6 @@ export default function SurveyView({ user }: SurveyViewProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      {/* Fondo fijo que cubre toda la página */}
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        {/* Overlay oscuro que cubre toda la página */}
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      </div>
       
       {/* Contenido principal */}
       <div className="relative z-10">

@@ -19,6 +19,20 @@ export const CUENTAS = {
   decano: { email: 'dora@udemedellin.edu.co', password: CLAVE, nombre: 'DORA', apellido: 'DECANO', tipo_usuario: 'decano' },
 } satisfies Record<string, Cuenta>
 
+const DOCENTES_COORD = [
+  { profesorId: 1, nombre: 'Ana María Pérez', email: 'ana.perez@udemedellin.edu.co', totalEvaluaciones: 42, promedio: 4.6 },
+  { profesorId: 2, nombre: 'Carlos Restrepo', email: 'carlos.restrepo@udemedellin.edu.co', totalEvaluaciones: 31, promedio: 3.4 },
+  { profesorId: 3, nombre: 'Jorge Ríos', email: 'jorge.rios@udemedellin.edu.co', totalEvaluaciones: 0, promedio: 0 },
+  { profesorId: 4, nombre: 'Marta Soto', email: 'marta.soto@udemedellin.edu.co', totalEvaluaciones: 19, promedio: 3.8 },
+]
+const hace = (h: number) => new Date(Date.now() - h * 3_600_000).toISOString()
+const EVENTOS_AUDITORIA = [
+  { id: 4, actorId: 'u', actorNombre: 'Carlos Coordinador', actorRol: 'coordinador', accion: 'programar_encuesta', entidad: 'periodo', entidadId: '2026-2', detalle: 'Periodo 2026-2', creadoEn: hace(2) },
+  { id: 3, actorId: 'u', actorNombre: 'María Gómez', actorRol: 'coordinador', accion: 'generar_qr', entidad: 'qr', entidadId: null, detalle: '12 código(s) QR generados', creadoEn: hace(10) },
+  { id: 2, actorId: 'u', actorNombre: 'Carlos Coordinador', actorRol: 'coordinador', accion: 'consultar_reportes', entidad: 'reporte', entidadId: null, detalle: 'Reporte general', creadoEn: hace(30) },
+  { id: 1, actorId: 'u', actorNombre: 'Carlos Coordinador', actorRol: 'coordinador', accion: 'consultar_docente', entidad: 'profesor', entidadId: '2', detalle: 'Estadísticas del docente 2', creadoEn: hace(50) },
+]
+
 export type BackSimulado = {
   cuentas: Cuenta[]
   tokens: Token[]
@@ -142,6 +156,38 @@ export async function levantarBackSimulado(puerto = Number(process.env.BACK_SIMU
     }
     if (ruta.startsWith('/api/teachers/period-category-stats')) return responder(200, [])
     if (ruta === '/api/teachers/career-subjects') return responder(200, { carreras: [] })
+    // ── Rediseño del coordinador: dashboard, gestión de profesores, calendario y auditoría ──
+    if (req.method === 'GET' && ruta === '/api/coordinador/dashboard-summary') {
+      const pagina = Number(url.searchParams.get('page') ?? 1)
+      return responder(200, {
+        stats: { totalProfesores: DOCENTES_COORD.length, totalCursos: 18, promedioEvaluaciones: 4.12, profesoresEnRiesgo: 2, totalEvaluaciones: 157 },
+        teachers: pagina === 1 ? DOCENTES_COORD : [],
+        pagination: { page: pagina, pageSize: Number(url.searchParams.get('pageSize') ?? 8), total: DOCENTES_COORD.length, totalPages: 1 },
+      })
+    }
+    if (req.method === 'GET' && ruta.startsWith('/api/coordinador/profesor-stats/')) {
+      return responder(200, {
+        summary: { totalEvaluaciones: 31, promedio: 3.4, estudiantesEvaluadores: 25, totalCursos: 2 },
+        categories: [{ categoriaId: 1, nombre: 'Metodología', promedio: 3.1 }],
+        courses: [{ cursoId: 7, codigo: 'SIS101', nombre: 'Programación I', promedio: 3.4, totalEvaluaciones: 20 }],
+      })
+    }
+    if (req.method === 'GET' && ruta === '/api/periodos/evaluacion') {
+      const dia = (d: number) => { const f = new Date(); f.setDate(f.getDate() + d); return f.toISOString().slice(0, 10) }
+      return responder(200, [{ periodoId: 11, ano: 2026, semestre: 2, fechaInicio: dia(-3), fechaFin: dia(5) }])
+    }
+    if (req.method === 'GET' && ruta === '/api/coordinador/auditoria') {
+      const accion = url.searchParams.get('accion')
+      const eventos = EVENTOS_AUDITORIA.filter((e) => !accion || e.accion === accion)
+      const porAccion: Record<string, number> = {}
+      eventos.forEach((e) => (porAccion[e.accion] = (porAccion[e.accion] ?? 0) + 1))
+      return responder(200, {
+        disponible: true,
+        eventos,
+        resumen: { total: eventos.length, porAccion, ultimoEvento: eventos[0]?.creadoEn ?? null },
+        pagination: { page: 1, pageSize: 10, total: eventos.length, totalPages: eventos.length ? 1 : 0 },
+      })
+    }
     if (ruta.startsWith('/api/coordinador/reports-overview') || ruta.startsWith('/api/decano/reports-overview')) {
       return responder(200, { teachers: [], distribution: [], trend: [], categoryStats: [] })
     }

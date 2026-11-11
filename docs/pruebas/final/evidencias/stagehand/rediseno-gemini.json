@@ -1,0 +1,29 @@
+{
+  "nombre": "rediseno-ollama",
+  "fecha": "2026-11-11T20:58:09.620Z",
+  "url": "http://localhost:3001/auditoria",
+  "metrics": {
+    "actPromptTokens": 0,
+    "actCompletionTokens": 0,
+    "actReasoningTokens": 0,
+    "actCachedInputTokens": 0,
+    "actInferenceTimeMs": 0,
+    "extractPromptTokens": 3007,
+    "extractCompletionTokens": 297,
+    "extractReasoningTokens": 0,
+    "extractCachedInputTokens": 0,
+    "extractInferenceTimeMs": 4501,
+    "observePromptTokens": 10912,
+    "observeCompletionTokens": 740,
+    "observeReasoningTokens": 0,
+    "observeCachedInputTokens": 0,
+    "observeInferenceTimeMs": 6904,
+    "totalPromptTokens": 13919,
+    "totalCompletionTokens": 1037,
+    "totalReasoningTokens": 0,
+    "totalCachedInputTokens": 0,
+    "totalInferenceTimeMs": 11405
+  },
+  "usosDeRespaldo": [],
+  "cuentasSembradas": 6
+}
