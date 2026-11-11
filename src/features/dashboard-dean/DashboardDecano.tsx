@@ -7,6 +7,7 @@ import {
 } from '../../components/Card';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones';
 import Header from '../../components/Header';
 import { User } from '../../types';
 import { 
@@ -361,45 +362,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Columna principal */}
             <div className="lg:col-span-2 space-y-8">
-              {/* Acciones Rápidas */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-              >
-                <Card className="bg-white shadow-md border border-gray-200 p-6">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center gap-2">
-                      <Target className="h-5 w-5 text-gray-700" />
-                      <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {decanoData.quickActions.map((action, index) => (
-                        <div key={index} className="relative">
-                          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                            <Button
-                              onClick={action.onClick}
-                              variant={action.variant}
-                              className={`w-full p-4 pr-10 h-auto flex flex-col items-start gap-2 ${action.className}`}
-                            >
-                              <div className="flex items-center gap-3">
-                                <action.icon className="h-5 w-5" />
-                                <span className="font-medium">{action.label}</span>
-                              </div>
-                              <span className="text-sm opacity-90">{action.description}</span>
-                            </Button>
-                          </motion.div>
-                          <span className="absolute right-3 top-3 z-10">
-                            <HelpTooltip texto={action.ayuda} etiqueta={`Qué hace ${action.label}`} />
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+              <AgendaEvaluaciones />
 
             </div>
 

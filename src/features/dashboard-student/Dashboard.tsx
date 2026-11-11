@@ -7,6 +7,7 @@ import Card, {
   CardTitle,
 } from '../../components/Card';
 import Button from '../../components/Button';
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones';
 import Header from '../../components/Header';
 import { User } from '../../types';
 import {
@@ -631,13 +632,8 @@ function DashboardReady({
           )}
 
           <div className="flex flex-col gap-8">
-            <div className="order-1 lg:order-2">
-              <QuickActionsCard actions={userData.quickActions} />
-            </div>
-
-            <div className="order-2 lg:order-1">
-              <StatsGrid type={user.type} stats={userData.stats} />
-            </div>
+            <StatsGrid type={user.type} stats={userData.stats} />
+            <AgendaEvaluaciones className="max-w-xl" />
           </div>
 
           {user.type === 'student' && (

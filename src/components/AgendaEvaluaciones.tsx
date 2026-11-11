@@ -178,7 +178,7 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
         <h3 className="text-body font-semibold text-gray-900">{t('cal.proximasFechas')}</h3>
         {estado === 'cargando' && <p className="mt-2 text-small text-gray-600">{t('cal.cargando')}</p>}
         {estado === 'error' && (
-          <p role="alert" className="mt-2 text-small text-red-700">
+          <p role="status" className="mt-2 text-small text-red-700">
             {t('cal.error')}
           </p>
         )}

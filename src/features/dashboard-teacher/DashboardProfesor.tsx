@@ -9,6 +9,7 @@ import {
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Badge from '../../components/Badge';
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones';
 import Header from '../../components/Header';
 import { User } from '../../types';
 import { promedioVisible } from '../../lib/calificaciones';
@@ -395,55 +396,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
 
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-2">
-                  <Target className="h-5 w-5 text-gray-700" />
-                  <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
-                </div>
-                <CardDescription className="text-base">
-                  Herramientas para gestionar tu actividad docente
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {profesorData.quickActions.map((action, index) => (
-                    <div key={index} className="relative">
-                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Button
-                          onClick={action.onClick}
-                          variant={action.variant}
-                          className={`w-full h-auto py-5 pr-8 flex flex-col items-center gap-3 ${action.className}`}
-                        >
-                          <action.icon className="h-8 w-8" />
-                          <div className="text-center">
-                            <div className="font-medium text-lg">
-                              {action.label}
-                            </div>
-                            <div className="text-sm opacity-80">
-                              {action.description}
-                            </div>
-                          </div>
-                        </Button>
-                      </motion.div>
-                      <span className="absolute right-3 top-3 z-10">
-                        <HelpTooltip
-                          texto={action.ayuda}
-                          etiqueta={`Qué hace ${action.label}`}
-                          className={action.variant === 'default' ? 'text-white/90 hover:text-white' : 'text-red-600 hover:text-red-800'}
-                        />
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+          <AgendaEvaluaciones className="max-w-xl" />
 
           {/* Fila inferior: evaluaciones a ancho completo */}
           <motion.div
