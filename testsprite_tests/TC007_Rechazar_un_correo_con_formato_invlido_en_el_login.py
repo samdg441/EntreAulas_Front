@@ -41,40 +41,29 @@ async def run_test():
         except Exception:
             pass
         
-        # -> Abrir el selector «Tipo de Usuario» y elegir «Estudiante» para preparar la prueba de validación.
-        # Estudiante button
-        elem = page.get_by_role("button", name="Estudiante", exact=True)
-        await elem.click(timeout=10000)
-        
-        # -> Confirmar «Estudiante» en el selector para cerrar el menú y poder observar el formulario de inicio de sesión.
-        # Estudiante button
-        elem = page.get_by_role("button", name="Estudiante").nth(1)
-        await elem.click(timeout=10000)
-        
-        # -> Ingresar un correo mal formado y la contraseña indicada, enviar el formulario y revisar el mensaje de validación visible.
+        # -> Enviar el formulario de inicio de sesión de Estudiante con un correo inválido y comprobar el mensaje de validación que aparece.
         # estudiante@universidad.edu email field
         elem = page.get_by_role("textbox", name="Correo Institucional")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill("correo-invalido")
         
-        # -> Ingresar un correo mal formado y la contraseña indicada, enviar el formulario y revisar el mensaje de validación visible.
+        # -> Enviar el formulario de inicio de sesión de Estudiante con un correo inválido y comprobar el mensaje de validación que aparece.
         # •••••••• password field
         elem = page.get_by_role("textbox", name="Contraseña")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_PASSWORD"])
         
-        # -> Ingresar un correo mal formado y la contraseña indicada, enviar el formulario y revisar el mensaje de validación visible.
+        # -> Enviar el formulario de inicio de sesión de Estudiante con un correo inválido y comprobar el mensaje de validación que aparece.
         # Iniciar sesión como Estudiante button
         elem = page.get_by_role("button", name="Iniciar sesión como Estudiante")
         await elem.click(timeout=10000)
         
         # --> Assertions to verify final state
         
-        # --> Se muestra el error de validación del correo «Por favor, ingresa un correo electrónico válido».
-        await page.locator("xpath=/html/body/div[1]/div/div[2]/div/form/div[2]/p/svg").nth(0).scroll_into_view_if_needed()
+        # --> Se muestra el mensaje de validación «Por favor, ingresa un correo electrónico válido» para el correo inválido.
         # Assert-outcome: not verified — the export-time check could not be evaluated
-        # Assert: Se muestra el indicador del error de validación del correo.
-        await expect(page.locator("xpath=/html/body/div[1]/div/div[2]/div/form/div[2]/p/svg").nth(0)).to_be_visible(timeout=15000), "Se muestra el indicador del error de validaci\u00f3n del correo."
+        # Assert: Se muestra el mensaje de validación del correo electrónico.
+        await expect(page.locator("form").nth(0)).to_contain_text("Por favor, ingresa un correo electr\u00f3nico v\u00e1lido", timeout=15000), "Se muestra el mensaje de validaci\u00f3n del correo electr\u00f3nico."
         await asyncio.sleep(5)
 
     finally:

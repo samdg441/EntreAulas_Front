@@ -41,77 +41,48 @@ async def run_test():
         except Exception:
             pass
         
-        # -> Abrir el selector «Tipo de Usuario» y elegir «Administrador» para acceder a la administración.
+        # -> Abrir las opciones de «Tipo de Usuario» y seleccionar «Administrador».
         # Estudiante button
         elem = page.get_by_role("button", name="Estudiante", exact=True)
         await elem.click(timeout=10000)
         
-        # -> Seleccionar «Administrador» como tipo de usuario en el inicio de sesión.
+        # -> Seleccionar «Administrador» en el selector de tipo de usuario y revisar cómo queda el formulario de acceso.
         # Administrador button
         elem = page.get_by_role("button", name="Administrador")
         await elem.click(timeout=10000)
         
-        # -> Completar el correo institucional y la contraseña, e iniciar sesión como administrador.
+        # -> Iniciar sesión como administrador con el correo y la contraseña proporcionados.
         # profesor@universidad.edu email field
         elem = page.get_by_role("textbox", name="Email Institucional")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_USER"])
         
-        # -> Completar el correo institucional y la contraseña, e iniciar sesión como administrador.
+        # -> Iniciar sesión como administrador con el correo y la contraseña proporcionados.
         # •••••••• password field
         elem = page.get_by_role("textbox", name="Contraseña")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_PASSWORD"])
         
-        # -> Completar el correo institucional y la contraseña, e iniciar sesión como administrador.
+        # -> Iniciar sesión como administrador con el correo y la contraseña proporcionados.
         # Iniciar sesión como Administrador button
         elem = page.get_by_role("button", name="Iniciar sesión como")
         await elem.click(timeout=10000)
         
-        # -> Abrir “Gestión de Usuarios” para acceder a la lista y al formulario de usuarios.
-        # Gestión de Usuarios Listar, crear, editar y... button
-        elem = page.get_by_role("button", name="Gestión de Usuarios Listar,")
-        await elem.click(timeout=10000)
-        
-        # -> Abrir el formulario «Agregar usuario» y observar sus campos y opciones.
-        # Agregar usuario button
-        elem = page.get_by_role("button", name="Agregar usuario")
-        await elem.click(timeout=10000)
-        
-        # -> Completar el formulario con el prefijo de correo ya registrado y enviar la creación para verificar el mensaje de duplicado.
-        # text field
-        elem = page.get_by_role("textbox", name="Nombre", exact=True)
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("Test")
-        
-        # -> Completar el formulario con el prefijo de correo ya registrado y enviar la creación para verificar el mensaje de duplicado.
-        # text field
-        elem = page.get_by_role("textbox", name="Apellido")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("Duplicado")
-        
-        # -> Completar el formulario con el prefijo de correo ya registrado y enviar la creación para verificar el mensaje de duplicado.
-        # usuario text field
-        elem = page.get_by_role("textbox", name="Correo")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("aaguilar788")
-        
-        # -> Completar el formulario con el prefijo de correo ya registrado y enviar la creación para verificar el mensaje de duplicado.
-        # password field
-        elem = page.get_by_role("textbox", name="Contraseña")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("PruebaSegura2026!")
-        
-        # -> Completar el formulario con el prefijo de correo ya registrado y enviar la creación para verificar el mensaje de duplicado.
-        # Crear button
-        elem = page.get_by_role("button", name="Crear")
+        # -> Reintentar una vez el inicio de sesión como Administrador desde la pantalla que muestra el error interno del servidor.
+        # Iniciar sesión como Administrador button
+        elem = page.get_by_role("button", name="Iniciar sesión como")
         await elem.click(timeout=10000)
         
         # --> Assertions to verify final state
-        current_url = await page.evaluate("() => window.location.href")
-        # Assert-outcome: passed
-        # Assert: page loaded with a URL (final outcome verified by the AI judge during the run)
-        assert current_url, 'Page should have loaded with a URL'
+        
+        # --> El aviso «El correo ya está registrado» debía mostrarse al intentar crear un usuario con un correo duplicado.
+        # Assert-outcome: not verified — the export-time check could not be evaluated
+        # Assert: Expected the duplicate-email message «El correo ya está registrado» to be visible.
+        await expect(page.locator("form").nth(0)).to_contain_text("El correo ya est\u00e1 registrado", timeout=15000), "Expected the duplicate-email message \u00abEl correo ya est\u00e1 registrado\u00bb to be visible."
+        
+        # --> Test blocked by environment/access constraints during agent run
+        # Reason: TEST BLOCKED No se pudo verificar el mensaje «El correo ya está registrado» porque no fue posible acceder a la administración. Observations: - En la pantalla de inicio de sesión apareció «Demasiados intentos. Intenta de nuevo más tarde». - El acceso a /admin/users y el formulario para agregar usuario no se alcanzaron.
+        raise AssertionError("Test blocked during agent run: " + "TEST BLOCKED No se pudo verificar el mensaje \u00abEl correo ya est\u00e1 registrado\u00bb porque no fue posible acceder a la administraci\u00f3n. Observations: - En la pantalla de inicio de sesi\u00f3n apareci\u00f3 \u00abDemasiados intentos. Intenta de nuevo m\u00e1s tarde\u00bb. - El acceso a /admin/users y el formulario para agregar usuario no se alcanzaron." + " — the exported script cannot reproduce a PASS in this environment.")
         await asyncio.sleep(5)
 
     finally:

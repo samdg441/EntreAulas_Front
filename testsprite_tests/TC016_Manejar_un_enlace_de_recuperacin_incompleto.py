@@ -40,7 +40,7 @@ async def run_test():
         except Exception:
             pass
         
-        # -> Abrir la página de restablecimiento de contraseña sin token y verificar el mensaje de enlace inválido o incompleto.
+        # -> Abrir /reset-password sin token y verificar si aparece el mensaje de enlace inválido o incompleto.
         await page.goto("http://localhost:3001/reset-password")
         try:
             await page.wait_for_load_state("domcontentloaded", timeout=5000)

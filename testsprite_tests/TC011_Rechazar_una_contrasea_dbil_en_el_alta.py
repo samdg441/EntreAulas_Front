@@ -41,79 +41,48 @@ async def run_test():
         except Exception:
             pass
         
-        # -> Seleccionar «Administrador» en el selector de tipo de usuario y revisar las opciones disponibles.
+        # -> Abrir el selector «Tipo de Usuario» para elegir «Administrador».
         # Estudiante button
         elem = page.get_by_role("button", name="Estudiante", exact=True)
         await elem.click(timeout=10000)
         
-        # -> Seleccionar «Administrador» como tipo de usuario en el inicio de sesión.
+        # -> Seleccionar «Administrador» en el selector de tipo de usuario para acceder al flujo administrativo.
         # Administrador button
         elem = page.get_by_role("button", name="Administrador")
         await elem.click(timeout=10000)
         
-        # -> Iniciar sesión como Administrador con las credenciales indicadas.
+        # -> Completar el correo institucional y la contraseña proporcionados, y enviar el formulario de inicio de sesión como administrador.
         # profesor@universidad.edu email field
         elem = page.get_by_role("textbox", name="Email Institucional")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_USER"])
         
-        # -> Iniciar sesión como Administrador con las credenciales indicadas.
+        # -> Completar el correo institucional y la contraseña proporcionados, y enviar el formulario de inicio de sesión como administrador.
         # •••••••• password field
         elem = page.get_by_role("textbox", name="Contraseña")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_PASSWORD"])
         
-        # -> Iniciar sesión como Administrador con las credenciales indicadas.
+        # -> Completar el correo institucional y la contraseña proporcionados, y enviar el formulario de inicio de sesión como administrador.
         # Iniciar sesión como Administrador button
         elem = page.get_by_role("button", name="Iniciar sesión como")
         await elem.click(timeout=10000)
         
-        # -> Abrir «Gestión de Usuarios» desde el panel de administración.
-        # Gestión de Usuarios Listar, crear, editar y... button
-        elem = page.get_by_role("button", name="Gestión de Usuarios Listar,")
-        await elem.click(timeout=10000)
-        
-        # -> Abrir el formulario «Agregar usuario» y revisar los campos que presenta.
-        # Agregar usuario button
-        elem = page.get_by_role("button", name="Agregar usuario")
-        await elem.click(timeout=10000)
-        
-        # -> Completar el formulario con datos únicos y una contraseña débil que no incluya caracteres especiales.
-        # text field
-        elem = page.get_by_role("textbox", name="Nombre", exact=True)
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("Prueba")
-        
-        # -> Completar el formulario con datos únicos y una contraseña débil que no incluya caracteres especiales.
-        # text field
-        elem = page.get_by_role("textbox", name="Apellido")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("Validacion")
-        
-        # -> Completar el formulario con datos únicos y una contraseña débil que no incluya caracteres especiales.
-        # usuario text field
-        elem = page.get_by_role("textbox", name="Correo")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("ts.202610271600")
-        
-        # -> Completar el formulario con datos únicos y una contraseña débil que no incluya caracteres especiales.
-        # password field
-        elem = page.get_by_role("textbox", name="Contraseña")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("Abcdefg123")
-        
-        # -> Enviar el formulario «Agregar usuario» con la contraseña débil y verificar el aviso de carácter especial y que el modal permanezca abierto.
-        # Crear button
-        elem = page.get_by_role("button", name="Crear")
+        # -> Esperar brevemente y reintentar el inicio de sesión como Administrador para comprobar si se abre el área administrativa.
+        # Iniciar sesión como Administrador button
+        elem = page.get_by_role("button", name="Iniciar sesión como")
         await elem.click(timeout=10000)
         
         # --> Assertions to verify final state
         
-        # --> El modal «Agregar usuario» permanece abierto tras enviar la contraseña débil.
-        await page.get_by_role("button", name="Cerrar").nth(0).scroll_into_view_if_needed()
+        # --> Se esperaba que el mensaje «al menos un carácter especial» estuviera visible durante el alta de usuario.
         # Assert-outcome: not verified — the export-time check could not be evaluated
-        # Assert: El modal «Agregar usuario» debe permanecer abierto.
-        await expect(page.get_by_role("button", name="Cerrar").nth(0)).to_be_visible(timeout=15000), "El modal \u00abAgregar usuario\u00bb debe permanecer abierto."
+        # Assert: Expected the password policy message «al menos un carácter especial» to be visible.
+        await expect(page.locator("form").nth(0)).to_contain_text("al menos un car\u00e1cter especial", timeout=15000), "Expected the password policy message \u00abal menos un car\u00e1cter especial\u00bb to be visible."
+        
+        # --> Test blocked by environment/access constraints during agent run
+        # Reason: TEST BLOCKED La verificación no pudo completarse porque el acceso como Administrador quedó bloqueado por el aviso de demasiados intentos. No se alcanzó el formulario de alta, así que no se pudo comprobar el mensaje «al menos un carácter especial» ni si el modal permanece abierto. Observations: - La página de inicio de sesión muestra «Demasiados intentos. Intenta de nuevo más tarde». - La página...
+        raise AssertionError("Test blocked during agent run: " + "TEST BLOCKED La verificaci\u00f3n no pudo completarse porque el acceso como Administrador qued\u00f3 bloqueado por el aviso de demasiados intentos. No se alcanz\u00f3 el formulario de alta, as\u00ed que no se pudo comprobar el mensaje \u00abal menos un car\u00e1cter especial\u00bb ni si el modal permanece abierto. Observations: - La p\u00e1gina de inicio de sesi\u00f3n muestra \u00abDemasiados intentos. Intenta de nuevo m\u00e1s tarde\u00bb. - La p\u00e1gina..." + " — the exported script cannot reproduce a PASS in this environment.")
         await asyncio.sleep(5)
 
     finally:

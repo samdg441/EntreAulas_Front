@@ -41,27 +41,33 @@ async def run_test():
         except Exception:
             pass
         
-        # -> Abrir la recuperación de contraseña mediante «¿Olvidaste tu contraseña?» y observar el formulario disponible.
+        # -> Abrir el flujo de recuperación desde «¿Olvidaste tu contraseña?».
         # ¿Olvidaste tu contraseña? button
         elem = page.get_by_role("button", name="¿Olvidaste tu contraseña?")
         await elem.click(timeout=10000)
         
-        # -> Enviar la solicitud de recuperación con el correo institucional configurado y comprobar el mensaje de confirmación.
+        # -> Enviar la solicitud de recuperación con el correo institucional configurado y comprobar si aparece «Solicitud enviada».
         # tu.correo@universidad.edu email field
         elem = page.get_by_role("textbox", name="Correo Institucional")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_USER"])
         
-        # -> Enviar la solicitud de recuperación con el correo institucional configurado y comprobar el mensaje de confirmación.
+        # -> Enviar la solicitud de recuperación con el correo institucional configurado y comprobar si aparece «Solicitud enviada».
+        # Enviar enlace de recuperación button
+        elem = page.get_by_role("button", name="Enviar enlace de recuperación")
+        await elem.click(timeout=10000)
+        
+        # -> Esperar unos segundos y volver a enviar una sola vez la solicitud para comprobar si aparece la confirmación genérica.
         # Enviar enlace de recuperación button
         elem = page.get_by_role("button", name="Enviar enlace de recuperación")
         await elem.click(timeout=10000)
         
         # --> Assertions to verify final state
-        current_url = await page.evaluate("() => window.location.href")
-        # Assert-outcome: passed
-        # Assert: page loaded with a URL (final outcome verified by the AI judge during the run)
-        assert current_url, 'Page should have loaded with a URL'
+        
+        # --> El formulario de recuperación debía mostrar «Solicitud enviada» tras enviar el correo válido.
+        # Assert-outcome: not verified — the export-time check could not be evaluated
+        # Assert: Se esperaba que el formulario mostrara «Solicitud enviada».
+        await expect(page.locator("form").nth(0)).to_contain_text("Solicitud enviada", timeout=15000), "Se esperaba que el formulario mostrara \u00abSolicitud enviada\u00bb."
         await asyncio.sleep(5)
 
     finally:

@@ -41,7 +41,7 @@ async def run_test():
         except Exception:
             pass
         
-        # -> Abrir el selector «Tipo de Usuario» y elegir «Administrador» si está disponible.
+        # -> Abrir el selector «Tipo de Usuario» y elegir la opción «Administrador».
         # Estudiante button
         elem = page.get_by_role("button", name="Estudiante", exact=True)
         await elem.click(timeout=10000)
@@ -51,80 +51,38 @@ async def run_test():
         elem = page.get_by_role("button", name="Administrador")
         await elem.click(timeout=10000)
         
-        # -> Completar el correo y la contraseña administrativos y enviar el formulario de inicio de sesión.
+        # -> Completar el correo y la contraseña institucionales y enviar el formulario de inicio de sesión como Administrador.
         # profesor@universidad.edu email field
         elem = page.get_by_role("textbox", name="Email Institucional")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_USER"])
         
-        # -> Completar el correo y la contraseña administrativos y enviar el formulario de inicio de sesión.
+        # -> Completar el correo y la contraseña institucionales y enviar el formulario de inicio de sesión como Administrador.
         # •••••••• password field
         elem = page.get_by_role("textbox", name="Contraseña")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_PASSWORD"])
         
-        # -> Completar el correo y la contraseña administrativos y enviar el formulario de inicio de sesión.
+        # -> Completar el correo y la contraseña institucionales y enviar el formulario de inicio de sesión como Administrador.
         # Iniciar sesión como Administrador button
         elem = page.get_by_role("button", name="Iniciar sesión como")
         await elem.click(timeout=10000)
         
-        # -> Abrir «Gestión de Usuarios» desde el panel de administración.
-        # Gestión de Usuarios Listar, crear, editar y... button
-        elem = page.get_by_role("button", name="Gestión de Usuarios Listar,")
+        # -> Reintentar una vez el inicio de sesión como Administrador después del error interno del servidor.
+        # Iniciar sesión como Administrador button
+        elem = page.get_by_role("button", name="Iniciar sesión como")
         await elem.click(timeout=10000)
-        
-        # -> Abrir «Agregar usuario» y revisar los campos visibles del formulario antes de completarlos.
-        # Agregar usuario button
-        elem = page.get_by_role("button", name="Agregar usuario")
-        await elem.click(timeout=10000)
-        
-        # -> Confirmar «estudiante» como tipo de usuario y luego completar los datos únicos de la cuenta de prueba.
-        # estudiante profesor coordinador decano admin dropdown
-        elem = page.locator("xpath=/html/body/div/div/div[4]/div/form/div[5]/select").nth(0)
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.select_option("")
-        
-        # -> Completar los datos únicos de la cuenta de prueba y crearla desde el formulario «Agregar usuario».
-        # text field
-        elem = page.get_by_role("textbox", name="Nombre", exact=True)
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("QA Prueba 20261027")
-        
-        # -> Completar los datos únicos de la cuenta de prueba y crearla desde el formulario «Agregar usuario».
-        # text field
-        elem = page.get_by_role("textbox", name="Apellido")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("Busqueda 20261027")
-        
-        # -> Completar los datos únicos de la cuenta de prueba y crearla desde el formulario «Agregar usuario».
-        # usuario text field
-        elem = page.get_by_role("textbox", name="Correo")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("ts.20261027")
-        
-        # -> Completar los datos únicos de la cuenta de prueba y crearla desde el formulario «Agregar usuario».
-        # password field
-        elem = page.get_by_role("textbox", name="Contraseña")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("ClaveValida2026!")
-        
-        # -> Completar los datos únicos de la cuenta de prueba y crearla desde el formulario «Agregar usuario».
-        # Crear button
-        elem = page.get_by_role("button", name="Crear")
-        await elem.click(timeout=10000)
-        
-        # -> Buscar «ts.20261027» en el campo «Buscar por nombre, email o rol…» y verificar la fila de la cuenta creada.
-        # Buscar por nombre, email o rol… text field
-        elem = page.get_by_role("textbox", name="Buscar por nombre, email o")
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.fill("ts.20261027")
         
         # --> Assertions to verify final state
         
-        # --> El resultado filtrado incluye la cuenta cuyo usuario coincide con «ts.20261027».
+        # --> La búsqueda debe llegar a la tabla de usuarios para mostrar la cuenta coincidente.
         # Assert-outcome: not verified — the export-time check could not be evaluated
-        # Assert: El resultado filtrado incluye la cuenta buscada.
-        await expect(page.locator("tbody").nth(0)).to_contain_text("ts.20261027", timeout=15000), "El resultado filtrado incluye la cuenta buscada."
+        # Assert: Expected la página de usuarios para poder mostrar la cuenta coincidente en los resultados.
+        await expect(page).to_have_url(re.compile("/admin/users"), timeout=15000), "Expected la p\u00e1gina de usuarios para poder mostrar la cuenta coincidente en los resultados."
+        
+        # --> Test blocked by environment/access constraints during agent run
+        # Reason: TEST BLOCKED La prueba no pudo continuar porque el inicio de sesión quedó bloqueado por demasiados intentos. No se pudo llegar a la tabla de usuarios ni verificar su buscador. Observations: - La página mostró «Demasiados intentos. Intenta de nuevo más tarde» después del reintento. - No se creó el usuario nuevo. - El buscador de la tabla no llegó a probarse.
+        raise AssertionError("Test blocked during agent run: " + "TEST BLOCKED La prueba no pudo continuar porque el inicio de sesi\u00f3n qued\u00f3 bloqueado por demasiados intentos. No se pudo llegar a la tabla de usuarios ni verificar su buscador. Observations: - La p\u00e1gina mostr\u00f3 \u00abDemasiados intentos. Intenta de nuevo m\u00e1s tarde\u00bb despu\u00e9s del reintento. - No se cre\u00f3 el usuario nuevo. - El buscador de la tabla no lleg\u00f3 a probarse." + " — the exported script cannot reproduce a PASS in this environment.")
         await asyncio.sleep(5)
 
     finally:

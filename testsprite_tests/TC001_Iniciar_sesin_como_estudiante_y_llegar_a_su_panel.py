@@ -41,30 +41,38 @@ async def run_test():
         except Exception:
             pass
         
-        # -> Completar el correo institucional y la contraseña, enviar el formulario de inicio de sesión como estudiante y comprobar que se muestra el dashboard estudiantil.
+        # -> Completar el correo institucional y la contraseña de estudiante, y enviar el formulario «Iniciar sesión como Estudiante».
         # estudiante@universidad.edu email field
         elem = page.get_by_role("textbox", name="Correo Institucional")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_USER"])
         
-        # -> Completar el correo institucional y la contraseña, enviar el formulario de inicio de sesión como estudiante y comprobar que se muestra el dashboard estudiantil.
+        # -> Completar el correo institucional y la contraseña de estudiante, y enviar el formulario «Iniciar sesión como Estudiante».
         # •••••••• password field
         elem = page.get_by_role("textbox", name="Contraseña")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_PASSWORD"])
         
-        # -> Completar el correo institucional y la contraseña, enviar el formulario de inicio de sesión como estudiante y comprobar que se muestra el dashboard estudiantil.
+        # -> Completar el correo institucional y la contraseña de estudiante, y enviar el formulario «Iniciar sesión como Estudiante».
+        # Iniciar sesión como Estudiante button
+        elem = page.get_by_role("button", name="Iniciar sesión como Estudiante")
+        await elem.click(timeout=10000)
+        
+        # -> Reintentar una vez el inicio de sesión como Estudiante y comprobar si se muestra el panel de estudiante.
         # Iniciar sesión como Estudiante button
         elem = page.get_by_role("button", name="Iniciar sesión como Estudiante")
         await elem.click(timeout=10000)
         
         # --> Assertions to verify final state
         
-        # --> El dashboard estudiantil está visible.
-        await page.get_by_role("button", name="Nueva Evaluación Evaluar un").nth(0).scroll_into_view_if_needed()
+        # --> El panel de estudiante no se mostró tras el inicio de sesión.
         # Assert-outcome: not verified — the export-time check could not be evaluated
-        # Assert: El dashboard estudiantil muestra la acción «Nueva Evaluación».
-        await expect(page.get_by_role("button", name="Nueva Evaluación Evaluar un").nth(0)).to_be_visible(timeout=15000), "El dashboard estudiantil muestra la acci\u00f3n \u00abNueva Evaluaci\u00f3n\u00bb."
+        # Assert: Expected the URL to contain /dashboard-estudiante after student login.
+        await expect(page).to_have_url(re.compile("/dashboard\\-estudiante"), timeout=15000), "Expected the URL to contain /dashboard-estudiante after student login."
+        
+        # --> Test blocked by environment/access constraints during agent run
+        # Reason: TEST BLOCKED No se pudo verificar el acceso al panel de estudiante porque el inicio de sesión quedó temporalmente bloqueado por demasiados intentos. Observations: - La pantalla permanece en /login con «Estudiante» seleccionado. - La interfaz muestra «Demasiados intentos. Intenta de nuevo más tarde». - No se mostró /dashboard-estudiante.
+        raise AssertionError("Test blocked during agent run: " + "TEST BLOCKED No se pudo verificar el acceso al panel de estudiante porque el inicio de sesi\u00f3n qued\u00f3 temporalmente bloqueado por demasiados intentos. Observations: - La pantalla permanece en /login con \u00abEstudiante\u00bb seleccionado. - La interfaz muestra \u00abDemasiados intentos. Intenta de nuevo m\u00e1s tarde\u00bb. - No se mostr\u00f3 /dashboard-estudiante." + " — the exported script cannot reproduce a PASS in this environment.")
         await asyncio.sleep(5)
 
     finally:

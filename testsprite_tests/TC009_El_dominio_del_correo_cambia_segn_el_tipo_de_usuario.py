@@ -41,59 +41,55 @@ async def run_test():
         except Exception:
             pass
         
-        # -> Abrir las opciones de «Tipo de Usuario» y seleccionar «Administrador».
+        # -> Abrir el selector «Tipo de Usuario» y elegir «Administrador».
         # Estudiante button
         elem = page.get_by_role("button", name="Estudiante", exact=True)
         await elem.click(timeout=10000)
         
-        # -> Seleccionar «Administrador» como tipo de usuario para acceder al área administrativa.
+        # -> Seleccionar «Administrador» en el selector de tipo de usuario.
         # Administrador button
         elem = page.get_by_role("button", name="Administrador")
         await elem.click(timeout=10000)
         
-        # -> Iniciar sesión como administrador con las credenciales proporcionadas para acceder a la administración de usuarios.
+        # -> Completar el correo y la contraseña de la cuenta administrativa e iniciar sesión como Administrador.
         # profesor@universidad.edu email field
         elem = page.get_by_role("textbox", name="Email Institucional")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_USER"])
         
-        # -> Iniciar sesión como administrador con las credenciales proporcionadas para acceder a la administración de usuarios.
+        # -> Completar el correo y la contraseña de la cuenta administrativa e iniciar sesión como Administrador.
         # •••••••• password field
         elem = page.get_by_role("textbox", name="Contraseña")
         await elem.wait_for(state="visible", timeout=10000)
         await elem.fill(os.environ["TESTSPRITE_PASSWORD"])
         
-        # -> Iniciar sesión como administrador con las credenciales proporcionadas para acceder a la administración de usuarios.
+        # -> Completar el correo y la contraseña de la cuenta administrativa e iniciar sesión como Administrador.
         # Iniciar sesión como Administrador button
         elem = page.get_by_role("button", name="Iniciar sesión como")
         await elem.click(timeout=10000)
         
-        # -> Abrir «Gestión de Usuarios» desde el panel de administración.
-        # Gestión de Usuarios Listar, crear, editar y... button
-        elem = page.get_by_role("button", name="Gestión de Usuarios Listar,")
+        # -> Reintentar una vez el inicio de sesión como Administrador tras el error del servidor y comprobar si se abre la administración de usuarios.
+        # Iniciar sesión como Administrador button
+        elem = page.get_by_role("button", name="Iniciar sesión como")
         await elem.click(timeout=10000)
         
-        # -> Abrir el modal «Agregar usuario» en la página de gestión de usuarios.
-        # Agregar usuario button
-        elem = page.get_by_role("button", name="Agregar usuario")
-        await elem.click(timeout=10000)
-        
-        # -> Seleccionar «profesor» en «Tipo de usuario» y comprobar que el sufijo del correo cambie a «@udemedellin.edu.co».
-        # estudiante profesor coordinador decano admin dropdown
-        elem = page.locator("xpath=/html/body/div/div/div[4]/div/form/div[5]/select").nth(0)
-        await elem.wait_for(state="visible", timeout=10000)
-        await elem.select_option("")
-        
-        # -> Cerrar el modal «Agregar usuario» con «Cancelar», sin crear el usuario.
-        # Cancelar button
-        elem = page.get_by_role("button", name="Cancelar")
-        await elem.click(timeout=10000)
+        # -> Comprobar si la página de administración de usuarios se puede abrir pese al bloqueo temporal del inicio de sesión.
+        await page.goto("http://localhost:3001/admin/users")
+        try:
+            await page.wait_for_load_state("domcontentloaded", timeout=5000)
+        except Exception:
+            pass
         
         # --> Assertions to verify final state
-        current_url = await page.evaluate("() => window.location.href")
-        # Assert-outcome: passed
-        # Assert: page loaded with a URL (final outcome verified by the AI judge during the run)
-        assert current_url, 'Page should have loaded with a URL'
+        
+        # --> La administración de usuarios debía abrirse para poder comprobar los sufijos del correo.
+        # Assert-outcome: not verified — the export-time check could not be evaluated
+        # Assert: Expected the URL to contain /admin/users so the email suffixes could be verified.
+        await expect(page).to_have_url(re.compile("/admin/users"), timeout=15000), "Expected the URL to contain /admin/users so the email suffixes could be verified."
+        
+        # --> Test blocked by environment/access constraints during agent run
+        # Reason: TEST BLOCKED La prueba no pudo completarse porque no se pudo acceder a la administración de usuarios. El modal «Agregar usuario» no se abrió, por lo que no se pudo verificar si el sufijo cambia al elegir «profesor». Observations: - El inicio de sesión administrativo mostró «Error interno del servidor» y, al reintentarlo, «Demasiados intentos». - Al intentar abrir la administración de usuarios, ...
+        raise AssertionError("Test blocked during agent run: " + "TEST BLOCKED La prueba no pudo completarse porque no se pudo acceder a la administraci\u00f3n de usuarios. El modal \u00abAgregar usuario\u00bb no se abri\u00f3, por lo que no se pudo verificar si el sufijo cambia al elegir \u00abprofesor\u00bb. Observations: - El inicio de sesi\u00f3n administrativo mostr\u00f3 \u00abError interno del servidor\u00bb y, al reintentarlo, \u00abDemasiados intentos\u00bb. - Al intentar abrir la administraci\u00f3n de usuarios, ..." + " — the exported script cannot reproduce a PASS in this environment.")
         await asyncio.sleep(5)
 
     finally:
