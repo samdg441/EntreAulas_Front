@@ -137,13 +137,17 @@ export class BackCoordinador {
   }
 }
 
+/** `auto: true`: toda prueba arranca con el back simulado y la sesión del coordinador, aunque no pida `back`. */
 export const test = base.extend<{ back: BackCoordinador }>({
-  back: async ({ page }, use) => {
-    const back = new BackCoordinador()
-    await back.instalar(page)
-    await back.sesion(page)
-    await use(back)
-  },
+  back: [
+    async ({ page }, use) => {
+      const back = new BackCoordinador()
+      await back.instalar(page)
+      await back.sesion(page)
+      await use(back)
+    },
+    { auto: true },
+  ],
 })
 
 export { expect } from '@playwright/test'

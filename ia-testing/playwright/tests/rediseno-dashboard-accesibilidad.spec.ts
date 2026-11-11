@@ -89,9 +89,8 @@ test.describe('Preferencias de accesibilidad', () => {
 
   test('4.5 a 320 px con letra muy grande no hay desplazamiento horizontal', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 700 })
+    await page.addInitScript(() => localStorage.setItem('entreaulas.preferencias', JSON.stringify({ tema: 'claro', idioma: 'es', tamano: 'xlarge' })))
     await page.goto('/auditoria')
-    await page.evaluate(() => localStorage.setItem('entreaulas.preferencias', JSON.stringify({ tema: 'claro', idioma: 'es', tamano: 'xlarge' })))
-    await page.reload()
     await page.getByRole('table').waitFor()
 
     const sobra = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)

@@ -1,0 +1,725 @@
+npm notice run npx
+npm notice run 'playwright' test tests/rediseno-
+
+Running 25 tests using 4 workers
+
+  ✓   4 [chromium] › tests/rediseno-auditoria.spec.ts:16:7 › Auditoría del coordinador › 1.2 filtrar por acción reduce la tabla y la consulta viaja con ?accion= (8.9s)
+  ✓   3 [chromium] › tests/rediseno-auditoria.spec.ts:7:7 › Auditoría del coordinador › 1.1 muestra 10 de 23 eventos y el resumen por acción (9.3s)
+  ✓   6 [chromium] › tests/rediseno-auditoria.spec.ts:53:7 › Auditoría del coordinador › 1.6 exportar CSV descarga el archivo con encabezado y fórmulas neutralizadas (4.3s)
+  ✓   7 [chromium] › tests/rediseno-auditoria.spec.ts:66:7 › Auditoría del coordinador › 1.7 si la auditoría aún no está activa lo explica y no muestra la tabla (2.6s)
+  ✓   8 [chromium] › tests/rediseno-auditoria.spec.ts:74:7 › Auditoría del coordinador › 1.8 un estudiante es enviado a /forbidden (3.0s)
+  ✓   9 [chromium] › tests/rediseno-auditoria.spec.ts:84:7 › Auditoría del coordinador › 1.9 un detalle con HTML se muestra como texto y no se ejecuta (XSS) (2.7s)
+  ✘  10 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:12:7 › Dashboard del coordinador › 3.1 muestra los indicadores y agrupa los accesos en la barra lateral por sección (8.9s)
+  ✘   1 [chromium] › tests/rediseno-auditoria.spec.ts:25:7 › Auditoría del coordinador › 1.3 la búsqueda por persona ignora tildes y mayúsculas (34.1s)
+  ✘   2 [chromium] › tests/rediseno-auditoria.spec.ts:34:7 › Auditoría del coordinador › 1.4 un rango invertido muestra el error y marca el campo (37.7s)
+  ✘  11 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:24:7 › Dashboard del coordinador › 3.2 el calendario marca apertura y cierre y cuenta los días que faltan (9.2s)
+  ✘   5 [chromium] › tests/rediseno-auditoria.spec.ts:43:7 › Auditoría del coordinador › 1.5 la paginación llega a la página 3 con los 3 eventos restantes (39.2s)
+  ✘  12 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:33:7 › Dashboard del coordinador › 3.3 ya no existen las "Acciones rápidas" (34.7s)
+  ✘  13 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:47:7 › Preferencias de accesibilidad › 4.1 modo noche: clase dark, persiste al recargar y el texto principal cumple 4.5:1 (35.4s)
+  ✘  14 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:58:7 › Preferencias de accesibilidad › 4.2 idioma inglés: traduce la interfaz y actualiza lang (36.4s)
+  ✘  15 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:67:7 › Preferencias de accesibilidad › 4.3 tamaño de texto: cada nivel cambia el tamaño base (37.8s)
+  ✘  18 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:101:7 › Preferencias de accesibilidad › 4.6 las preferencias manipuladas en localStorage se ignoran sin romper la página (10.7s)
+  ✘  19 [chromium] › tests/rediseno-gestion-profesores.spec.ts:7:7 › Gestión de profesores › 2.1 lista a los docentes con promedio y los chips muestran los conteos (9.9s)
+  ✓  20 [chromium] › tests/rediseno-gestion-profesores.spec.ts:16:7 › Gestión de profesores › 2.2 elegir un docente carga sus estadísticas del periodo (5.8s)
+  ✘  16 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:79:7 › Preferencias de accesibilidad › 4.4 teclado: el primer foco es "Saltar al contenido" y lleva a #contenido (41.0s)
+  ✘  17 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:90:7 › Preferencias de accesibilidad › 4.5 a 320 px con letra muy grande no hay desplazamiento horizontal (37.5s)
+  ✘  21 [chromium] › tests/rediseno-gestion-profesores.spec.ts:27:7 › Gestión de profesores › 2.3 el filtro "En riesgo" deja solo a quienes tienen promedio menor a 4.0 (35.9s)
+  ✘  22 [chromium] › tests/rediseno-gestion-profesores.spec.ts:36:7 › Gestión de profesores › 2.3b ordenar por promedio (menor primero) pone al final a quien no tiene evaluaciones (35.8s)
+  ✘  23 [chromium] › tests/rediseno-gestion-profesores.spec.ts:45:7 › Gestión de profesores › 2.4 una búsqueda sin resultados muestra el estado vacío con ayuda (36.3s)
+  ✘  24 [chromium] › tests/rediseno-gestion-profesores.spec.ts:53:7 › Gestión de profesores › 2.5 en móvil la lista y el detalle se alternan con "Volver a la lista" (36.3s)
+  ✘  25 [chromium] › tests/rediseno-gestion-profesores.spec.ts:64:7 › Gestión de profesores › 2.6 el enlace desde el dashboard abre directamente el detalle (?profesor=) (35.7s)
+
+
+  1) [chromium] › tests/rediseno-auditoria.spec.ts:25:7 › Auditoría del coordinador › 1.3 la búsqueda por persona ignora tildes y mayúsculas 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('searchbox', { name: 'Buscar por persona o detalle' })
+
+
+      25 |   test('1.3 la búsqueda por persona ignora tildes y mayúsculas', async ({ page }) => {
+      26 |     await page.goto('/auditoria')
+    > 27 |     await page.getByRole('searchbox', { name: 'Buscar por persona o detalle' }).fill('maria gomez')
+         |                                                                                 ^
+      28 |
+      29 |     const filas = page.getByRole('row').filter({ hasText: 'María Gómez' })
+      30 |     await expect(filas.first()).toBeVisible()
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-auditoria.spec.ts:27:81
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-17b21--ignora-tildes-y-mayúsculas-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-17b21--ignora-tildes-y-mayúsculas-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-auditoria-Auditor-17b21--ignora-tildes-y-mayúsculas-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-17b21--ignora-tildes-y-mayúsculas-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-auditoria-Auditor-17b21--ignora-tildes-y-mayúsculas-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/rediseno-auditoria.spec.ts:34:7 › Auditoría del coordinador › 1.4 un rango invertido muestra el error y marca el campo 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Desde')
+
+
+      34 |   test('1.4 un rango invertido muestra el error y marca el campo', async ({ page }) => {
+      35 |     await page.goto('/auditoria')
+    > 36 |     await page.getByLabel('Desde').fill('2026-11-20')
+         |                                    ^
+      37 |     await page.getByLabel('Hasta').fill('2026-11-01')
+      38 |
+      39 |     await expect(page.getByRole('alert')).toHaveText('La fecha inicial no puede ser posterior a la final.')
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-auditoria.spec.ts:36:36
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-7da08-a-el-error-y-marca-el-campo-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-7da08-a-el-error-y-marca-el-campo-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-auditoria-Auditor-7da08-a-el-error-y-marca-el-campo-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-7da08-a-el-error-y-marca-el-campo-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-auditoria-Auditor-7da08-a-el-error-y-marca-el-campo-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › tests/rediseno-auditoria.spec.ts:43:7 › Auditoría del coordinador › 1.5 la paginación llega a la página 3 con los 3 eventos restantes 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Siguiente' })
+
+
+      43 |   test('1.5 la paginación llega a la página 3 con los 3 eventos restantes', async ({ page }) => {
+      44 |     await page.goto('/auditoria')
+    > 45 |     await page.getByRole('button', { name: 'Siguiente' }).click()
+         |                                                           ^
+      46 |     await page.getByRole('button', { name: 'Siguiente' }).click()
+      47 |
+      48 |     await expect(page.getByText('Página 3 de 3')).toBeVisible()
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-auditoria.spec.ts:45:59
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-auditoria-Auditor-9adfc-con-los-3-eventos-restantes-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:12:7 › Dashboard del coordinador › 3.1 muestra los indicadores y agrupa los accesos en la barra lateral por sección 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByLabel('Indicadores de la carrera')
+    Expected substring: "Docentes en riesgo"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByLabel('Indicadores de la carrera') with timeout 5000ms
+      - waiting for getByLabel('Indicadores de la carrera')
+
+
+      14 |     const nav = page.getByRole('navigation', { name: 'Navegación principal' })
+      15 |
+    > 16 |     await expect(page.getByLabel('Indicadores de la carrera')).toContainText('Docentes en riesgo')
+         |                                                                ^
+      17 |     for (const seccion of ['Principal', 'Docentes', 'Encuestas', 'Reportes y resultados', 'Control', 'Mi cuenta']) {
+      18 |       await expect(nav.getByText(seccion, { exact: true })).toBeVisible()
+      19 |     }
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:16:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-f82c1-a-barra-lateral-por-sección-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-f82c1-a-barra-lateral-por-sección-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-f82c1-a-barra-lateral-por-sección-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-f82c1-a-barra-lateral-por-sección-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-f82c1-a-barra-lateral-por-sección-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:24:7 › Dashboard del coordinador › 3.2 el calendario marca apertura y cierre y cuenta los días que faltan 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('gridcell', { name: /apertura de la evaluación/ })
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('gridcell', { name: /apertura de la evaluación/ }) with timeout 5000ms
+      - waiting for getByRole('gridcell', { name: /apertura de la evaluación/ })
+        13 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      25 |     await page.goto('/dashboard-coordinador')
+      26 |
+    > 27 |     await expect(page.getByRole('gridcell', { name: /apertura de la evaluación/ })).toHaveCount(1)
+         |                                                                                     ^
+      28 |     await expect(page.getByRole('gridcell', { name: /cierre de la evaluación/ })).toHaveCount(1)
+      29 |     await expect(page.getByText(/Cierra en 11 días/)).toBeVisible()
+      30 |     await expect(page.getByText(/Abre en 120 días/)).toBeVisible()
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:27:85
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-b692e--cuenta-los-días-que-faltan-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-b692e--cuenta-los-días-que-faltan-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-b692e--cuenta-los-días-que-faltan-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-b692e--cuenta-los-días-que-faltan-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-b692e--cuenta-los-días-que-faltan-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:33:7 › Dashboard del coordinador › 3.3 ya no existen las "Acciones rápidas" 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.waitFor: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('heading', { name: 'Resumen de docentes' }) to be visible
+
+
+      33 |   test('3.3 ya no existen las "Acciones rápidas"', async ({ page }) => {
+      34 |     await page.goto('/dashboard-coordinador')
+    > 35 |     await page.getByRole('heading', { name: 'Resumen de docentes' }).waitFor()
+         |                                                                      ^
+      36 |
+      37 |     await expect(page.getByText(/Acciones R[aá]pidas/i)).toHaveCount(0)
+      38 |   })
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:35:70
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-fc042-isten-las-Acciones-rápidas--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-fc042-isten-las-Acciones-rápidas--chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-fc042-isten-las-Acciones-rápidas--chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-fc042-isten-las-Acciones-rápidas--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-fc042-isten-las-Acciones-rápidas--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:47:7 › Preferencias de accesibilidad › 4.1 modo noche: clase dark, persiste al recargar y el texto principal cumple 4.5:1 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Preferencias de visualización' })
+
+
+      42 |   const abrir = async (page: import('@playwright/test').Page) => {
+      43 |     await page.goto('/dashboard-coordinador')
+    > 44 |     await page.getByRole('button', { name: 'Preferencias de visualización' }).click()
+         |                                                                               ^
+      45 |   }
+      46 |
+      47 |   test('4.1 modo noche: clase dark, persiste al recargar y el texto principal cumple 4.5:1', async ({ page }) => {
+        at abrir (/home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:44:79)
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:48:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-05f8d-exto-principal-cumple-4-5-1-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-05f8d-exto-principal-cumple-4-5-1-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-05f8d-exto-principal-cumple-4-5-1-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-05f8d-exto-principal-cumple-4-5-1-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-05f8d-exto-principal-cumple-4-5-1-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:58:7 › Preferencias de accesibilidad › 4.2 idioma inglés: traduce la interfaz y actualiza lang 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Preferencias de visualización' })
+
+
+      42 |   const abrir = async (page: import('@playwright/test').Page) => {
+      43 |     await page.goto('/dashboard-coordinador')
+    > 44 |     await page.getByRole('button', { name: 'Preferencias de visualización' }).click()
+         |                                                                               ^
+      45 |   }
+      46 |
+      47 |   test('4.1 modo noche: clase dark, persiste al recargar y el texto principal cumple 4.5:1', async ({ page }) => {
+        at abrir (/home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:44:79)
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:59:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-506d1-a-interfaz-y-actualiza-lang-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-506d1-a-interfaz-y-actualiza-lang-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-506d1-a-interfaz-y-actualiza-lang-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-506d1-a-interfaz-y-actualiza-lang-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-506d1-a-interfaz-y-actualiza-lang-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:67:7 › Preferencias de accesibilidad › 4.3 tamaño de texto: cada nivel cambia el tamaño base 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Preferencias de visualización' })
+
+
+      42 |   const abrir = async (page: import('@playwright/test').Page) => {
+      43 |     await page.goto('/dashboard-coordinador')
+    > 44 |     await page.getByRole('button', { name: 'Preferencias de visualización' }).click()
+         |                                                                               ^
+      45 |   }
+      46 |
+      47 |   test('4.1 modo noche: clase dark, persiste al recargar y el texto principal cumple 4.5:1', async ({ page }) => {
+        at abrir (/home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:44:79)
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:68:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-28410-nivel-cambia-el-tamaño-base-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-28410-nivel-cambia-el-tamaño-base-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-28410-nivel-cambia-el-tamaño-base-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-28410-nivel-cambia-el-tamaño-base-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-28410-nivel-cambia-el-tamaño-base-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:79:7 › Preferencias de accesibilidad › 4.4 teclado: el primer foco es "Saltar al contenido" y lleva a #contenido 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.waitFor: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('heading', { name: 'Resumen de docentes' }) to be visible
+
+
+      79 |   test('4.4 teclado: el primer foco es "Saltar al contenido" y lleva a #contenido', async ({ page }) => {
+      80 |     await page.goto('/dashboard-coordinador')
+    > 81 |     await page.getByRole('heading', { name: 'Resumen de docentes' }).waitFor()
+         |                                                                      ^
+      82 |     await page.keyboard.press('Tab')
+      83 |
+      84 |     const salto = page.getByRole('link', { name: 'Saltar al contenido' })
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:81:70
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-4de67-ntenido-y-lleva-a-contenido-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-4de67-ntenido-y-lleva-a-contenido-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-4de67-ntenido-y-lleva-a-contenido-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-4de67-ntenido-y-lleva-a-contenido-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-4de67-ntenido-y-lleva-a-contenido-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:90:7 › Preferencias de accesibilidad › 4.5 a 320 px con letra muy grande no hay desplazamiento horizontal 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.waitFor: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('table') to be visible
+
+
+      93 |     await page.evaluate(() => localStorage.setItem('entreaulas.preferencias', JSON.stringify({ tema: 'claro', idioma: 'es', tamano: 'xlarge' })))
+      94 |     await page.reload()
+    > 95 |     await page.getByRole('table').waitFor()
+         |                                   ^
+      96 |
+      97 |     const sobra = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+      98 |     expect(sobra).toBeLessThanOrEqual(1)
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:95:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-d58d7-y-desplazamiento-horizontal-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:101:7 › Preferencias de accesibilidad › 4.6 las preferencias manipuladas en localStorage se ignoran sin romper la página 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Resumen de docentes' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'Resumen de docentes' }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Resumen de docentes' })
+
+
+      104 |
+      105 |     await expect(page.locator('html')).toHaveAttribute('lang', 'es')
+    > 106 |     await expect(page.getByRole('heading', { name: 'Resumen de docentes' })).toBeVisible()
+          |                                                                              ^
+      107 |   })
+      108 | })
+      109 |
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-dashboard-accesibilidad.spec.ts:106:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-dashboard-accesib-7a944-gnoran-sin-romper-la-página-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [chromium] › tests/rediseno-gestion-profesores.spec.ts:7:7 › Gestión de profesores › 2.1 lista a los docentes con promedio y los chips muestran los conteos 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('region', { name: 'Docentes' }).getByRole('button', { name: /Ana María Pérez/ })
+    Expected substring: "4.60"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('region', { name: 'Docentes' }).getByRole('button', { name: /Ana María Pérez/ }) with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Docentes' }).getByRole('button', { name: /Ana María Pérez/ })
+
+
+       8 |     await page.goto('/profesores/gestionar')
+       9 |
+    > 10 |     await expect(lista(page).getByRole('button', { name: /Ana María Pérez/ })).toContainText('4.60')
+         |                                                                                ^
+      11 |     await expect(page.getByRole('radio', { name: /Todos \(6\)/ })).toBeChecked()
+      12 |     await expect(page.getByRole('radio', { name: /En riesgo \(2\)/ })).toBeVisible()
+      13 |     await expect(page.getByRole('radio', { name: /Sin evaluaciones \(1\)/ })).toBeVisible()
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-gestion-profesores.spec.ts:10:80
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-2e355--chips-muestran-los-conteos-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-2e355--chips-muestran-los-conteos-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-gestion-profesore-2e355--chips-muestran-los-conteos-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-2e355--chips-muestran-los-conteos-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-gestion-profesore-2e355--chips-muestran-los-conteos-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [chromium] › tests/rediseno-gestion-profesores.spec.ts:27:7 › Gestión de profesores › 2.3 el filtro "En riesgo" deja solo a quienes tienen promedio menor a 4.0 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('radio', { name: /En riesgo/ })
+
+
+      27 |   test('2.3 el filtro "En riesgo" deja solo a quienes tienen promedio menor a 4.0', async ({ page }) => {
+      28 |     await page.goto('/profesores/gestionar')
+    > 29 |     await page.getByRole('radio', { name: /En riesgo/ }).click()
+         |                                                          ^
+      30 |
+      31 |     await expect(lista(page).getByRole('button')).toHaveCount(2)
+      32 |     await expect(lista(page).getByRole('button', { name: /Carlos Restrepo/ })).toBeVisible()
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-gestion-profesores.spec.ts:29:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-cc08e-tienen-promedio-menor-a-4-0-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-cc08e-tienen-promedio-menor-a-4-0-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-gestion-profesore-cc08e-tienen-promedio-menor-a-4-0-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-cc08e-tienen-promedio-menor-a-4-0-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-gestion-profesore-cc08e-tienen-promedio-menor-a-4-0-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [chromium] › tests/rediseno-gestion-profesores.spec.ts:36:7 › Gestión de profesores › 2.3b ordenar por promedio (menor primero) pone al final a quien no tiene evaluaciones 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Ordenar por')
+
+
+      36 |   test('2.3b ordenar por promedio (menor primero) pone al final a quien no tiene evaluaciones', async ({ page }) => {
+      37 |     await page.goto('/profesores/gestionar')
+    > 38 |     await page.getByLabel('Ordenar por').selectOption({ label: 'Promedio (menor primero)' })
+         |                                          ^
+      39 |
+      40 |     const botones = lista(page).getByRole('button')
+      41 |     await expect(botones.first()).toContainText('Carlos Restrepo')
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-gestion-profesores.spec.ts:38:42
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-671e7-quien-no-tiene-evaluaciones-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-671e7-quien-no-tiene-evaluaciones-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-gestion-profesore-671e7-quien-no-tiene-evaluaciones-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-671e7-quien-no-tiene-evaluaciones-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-gestion-profesore-671e7-quien-no-tiene-evaluaciones-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) [chromium] › tests/rediseno-gestion-profesores.spec.ts:45:7 › Gestión de profesores › 2.4 una búsqueda sin resultados muestra el estado vacío con ayuda 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('searchbox', { name: 'Buscar por nombre o correo' })
+
+
+      45 |   test('2.4 una búsqueda sin resultados muestra el estado vacío con ayuda', async ({ page }) => {
+      46 |     await page.goto('/profesores/gestionar')
+    > 47 |     await page.getByRole('searchbox', { name: 'Buscar por nombre o correo' }).fill('zzzz')
+         |                                                                               ^
+      48 |
+      49 |     await expect(page.getByText('Ningún docente coincide con tu búsqueda.')).toBeVisible()
+      50 |     await expect(page.getByText('Prueba con otro nombre o quita los filtros.')).toBeVisible()
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-gestion-profesores.spec.ts:47:79
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-15725-a-el-estado-vacío-con-ayuda-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-15725-a-el-estado-vacío-con-ayuda-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-gestion-profesore-15725-a-el-estado-vacío-con-ayuda-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-15725-a-el-estado-vacío-con-ayuda-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-gestion-profesore-15725-a-el-estado-vacío-con-ayuda-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) [chromium] › tests/rediseno-gestion-profesores.spec.ts:53:7 › Gestión de profesores › 2.5 en móvil la lista y el detalle se alternan con "Volver a la lista" 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('region', { name: 'Docentes' }).getByRole('button', { name: /Ana María Pérez/ })
+
+
+      54 |     await page.setViewportSize({ width: 390, height: 844 })
+      55 |     await page.goto('/profesores/gestionar')
+    > 56 |     await lista(page).getByRole('button', { name: /Ana María Pérez/ }).click()
+         |                                                                        ^
+      57 |
+      58 |     await expect(page.getByRole('heading', { name: 'Ana María Pérez' })).toBeVisible()
+      59 |     await expect(lista(page)).toBeHidden()
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-gestion-profesores.spec.ts:56:72
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-1c89b-rnan-con-Volver-a-la-lista--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-1c89b-rnan-con-Volver-a-la-lista--chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-gestion-profesore-1c89b-rnan-con-Volver-a-la-lista--chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-1c89b-rnan-con-Volver-a-la-lista--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-gestion-profesore-1c89b-rnan-con-Volver-a-la-lista--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) [chromium] › tests/rediseno-gestion-profesores.spec.ts:64:7 › Gestión de profesores › 2.6 el enlace desde el dashboard abre directamente el detalle (?profesor=) 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: 'Ver detalle: Esteban Cárdenas' })
+
+
+      64 |   test('2.6 el enlace desde el dashboard abre directamente el detalle (?profesor=)', async ({ page }) => {
+      65 |     await page.goto('/dashboard-coordinador')
+    > 66 |     await page.getByRole('link', { name: 'Ver detalle: Esteban Cárdenas' }).click()
+         |                                                                             ^
+      67 |
+      68 |     await expect(page).toHaveURL(/\/profesores\/gestionar\?profesor=6/)
+      69 |     await expect(page.getByRole('heading', { name: 'Esteban Cárdenas' })).toBeVisible()
+        at /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/ia-testing/playwright/tests/rediseno-gestion-profesores.spec.ts:66:77
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-08a8d-amente-el-detalle-profesor--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-08a8d-amente-el-detalle-profesor--chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../reports/playwright/resultados/rediseno-gestion-profesore-08a8d-amente-el-detalle-profesor--chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../reports/playwright/resultados/rediseno-gestion-profesore-08a8d-amente-el-detalle-profesor--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../reports/playwright/resultados/rediseno-gestion-profesore-08a8d-amente-el-detalle-profesor--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18 failed
+    [chromium] › tests/rediseno-auditoria.spec.ts:25:7 › Auditoría del coordinador › 1.3 la búsqueda por persona ignora tildes y mayúsculas 
+    [chromium] › tests/rediseno-auditoria.spec.ts:34:7 › Auditoría del coordinador › 1.4 un rango invertido muestra el error y marca el campo 
+    [chromium] › tests/rediseno-auditoria.spec.ts:43:7 › Auditoría del coordinador › 1.5 la paginación llega a la página 3 con los 3 eventos restantes 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:12:7 › Dashboard del coordinador › 3.1 muestra los indicadores y agrupa los accesos en la barra lateral por sección 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:24:7 › Dashboard del coordinador › 3.2 el calendario marca apertura y cierre y cuenta los días que faltan 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:33:7 › Dashboard del coordinador › 3.3 ya no existen las "Acciones rápidas" 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:47:7 › Preferencias de accesibilidad › 4.1 modo noche: clase dark, persiste al recargar y el texto principal cumple 4.5:1 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:58:7 › Preferencias de accesibilidad › 4.2 idioma inglés: traduce la interfaz y actualiza lang 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:67:7 › Preferencias de accesibilidad › 4.3 tamaño de texto: cada nivel cambia el tamaño base 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:79:7 › Preferencias de accesibilidad › 4.4 teclado: el primer foco es "Saltar al contenido" y lleva a #contenido 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:90:7 › Preferencias de accesibilidad › 4.5 a 320 px con letra muy grande no hay desplazamiento horizontal 
+    [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:101:7 › Preferencias de accesibilidad › 4.6 las preferencias manipuladas en localStorage se ignoran sin romper la página 
+    [chromium] › tests/rediseno-gestion-profesores.spec.ts:7:7 › Gestión de profesores › 2.1 lista a los docentes con promedio y los chips muestran los conteos 
+    [chromium] › tests/rediseno-gestion-profesores.spec.ts:27:7 › Gestión de profesores › 2.3 el filtro "En riesgo" deja solo a quienes tienen promedio menor a 4.0 
+    [chromium] › tests/rediseno-gestion-profesores.spec.ts:36:7 › Gestión de profesores › 2.3b ordenar por promedio (menor primero) pone al final a quien no tiene evaluaciones 
+    [chromium] › tests/rediseno-gestion-profesores.spec.ts:45:7 › Gestión de profesores › 2.4 una búsqueda sin resultados muestra el estado vacío con ayuda 
+    [chromium] › tests/rediseno-gestion-profesores.spec.ts:53:7 › Gestión de profesores › 2.5 en móvil la lista y el detalle se alternan con "Volver a la lista" 
+    [chromium] › tests/rediseno-gestion-profesores.spec.ts:64:7 › Gestión de profesores › 2.6 el enlace desde el dashboard abre directamente el detalle (?profesor=) 
+  7 passed (3.1m)
