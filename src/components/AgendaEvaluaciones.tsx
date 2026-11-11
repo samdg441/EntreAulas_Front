@@ -76,6 +76,10 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
 
   const cambiarMes = (delta: number) => setMes((m) => new Date(m.getFullYear(), m.getMonth() + delta, 1))
   const nombreMes = mes.toLocaleDateString(locale, { month: 'long', year: 'numeric' })
+  const semanas = useMemo(() => {
+    const celdas = celdasDelMes(mes)
+    return Array.from({ length: celdas.length / 7 }, (_, i) => celdas.slice(i * 7, i * 7 + 7))
+  }, [mes])
   const dias = nombresDiasSemana(locale)
   const diasLargos = nombresDiasSemana(locale, 'long')
 
@@ -129,38 +133,43 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
         </button>
       </div>
 
-      <div className="mt-2 grid grid-cols-7 gap-y-1" role="grid" aria-label={t('cal.dias', { mes: nombreMes })}>
-        {dias.map((d, i) => (
-          <div key={d} role="columnheader" className="py-1 text-center text-small font-medium text-gray-500">
-            <abbr title={diasLargos[i]} className="no-underline">
-              {d.replace('.', '').slice(0, 3)}
-            </abbr>
+      <div className="mt-2" role="grid" aria-label={t('cal.dias', { mes: nombreMes })}>
+        <div role="row" className="grid grid-cols-7">
+          {dias.map((d, i) => (
+            <div key={d} role="columnheader" className="py-1 text-center text-small font-medium text-gray-500">
+              <abbr title={diasLargos[i]} className="no-underline">
+                {d.replace('.', '').slice(0, 3)}
+              </abbr>
+            </div>
+          ))}
+        </div>
+        {semanas.map((semana, w) => (
+          <div key={`semana-${w}`} role="row" className="mt-1 grid grid-cols-7">
+            {semana.map((dia, columna) => {
+              if (!dia) return <div key={`vacio-${w}-${columna}`} role="gridcell" aria-hidden="true" />
+              const situacion = estadoDelDia(dia, ventanas)
+              const esHoy = mismoDia(dia, hoy)
+              const borde = {
+                izq: situacion === 'inicio' || columna === 0 || estadoDelDia(new Date(dia.getFullYear(), dia.getMonth(), dia.getDate() - 1), ventanas) === 'normal',
+                der: situacion === 'fin' || columna === 6 || estadoDelDia(new Date(dia.getFullYear(), dia.getMonth(), dia.getDate() + 1), ventanas) === 'normal',
+              }
+              const fecha = dia.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' })
+              return (
+                <div
+                  key={dia.toISOString()}
+                  role="gridcell"
+                  aria-current={esHoy ? 'date' : undefined}
+                  aria-label={`${fecha}${esHoy ? `, ${t('cal.leyenda.hoy').toLowerCase()}` : ''}, ${t(CLAVE_DIA[situacion])}`}
+                  className={`flex h-10 items-center justify-center text-small ${claseDia(situacion, borde)} ${
+                    esHoy ? 'ring-2 ring-gray-900 ring-offset-1 ring-offset-white' : ''
+                  }`}
+                >
+                  {dia.getDate()}
+                </div>
+              )
+            })}
           </div>
         ))}
-        {celdasDelMes(mes).map((dia, i) => {
-          if (!dia) return <div key={`vacio-${i}`} role="gridcell" aria-hidden="true" />
-          const situacion = estadoDelDia(dia, ventanas)
-          const esHoy = mismoDia(dia, hoy)
-          const columna = i % 7
-          const borde = {
-            izq: situacion === 'inicio' || columna === 0 || estadoDelDia(new Date(dia.getFullYear(), dia.getMonth(), dia.getDate() - 1), ventanas) === 'normal',
-            der: situacion === 'fin' || columna === 6 || estadoDelDia(new Date(dia.getFullYear(), dia.getMonth(), dia.getDate() + 1), ventanas) === 'normal',
-          }
-          const fecha = dia.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' })
-          return (
-            <div
-              key={dia.toISOString()}
-              role="gridcell"
-              aria-current={esHoy ? 'date' : undefined}
-              aria-label={`${fecha}${esHoy ? `, ${t('cal.leyenda.hoy').toLowerCase()}` : ''}, ${t(CLAVE_DIA[situacion])}`}
-              className={`flex h-10 items-center justify-center text-small ${claseDia(situacion, borde)} ${
-                esHoy ? 'ring-2 ring-gray-900 ring-offset-1 ring-offset-white' : ''
-              }`}
-            >
-              {dia.getDate()}
-            </div>
-          )
-        })}
       </div>
 
       <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-small text-gray-700">

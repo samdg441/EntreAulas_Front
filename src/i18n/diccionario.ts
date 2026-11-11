@@ -12,6 +12,7 @@ export const DICCIONARIO = {
   'shell.abrirMenu': { es: 'Abrir menú de navegación', en: 'Open navigation menu' },
   'shell.cerrarMenu': { es: 'Cerrar menú de navegación', en: 'Close navigation menu' },
   'shell.navegacion': { es: 'Navegación principal', en: 'Main navigation' },
+  'shell.menuUsuario': { es: 'Menú de usuario', en: 'User menu' },
   'shell.irInicio': { es: 'Ir al inicio', en: 'Go to home' },
 
   // ── Secciones de la barra lateral ─────────────────────────────────────
@@ -78,7 +79,7 @@ export const DICCIONARIO = {
   'com.anterior': { es: 'Anterior', en: 'Previous' },
   'com.siguiente': { es: 'Siguiente', en: 'Next' },
   'com.pagina': { es: 'Página {pagina} de {total}', en: 'Page {pagina} of {total}' },
-  'com.mostrando': { es: 'Mostrando {desde}–{hasta} de {total}', en: 'Showing {desde}–{hasta} of {total}' },
+  'com.mostrando': { es: 'Mostrando {desde} - {hasta} de {total}', en: 'Showing {desde} - {hasta} of {total}' },
   'com.sinCorreo': { es: 'Sin correo registrado', en: 'No email on file' },
 
   // ── Dashboard del coordinador ─────────────────────────────────────────
@@ -127,12 +128,12 @@ export const DICCIONARIO = {
     es: 'Docentes de tu carrera. Los promedios menores a 4.0 aparecen resaltados.',
     en: 'Teachers in your degree. Averages below 4.0 are highlighted.',
   },
-  'coord.t.buscar': { es: 'Buscar por nombre o correo', en: 'Search by name or email' },
+  'coord.t.buscar': { es: 'Buscar por nombre o correo...', en: 'Search by name or email...' },
   'coord.t.docente': { es: 'Docente', en: 'Teacher' },
   'coord.t.correo': { es: 'Correo', en: 'Email' },
   'coord.t.evaluaciones': { es: 'Evaluaciones', en: 'Evaluations' },
   'coord.t.promedio': { es: 'Promedio', en: 'Average' },
-  'coord.t.vacia': { es: 'No encontramos docentes con ese filtro.', en: 'No teachers match that filter.' },
+  'coord.t.vacia': { es: 'No se encontraron docentes para el filtro actual.', en: 'No teachers match the current filter.' },
   'coord.t.sinDatos': { es: 'Sin datos', en: 'No data' },
   'coord.t.enRiesgo': { es: 'En riesgo', en: 'At risk' },
   'coord.t.verDetalle': { es: 'Ver detalle', en: 'View details' },

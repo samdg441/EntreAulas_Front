@@ -152,7 +152,7 @@ export default function ManageProfessors() {
 
         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)]">
           {/* Lista: en móvil se oculta cuando hay un docente elegido. */}
-          <section aria-labelledby="titulo-lista" className={`${seleccionado ? 'hidden lg:block' : ''} rounded-2xl border border-gray-200 bg-white`}>
+          <section aria-labelledby="titulo-lista" className={`${seleccionado ? 'hidden lg:block' : ''} min-w-0 rounded-2xl border border-gray-200 bg-white`}>
             <div className="space-y-3 border-b border-gray-200 p-4">
               <h2 id="titulo-lista" className="text-subtitle font-semibold text-gray-900">
                 {t('gp.lista')}
@@ -182,12 +182,12 @@ export default function ManageProfessors() {
                       filtro === valor ? 'border-red-600 bg-red-600 text-white' : 'border-gray-300 bg-white text-gray-800 hover:bg-gray-100'
                     }`}
                   >
-                    {t(clave)} <span className="tabular-nums opacity-80">({cuentas[valor]})</span>
+                    {t(clave)} <span>({cuentas[valor]})</span>
                   </button>
                 ))}
               </div>
 
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="text-small text-gray-600" aria-live="polite">{nDocentes}</p>
                 <div className="flex items-center gap-2">
                   <label htmlFor="gp-orden" className="text-small text-gray-700">{t('gp.orden')}</label>
@@ -259,7 +259,7 @@ export default function ManageProfessors() {
           </section>
 
           {/* Detalle */}
-          <section aria-labelledby="titulo-detalle" className={`${seleccionado ? '' : 'hidden lg:block'} rounded-2xl border border-gray-200 bg-white p-5 lg:sticky lg:top-24`}>
+          <section aria-labelledby="titulo-detalle" className={`${seleccionado ? '' : 'hidden lg:block'} min-w-0 rounded-2xl border border-gray-200 bg-white p-5 lg:sticky lg:top-24`}>
             {!seleccionado ? (
               <div className="py-12 text-center">
                 <GraduationCap className="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" />

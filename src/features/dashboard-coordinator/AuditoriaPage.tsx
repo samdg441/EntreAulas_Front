@@ -262,7 +262,7 @@ export default function AuditoriaPage() {
 
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-200 p-4">
                 <p className="text-small text-gray-600">{t('com.mostrando', { desde: inicio, hasta: fin, total: pag.total })}</p>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setPage((p) => Math.max(1, p - 1))}

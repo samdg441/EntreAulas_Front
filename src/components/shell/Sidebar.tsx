@@ -74,8 +74,9 @@ export default function Sidebar({ abierto, onCerrar }: Readonly<SidebarProps>) {
       <aside
         ref={panel}
         id="barra-lateral"
-        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-navy-900 text-white transition-transform duration-200 lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:translate-x-0 ${
-          abierto ? 'translate-x-0' : '-translate-x-full'
+        // Cerrado en móvil: fuera de pantalla Y `invisible`, para que el teclado y el lector de pantalla no entren al menú oculto.
+        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-navy-900 text-white transition-transform duration-200 lg:visible lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:translate-x-0 ${
+          abierto ? 'visible translate-x-0' : 'invisible -translate-x-full'
         }`}
       >
         <div className="flex items-center gap-3 px-5 pb-4 pt-5">

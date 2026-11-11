@@ -286,7 +286,7 @@ export default function DashboardCoordinador({ user }: Readonly<DashboardCoordin
 
               <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
                 <p className="text-small text-gray-600">{t('com.mostrando', { desde, hasta, total: pagination.total })}</p>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
