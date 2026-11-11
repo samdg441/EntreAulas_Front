@@ -8,7 +8,7 @@ Equipo Linux (CachyOS, 16 GB), Node 26, Chromium 156. Front en Vite (:3001) y lu
 | Nivel | Ejecutado | Resultado | Observación (diferencia con lo diseñado) |
 |---|---|---|---|
 | Back Vitest (todo el repo) | 1115 (87 archivos), +88 de auditoría | 1115 ✔ | 1027 previas + 88 nuevas |
-| Front Vitest | 773 (70 archivos), +176 nuevas | 773 ✔ | 597 previas + 176 nuevas |
+| Front Vitest | 774 (70 archivos), +177 nuevas | 774 ✔ | 597 previas + 177 nuevas |
 | Cypress UI | 36 | 36 ✔ | 1.ª pasada 29/36 (7 por selectores de prueba y 1 defecto real) |
 | Cypress accesibilidad | 13 | 13 ✔ (tras corregir) | 1.ª pasada: 6/13 |
 | Cypress seguridad / API | 8 / 7 | ✔ | — |
@@ -28,4 +28,4 @@ Suite: 21 specs de Cypress de entregas previas (142 pruebas) + las suites Vitest
 2. **Rama final**: 121 ✔, **11 ✘** idénticas (`linea-base-testing-1/2.txt` vs `antes-nuevas-specs.txt`).
 3. Conclusión: **0 regresiones nuevas**. Las 11 son pruebas obsoletas (p. ej. `ForbiddenPage` cambió a «Permisos insuficientes»).
 4. El spec `rq22-rq24-dashboard-coordinador` se actualizó por el rediseño (selector de «Promedio general») y pasa 8/8.
-5. Regresión automática propia: `auditoria-no-rompe-flujos` (5), `rediseno-paginacion-carrera` (3) y la suite completa tras cada corrección y tras `npm audit fix` (1115 y 773 verdes).
+5. Regresión automática propia: `auditoria-no-rompe-flujos` (5), `rediseno-paginacion-carrera` (3) y la suite completa tras cada corrección y tras `npm audit fix` (1115 y 774 verdes).

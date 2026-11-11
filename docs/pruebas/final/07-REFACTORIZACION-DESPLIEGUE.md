@@ -12,6 +12,8 @@ Cambios derivados de las pruebas (commits convencionales, rama `pruebas-final-ju
 | Calendario modal sin semántica de grid | Calendario con filas ARIA; error como `status` | DEF-REDI-00/03 |
 | Debounce que reiniciaba la página | Reinicia solo si cambia el texto | DEF-REDI-05 |
 | Menú lateral cerrado enfocable | `invisible` mientras está cerrado | DEF-REDI-01 |
+| Sidebar siempre azul y fija | Clara en modo claro, oscura en noche y ocultable con flecha | Revisión visual |
+| Métricas en fila y calendario aparte | Métricas apiladas a la izquierda y calendario a la derecha (5 roles) | Revisión visual |
 | Error del back repetía la entrada | Mensaje fijo | DEF-AUD-01 |
 | 7 + 6 vulnerabilidades en dependencias | 4 + 3 (quedan `xlsx`, `nodemailer`, `zod`, `express` sin parche compatible) | `npm audit` |
 

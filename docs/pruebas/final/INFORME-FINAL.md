@@ -6,13 +6,13 @@ title: "Informe final de pruebas de software: auditoría del coordinador, gesti�
 **Repositorios:** `EntreAulas_Front` y `EntreAulas_Back`, rama `pruebas-final-juliana` (commits locales; no se hizo *push*).
 
 ## Resumen
-Se probó un conjunto de tres requisitos nuevos de EntreAulas (siete funcionalidades): la vista de auditoría del coordinador, el rediseño de la gestión de profesores y las mejoras de accesibilidad (modo noche, español/inglés, tamaño de letra estándar, dashboard con barra lateral por rol y calendario de evaluaciones). Se aplicaron TDD, caja blanca y negra, pruebas unitarias, de componente, de API, E2E con Cypress y Playwright, BDD con Screenplay, accesibilidad con axe-core, seguridad según OWASP Top 10 (Open Worldwide Application Security Project [OWASP], 2021), análisis estático con SonarQube y evaluación de IA con DeepEval y Stagehand. Se ejecutaron 1 115 pruebas en el back y 773 en el front (88 y 176 nuevas), 70 pruebas E2E de Cypress y 25 de Playwright; todas pasan, tanto en desarrollo como sobre el despliegue en Docker. Se registraron 10 defectos (7 corregidos, 3 abiertos), entre ellos la baja precisión (0.455) y exhaustividad (0.5) del detector de acoso de la IA. SonarQube dio Quality Gate OK en ambos repositorios (cobertura 94.6 % y 95.3 %). La evaluación con usuarios (SUS) quedó preparada pero pendiente de participantes.
+Se probó un conjunto de tres requisitos nuevos de EntreAulas (siete funcionalidades): la vista de auditoría del coordinador, el rediseño de la gestión de profesores y las mejoras de accesibilidad (modo noche, español/inglés, tamaño de letra estándar, dashboard con barra lateral por rol y calendario de evaluaciones). Se aplicaron TDD, caja blanca y negra, pruebas unitarias, de componente, de API, E2E con Cypress y Playwright, BDD con Screenplay, accesibilidad con axe-core, seguridad según OWASP Top 10 (Open Worldwide Application Security Project [OWASP], 2021), análisis estático con SonarQube y evaluación de IA con DeepEval y Stagehand. Se ejecutaron 1 115 pruebas en el back y 774 en el front (88 y 177 nuevas), 70 pruebas E2E de Cypress y 25 de Playwright; todas pasan, tanto en desarrollo como sobre el despliegue en Docker. Se registraron 10 defectos (7 corregidos, 3 abiertos), entre ellos la baja precisión (0.455) y exhaustividad (0.5) del detector de acoso de la IA. SonarQube dio Quality Gate OK en ambos repositorios (cobertura 94.6 % y 95.3 %). La evaluación con usuarios (SUS) quedó preparada pero pendiente de participantes.
 
 ## 1. Introducción y alcance
 EntreAulas es una aplicación web de evaluación docente (React + Express + Supabase). El alcance individual se describe en `01-PRESENTACION-Y-PLAN.md`: F1 auditoría, F2 gestión de profesores, F3 modo noche, F4 idioma, F5 tamaño de letra, F6 dashboard con barra lateral y F7 calendario. Quedan fuera el inicio de sesión y el CRUD de usuarios.
 
 ## 2. Metodología
-Se siguió la pirámide de pruebas y la terminología ISTQB (International Software Testing Qualifications Board [ISTQB], 2023). La auditoría se construyó con TDD en tres fases —rojo, verde y refactor— (Beck, 2003), con patrón Arrange-Act-Assert, principios FIRST y dobles de prueba (*fake*, *stub*, *spy*, *mock*). La complejidad ciclomática se calculó como V(G) = decisiones + 1 (McCabe, 1976) con un script propio. La accesibilidad se evaluó contra WCAG 2.1 (World Wide Web Consortium [W3C], 2018) con axe-core y comprobaciones manuales; la usabilidad con las diez heurísticas de Nielsen (1994) y, pendiente, el SUS (Brooke, 1996). El diseño visual se documentó con el criterio *frontend-design*. La matriz de trazabilidad usa el formato de la clase (35 casos, 11 escenarios).
+Se siguió la pirámide de pruebas y la terminología ISTQB (International Software Testing Qualifications Board [ISTQB], 2023). La auditoría se construyó con TDD en tres fases —rojo, verde y refactor— (Beck, 2003), con patrón Arrange-Act-Assert, principios FIRST y dobles de prueba (*fake*, *stub*, *spy*, *mock*). La complejidad ciclomática se calculó como V(G) = decisiones + 1 (McCabe, 1976) con un script propio. La accesibilidad se evaluó contra WCAG 2.1 (World Wide Web Consortium [W3C], 2018) con axe-core y comprobaciones manuales; la usabilidad con las diez heurísticas de Nielsen (1994) y, pendiente, el SUS (Brooke, 1996). El diseño visual se documentó con el criterio *frontend-design*. La matriz de trazabilidad usa el formato de la clase (36 casos, 11 escenarios).
 
 ## 3. Resultados
 
@@ -20,11 +20,13 @@ Se siguió la pirámide de pruebas y la terminología ISTQB (International Softw
 | Nivel | Resultado |
 |---|---|
 | Back (Vitest + Supertest) | 1 115 ✔ (88 nuevas) · cobertura del código nuevo 97.6 % líneas |
-| Front (Vitest + Testing Library) | 773 ✔ (176 nuevas) · 94.7 % líneas, 82.6 % ramas |
+| Front (Vitest + Testing Library) | 774 ✔ (177 nuevas) · 94.7 % líneas, 82.6 % ramas |
 | Cypress: UI / accesibilidad / seguridad / API / BDD | 36 / 13 / 8 / 7 / 6 = 70 ✔ |
 | Playwright (agentes) | 25 ✔ (4 iteraciones) |
 | Despliegue en Docker | Cypress 64/64 y Playwright 25/25 |
 | SonarQube | Quality Gate OK; 0 bugs, 0 vulnerabilidades; code smells 12 (back) y 15 (front); duplicación 0 % y 5.3 % |
+
+Tras la revisión visual con la usuaria se hicieron dos ajustes finales de interfaz, con su prueba y commit: la barra lateral clara en modo claro y ocultable con un botón de flecha (recordado en el navegador), y la distribución del dashboard con las métricas apiladas a la izquierda y el calendario a la derecha en los cinco roles (caso CP-DSH-05).
 
 ### 3.2 Caja blanca y negra
 Ninguna función supera V(G) = 9; se cubrieron todos los caminos independientes de `leerAccion` (5), `parsearFiltrosAuditoria` (6), `estadoDelDocente` (4), `rutaActiva` (6) y otras. Con partición de equivalencia y valores límite se probaron `page`, `pageSize` (0, 1, 50, 51), fechas, acciones y el umbral de riesgo (3.99, 4.0). Detalle y diagramas en `CAJA-BLANCA-Y-NEGRA.md`.

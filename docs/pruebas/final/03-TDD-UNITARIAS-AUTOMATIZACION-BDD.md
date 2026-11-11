@@ -19,7 +19,7 @@ Buenas prácticas aplicadas:
 - **Cobertura** del código seleccionado: Back 97.6 % líneas / 83.9 % ramas (auditoria.ts 100/100); Front 94.7 % líneas / 82.6 % ramas.
 
 ## 5.2 Pruebas unitarias y de componente (Front)
-`src/test/unit/rediseno/*` (118 casos: preferencias, diccionario, navegación, gestión de profesores, CSV, calendario) e `integration/rediseno-*` (preferencias, agenda, shell, dashboard, gestión, auditoría, paginación) + `api/auditoria-cliente`. Total nuevo: 176.
+`src/test/unit/rediseno/*` (118 casos: preferencias, diccionario, navegación, gestión de profesores, CSV, calendario) e `integration/rediseno-*` (preferencias, agenda, shell, dashboard, gestión, auditoría, paginación) + `api/auditoria-cliente`. Total nuevo: 177.
 
 ## 5.3 Cypress (criterio 7)
 Cada requisito con escenarios **exitosos, alternativos y de error**, con aserciones:
