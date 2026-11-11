@@ -34,7 +34,8 @@ When(new RegExp(`^${ACTOR} filtra a los docentes en riesgo$`), (nombre: string) 
 })
 
 When(new RegExp(`^${ACTOR} elige el modo "([^"]*)", el idioma "([^"]*)" y la letra "([^"]*)"$`), (nombre: string, modo: string, idioma: string, letra: string) => {
-  actorLlamado(nombre).attemptsTo(AbrirLasPreferencias, ElegirPreferencias.modo(modo), ElegirPreferencias.idioma(idioma), ElegirPreferencias.letra(letra))
+  // El idioma va al final: al elegirlo cambian las etiquetas de las demás opciones.
+  actorLlamado(nombre).attemptsTo(AbrirLasPreferencias, ElegirPreferencias.modo(modo), ElegirPreferencias.letra(letra), ElegirPreferencias.idioma(idioma))
   cy.get('body').type('{esc}')
 })
 
