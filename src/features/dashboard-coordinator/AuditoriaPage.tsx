@@ -103,8 +103,8 @@ export default function AuditoriaPage() {
 
       <main className="mx-auto max-w-[1400px] space-y-6 px-4 py-6 lg:px-8">
         <div>
-          <h1 className="text-title font-semibold text-gray-900">{t('au.titulo')}</h1>
-          <p className="max-w-3xl text-body text-gray-700">{t('au.subtitulo')}</p>
+          <h1 className="text-title font-semibold text-white dark:text-gray-900">{t('au.titulo')}</h1>
+          <p className="max-w-3xl text-body text-gray-200 dark:text-gray-700">{t('au.subtitulo')}</p>
         </div>
 
         {datos && !datos.disponible ? (
@@ -140,7 +140,7 @@ export default function AuditoriaPage() {
             <section aria-labelledby="titulo-filtros" className="rounded-2xl border border-gray-200 bg-white p-5">
               <h2 id="titulo-filtros" className="sr-only">{t('au.filtros')}</h2>
               <form
-                className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1fr_12rem_12rem_16rem_auto] lg:items-end"
+                className="grid gap-4 md:grid-cols-2 md:grid-cols-2 2xl:grid-cols-[minmax(14rem,1fr)_12rem_12rem_15rem_auto] 2xl:items-end"
                 onSubmit={(e) => e.preventDefault()}
               >
                 <div className="relative">

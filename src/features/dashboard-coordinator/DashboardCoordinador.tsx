@@ -145,7 +145,7 @@ export default function DashboardCoordinador({ user }: Readonly<DashboardCoordin
       <Header user={user} subtitle={t('coord.subtitulo')} />
 
       <main className="mx-auto max-w-[1400px] space-y-6 px-4 py-6 lg:px-8">
-        <h1 className="text-title font-semibold text-gray-900">
+        <h1 className="text-title font-semibold text-white dark:text-gray-900">
           {t('coord.saludo', { saludo, nombre: primerNombre })}
         </h1>
 

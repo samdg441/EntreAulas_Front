@@ -34,7 +34,7 @@ export default function AppShell() {
       <a href="#contenido" className="skip-link">
         {t('shell.saltar')}
       </a>
-      <div className="flex min-h-screen bg-gray-50">
+      <div className="fondo-entreaulas flex min-h-screen bg-gray-50">
         <Sidebar abierto={menuAbierto} onCerrar={cerrar} />
         <div id="contenido" tabIndex={-1} className="min-w-0 flex-1 outline-none">
           <Outlet />
