@@ -4,7 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import Button from './Button'
 import UserMenu from './UserMenu'
 import NotificationDropdown from './NotificationDropdown'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Menu } from 'lucide-react'
+import PreferenciasMenu from './PreferenciasMenu'
+import { useShell } from './shell/ShellContext'
+import { usePreferencias } from '../preferencias/PreferenciasContext'
+import { rolDeNavegacion, rutaActiva, seccionesPorRol } from '../lib/navegacion'
+import { useLocation } from 'react-router-dom'
 import { User } from '../types'
 import { useAuth } from '../context/AuthContext'
 
@@ -31,12 +36,60 @@ export default function Header({
 }: HeaderProps) {
   const navigate = useNavigate()
   const { user: authUser, isAuthenticated } = useAuth()
+  const { dentroDelShell, abrirMenu } = useShell()
+  const { t } = usePreferencias()
+  const { pathname } = useLocation()
 
   // Menú de perfil / cerrar sesión si hay prop o sesión activa
   const showUserControls = Boolean(user) || isAuthenticated || Boolean(authUser)
 
   const handleLogoClick = () => {
     navigate('/dashboard')
+  }
+
+  // Dentro del AppShell la marca vive en la barra lateral: aquí solo va la barra superior compacta.
+  if (dentroDelShell) {
+    const secciones = seccionesPorRol(rolDeNavegacion(authUser))
+    const activa = rutaActiva(secciones, pathname)
+    const enlaceActivo = secciones.flatMap((s) => s.enlaces).find((e) => e.ruta === activa)
+    const tituloVisible = title ?? (enlaceActivo ? t(enlaceActivo.clave) : '')
+    return (
+      <>
+        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-gray-200 bg-white px-4 py-3 lg:px-8">
+          <button
+            type="button"
+            onClick={abrirMenu}
+            aria-label={t('shell.abrirMenu')}
+            aria-controls="barra-lateral"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-100 lg:hidden"
+          >
+            <Menu className="h-5 w-5" aria-hidden="true" />
+          </button>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-subtitle font-semibold text-gray-900">{tituloVisible}</p>
+            {subtitle && <p className="hidden truncate text-small text-gray-600 sm:block">{subtitle}</p>}
+          </div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <PreferenciasMenu />
+            {showUserControls && (
+              <>
+                <NotificationDropdown />
+                <UserMenu />
+              </>
+            )}
+          </div>
+        </header>
+        {children && <div className="border-b border-gray-200 bg-white px-4 py-3 lg:px-8">{children}</div>}
+        {showBackButton && onBack && (
+          <div className="border-b border-gray-200 bg-white px-4 py-2 lg:px-8">
+            <Button variant="ghost" size="sm" onClick={onBack}>
+              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
+              {t('com.volver')}
+            </Button>
+          </div>
+        )}
+      </>
+    )
   }
 
   return (

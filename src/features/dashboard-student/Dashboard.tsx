@@ -25,8 +25,6 @@ import EmptyState from '../../components/EmptyState';
 import OnboardingBanner from '../../components/OnboardingBanner';
 import HelpTooltip from '../../components/HelpTooltip';
 
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
-
 interface DashboardProps {
   user: User;
   onViewReports?: () => void;
@@ -614,17 +612,6 @@ function DashboardReady({
 }>) {
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      </div>
 
       <div className="relative z-10">
         <Header user={currentUser} />

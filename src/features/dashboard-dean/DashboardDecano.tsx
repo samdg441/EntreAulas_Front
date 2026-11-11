@@ -29,9 +29,6 @@ import Calendar from '../../components/Calendar';
 import EmptyState from '../../components/EmptyState';
 import HelpTooltip from '../../components/HelpTooltip';
 
-// Importar la imagen de fondo
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
-
 interface DashboardDecanoProps {
   user: User;
 }
@@ -214,20 +211,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      {/* Fondo fijo que cubre toda la página */}
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-      </div>
       
-      {/* Overlay más oscuro para mejor contraste */}
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0"></div>
       
       {/* Contenido principal */}
       <div className="relative z-10">

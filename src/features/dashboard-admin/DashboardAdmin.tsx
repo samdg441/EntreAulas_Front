@@ -15,8 +15,6 @@ import {
 import RoleGuideBanner from '../../components/OnboardingBanner'
 import HelpTooltip from '../../components/HelpTooltip'
 
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
-
 interface DashboardAdminProps {
   user: User
 }
@@ -142,16 +140,6 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0 pointer-events-none" />
 
       <div className="relative z-10">
         <Header user={currentUser} />

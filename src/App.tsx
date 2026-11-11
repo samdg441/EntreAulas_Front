@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import AppShell from './components/shell/AppShell'
+import AuditoriaPage from './features/dashboard-coordinator/AuditoriaPage'
 import Login from './features/auth/Login'
 import ForgotPassword from './features/auth/ForgotPassword'
 import ResetPassword from './features/auth/ResetPassword'
@@ -48,6 +50,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route element={<AppShell />}>
         <Route 
           path="/" 
           element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
@@ -234,6 +237,14 @@ function App() {
             </ProtectedRoute>
           } 
         />
+        <Route
+          path="/auditoria"
+          element={
+            <ProtectedRoute allowedRoles={['coordinador']}>
+              <AuditoriaPage />
+            </ProtectedRoute>
+          }
+        />
         <Route 
           path="/survey" 
           element={
@@ -250,6 +261,7 @@ function App() {
             </ProtectedRoute>
           } 
         />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

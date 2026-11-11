@@ -16,8 +16,6 @@ import {
 import { User } from '../../types'
 import { ClipboardPlus, Trash2 } from 'lucide-react'
 
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
-
 const QUESTION_TYPES = [
   { value: 'likert', label: 'Escala Likert (1-5)' },
   { value: 'texto', label: 'Texto abierto' },
@@ -129,16 +127,6 @@ export default function AdminSurveysPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0 pointer-events-none" />
 
       <div className="relative z-10">
         <Header user={headerUser} title="Encuestas" subtitle="Crear y gestionar preguntas" />

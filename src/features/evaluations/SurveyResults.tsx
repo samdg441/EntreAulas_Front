@@ -50,9 +50,6 @@ import 'jspdf-autotable';
 import AISummaryCard from '../../components/AISummaryCard';
 import HelpTooltip from '../../components/HelpTooltip';
 import html2canvas from 'html2canvas';
-
-// Importar la imagen de fondo
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 import { exportElementToPDF, exportElementToPNG, exportObjectsToExcel } from '../../utils/export';
 import { toast } from 'sonner'
 import { avisarDescarga } from '../../utils/aviso-descarga'
@@ -136,17 +133,6 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 relative">
-        <div 
-          className="fixed inset-0 z-0"
-          style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-          }}
-        >
-          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-        </div>
         
         <div className="relative z-10">
           <Header user={user} />
@@ -166,17 +152,6 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 relative">
-        <div 
-          className="fixed inset-0 z-0"
-          style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-          }}
-        >
-          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-        </div>
         
         <div className="relative z-10">
           <Header user={user} />
@@ -362,19 +337,6 @@ export default function SurveyResults({ user }: SurveyResultsProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      {/* Fondo fijo que cubre toda la página */}
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-        backgroundImage: `url(${fondo})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-        }}
-      >
-        {/* Overlay oscuro que cubre toda la página */}
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      </div>
 
       {/* Contenido principal */}
       <div className="relative z-10">
