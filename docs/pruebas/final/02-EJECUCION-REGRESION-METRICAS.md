@@ -9,11 +9,11 @@ Equipo Linux (CachyOS, 16 GB), Node 26, Chromium 156. Front en Vite (:3001) y lu
 |---|---|---|---|
 | Back Vitest (todo el repo) | 1115 (87 archivos), +88 de auditoría | 1115 ✔ | 1027 previas + 88 nuevas |
 | Front Vitest | 773 (70 archivos), +176 nuevas | 773 ✔ | 597 previas + 176 nuevas |
-| Cypress UI | 36 | 36 ✔ | +6 por defectos hallados |
+| Cypress UI | 36 | 36 ✔ | 1.ª pasada 29/36 (7 por selectores de prueba y 1 defecto real) |
 | Cypress accesibilidad | 13 | 13 ✔ (tras corregir) | 1.ª pasada: 6/13 |
-| Cypress seguridad / API | 8 / 7 | ✔ | +1 API (OpenAPI) |
+| Cypress seguridad / API | 8 / 7 | ✔ | — |
 | BDD Gherkin + Screenplay | 6 | 6 ✔ | — |
-| Playwright (agentes) | 25 | 25 ✔ | 7 → 22 → 22 → 25 en 4 iteraciones |
+| Playwright (agentes) | 25 | 25 ✔ | 7 → 7 → 22 → 25 en 4 iteraciones (fixture sin sesión, defecto real de paginación) |
 | Stagehand | en ejecución local lenta | ver doc de IA | CPU limita |
 | DeepEval | 30 + 3 | **No cumple** (DEF-IA-01/02) | hallazgo |
 | Despliegue Docker | Cypress 64/64, Playwright 25/25 | ✔ | — |
