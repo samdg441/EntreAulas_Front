@@ -1,0 +1,32 @@
+npm notice run npx
+npm notice run 'playwright' test tests/rediseno- --workers=3
+
+Running 25 tests using 3 workers
+
+  ✓   1 [chromium] › tests/rediseno-auditoria.spec.ts:7:7 › Auditoría del coordinador › 1.1 muestra 10 de 23 eventos y el resumen por acción (2.3s)
+  ✓   2 [chromium] › tests/rediseno-auditoria.spec.ts:25:7 › Auditoría del coordinador › 1.3 la búsqueda por persona ignora tildes y mayúsculas (2.9s)
+  ✓   3 [chromium] › tests/rediseno-auditoria.spec.ts:16:7 › Auditoría del coordinador › 1.2 filtrar por acción reduce la tabla y la consulta viaja con ?accion= (3.0s)
+  ✓   4 [chromium] › tests/rediseno-auditoria.spec.ts:34:7 › Auditoría del coordinador › 1.4 un rango invertido muestra el error y marca el campo (2.3s)
+  ✓   5 [chromium] › tests/rediseno-auditoria.spec.ts:43:7 › Auditoría del coordinador › 1.5 la paginación llega a la página 3 con los 3 eventos restantes (2.5s)
+  ✓   6 [chromium] › tests/rediseno-auditoria.spec.ts:53:7 › Auditoría del coordinador › 1.6 exportar CSV descarga el archivo con encabezado y fórmulas neutralizadas (2.4s)
+  ✓   7 [chromium] › tests/rediseno-auditoria.spec.ts:66:7 › Auditoría del coordinador › 1.7 si la auditoría aún no está activa lo explica y no muestra la tabla (1.9s)
+  ✓   8 [chromium] › tests/rediseno-auditoria.spec.ts:74:7 › Auditoría del coordinador › 1.8 un estudiante es enviado a /forbidden (1.7s)
+  ✓   9 [chromium] › tests/rediseno-auditoria.spec.ts:84:7 › Auditoría del coordinador › 1.9 un detalle con HTML se muestra como texto y no se ejecuta (XSS) (2.3s)
+  ✓  11 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:24:7 › Dashboard del coordinador › 3.2 el calendario marca apertura y cierre y cuenta los días que faltan (2.2s)
+  ✓  10 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:12:7 › Dashboard del coordinador › 3.1 muestra los indicadores y agrupa los accesos en la barra lateral por sección (2.7s)
+  ✓  12 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:33:7 › Dashboard del coordinador › 3.3 ya no existen las "Acciones rápidas" (2.1s)
+  ✓  13 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:47:7 › Preferencias de accesibilidad › 4.1 modo noche: clase dark, persiste al recargar y el texto principal cumple 4.5:1 (3.8s)
+  ✓  14 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:58:7 › Preferencias de accesibilidad › 4.2 idioma inglés: traduce la interfaz y actualiza lang (3.6s)
+  ✓  15 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:67:7 › Preferencias de accesibilidad › 4.3 tamaño de texto: cada nivel cambia el tamaño base (3.8s)
+  ✓  17 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:90:7 › Preferencias de accesibilidad › 4.5 a 320 px con letra muy grande no hay desplazamiento horizontal (2.0s)
+  ✓  16 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:79:7 › Preferencias de accesibilidad › 4.4 teclado: el primer foco es "Saltar al contenido" y lleva a #contenido (2.2s)
+  ✓  18 [chromium] › tests/rediseno-dashboard-accesibilidad.spec.ts:100:7 › Preferencias de accesibilidad › 4.6 las preferencias manipuladas en localStorage se ignoran sin romper la página (2.2s)
+  ✓  19 [chromium] › tests/rediseno-gestion-profesores.spec.ts:7:7 › Gestión de profesores › 2.1 lista a los docentes con promedio y los chips muestran los conteos (2.3s)
+  ✓  20 [chromium] › tests/rediseno-gestion-profesores.spec.ts:16:7 › Gestión de profesores › 2.2 elegir un docente carga sus estadísticas del periodo (2.3s)
+  ✓  21 [chromium] › tests/rediseno-gestion-profesores.spec.ts:27:7 › Gestión de profesores › 2.3 el filtro "En riesgo" deja solo a quienes tienen promedio menor a 4.0 (2.4s)
+  ✓  23 [chromium] › tests/rediseno-gestion-profesores.spec.ts:45:7 › Gestión de profesores › 2.4 una búsqueda sin resultados muestra el estado vacío con ayuda (1.9s)
+  ✓  22 [chromium] › tests/rediseno-gestion-profesores.spec.ts:36:7 › Gestión de profesores › 2.3b ordenar por promedio (menor primero) pone al final a quien no tiene evaluaciones (2.1s)
+  ✓  24 [chromium] › tests/rediseno-gestion-profesores.spec.ts:53:7 › Gestión de profesores › 2.5 en móvil la lista y el detalle se alternan con "Volver a la lista" (2.0s)
+  ✓  25 [chromium] › tests/rediseno-gestion-profesores.spec.ts:64:7 › Gestión de profesores › 2.6 el enlace desde el dashboard abre directamente el detalle (?profesor=) (1.8s)
+
+  25 passed (24.4s)
