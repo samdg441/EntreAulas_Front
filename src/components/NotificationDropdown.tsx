@@ -82,8 +82,10 @@ export default function NotificationDropdown() {
       <AnimatePresence>
         {isOpen && (
           <>
-            <div
-              className="fixed inset-0 z-10"
+            <button
+              type="button"
+              aria-label="Cerrar el panel de notificaciones"
+              className="fixed inset-0 z-10 cursor-default"
               onClick={() => setIsOpen(false)}
             />
 
@@ -141,35 +143,37 @@ export default function NotificationDropdown() {
                         key={notification.id}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className={`p-4 cursor-pointer transition-colors hover:bg-gray-50 ${fondoNotificacion(notification)}`}
-                        onClick={() => handleNotificationClick(notification)}
+                        className={`p-4 transition-colors hover:bg-gray-50 ${fondoNotificacion(notification)}`}
                       >
                         <div className="flex items-start gap-3">
                           <div className="flex-shrink-0 mt-0.5">
                             <CalendarClock className={`h-4 w-4 ${notification.urgente ? 'text-red-600' : 'text-blue-600'}`} />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <h4 className={`text-sm font-medium ${esLeida(notification) ? 'text-gray-600' : 'text-gray-900'}`}>
-                                {notification.titulo}
-                              </h4>
-                              {!esLeida(notification) && (
-                                <div className="h-2 w-2 bg-red-600 rounded-full flex-shrink-0"></div>
-                              )}
-                            </div>
-                            <p className="text-sm text-gray-600 mt-1">
-                              {notification.mensaje}
-                            </p>
+                            <button
+                              type="button"
+                              className="w-full text-left"
+                              onClick={() => handleNotificationClick(notification)}
+                            >
+                              <div className="flex items-center gap-2">
+                                <h4 className={`text-sm font-medium ${esLeida(notification) ? 'text-gray-600' : 'text-gray-900'}`}>
+                                  {notification.titulo}
+                                </h4>
+                                {!esLeida(notification) && (
+                                  <div className="h-2 w-2 bg-red-600 rounded-full flex-shrink-0"></div>
+                                )}
+                              </div>
+                              <p className="text-sm text-gray-600 mt-1">
+                                {notification.mensaje}
+                              </p>
+                            </button>
                             {notification.accion && (
                               <div className="flex justify-end mt-2">
                                 <Button
                                   variant="ghost"
                                   size="sm"
                                   className="text-xs text-red-600 hover:text-red-700 p-1 h-auto"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleNotificationClick(notification);
-                                  }}
+                                  onClick={() => handleNotificationClick(notification)}
                                 >
                                   {notification.accion.texto}
                                   <ExternalLink className="h-3 w-3 ml-1" />

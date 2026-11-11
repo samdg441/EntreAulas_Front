@@ -172,8 +172,9 @@ export default function AdminSurveysPage() {
 
               <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                 <div>
-                  <label className="block text-sm lg:text-base font-medium text-gray-700 mb-1">Categoría</label>
+                  <label htmlFor="encuesta-categoria" className="block text-sm lg:text-base font-medium text-gray-700 mb-1">Categoría</label>
                   <select
+                    id="encuesta-categoria"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                     value={form.categoria_id || ''}
                     onChange={(e) =>
@@ -192,8 +193,9 @@ export default function AdminSurveysPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm lg:text-base font-medium text-gray-700 mb-1">Tipo</label>
+                  <label htmlFor="encuesta-tipo" className="block text-sm lg:text-base font-medium text-gray-700 mb-1">Tipo</label>
                   <select
+                    id="encuesta-tipo"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                     value={form.tipo_pregunta}
                     onChange={(e) => setForm({ ...form, tipo_pregunta: e.target.value })}
@@ -221,10 +223,11 @@ export default function AdminSurveysPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm lg:text-base font-medium text-gray-700 mb-1">
+                  <label htmlFor="encuesta-carrera" className="block text-sm lg:text-base font-medium text-gray-700 mb-1">
                     Carrera (opcional)
                   </label>
                   <select
+                    id="encuesta-carrera"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 lg:py-3 text-sm lg:text-base"
                     value={form.id_carrera ?? ''}
                     onChange={(e) =>
@@ -252,13 +255,14 @@ export default function AdminSurveysPage() {
                     required
                   />
                 </div>
-                <label className="flex items-center gap-2 text-sm lg:text-base text-gray-700 md:col-span-2">
+                <label htmlFor="encuesta-obligatoria" className="flex items-center gap-2 text-sm lg:text-base text-gray-700 md:col-span-2">
                   <input
+                    id="encuesta-obligatoria"
                     type="checkbox"
                     checked={!!form.obligatoria}
                     onChange={(e) => setForm({ ...form, obligatoria: e.target.checked })}
                   />
-                  Pregunta obligatoria
+                  <span>Pregunta obligatoria</span>
                 </label>
                 <div className="md:col-span-2 flex justify-end">
                   <Button type="submit" disabled={saving || loading} className="lg:h-12 lg:px-6 lg:text-base">
