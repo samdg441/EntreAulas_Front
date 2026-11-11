@@ -89,7 +89,7 @@ describe('DashboardCoordinador', () => {
     renderConPreferencias(<DashboardCoordinador user={usuario} />)
     await screen.findByText('Ana Pérez')
 
-    await usuarioUi.type(screen.getByRole('searchbox', { name: 'Buscar por nombre o correo' }), '  ana ')
+    await usuarioUi.type(screen.getByRole('searchbox', { name: 'Buscar por nombre o correo...' }), '  ana ')
 
     await waitFor(() => expect(fetchResumen).toHaveBeenLastCalledWith({ page: 1, pageSize: 8, search: 'ana' }))
   })
@@ -100,7 +100,7 @@ describe('DashboardCoordinador', () => {
     renderConPreferencias(<DashboardCoordinador user={usuario} />)
 
     expect(await screen.findByRole('alert')).toHaveTextContent('No pudimos cargar la información')
-    expect(screen.getByText('No encontramos docentes con ese filtro.')).toBeInTheDocument()
+    expect(screen.getByText('No se encontraron docentes para el filtro actual.')).toBeInTheDocument()
   })
 
   it('incluye el calendario con la ventana de evaluación programada', async () => {
