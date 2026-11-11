@@ -1,3 +1,5 @@
+@import '@fontsource-variable/schibsted-grotesk';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -167,8 +169,8 @@
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: rgb(var(--c-gray-50));
+    color: rgb(var(--c-gray-900));
   }
 }
 
@@ -177,28 +179,23 @@
  */
 @layer base {
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    /* Escala estándar: título 1.75 · subtítulo 1.25 · texto 1 · pequeño 0.875 (ver tailwind.config.js). */
     h1 {
-      font-size: 1.5rem;
-      font-weight: 500;
-      line-height: 1.5;
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 2.25rem;
     }
 
     h2 {
       font-size: 1.25rem;
-      font-weight: 500;
-      line-height: 1.5;
+      font-weight: 600;
+      line-height: 1.75rem;
     }
 
-    h3 {
-      font-size: 1.125rem;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-    h4 {
+    h3, h4 {
       font-size: 1rem;
-      font-weight: 500;
-      line-height: 1.5;
+      font-weight: 600;
+      line-height: 1.5rem;
     }
 
     p {
@@ -227,9 +224,46 @@
   }
 }
 
+/* Tamaño de texto elegido por la persona (Preferencias → Tamaño de texto). Todo el diseño usa rem. */
 html {
-  font-size: var(--font-size);
+  font-size: 100%;
+  font-family: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  -webkit-text-size-adjust: 100%;
 }
+html[data-text-size='small'] { font-size: 87.5%; }
+html[data-text-size='large'] { font-size: 112.5%; }
+html[data-text-size='xlarge'] { font-size: 125%; }
+
+/* Foco visible para quien navega con teclado (WCAG 2.4.7). */
+:focus-visible {
+  outline: 2px solid #E30613;
+  outline-offset: 2px;
+}
+.dark :focus-visible { outline-color: #FF8A93; }
+
+/* Sin movimiento si la persona lo pidió en su sistema (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enlace para saltar la navegación (WCAG 2.4.1). */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: #E30613;
+  color: #fff;
+  font-weight: 600;
+}
+.skip-link:focus { top: 0.75rem; }
 
 /* Animaciones personalizadas */
 @keyframes slideInFromLeft {

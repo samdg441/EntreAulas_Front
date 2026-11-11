@@ -31,7 +31,7 @@ export function CourseQrPoster({
           <p className="text-sm font-extrabold leading-tight tracking-wide text-university-red uppercase">
             {nombreMateria}
           </p>
-          <p className="mt-0.5 text-[11px] font-medium text-gray-800 uppercase tracking-wide">
+          <p className="mt-0.5 text-sm font-medium text-gray-800 uppercase tracking-wide">
             Grupo {grupo}
           </p>
         </div>
@@ -57,7 +57,7 @@ export function CourseQrPoster({
         </div>
 
         <div className="text-center pb-2">
-          <p className="text-[10px] text-gray-500 uppercase tracking-wide">
+          <p className="text-sm text-gray-500 uppercase tracking-wide">
             Docente
           </p>
           <p className="text-sm font-bold leading-snug text-gray-900 mt-0.5">
