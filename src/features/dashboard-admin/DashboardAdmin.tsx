@@ -178,21 +178,19 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
                 key={metric.label}
                 className="bg-white/95 border border-gray-200/80 shadow-sm transition-all hover:shadow-md p-5 sm:p-6"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-gray-600">{metric.label}</p>
-                      <HelpTooltip texto={metric.help} />
-                    </div>
-                    <p className="mt-3 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
-                      {loadingStats ? '…' : metric.value === null ? '—' : metric.value}
-                    </p>
-                    <p className="mt-1 text-sm text-gray-500">{metric.hint}</p>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <p className="text-sm font-medium text-gray-600">{metric.label}</p>
+                    <HelpTooltip texto={metric.help} />
                   </div>
                   <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${metric.iconClass}`}>
                     <metric.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </div>
+                <p className="mt-3 text-center text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                  {loadingStats ? '…' : metric.value === null ? '—' : metric.value}
+                </p>
+                <p className="mt-1 text-center text-sm text-gray-500">{metric.hint}</p>
               </Card>
             ))}
           </div>

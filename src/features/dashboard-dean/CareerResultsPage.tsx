@@ -146,13 +146,13 @@ export default function CareerResultsPage({ user }: CareerResultsPageProps) {
               transition={{ delay: 0.1 }}
             >
               <Card className="bg-white shadow-md border border-gray-200">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Carreras</CardTitle>
+                <CardHeader className="items-center space-y-0 pb-2 text-center">
+                  <CardTitle className="text-center text-sm font-medium">Total Carreras</CardTitle>
                   <Building2 className="h-4 w-4 text-red-600" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-600">{careers.length}</div>
-                  <p className="text-xs text-gray-500">En la facultad</p>
+                  <div className="text-2xl font-bold text-red-600 text-center">{careers.length}</div>
+                  <p className="text-xs text-gray-500 text-center">En la facultad</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -164,13 +164,13 @@ export default function CareerResultsPage({ user }: CareerResultsPageProps) {
               transition={{ delay: 0.2 }}
             >
               <Card className="bg-white shadow-md border border-gray-200">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Profesores Activos</CardTitle>
+                <CardHeader className="items-center space-y-0 pb-2 text-center">
+                  <CardTitle className="text-center text-sm font-medium">Profesores Activos</CardTitle>
                   <Users className="h-4 w-4 text-red-600" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-600">24</div>
-                  <p className="text-xs text-gray-500">En todas las carreras</p>
+                  <div className="text-2xl font-bold text-red-600 text-center">24</div>
+                  <p className="text-xs text-gray-500 text-center">En todas las carreras</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -182,13 +182,13 @@ export default function CareerResultsPage({ user }: CareerResultsPageProps) {
               transition={{ delay: 0.3 }}
             >
               <Card className="bg-white shadow-md border border-gray-200">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Evaluaciones</CardTitle>
+                <CardHeader className="items-center space-y-0 pb-2 text-center">
+                  <CardTitle className="text-center text-sm font-medium">Evaluaciones</CardTitle>
                   <BarChart3 className="h-4 w-4 text-red-600" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-600">156</div>
-                  <p className="text-xs text-gray-500">Este período</p>
+                  <div className="text-2xl font-bold text-red-600 text-center">156</div>
+                  <p className="text-xs text-gray-500 text-center">Este período</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -200,13 +200,13 @@ export default function CareerResultsPage({ user }: CareerResultsPageProps) {
               transition={{ delay: 0.4 }}
             >
               <Card className="bg-white shadow-md border border-gray-200">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Promedio General</CardTitle>
+                <CardHeader className="items-center space-y-0 pb-2 text-center">
+                  <CardTitle className="text-center text-sm font-medium">Promedio General</CardTitle>
                   <Star className="h-4 w-4 text-red-600" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-600">4.2/5.0</div>
-                  <div className="flex items-center gap-1 text-xs text-red-600">
+                  <div className="text-2xl font-bold text-red-600 text-center">4.2/5.0</div>
+                  <div className="flex items-center justify-center gap-1 text-xs text-red-600">
                     <TrendingUp className="h-3 w-3" />
                     +2.3% vs período anterior
                   </div>

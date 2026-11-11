@@ -126,7 +126,7 @@ function getPrimaryStat(type: User['type'], stats: Record<string, unknown>) {
       help: 'Promedio de las respuestas recibidas, en escala de 1.0 a 5.0. Por debajo de 4.0 conviene revisar comentarios y la tendencia del periodo.',
       valueClass: 'text-yellow-600',
       Icon: Star,
-      iconClass: 'h-6 w-6 text-yellow-600 ml-4',
+      iconClass: 'h-6 w-6 text-yellow-600',
     };
   }
   if (type === 'coordinator') {
@@ -138,7 +138,7 @@ function getPrimaryStat(type: User['type'], stats: Record<string, unknown>) {
       help: 'Docentes activos de tu carrera. No incluye docentes de otros programas.',
       valueClass: 'text-red-600',
       Icon: Users,
-      iconClass: 'h-6 w-6 text-red-600 ml-4',
+      iconClass: 'h-6 w-6 text-red-600',
     };
   }
   return {
@@ -149,7 +149,7 @@ function getPrimaryStat(type: User['type'], stats: Record<string, unknown>) {
     help: 'Materias del periodo vigente que aún no evalúas. Si el número es alto y la ventana está por cerrar, complétalas antes de la fecha límite.',
     valueClass: 'text-red-600',
     Icon: ClipboardCheck,
-    iconClass: 'h-6 w-6 text-red-600 ml-4',
+    iconClass: 'h-6 w-6 text-red-600',
   };
 }
 
@@ -479,19 +479,19 @@ function StatCard({
   return (
     <motion.div variants={cardVariants} initial="hidden" animate="visible" transition={{ delay }}>
       <Card className="bg-white shadow-sm hover:shadow-md transition-all border border-gray-200/80 p-6">
-        <CardHeader className="flex flex-row items-center justify-between pb-4">
-          <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+        <CardHeader className="items-center gap-3 pb-2 text-center">
+          <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
             {title}
             {help ? <HelpTooltip texto={help} /> : null}
           </CardTitle>
-          {icon}
+          <span className="inline-flex items-center justify-center">{icon}</span>
         </CardHeader>
-        <CardContent>
+        <CardContent className="text-center">
           <div className={`text-3xl font-bold ${valueClass}`}>
             {value}
             {suffix}
           </div>
-          <p className="text-sm text-gray-500 mt-2 text-left">{description}</p>
+          <p className="text-sm text-gray-500 mt-2">{description}</p>
         </CardContent>
       </Card>
     </motion.div>
@@ -522,7 +522,7 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
         help={secondary.help}
         valueClass="text-green-600"
         delay={0.3}
-        icon={<Star className="h-6 w-6 text-green-600 ml-4" />}
+        icon={<Star className="h-6 w-6 text-green-600" />}
       />
       <StatCard
         title={tertiary.title}
@@ -531,7 +531,7 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
         help={tertiary.help}
         valueClass="text-university-red"
         delay={0.4}
-        icon={<BookOpen className="h-6 w-6 text-university-red ml-4" />}
+        icon={<BookOpen className="h-6 w-6 text-university-red" />}
       />
     </div>
   );
