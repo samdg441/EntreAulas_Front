@@ -5,18 +5,18 @@ Equipo Linux (CachyOS, 16 GB), Node 26, Chromium 156. Front en Vite (:3001) y lu
 
 ## 2.2 Planeado vs. ejecutado
 
-| Nivel | Planeado | Ejecutado | Resultado | Diferencia |
-|---|---|---|---|---|
-| Back Vitest (todo el repo) | — | 1115 (87 archivos), +88 de auditoría | 1115 ✔ | 1027 previas + 88 nuevas |
-| Front Vitest | — | 773 (70 archivos), +176 nuevas | 773 ✔ | 597 previas + 176 nuevas |
-| Cypress UI | 30 | 36 | 36 ✔ | +6 por defectos hallados |
-| Cypress accesibilidad | 10 | 13 | 13 ✔ (tras corregir) | 1.ª pasada: 6/13 |
-| Cypress seguridad / API | 8 / 6 | 8 / 7 | ✔ | +1 API (OpenAPI) |
-| BDD Gherkin + Screenplay | 6 | 6 | 6 ✔ | — |
-| Playwright (agentes) | 25 | 25 | 25 ✔ | 7 → 22 → 22 → 25 en 4 iteraciones |
-| Stagehand | 1 escenario | en ejecución local lenta | ver doc de IA | CPU limita |
-| DeepEval | 30 casos + 3 resúmenes | 30 + 3 | **No cumple** (DEF-IA-01/02) | hallazgo |
-| Despliegue Docker | repetir E2E | Cypress 64/64, Playwright 25/25 | ✔ | — |
+| Nivel | Ejecutado | Resultado | Observación (diferencia con lo diseñado) |
+|---|---|---|---|
+| Back Vitest (todo el repo) | 1115 (87 archivos), +88 de auditoría | 1115 ✔ | 1027 previas + 88 nuevas |
+| Front Vitest | 773 (70 archivos), +176 nuevas | 773 ✔ | 597 previas + 176 nuevas |
+| Cypress UI | 36 | 36 ✔ | +6 por defectos hallados |
+| Cypress accesibilidad | 13 | 13 ✔ (tras corregir) | 1.ª pasada: 6/13 |
+| Cypress seguridad / API | 8 / 7 | ✔ | +1 API (OpenAPI) |
+| BDD Gherkin + Screenplay | 6 | 6 ✔ | — |
+| Playwright (agentes) | 25 | 25 ✔ | 7 → 22 → 22 → 25 en 4 iteraciones |
+| Stagehand | en ejecución local lenta | ver doc de IA | CPU limita |
+| DeepEval | 30 + 3 | **No cumple** (DEF-IA-01/02) | hallazgo |
+| Despliegue Docker | Cypress 64/64, Playwright 25/25 | ✔ | — |
 
 Cobertura del código nuevo: Back 97.6 % líneas (auditoria.ts 100 %), Front 94.7 % líneas / 82.6 % ramas. Sonar (proyecto completo, alcance definido): Back 94.6 %, Front 95.3 %, **Quality Gate OK** en ambos, 0 bugs, 0 vulnerabilidades, code smells 12 / 15, duplicación 0 % / 5.3 %.
 
