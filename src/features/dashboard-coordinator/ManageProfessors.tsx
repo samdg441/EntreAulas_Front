@@ -1,297 +1,369 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import { ArrowLeft, GraduationCap, Search } from 'lucide-react'
 import { fetchCoordinatorDashboardSummary, fetchCoordinatorProfessorStats } from '../../api/coordinador.api'
 import Header from '../../components/Header'
-import Card, { CardHeader, CardContent, CardDescription, CardTitle } from '../../components/Card'
-import Button from '../../components/Button'
-import Badge from '../../components/Badge'
-import { motion } from 'framer-motion'
-import { Search, ArrowLeft, ChevronRight, GraduationCap, BookOpen, User as UserIcon, Star, BarChart3 } from 'lucide-react'
+import { usePreferencias } from '../../preferencias/PreferenciasContext'
+import type { Clave } from '../../i18n/diccionario'
+import {
+  UMBRAL_RIESGO,
+  contarPorEstado,
+  estadoDelDocente,
+  filtrarYOrdenar,
+  iniciales,
+  porcentajeEscala,
+  type DocenteResumen,
+  type FiltroDocentes,
+  type OrdenDocentes,
+} from './gestion-profesores'
 
-export default function ManageProfessors() {
-  const navigate = useNavigate()
-  const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
-  const [searchParams] = useSearchParams()
+const PERIODOS = ['2026-1', '2025-2', '2025-1', '2024-2']
+const FILTROS: { valor: FiltroDocentes; clave: Clave }[] = [
+  { valor: 'todos', clave: 'gp.f.todos' },
+  { valor: 'riesgo', clave: 'gp.f.riesgo' },
+  { valor: 'ok', clave: 'gp.f.ok' },
+  { valor: 'sinDatos', clave: 'gp.f.sinDatos' },
+]
+const ORDENES: { valor: OrdenDocentes; clave: Clave }[] = [
+  { valor: 'nombre', clave: 'gp.o.nombre' },
+  { valor: 'promedioAsc', clave: 'gp.o.promedioAsc' },
+  { valor: 'promedioDesc', clave: 'gp.o.promedioDesc' },
+  { valor: 'evaluaciones', clave: 'gp.o.evaluaciones' },
+]
 
-  const storedUser = (() => {
-    try { const u = localStorage.getItem('user'); return u ? JSON.parse(u) : null } catch { return null }
-  })()
-
-  // Estado de datos
-  const [searchTerm, setSearchTerm] = useState('')
-  const [professors, setProfessors] = useState<any[]>([])
-  const [selectedProfessor, setSelectedProfessor] = useState<any | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [selectedPeriod, setSelectedPeriod] = useState(searchParams.get('period') || '2026-1')
-  const [professorStats, setProfessorStats] = useState<any | null>(null)
-  const [loadingStats, setLoadingStats] = useState(false)
-
-  // Cargar profesores reales por carrera: primero `careerId` por query, sino del coordinador guardado
-  useEffect(() => {
-    const load = async () => {
-      console.log('🚀 useEffect ejecutándose...', new Date().toLocaleTimeString())
-      setLoading(true)
-      try {
-        const pages = await Promise.all([
-          fetchCoordinatorDashboardSummary({ page: 1, pageSize: 50 }),
-          fetchCoordinatorDashboardSummary({ page: 2, pageSize: 50 })
-        ])
-        const normalized = pages
-          .flatMap((p) => p.teachers || [])
-          .map((p: any) => ({
-            id: p.profesorId,
-            name: p.nombre || 'Sin nombre',
-            department: 'Carrera del coordinador',
-            email: p.email || '',
-            promedio: p.promedio,
-            totalEvaluaciones: p.totalEvaluaciones
-          }))
-        setProfessors(normalized)
-      } catch (e) {
-        console.error('❌ Error loading professors by career:', e)
-        setProfessors([])
-      } finally {
-        console.log('🏁 Finalizando carga, setLoading(false)')
-        setLoading(false)
-      }
-    }
-    load()
-  }, [])
-
-  const filtered = useMemo(() => {
-    // El backend ya filtra por carrera, solo aplicar búsqueda si hay término
-    if (!searchTerm) return professors
-    
-    return professors.filter(p =>
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.email.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  }, [searchTerm, professors])
-
-  const backToDashboard = () => navigate('/dashboard-coordinador')
-
-  const handleProfessorSelection = (professor: any) => {
-    console.log('🔍 Profesor seleccionado:', professor)
-    console.log('🔍 Cursos del profesor:', professor.courses)
-    console.log('🔍 Cantidad de cursos:', professor.courses?.length || 0)
-    setSelectedProfessor(professor)
-    setProfessorStats(null)
-  }
-
-  useEffect(() => {
-    const loadStats = async () => {
-      if (!selectedProfessor?.id) return
-      try {
-        setLoadingStats(true)
-        const data = await fetchCoordinatorProfessorStats(selectedProfessor.id, selectedPeriod)
-        setProfessorStats(data)
-      } catch (error) {
-        console.error('Error cargando estadísticas del docente:', error)
-        setProfessorStats(null)
-      } finally {
-        setLoadingStats(false)
-      }
-    }
-    loadStats()
-  }, [selectedProfessor?.id, selectedPeriod])
-
+/** Barra horizontal de 1.0 a 5.0 con la marca del umbral de riesgo. */
+function BarraPromedio({ valor, etiqueta }: Readonly<{ valor: number; etiqueta: string }>) {
   return (
-    <div className="min-h-screen bg-gray-50 relative">
-      <div className="fixed inset-0 z-0" style={{
-        backgroundImage: `url(${fondo})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}>
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      </div>
-
-      <div className="relative z-10">
-        <Header user={{ id: storedUser?.id || '', name: `${storedUser?.nombre || ''} ${storedUser?.apellido || ''}`.trim() || 'Coordinador', type: 'coordinator', email: storedUser?.email || '' }} />
-
-        <main className="max-w-7xl mx-auto p-4 lg:p-6 space-y-6">
-          <div className="flex justify-start">
-            <Button variant="ghost" size="lg" onClick={backToDashboard} className="ml-2 text-lg py-2 px-4 bg-white bg-opacity-90 rounded-lg shadow-md hover:bg-gray-100 transition-colors">
-              <ArrowLeft className="h-5 w-5 mr-2" />
-              Volver al Dashboard
-            </Button>
-          </div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-gray-900">
-                  <Search className="h-5 w-5" /> Gestionar Profesores
-                </CardTitle>
-                <CardDescription>Busca y gestiona profesores y sus cursos.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-                  <input value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} placeholder="Buscar profesor o curso..." className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500" />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-              <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader>
-                  <CardTitle className="text-gray-900">Profesores</CardTitle>
-                  <CardDescription>{filtered.length} profesor(es) encontrado(s)</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3 max-h-96 overflow-y-auto">
-                  {loading ? (
-                    <div className="flex items-center justify-center py-8">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
-                      <span className="ml-3 text-gray-600">Cargando profesores...</span>
-                    </div>
-                  ) : filtered.length > 0 ? (
-                    filtered.map((p, index) => (
-                      <motion.div key={p.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + index * 0.05 }}
-                        className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 ${selectedProfessor?.id === p.id ? 'border-red-500 bg-red-50 shadow-md' : 'border-gray-200 hover:border-red-300 hover:bg-gray-50'}`}
-                        onClick={() => handleProfessorSelection(p)}>
-                        <div className="flex items-start gap-3">
-                          <div className="flex-1">
-                            <h3 className="font-medium text-gray-900">{p.name}</h3>
-                            <p className="text-sm text-gray-600">{p.email || 'Sin correo registrado'}</p>
-                            <div className="flex flex-wrap gap-1 mt-2">
-                              <Badge variant="outline" className="text-xs bg-white text-gray-700">
-                                {p.totalEvaluaciones || 0} evaluaciones
-                              </Badge>
-                              {p.promedio > 0 && (
-                                <Badge variant="outline" className={`text-xs ${p.promedio < 4 ? 'bg-red-50 text-red-700 border-red-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}`}>
-                                  Prom. {Number(p.promedio).toFixed(2)}
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-                          {selectedProfessor?.id === p.id && (
-                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-red-600">
-                              <ChevronRight className="h-5 w-5" />
-                            </motion.div>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))
-                  ) : (
-                    <div className="text-center py-8 text-gray-500">
-                      <GraduationCap className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>No se encontraron profesores en esta carrera</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
-              <Card className={`bg-white shadow-md border border-gray-200 p-6 ${selectedProfessor ? '' : 'opacity-70'}`}>
-                <CardHeader>
-                  <CardTitle className="text-gray-900">Estadísticas del Docente</CardTitle>
-                  <CardDescription>
-                    {selectedProfessor ? `Evaluación de ${selectedProfessor.name}` : 'Selecciona un docente para ver su desempeño'}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-5">
-                  {selectedProfessor ? (
-                    <>
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 flex-1">
-                          <p className="font-medium text-gray-900">{selectedProfessor.name}</p>
-                          <p className="text-sm text-gray-600 flex items-center gap-1 mt-1">
-                            <UserIcon className="h-3 w-3" />
-                            {selectedProfessor.email || 'Sin correo registrado'}
-                          </p>
-                        </div>
-                        <select
-                          value={selectedPeriod}
-                          onChange={(e) => setSelectedPeriod(e.target.value)}
-                          className="p-2 border border-gray-300 rounded-lg bg-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                        >
-                          <option value="2026-1">2026-1</option>
-                          <option value="2025-2">2025-2</option>
-                          <option value="2025-1">2025-1</option>
-                          <option value="2024-2">2024-2</option>
-                        </select>
-                      </div>
-
-                      {loadingStats ? (
-                        <div className="text-center py-8 text-gray-500">Cargando estadísticas...</div>
-                      ) : professorStats ? (
-                        <>
-                          <div className="grid grid-cols-2 gap-3">
-                            <div className="p-4 bg-red-50 border border-red-100 rounded-lg">
-                              <BarChart3 className="h-5 w-5 text-red-600 mb-2" />
-                              <p className="text-xs text-gray-600">Evaluaciones</p>
-                              <p className="text-2xl font-bold text-red-600">{professorStats.summary?.totalEvaluaciones || 0}</p>
-                            </div>
-                            <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-lg">
-                              <Star className="h-5 w-5 text-yellow-600 mb-2" />
-                              <p className="text-xs text-gray-600">Promedio</p>
-                              <p className="text-2xl font-bold text-yellow-600">{professorStats.summary?.promedio || 0}/5</p>
-                            </div>
-                            <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg">
-                              <UserIcon className="h-5 w-5 text-blue-600 mb-2" />
-                              <p className="text-xs text-gray-600">Evaluadores</p>
-                              <p className="text-2xl font-bold text-blue-600">{professorStats.summary?.estudiantesEvaluadores || 0}</p>
-                            </div>
-                            <div className="p-4 bg-green-50 border border-green-100 rounded-lg">
-                              <BookOpen className="h-5 w-5 text-green-600 mb-2" />
-                              <p className="text-xs text-gray-600">Cursos evaluados</p>
-                              <p className="text-2xl font-bold text-green-600">{professorStats.summary?.totalCursos || 0}</p>
-                            </div>
-                          </div>
-
-                          <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Promedio por Categoría</h4>
-                            <div className="space-y-2">
-                              {(professorStats.categories || []).length > 0 ? professorStats.categories.map((c: any) => (
-                                <div key={c.categoriaId} className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                                  <span className="text-sm text-gray-700">{c.nombre}</span>
-                                  <Badge variant="outline">{Number(c.promedio || 0).toFixed(2)}</Badge>
-                                </div>
-                              )) : (
-                                <p className="text-sm text-gray-500">No hay datos por categoría para este período.</p>
-                              )}
-                            </div>
-                          </div>
-
-                          <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Cursos Evaluados</h4>
-                            <div className="space-y-2">
-                              {(professorStats.courses || []).length > 0 ? professorStats.courses.map((c: any) => (
-                                <div key={c.cursoId} className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-sm font-medium text-gray-900">{c.codigo ? `${c.codigo} - ` : ''}{c.nombre}</span>
-                                    <Badge variant="outline">{Number(c.promedio || 0).toFixed(2)}</Badge>
-                                  </div>
-                                  <p className="text-xs text-gray-500 mt-1">{c.totalEvaluaciones} evaluaciones</p>
-                                </div>
-                              )) : (
-                                <p className="text-sm text-gray-500">No hay cursos evaluados para este período.</p>
-                              )}
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="text-center py-8 text-gray-500">No se pudieron cargar estadísticas del docente.</div>
-                      )}
-                    </>
-                  ) : (
-                    <div className="text-center py-8 text-gray-500">
-                      <GraduationCap className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>Selecciona un docente para ver sus estadísticas de evaluación</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </main>
-      </div>
+    <div
+      role="meter"
+      aria-label={etiqueta}
+      aria-valuemin={1}
+      aria-valuemax={5}
+      aria-valuenow={valor || 1}
+      aria-valuetext={`${valor.toFixed(2)} / 5`}
+      className="relative h-2 rounded-full bg-gray-200"
+    >
+      <div className={`h-full rounded-full ${valor < UMBRAL_RIESGO ? 'bg-red-600' : 'bg-green-600'}`} style={{ width: `${porcentajeEscala(valor)}%` }} />
+      <span className="absolute -top-0.5 h-3 w-0.5 bg-gray-900" style={{ left: `${porcentajeEscala(UMBRAL_RIESGO)}%` }} aria-hidden="true" />
     </div>
   )
 }
 
+function Dato({ etiqueta, valor }: Readonly<{ etiqueta: string; valor: React.ReactNode }>) {
+  return (
+    <div className="bg-white p-4">
+      <dt className="text-small text-gray-600">{etiqueta}</dt>
+      <dd className="mt-1 text-title font-semibold text-gray-900">{valor}</dd>
+    </div>
+  )
+}
 
+export default function ManageProfessors() {
+  const { t } = usePreferencias()
+  const [params, setParams] = useSearchParams()
+
+  const [docentes, setDocentes] = useState<DocenteResumen[]>([])
+  const [cargando, setCargando] = useState(true)
+  const [errorLista, setErrorLista] = useState(false)
+  const [busqueda, setBusqueda] = useState('')
+  const [filtro, setFiltro] = useState<FiltroDocentes>('todos')
+  const [orden, setOrden] = useState<OrdenDocentes>('nombre')
+  const [seleccionadoId, setSeleccionadoId] = useState<string | null>(params.get('profesor'))
+  const [periodo, setPeriodo] = useState(params.get('period') || PERIODOS[0])
+  const [stats, setStats] = useState<any | null>(null)
+  const [cargandoStats, setCargandoStats] = useState(false)
+  const [errorStats, setErrorStats] = useState(false)
+
+  useEffect(() => {
+    let activo = true
+    const cargar = async () => {
+      setCargando(true)
+      setErrorLista(false)
+      try {
+        const paginas = await Promise.all([
+          fetchCoordinatorDashboardSummary({ page: 1, pageSize: 50 }),
+          fetchCoordinatorDashboardSummary({ page: 2, pageSize: 50 }),
+        ])
+        if (!activo) return
+        setDocentes(
+          paginas
+            .flatMap((p) => p.teachers || [])
+            .map((p) => ({
+              id: p.profesorId,
+              nombre: p.nombre || '—',
+              email: p.email || '',
+              promedio: Number(p.promedio) || 0,
+              totalEvaluaciones: Number(p.totalEvaluaciones) || 0,
+            }))
+        )
+      } catch (e) {
+        console.error('Error cargando los docentes de la carrera:', e)
+        if (!activo) return
+        setErrorLista(true)
+        setDocentes([])
+      } finally {
+        if (activo) setCargando(false)
+      }
+    }
+    cargar()
+    return () => {
+      activo = false
+    }
+  }, [])
+
+  const seleccionado = useMemo(() => docentes.find((d) => String(d.id) === seleccionadoId) ?? null, [docentes, seleccionadoId])
+  const cuentas = useMemo(() => contarPorEstado(docentes), [docentes])
+  const visibles = useMemo(() => filtrarYOrdenar(docentes, { busqueda, filtro, orden }), [docentes, busqueda, filtro, orden])
+
+  useEffect(() => {
+    if (!seleccionado) return
+    let activo = true
+    setCargandoStats(true)
+    setErrorStats(false)
+    setStats(null)
+    fetchCoordinatorProfessorStats(seleccionado.id, periodo)
+      .then((datos) => activo && setStats(datos))
+      .catch(() => activo && setErrorStats(true))
+      .finally(() => activo && setCargandoStats(false))
+    return () => {
+      activo = false
+    }
+  }, [seleccionado, periodo])
+
+  const elegir = (id: string | null) => {
+    setSeleccionadoId(id)
+    const siguiente = new URLSearchParams(params)
+    if (id) siguiente.set('profesor', id)
+    else siguiente.delete('profesor')
+    setParams(siguiente, { replace: true })
+  }
+
+  const resumen = stats?.summary
+  const categorias: Array<{ categoriaId: string | number; nombre: string; promedio: number }> = stats?.categories ?? []
+  const cursos: Array<{ cursoId: number; codigo?: string; nombre: string; promedio: number; totalEvaluaciones: number }> = stats?.courses ?? []
+  const nDocentes = visibles.length === 1 ? t('gp.encontrado') : t('gp.encontrados', { n: visibles.length })
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header title={t('gp.titulo')} subtitle={t('gp.subtitulo')} />
+
+      <main className="mx-auto max-w-[1400px] px-4 py-6 lg:px-8">
+        <h1 className="sr-only">{t('gp.titulo')}</h1>
+
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)]">
+          {/* Lista: en móvil se oculta cuando hay un docente elegido. */}
+          <section aria-labelledby="titulo-lista" className={`${seleccionado ? 'hidden lg:block' : ''} rounded-2xl border border-gray-200 bg-white`}>
+            <div className="space-y-3 border-b border-gray-200 p-4">
+              <h2 id="titulo-lista" className="text-subtitle font-semibold text-gray-900">
+                {t('gp.lista')}
+              </h2>
+              <div className="relative">
+                <label htmlFor="gp-buscar" className="sr-only">{t('gp.buscar')}</label>
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" aria-hidden="true" />
+                <input
+                  id="gp-buscar"
+                  type="search"
+                  value={busqueda}
+                  onChange={(e) => setBusqueda(e.target.value)}
+                  placeholder={t('gp.buscar')}
+                  className="min-h-[44px] w-full rounded-xl border border-gray-300 bg-white py-2 pl-9 pr-3 text-body text-gray-900 placeholder:text-gray-500"
+                />
+              </div>
+
+              <div role="radiogroup" aria-label={t('gp.filtro')} className="flex flex-wrap gap-1.5">
+                {FILTROS.map(({ valor, clave }) => (
+                  <button
+                    key={valor}
+                    type="button"
+                    role="radio"
+                    aria-checked={filtro === valor}
+                    onClick={() => setFiltro(valor)}
+                    className={`min-h-[36px] rounded-full border px-3 text-small font-medium transition-colors ${
+                      filtro === valor ? 'border-red-600 bg-red-600 text-white' : 'border-gray-300 bg-white text-gray-800 hover:bg-gray-100'
+                    }`}
+                  >
+                    {t(clave)} <span className="tabular-nums opacity-80">({cuentas[valor]})</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-small text-gray-600" aria-live="polite">{nDocentes}</p>
+                <div className="flex items-center gap-2">
+                  <label htmlFor="gp-orden" className="text-small text-gray-700">{t('gp.orden')}</label>
+                  <select
+                    id="gp-orden"
+                    value={orden}
+                    onChange={(e) => setOrden(e.target.value as OrdenDocentes)}
+                    className="min-h-[40px] rounded-lg border border-gray-300 bg-white px-2 text-small text-gray-900"
+                  >
+                    {ORDENES.map(({ valor, clave }) => (
+                      <option key={valor} value={valor}>{t(clave)}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {cargando && <p className="p-6 text-center text-small text-gray-600">{t('gp.cargando')}</p>}
+            {!cargando && errorLista && (
+              <p role="alert" className="m-4 rounded-xl bg-red-50 p-3 text-small text-red-800">{t('com.error')}</p>
+            )}
+            {!cargando && !errorLista && visibles.length === 0 && (
+              <div className="p-8 text-center">
+                <GraduationCap className="mx-auto h-10 w-10 text-gray-400" aria-hidden="true" />
+                <p className="mt-2 text-body font-medium text-gray-900">{t('gp.sinResultados')}</p>
+                <p className="text-small text-gray-600">{t('gp.sinResultadosAyuda')}</p>
+              </div>
+            )}
+            {!cargando && visibles.length > 0 && (
+              <ul className="max-h-[calc(100vh-22rem)] min-h-[12rem] divide-y divide-gray-200 overflow-y-auto">
+                {visibles.map((d) => {
+                  const estado = estadoDelDocente(d)
+                  const activo = seleccionado?.id === d.id
+                  return (
+                    <li key={d.id}>
+                      <button
+                        type="button"
+                        onClick={() => elegir(String(d.id))}
+                        aria-current={activo ? 'true' : undefined}
+                        className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${activo ? 'bg-red-50' : 'hover:bg-gray-50'}`}
+                      >
+                        <span
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy-700 text-small font-semibold text-white"
+                          aria-hidden="true"
+                        >
+                          {iniciales(d.nombre)}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-body font-medium text-gray-900">{d.nombre}</span>
+                          <span className="block truncate text-small text-gray-600">{d.email || t('com.sinCorreo')}</span>
+                          {estado !== 'sinDatos' && <span className="mt-1.5 block"><BarraPromedio valor={d.promedio} etiqueta={d.nombre} /></span>}
+                        </span>
+                        <span className="shrink-0 text-right">
+                          {estado === 'sinDatos' ? (
+                            <span className="text-small text-gray-600">{t('coord.t.sinDatos')}</span>
+                          ) : (
+                            <span className={`block text-subtitle font-semibold ${estado === 'riesgo' ? 'text-red-600' : 'text-gray-900'}`}>
+                              {d.promedio.toFixed(2)}
+                            </span>
+                          )}
+                          <span className="block text-small text-gray-600">{t('gp.evaluacionesN', { n: d.totalEvaluaciones })}</span>
+                        </span>
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </section>
+
+          {/* Detalle */}
+          <section aria-labelledby="titulo-detalle" className={`${seleccionado ? '' : 'hidden lg:block'} rounded-2xl border border-gray-200 bg-white p-5 lg:sticky lg:top-24`}>
+            {!seleccionado ? (
+              <div className="py-12 text-center">
+                <GraduationCap className="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" />
+                <h2 id="titulo-detalle" className="mt-3 text-subtitle font-semibold text-gray-900">{t('gp.seleccionar')}</h2>
+                <p className="mx-auto max-w-sm text-small text-gray-600">{t('gp.seleccionarAyuda')}</p>
+              </div>
+            ) : (
+              <div className="space-y-5">
+                <button
+                  type="button"
+                  onClick={() => elegir(null)}
+                  className="inline-flex min-h-[40px] items-center gap-2 rounded-lg px-2 text-small font-medium text-gray-700 hover:bg-gray-100 lg:hidden"
+                >
+                  <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                  {t('gp.volverLista')}
+                </button>
+
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-navy-700 text-subtitle font-semibold text-white" aria-hidden="true">
+                      {iniciales(seleccionado.nombre)}
+                    </span>
+                    <div className="min-w-0">
+                      <h2 id="titulo-detalle" className="truncate text-subtitle font-semibold text-gray-900">{seleccionado.nombre}</h2>
+                      <p className="truncate text-small text-gray-600">{seleccionado.email || t('com.sinCorreo')}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="gp-periodo" className="block text-small text-gray-700">{t('gp.periodo')}</label>
+                    <select
+                      id="gp-periodo"
+                      value={periodo}
+                      onChange={(e) => setPeriodo(e.target.value)}
+                      className="min-h-[44px] rounded-lg border border-gray-300 bg-white px-3 text-body text-gray-900"
+                    >
+                      {PERIODOS.map((p) => <option key={p} value={p}>{p}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                {cargandoStats && <p className="py-8 text-center text-small text-gray-600">{t('gp.cargandoStats')}</p>}
+                {!cargandoStats && errorStats && (
+                  <p role="alert" className="rounded-xl bg-red-50 p-3 text-small text-red-800">{t('gp.errorStats')}</p>
+                )}
+
+                {!cargandoStats && stats && (
+                  <>
+                    {estadoDelDocente({ promedio: Number(resumen?.promedio) || 0, totalEvaluaciones: Number(resumen?.totalEvaluaciones) || 0 }) === 'riesgo' && (
+                      <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-small font-medium text-red-800">{t('gp.riesgoAviso')}</p>
+                    )}
+
+                    <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-gray-200 bg-gray-200 sm:grid-cols-4">
+                      <Dato etiqueta={t('gp.evaluaciones')} valor={resumen?.totalEvaluaciones || 0} />
+                      <Dato etiqueta={t('gp.promedio')} valor={`${resumen?.promedio || 0}/5`} />
+                      <Dato etiqueta={t('gp.evaluadores')} valor={resumen?.estudiantesEvaluadores || 0} />
+                      <Dato etiqueta={t('gp.cursosEvaluados')} valor={resumen?.totalCursos || 0} />
+                    </dl>
+
+                    <div>
+                      <h3 className="text-body font-semibold text-gray-900">{t('gp.porCategoria')}</h3>
+                      {categorias.length === 0 ? (
+                        <p className="mt-2 text-small text-gray-600">{t('gp.sinCategorias')}</p>
+                      ) : (
+                        <ul className="mt-2 space-y-3">
+                          {categorias.map((c) => (
+                            <li key={c.categoriaId}>
+                              <div className="flex items-baseline justify-between gap-3 text-small">
+                                <span className="text-gray-800">{c.nombre}</span>
+                                <span className="font-semibold text-gray-900">{Number(c.promedio || 0).toFixed(2)}</span>
+                              </div>
+                              <div className="mt-1"><BarraPromedio valor={Number(c.promedio) || 0} etiqueta={c.nombre} /></div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    <div>
+                      <h3 className="text-body font-semibold text-gray-900">{t('gp.porCurso')}</h3>
+                      {cursos.length === 0 ? (
+                        <p className="mt-2 text-small text-gray-600">{t('gp.sinCursos')}</p>
+                      ) : (
+                        <ul className="mt-2 divide-y divide-gray-200 rounded-xl border border-gray-200">
+                          {cursos.map((c) => (
+                            <li key={c.cursoId} className="flex items-center justify-between gap-3 px-4 py-3">
+                              <div className="min-w-0">
+                                <p className="truncate text-body font-medium text-gray-900">{c.codigo ? `${c.codigo} · ` : ''}{c.nombre}</p>
+                                <p className="text-small text-gray-600">{t('gp.evaluacionesN', { n: c.totalEvaluaciones })}</p>
+                              </div>
+                              <span className={`text-subtitle font-semibold ${Number(c.promedio) < UMBRAL_RIESGO ? 'text-red-600' : 'text-gray-900'}`}>
+                                {Number(c.promedio || 0).toFixed(2)}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </section>
+        </div>
+      </main>
+    </div>
+  )
+}
