@@ -1,0 +1,11 @@
+{
+  "disponible": true,
+  "eventos": [
+    { "id": 9, "actorId": "u-coord", "actorNombre": "David Coordinador", "actorRol": "coordinador", "accion": "programar_encuesta", "entidad": "periodo", "entidadId": "2026-2", "detalle": "Periodo 2026-2, del 2026-11-03 al 2026-11-21", "creadoEn": "2026-11-09T15:30:00.000Z" },
+    { "id": 8, "actorId": "u-coord", "actorNombre": "María Gómez", "actorRol": "coordinador", "accion": "generar_qr", "entidad": "qr", "entidadId": null, "detalle": "12 código(s) QR generados", "creadoEn": "2026-11-08T11:00:00.000Z" },
+    { "id": 7, "actorId": "u-coord", "actorNombre": "David Coordinador", "actorRol": "coordinador", "accion": "consultar_reportes", "entidad": "reporte", "entidadId": "2026-2", "detalle": "Reporte general del periodo 2026-2", "creadoEn": "2026-11-07T09:15:00.000Z" },
+    { "id": 6, "actorId": "u-coord", "actorNombre": "=HYPERLINK(\"http://evil.example\",\"clic\")", "actorRol": "coordinador", "accion": "consultar_docente", "entidad": "profesor", "entidadId": "2", "detalle": "Estadísticas del docente 2", "creadoEn": "2026-11-06T08:00:00.000Z" }
+  ],
+  "resumen": { "total": 4, "porAccion": { "programar_encuesta": 1, "generar_qr": 1, "consultar_reportes": 1, "consultar_docente": 1 }, "ultimoEvento": "2026-11-09T15:30:00.000Z" },
+  "pagination": { "page": 1, "pageSize": 10, "total": 4, "totalPages": 1 }
+}

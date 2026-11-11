@@ -1,0 +1,85 @@
+- main:
+  - heading "Gestión de profesores" [level=1]
+  - region "Docentes":
+    - heading "Docentes" [level=2]
+    - text: Buscar por nombre o correo
+    - searchbox "Buscar por nombre o correo"
+    - radiogroup "Mostrar":
+      - radio "Todos (6)" [checked]
+      - radio "En riesgo (2)"
+      - radio "Con buen promedio (3)"
+      - radio "Sin evaluaciones (1)"
+    - paragraph: 6 docentes
+    - text: Ordenar por
+    - combobox "Ordenar por":
+      - option "Nombre" [selected]
+      - option "Promedio (menor primero)"
+      - option "Promedio (mayor primero)"
+      - option "Más evaluaciones"
+    - list:
+      - listitem:
+        - button "Ana María Pérez ana.perez@udemedellin.edu.co 4.60 / 5 4.60 42 evaluaciones":
+          - text: Ana María Pérez ana.perez@udemedellin.edu.co
+          - meter "Ana María Pérez"
+          - text: 4.60 42 evaluaciones
+      - listitem:
+        - button "Carlos Restrepo carlos.restrepo@udemedellin.edu.co 3.40 / 5 3.40 31 evaluaciones":
+          - text: Carlos Restrepo carlos.restrepo@udemedellin.edu.co
+          - meter "Carlos Restrepo"
+          - text: 3.40 31 evaluaciones
+      - listitem:
+        - button "Esteban Cárdenas esteban.cardenas@udemedellin.edu.co 4.80 / 5 4.80 37 evaluaciones":
+          - text: Esteban Cárdenas esteban.cardenas@udemedellin.edu.co
+          - meter "Esteban Cárdenas"
+          - text: 4.80 37 evaluaciones
+      - listitem:
+        - button "Jorge Ríos jorge.rios@udemedellin.edu.co Sin datos 0 evaluaciones"
+      - listitem:
+        - button "Luisa Fernanda Gómez luisa.gomez@udemedellin.edu.co 4.10 / 5 4.10 28 evaluaciones":
+          - text: Luisa Fernanda Gómez luisa.gomez@udemedellin.edu.co
+          - meter "Luisa Fernanda Gómez"
+          - text: 4.10 28 evaluaciones
+      - listitem:
+        - button "Marta Lucía Soto marta.soto@udemedellin.edu.co 3.80 / 5 3.80 19 evaluaciones":
+          - text: Marta Lucía Soto marta.soto@udemedellin.edu.co
+          - meter "Marta Lucía Soto"
+          - text: 3.80 19 evaluaciones
+  - region "Carlos Restrepo":
+    - heading "Carlos Restrepo" [level=2]
+    - paragraph: carlos.restrepo@udemedellin.edu.co
+    - text: Periodo
+    - combobox "Periodo":
+      - option "2026-1" [selected]
+      - option "2025-2"
+      - option "2025-1"
+      - option "2024-2"
+    - paragraph: "Promedio inferior a 4.0: conviene revisar los comentarios."
+    - term: Evaluaciones
+    - definition: "31"
+    - term: Promedio
+    - definition: 3.4/5
+    - term: Estudiantes que evaluaron
+    - definition: "25"
+    - term: Cursos evaluados
+    - definition: "3"
+    - heading "Promedio por categoría" [level=3]
+    - list:
+      - listitem:
+        - text: Dominio del tema 3.60
+        - meter "Dominio del tema"
+      - listitem:
+        - text: Metodología 3.10
+        - meter "Metodología"
+      - listitem:
+        - text: Trato respetuoso 3.80
+        - meter "Trato respetuoso"
+    - heading "Cursos evaluados" [level=3]
+    - list:
+      - listitem:
+        - paragraph: SIS101 · Programación I
+        - paragraph: 20 evaluaciones
+        - text: "3.40"
+      - listitem:
+        - paragraph: SIS204 · Bases de datos
+        - paragraph: 11 evaluaciones
+        - text: "3.20"

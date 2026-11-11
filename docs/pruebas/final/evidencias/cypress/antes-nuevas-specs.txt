@@ -1,0 +1,1118 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --spec cypress/e2e/regression/**/*.cy.ts,cypress/e2e/ui/**/*.cy.ts,cypress/e2e/accessibility/**/*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.13.0 (/usr/bin/node)                                                       │
+  │ Specs:          21 found (regression/rf-rep-25-32.cy.ts, regression/rq1-rq5-flujo-completo.cy. │
+  │                 ts, regression/rq14-rq17-qr.cy.ts, regression/rq15-rq16-qr-correo.cy.ts, regre │
+  │                 ssion/rq18-qr-correo.cy.ts, regression/rq19-acceso-por-rol.cy.ts, regression/r │
+  │                 q22-rq24-dashboard-coor...)                                                    │
+  │ Searched:       cypress/e2e/regression/**/*.cy.ts, cypress/e2e/ui/**/*.cy.ts, cypress/e2e/acce │
+  │                 ssibility/**/*.cy.ts                                                           │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rf-rep-25-32.cy.ts                                                  (1 of 21)
+
+
+  Regresión RF-REP-25, RF-REP-26 y RF-IA-32
+    ✓ RF-REP-26: el promedio 4 sigue en la tarjeta (3889ms)
+    ✓ Regresión RF-REP-26: una nota 99 no vuelve a pintarse encima del promedio válido (1555ms)
+    ✓ Regresión RF-REP-25: sin parámetros el aviso sigue y no aparece el gráfico (1787ms)
+    ✓ Regresión RF-IA-32: generar el resumen deja el título y el botón en su sitio (2085ms)
+    ✓ Regresión de acceso: el estudiante sigue fuera del dashboard y de los reportes (1805ms)
+
+
+  5 passing (12s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        5                                                                                │
+  │ Passing:      5                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     11 seconds                                                                       │
+  │ Spec Ran:     regression/rf-rep-25-32.cy.ts                                                    │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rf-rep-25-32.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq1-rq5-flujo-completo.cy.ts                                        (2 of 21)
+
+
+  RQ1–RQ5 — Regresión: ciclo de vida de una cuenta
+    ✓ alta → login → recuperación → nueva clave → login con la clave nueva (18475ms)
+    ✓ un correo no registrado no genera token ni correo, pero la UI responde igual (1631ms)
+    ✓ el alta duplicada se rechaza y la cuenta original sigue intacta (3878ms)
+
+
+  3 passing (25s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     24 seconds                                                                       │
+  │ Spec Ran:     regression/rq1-rq5-flujo-completo.cy.ts                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq1-rq5-flujo-completo.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq14-rq17-qr.cy.ts                                                  (3 of 21)
+
+
+  RQ14 y RQ17 — Entrada por QR (E2E)
+    ✓ RQ17: un QR sin token no abre la evaluación y no llama al back (2862ms)
+    ✓ RQ17: con token y sin sesión vuelve al login y no resuelve el QR (1210ms)
+    ✓ RQ14: el estudiante se inscribe con un QR válido (1076ms)
+    ✓ Regresión RQ14: si el back rechaza el QR, la encuesta no se abre (1066ms)
+
+
+  4 passing (6s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      4                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     6 seconds                                                                        │
+  │ Spec Ran:     regression/rq14-rq17-qr.cy.ts                                                    │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq14-rq17-qr.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq15-rq16-qr-correo.cy.ts                                           (4 of 21)
+
+
+  RQ15 y RQ16 — Generación de QR y correo (E2E)
+    (Attempt 1 of 2) RQ15: con fechas, período y grupos, guarda la ventana y genera solo esos QR
+    1) "before each" hook for "RQ15: con fechas, período y grupos, guarda la ventana y genera solo esos QR"
+
+
+  0 passing (23s)
+  1 failing
+
+  1) RQ15 y RQ16 — Generación de QR y correo (E2E)
+       "before each" hook for "RQ15: con fechas, período y grupos, guarda la ventana y genera solo esos QR":
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Cargar cursos' within the selector: 'button' but never did.
+
+Because this error occurred during a `before each` hook we are skipping the remaining tests in the current suite: `RQ15 y RQ16 — Generación de...`
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq15-rq16-qr-correo.cy.ts:26:7)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      7                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     22 seconds                                                                       │
+  │ Spec Ran:     regression/rq15-rq16-qr-correo.cy.ts                                             │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq15-rq16-qr-correo.cy.ts/RQ15 y RQ16 — Generació               
+     n de QR y correo (E2E) -- RQ15 con fechas, período y grupos, guarda la ventana y               
+      genera solo esos QR (failed).png                                                              
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq15-rq16-qr-correo.cy.ts/RQ15 y RQ16 — Generació               
+     n de QR y correo (E2E) -- RQ15 con fechas, período y grupos, guarda la ventana y               
+      genera solo esos QR -- before each hook (failed) (attempt 2).png                              
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq15-rq16-qr-correo.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq18-qr-correo.cy.ts                                                (5 of 21)
+
+
+  RQ18 — QR por correo (E2E)
+    (Attempt 1 of 2) RQ18: con grupos, destinatario y asunto, envía solo los grupos con QR
+    1) "before each" hook for "RQ18: con grupos, destinatario y asunto, envía solo los grupos con QR"
+
+
+  0 passing (22s)
+  1 failing
+
+  1) RQ18 — QR por correo (E2E)
+       "before each" hook for "RQ18: con grupos, destinatario y asunto, envía solo los grupos con QR":
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Cargar cursos' within the selector: 'button' but never did.
+
+Because this error occurred during a `before each` hook we are skipping the remaining tests in the current suite: `RQ18 — QR por correo (E2E)`
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq18-qr-correo.cy.ts:18:7)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      3                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     21 seconds                                                                       │
+  │ Spec Ran:     regression/rq18-qr-correo.cy.ts                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq18-qr-correo.cy.ts/RQ18 — QR por correo (E2E) -               
+     - RQ18 con grupos, destinatario y asunto, envía solo los grupos con QR (failed).               
+     png                                                                                            
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq18-qr-correo.cy.ts/RQ18 — QR por correo (E2E) -               
+     - RQ18 con grupos, destinatario y asunto, envía solo los grupos con QR -- before               
+      each hook (failed) (attempt 2).png                                                            
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq18-qr-correo.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq19-acceso-por-rol.cy.ts                                           (6 of 21)
+
+
+  RQ19 — Acceso al dashboard según el rol (E2E)
+    ✓ sin sesión, /dashboard-admin manda al login (2832ms)
+    ✓ un admin entra a /dashboard-admin (1301ms)
+    ✓ un usuario estudiante + admin llega al panel de admin desde /dashboard (993ms)
+    (Attempt 1 of 2) Regresión RQ19: un estudiante con sesión no entra al panel de admin
+    1) Regresión RQ19: un estudiante con sesión no entra al panel de admin
+    ✓ Regresión RQ19: un usuario guardado corrupto no deja la pantalla en blanco (1188ms)
+    (Attempt 1 of 2) Brecha conocida: un estudiante abre /dashboard-coordinador, pero el back le niega los datos
+    2) Brecha conocida: un estudiante abre /dashboard-coordinador, pero el back le niega los datos
+
+
+  4 passing (38s)
+  2 failing
+
+  1) RQ19 — Acceso al dashboard según el rol (E2E)
+       Regresión RQ19: un estudiante con sesión no entra al panel de admin:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Acceso no permitido' within the selector: 'h1' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq19-acceso-por-rol.cy.ts:36:45)
+
+  2) RQ19 — Acceso al dashboard según el rol (E2E)
+       Brecha conocida: un estudiante abre /dashboard-coordinador, pero el back le niega los datos:
+     CypressError: Timed out retrying after 5000ms: `cy.wait()` timed out waiting `5000ms` for the 1st request to the route: `resumen`. No request ever occurred.
+
+https://on.cypress.io/wait
+      at cypressErr (http://localhost:3001/__cypress/runner/cypress_runner.js:75831:18)
+      at Object.errByPath (http://localhost:3001/__cypress/runner/cypress_runner.js:75891:10)
+      at checkForXhr (http://localhost:3001/__cypress/runner/cypress_runner.js:136853:84)
+      at <unknown> (http://localhost:3001/__cypress/runner/cypress_runner.js:136870:28)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+      at whenStable (http://localhost:3001/__cypress/runner/cypress_runner.js:151874:70)
+      at <unknown> (http://localhost:3001/__cypress/runner/cypress_runner.js:151774:14)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise._settlePromiseFromHandler (http://localhost:3001/__cypress/runner/cypress_runner.js:1492:31)
+      at Promise._settlePromise (http://localhost:3001/__cypress/runner/cypress_runner.js:1549:18)
+      at Promise._settlePromise0 (http://localhost:3001/__cypress/runner/cypress_runner.js:1594:10)
+      at Promise._settlePromises (http://localhost:3001/__cypress/runner/cypress_runner.js:1674:18)
+      at Promise._fulfill (http://localhost:3001/__cypress/runner/cypress_runner.js:1618:18)
+      at <unknown> (http://localhost:3001/__cypress/runner/cypress_runner.js:5423:46)
+  From Your Spec Code:
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq19-acceso-por-rol.cy.ts:60:7)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      4                                                                                │
+  │ Failing:      2                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  4                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     37 seconds                                                                       │
+  │ Spec Ran:     regression/rq19-acceso-por-rol.cy.ts                                             │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq19-acceso-por-rol.cy.ts/RQ19 — Acceso al dashbo               
+     ard según el rol (E2E) -- Regresión RQ19 un estudiante con sesión no entra al pa               
+     nel de admin (failed).png                                                                      
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq19-acceso-por-rol.cy.ts/RQ19 — Acceso al dashbo               
+     ard según el rol (E2E) -- Regresión RQ19 un estudiante con sesión no entra al pa               
+     nel de admin (failed) (attempt 2).png                                                          
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq19-acceso-por-rol.cy.ts/RQ19 — Acceso al dashbo               
+     ard según el rol (E2E) -- Brecha conocida un estudiante abre dashboard-coordinad               
+     or, pero el back le niega los datos (failed).png                                               
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq19-acceso-por-rol.cy.ts/RQ19 — Acceso al dashbo               
+     ard según el rol (E2E) -- Brecha conocida un estudiante abre dashboard-coordinad               
+     or, pero el back le niega los datos (failed) (attempt 2).png                                   
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq19-acceso-por-rol.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq22-rq24-dashboard-coordinador.cy.ts                               (7 of 21)
+
+
+  RQ22 y RQ24 — Dashboard del coordinador (E2E)
+    ✓ RQ22: el promedio general y el de cada docente se ven con dos decimales (3204ms)
+    ✓ Regresión RQ22: un promedio corrupto (99) se pinta como 0.00, nunca como 99 (1332ms)
+    ✓ Regresión RQ22: un docente sin evaluaciones muestra "Sin datos" y no 0.00 (1262ms)
+    ✓ RQ22: un promedio menor a 4.0 queda resaltado en rojo (2378ms)
+    ✓ RQ24: la búsqueda viaja recortada, vuelve a la página 1 y filtra la tabla (2256ms)
+    ✓ Regresión RQ24: al borrar la búsqueda vuelven todos los docentes (2416ms)
+    ✓ Regresión RQ24: un texto con <script> no ejecuta nada y muestra la lista vacía (2643ms)
+
+  RQ24 — Dashboard del coordinador cuando el back falla (E2E)
+    ✓ un 500 deja la pantalla usable, con métricas en 0 y sin datos viejos (1258ms)
+
+
+  8 passing (17s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      8                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     17 seconds                                                                       │
+  │ Spec Ran:     regression/rq22-rq24-dashboard-coordinador.cy.ts                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq22-rq24-dashboard-coordinador.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq23-rq25-reportes-coordinador.cy.ts                                (8 of 21)
+
+
+  RQ23 y RQ25 — Reportes del coordinador (E2E)
+    ✓ RQ23: al abrir, pide el periodo 2026-1 sin filtros de curso ni grupo (2794ms)
+    ✓ Regresión RQ23: cambiar de periodo pide ese periodo y reinicia curso y grupo (2043ms)
+    ✓ RQ25: "Datos Excel" descarga el libro del coordinador con las filas del reporte (3286ms)
+    ✓ Regresión RQ25: un nombre que parece fórmula llega al Excel como texto (1722ms)
+
+  RQ23 — Reportes cuando el back falla (E2E)
+    ✓ las tarjetas muestran "Error" en vez de cifras (1291ms)
+
+
+  5 passing (12s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        5                                                                                │
+  │ Passing:      5                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     12 seconds                                                                       │
+  │ Spec Ran:     regression/rq23-rq25-reportes-coordinador.cy.ts                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq23-rq25-reportes-coordinador.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq27-materias-estudiante.cy.ts                                      (9 of 21)
+
+
+  RQ27 — Relación estudiante–materia (E2E)
+    (Attempt 1 of 2) el estudiante ve el curso, el grupo y el docente de su materia
+    1) el estudiante ve el curso, el grupo y el docente de su materia
+
+  RQ27 — Lista vacía y sin sesión (E2E)
+    (Attempt 1 of 2) Regresión RQ27: sin materias matriculadas la lista queda vacía
+    2) Regresión RQ27: sin materias matriculadas la lista queda vacía
+    ✓ Regresión RQ27: sin sesión no muestra las materias (1936ms)
+
+  RQ27 — Materias cuando el back falla (E2E)
+    (Attempt 1 of 2) un 500 deja la lista vacía y no inventa una materia
+    3) un 500 deja la lista vacía y no inventa una materia
+
+
+  1 passing (1m)
+  3 failing
+
+  1) RQ27 — Relación estudiante–materia (E2E)
+       el estudiante ve el curso, el grupo y el docente de su materia:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Relación estudiante–materia del periodo actual' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq27-materias-estudiante.cy.ts:23:66)
+
+  2) RQ27 — Lista vacía y sin sesión (E2E)
+       Regresión RQ27: sin materias matriculadas la lista queda vacía:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'No tienes materias matriculadas este semestre.' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq27-materias-estudiante.cy.ts:48:66)
+
+  3) RQ27 — Materias cuando el back falla (E2E)
+       un 500 deja la lista vacía y no inventa una materia:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'No tienes materias matriculadas este semestre.' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq27-materias-estudiante.cy.ts:71:66)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      3                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  6                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     1 minute, 2 seconds                                                              │
+  │ Spec Ran:     regression/rq27-materias-estudiante.cy.ts                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Relación es               
+     tudiante–materia (E2E) -- el estudiante ve el curso, el grupo y el docente de su               
+      materia (failed).png                                                                          
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Relación es               
+     tudiante–materia (E2E) -- el estudiante ve el curso, el grupo y el docente de su               
+      materia (failed) (attempt 2).png                                                              
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Lista vacía               
+      y sin sesión (E2E) -- Regresión RQ27 sin materias matriculadas la lista queda v               
+     acía (failed).png                                                                              
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Lista vacía               
+      y sin sesión (E2E) -- Regresión RQ27 sin materias matriculadas la lista queda v               
+     acía (failed) (attempt 2).png                                                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Materias cu               
+     ando el back falla (E2E) -- un 500 deja la lista vacía y no inventa una materia                
+     (failed).png                                                                                   
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Materias cu               
+     ando el back falla (E2E) -- un 500 deja la lista vacía y no inventa una materia                
+     (failed) (attempt 2).png                                                                       
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq27-materias-estudiante.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq6-acceso-por-rol.cy.ts                                           (10 of 21)
+
+
+  RQ6 — Control de acceso por roles (E2E)
+    ✓ sin sesión, /admin/users manda al login (3063ms)
+    ✓ un estudiante entra a /dashboard-estudiante (1968ms)
+    (Attempt 1 of 2) Regresión RQ6: un estudiante con sesión no administra usuarios
+    1) Regresión RQ6: un estudiante con sesión no administra usuarios
+    ✓ Regresión RQ6: un usuario guardado corrupto no deja la pantalla en blanco (1209ms)
+
+
+  3 passing (26s)
+  1 failing
+
+  1) RQ6 — Control de acceso por roles (E2E)
+       Regresión RQ6: un estudiante con sesión no administra usuarios:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Acceso no permitido' within the selector: 'h1' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq6-acceso-por-rol.cy.ts:30:45)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     26 seconds                                                                       │
+  │ Spec Ran:     regression/rq6-acceso-por-rol.cy.ts                                              │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq6-acceso-por-rol.cy.ts/RQ6 — Control de acceso                
+     por roles (E2E) -- Regresión RQ6 un estudiante con sesión no administra usuarios               
+      (failed).png                                                                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq6-acceso-por-rol.cy.ts/RQ6 — Control de acceso                
+     por roles (E2E) -- Regresión RQ6 un estudiante con sesión no administra usuarios               
+      (failed) (attempt 2).png                                                                      
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq6-acceso-por-rol.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rf-rep-25-32.cy.ts                                                         (11 of 21)
+
+
+  RF-REP-25 — Consulta de resultados crudos
+    ✓ sin curso, profesor o grupo muestra el error de parámetros (3018ms)
+    ✓ con los tres datos de la URL avisa que todavía no hay un resultado real (1492ms)
+    ✓ un estudiante no entra a la pantalla (1635ms)
+
+  RF-REP-26 — Métricas individuales del profesor
+    ✓ con notas en escala muestra el promedio y el total (3622ms)
+    ✓ sin evaluaciones muestra 0 y el estado vacío (2662ms)
+    ✓ una nota 99 no se pinta: la tarjeta queda en 0.0/5.0 (1479ms)
+    ✓ si el back no responde, la pantalla muestra el error y no cifras inventadas (1813ms)
+
+  RF-IA-32 — Resúmenes agregados
+    ✓ el profesor genera el resumen de sus comentarios (1807ms)
+    ✓ sin comentarios y con notas, el resumen sale de las respuestas cuantitativas (2074ms)
+    ✓ sin comentarios ni notas muestra el aviso y no pinta temas (2013ms)
+    ✓ el coordinador pide el resumen de su carrera y el decano el de su facultad (4475ms)
+    ✓ un error del servicio se muestra en la tarjeta y no redirige (3560ms)
+    ✓ una sesión rechazada con 401 regresa al login (3490ms)
+    ✓ un estudiante no abre los reportes (1320ms)
+
+
+  14 passing (38s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        14                                                                               │
+  │ Passing:      14                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     37 seconds                                                                       │
+  │ Spec Ran:     ui/rf-rep-25-32.cy.ts                                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rf-rep-25-32.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq1-registro-admin.cy.ts                                                   (12 of 21)
+
+
+  RQ1 — UI: registro de usuarios desde el administrador
+    escenarios exitosos
+      ✓ crea un estudiante: correo con dominio de estudiante, nombre en mayúsculas y fila nueva (6084ms)
+      ✓ crea un profesor: el dominio cambia a udemedellin.edu.co (2715ms)
+    escenarios alternativos
+      ✓ si se escribe el correo completo, el front se queda solo con el usuario [DEF-FE-12] (2179ms)
+      ✓ cancelar cierra el formulario sin llamar al back (1253ms)
+    escenarios de error
+      ✓ correo duplicado: el mensaje del back se muestra y el modal sigue abierto (2439ms)
+      ✓ contraseña sin mayúscula: se rechaza antes de llamar al back (3808ms)
+      ✓ contraseña sin número: se rechaza antes de llamar al back (3803ms)
+      ✓ contraseña sin carácter especial: se rechaza antes de llamar al back (3446ms)
+    control de acceso
+      (Attempt 1 of 2) un estudiante no puede entrar a la administración de usuarios
+      1) un estudiante no puede entrar a la administración de usuarios
+      ✓ sin sesión, /admin/users redirige al login (1658ms)
+
+
+  9 passing (48s)
+  1 failing
+
+  1) RQ1 — UI: registro de usuarios desde el administrador
+       control de acceso
+         un estudiante no puede entrar a la administración de usuarios:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Acceso no permitido' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq1-registro-admin.cy.ts:129:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        10                                                                               │
+  │ Passing:      9                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     47 seconds                                                                       │
+  │ Spec Ran:     ui/rq1-registro-admin.cy.ts                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq1-registro-admin.cy.ts/RQ1 — UI registro de usuarios de               
+     sde el administrador -- control de acceso -- un estudiante no puede entrar a la                
+     administración de usuarios (failed).png                                                        
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq1-registro-admin.cy.ts/RQ1 — UI registro de usuarios de               
+     sde el administrador -- control de acceso -- un estudiante no puede entrar a la                
+     administración de usuarios (failed) (attempt 2).png                                            
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq1-registro-admin.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq10-rq31.cy.ts                                                            (13 of 21)
+
+
+  RQ10 — estadísticas del estudiante
+    ✓ Eva ve completadas, pendientes y cursos (6666ms)
+    ✓ Lía ve las tres estadísticas en cero (4057ms)
+
+  RQ11 — enviar la evaluación
+    (Attempt 1 of 2) guarda la evaluación y muestra la despedida
+    1) guarda la evaluación y muestra la despedida
+    (Attempt 1 of 2) rechaza el comentario repetido y se queda en el formulario
+    2) rechaza el comentario repetido y se queda en el formulario
+
+  RQ13 — gestionar usuarios
+    ✓ crea un estudiante y no muestra la contraseña (7714ms)
+    ✓ rechaza un correo ya registrado (10456ms)
+    ✓ no deja crear con una clave sin mayúscula (7735ms)
+    ✓ actualiza el nombre de Eva (5654ms)
+    ✓ desactiva a otro usuario (5554ms)
+    ✓ no permite que el administrador se desactive (5346ms)
+    ✓ deja la tabla vacía si la búsqueda no coincide (5440ms)
+
+  RQ29 RQ30 RQ31 — resúmenes y alerta de acoso
+    ✓ el docente ve el resumen de sus comentarios y no la alerta (5572ms)
+    ✓ el coordinador ve el resumen de la carrera y la alerta de acoso (5640ms)
+    ✓ el decano ve que no hay comentarios suficientes y no hay alerta (4430ms)
+
+
+  12 passing (2m)
+  2 failing
+
+  1) RQ11 — enviar la evaluación
+       guarda la evaluación y muestra la despedida:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Nueva Evaluación' within the selector: 'button' but never did.
+      at enviarEvaluacion (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq10-rq31.cy.ts:120:5)
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq10-rq31.cy.ts:156:4)
+
+  2) RQ11 — enviar la evaluación
+       rechaza el comentario repetido y se queda en el formulario:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Nueva Evaluación' within the selector: 'button' but never did.
+      at enviarEvaluacion (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq10-rq31.cy.ts:120:5)
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq10-rq31.cy.ts:162:4)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        14                                                                               │
+  │ Passing:      12                                                                               │
+  │ Failing:      2                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  4                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     2 minutes, 6 seconds                                                             │
+  │ Spec Ran:     ui/rq10-rq31.cy.ts                                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq10-rq31.cy.ts/RQ11 — enviar la evaluación -- guarda la                
+     evaluación y muestra la despedida (failed).png                                                 
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq10-rq31.cy.ts/RQ11 — enviar la evaluación -- guarda la                
+     evaluación y muestra la despedida (failed) (attempt 2).png                                     
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq10-rq31.cy.ts/RQ11 — enviar la evaluación -- rechaza el               
+      comentario repetido y se queda en el formulario (failed).png                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq10-rq31.cy.ts/RQ11 — enviar la evaluación -- rechaza el               
+      comentario repetido y se queda en el formulario (failed) (attempt 2).png                      
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq10-rq31.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq15-formulario-qr.cy.ts                                                   (14 of 21)
+
+
+  RQ15 — UI: validación de la generación de QR
+    ✓ sin fechas informa el faltante y no llama al back (2971ms)
+    ✓ muestra período, fechas y el botón de confirmación (1153ms)
+
+
+  2 passing (4s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        2                                                                                │
+  │ Passing:      2                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     4 seconds                                                                        │
+  │ Spec Ran:     ui/rq15-formulario-qr.cy.ts                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq15-formulario-qr.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq19-login-formulario.cy.ts                                                (15 of 21)
+
+
+  RQ19 — UI: validación del login
+    ✓ informa que el correo no es válido y no llama al back (3311ms)
+    ✓ con correo vacío el navegador bloquea el envío (HTML required) (1775ms)
+    ✓ muestra el selector de tipo de usuario y el botón de envío (998ms)
+
+
+  3 passing (6s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     6 seconds                                                                        │
+  │ Spec Ran:     ui/rq19-login-formulario.cy.ts                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq19-login-formulario.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq2-login.cy.ts                                                            (16 of 21)
+
+
+  RQ2 — UI: inicio de sesión
+    escenarios exitosos
+      ✓ estudiante entra a su panel y el token queda guardado (3551ms)
+      ✓ administrador elige su tipo y llega al panel de administración (2262ms)
+    escenarios alternativos
+      ✓ cuenta con varios roles: el tipo elegido define la sesión (login-with-role) (2888ms)
+      ✓ el enlace "¿Olvidaste tu contraseña?" lleva a la recuperación (1254ms)
+    escenarios de error
+      ✓ credenciales inválidas: muestra el mensaje del back y no guarda token (1624ms)
+      ✓ tipo de usuario distinto al de la cuenta: avisa qué tipo seleccionar (1896ms)
+      ✓ cuenta inactiva: el 403 del back se muestra tal cual (1519ms)
+      ✓ error de red o 500 sin mensaje: usa el texto genérico (1581ms)
+      ✓ correo sin @: no llama al back (1551ms)
+
+
+  9 passing (19s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        9                                                                                │
+  │ Passing:      9                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     19 seconds                                                                       │
+  │ Spec Ran:     ui/rq2-login.cy.ts                                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq2-login.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq3-1-rq4-solicitud-recuperacion.cy.ts                                     (17 of 21)
+
+
+  RQ3.1 / RQ4 — UI: solicitud del enlace de recuperación
+    escenarios exitosos
+      ✓ correo registrado: envía la solicitud y confirma con el mensaje genérico (2954ms)
+      ✓ correo no registrado: la respuesta es idéntica (no se enumeran cuentas) (1442ms)
+    escenarios alternativos
+      ✓ el back no envía mensaje: el front usa el texto genérico por defecto (1545ms)
+      ✓ después de enviar, "Ir al inicio de sesión" vuelve al login (2414ms)
+      ✓ mientras espera la respuesta muestra "Enviando..." y deshabilita el botón (1413ms)
+    escenarios de error
+      ✓ formato de correo inválido: no llama al back (1218ms)
+      ✓ límite de intentos (429): muestra el mensaje del back y no confirma (1304ms)
+      ✓ falla del envío de correo (500): mensaje genérico de error (1536ms)
+
+
+  8 passing (14s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      8                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     14 seconds                                                                       │
+  │ Spec Ran:     ui/rq3-1-rq4-solicitud-recuperacion.cy.ts                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq3-1-rq4-solicitud-recuperacion.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq3-2-validacion-token.cy.ts                                               (18 of 21)
+
+
+  RQ3.2 — UI: validación del enlace de recuperación
+    ✓ token válido: consulta al back con token y correo y muestra el formulario (2646ms)
+    ✓ mientras valida muestra "Validando el enlace de recuperación..." (1101ms)
+    ✓ token vencido o ya usado: muestra el error del back y ofrece pedir otro enlace (1175ms)
+    ✓ enlace sin token: no consulta al back y lo declara incompleto (952ms)
+    ✓ enlace sin correo: no consulta al back y lo declara incompleto (1776ms)
+    ✓ enlace sin parámetros: no consulta al back y lo declara incompleto (1181ms)
+    ✓ el token con caracteres especiales se codifica en la URL de la petición (1011ms)
+
+
+  7 passing (10s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        7                                                                                │
+  │ Passing:      7                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     10 seconds                                                                       │
+  │ Spec Ran:     ui/rq3-2-validacion-token.cy.ts                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq3-2-validacion-token.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq5-restablecer-contrasena.cy.ts                                           (19 of 21)
+
+
+  RQ5 — UI: restablecer la contraseña
+    escenarios exitosos
+      ✓ envía token, correo y nueva clave; confirma y permite volver al login (4128ms)
+    escenarios alternativos
+      ✓ el ojo muestra y oculta la contraseña escrita (1608ms)
+      ✓ al corregir el campo desaparece el error anterior (2285ms)
+    escenarios de error
+      ✓ las contraseñas no coinciden: no llama al back (2271ms)
+      ✓ política de clave: menos de 8 caracteres (1681ms)
+      ✓ política de clave: sin mayúscula (1955ms)
+      ✓ política de clave: sin minúscula (1605ms)
+      ✓ política de clave: sin número (1485ms)
+      ✓ política de clave: sin carácter especial (1548ms)
+      ✓ campos vacíos: pide la nueva contraseña (el navegador bloquea el envío) (1079ms)
+      ✓ el token caducó entre la validación y el envío: muestra el error del back (1651ms)
+
+
+  11 passing (22s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        11                                                                               │
+  │ Passing:      11                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     22 seconds                                                                       │
+  │ Spec Ran:     ui/rq5-restablecer-contrasena.cy.ts                                              │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq5-restablecer-contrasena.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  accessibility/rf-rep-25-32-accesibilidad.cy.ts                                (20 of 21)
+
+
+  RF-REP-25, RF-REP-26 y RF-IA-32 — Accesibilidad
+    ✓ RF-REP-25: el aviso de parámetros tiene nombre, contraste y se anuncia (3232ms)
+    ✓ RF-REP-26: las métricas se leen en escritorio y en móvil, y el filtro tiene etiqueta (2348ms)
+    ✓ RF-REP-26: el error de carga se anuncia y no deja el foco atrapado (2069ms)
+    ✓ RF-IA-32: el botón del resumen toma el foco y el error se anuncia (3010ms)
+    ✓ RF-IA-32: el aviso de sin respuestas tiene estado y no tapa el botón (1968ms)
+
+
+  5 passing (13s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        5                                                                                │
+  │ Passing:      5                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     12 seconds                                                                       │
+  │ Spec Ran:     accessibility/rf-rep-25-32-accesibilidad.cy.ts                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/accessibility/rf-rep-25-32-accesibilidad.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  accessibility/rq1-rq5-accesibilidad.cy.ts                                     (21 of 21)
+
+
+  RQ1–RQ5 — Accesibilidad de autenticación
+    ✓ RQ2: el login no tiene violaciones serias de WCAG (3565ms)
+    ✓ RQ2 [DEF-FE-11]: con una sola tabulación desde la contraseña se llega al botón de envío (1179ms)
+    ✓ RQ2 [DEF-FE-09]: el error de credenciales se anuncia (role="alert" o aria-live) (2417ms)
+    ✓ RQ3.1 / RQ4: la solicitud de recuperación no tiene violaciones serias (2201ms)
+    ✓ RQ3.1 [DEF-FE-10]: el campo con error declara aria-invalid y se une a su mensaje (1349ms)
+    ✓ RQ3.2: el aviso de enlace no válido no tiene violaciones serias (1750ms)
+    ✓ RQ5 [DEF-FE-08]: el formulario de nueva contraseña no tiene violaciones serias (botones del ojo con nombre) (1784ms)
+    ✓ RQ1: el formulario de alta de usuarios no tiene violaciones serias (2427ms)
+
+
+  8 passing (17s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      8                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     17 seconds                                                                       │
+  │ Spec Ran:     accessibility/rq1-rq5-accesibilidad.cy.ts                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/accessibility/rq1-rq5-accesibilidad.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  regression/rf-rep-25-32.cy.ts            00:11        5        5        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  regression/rq1-rq5-flujo-completo.c      00:24        3        3        -        -        - │
+  │    y.ts                                                                                        │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  regression/rq14-rq17-qr.cy.ts            00:06        4        4        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  regression/rq15-rq16-qr-correo.cy.t      00:22        8        -        1        -        7 │
+  │    s                                                                                           │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  regression/rq18-qr-correo.cy.ts          00:21        4        -        1        -        3 │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  regression/rq19-acceso-por-rol.cy.t      00:37        6        4        2        -        - │
+  │    s                                                                                           │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  regression/rq22-rq24-dashboard-coor      00:17        8        8        -        -        - │
+  │    dinador.cy.ts                                                                               │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  regression/rq23-rq25-reportes-coord      00:12        5        5        -        -        - │
+  │    inador.cy.ts                                                                                │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  regression/rq27-materias-estudiante      01:02        4        1        3        -        - │
+  │    .cy.ts                                                                                      │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  regression/rq6-acceso-por-rol.cy.ts      00:26        4        3        1        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rf-rep-25-32.cy.ts                    00:37       14       14        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  ui/rq1-registro-admin.cy.ts              00:47       10        9        1        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  ui/rq10-rq31.cy.ts                       02:06       14       12        2        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rq15-formulario-qr.cy.ts              00:04        2        2        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rq19-login-formulario.cy.ts           00:06        3        3        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rq2-login.cy.ts                       00:19        9        9        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rq3-1-rq4-solicitud-recuperacion      00:14        8        8        -        -        - │
+  │    .cy.ts                                                                                      │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rq3-2-validacion-token.cy.ts          00:10        7        7        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  ui/rq5-restablecer-contrasena.cy.ts      00:22       11       11        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  accessibility/rf-rep-25-32-accesibi      00:12        5        5        -        -        - │
+  │    lidad.cy.ts                                                                                 │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  accessibility/rq1-rq5-accesibilidad      00:17        8        8        -        -        - │
+  │    .cy.ts                                                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  7 of 21 failed (33%)                     09:21      142      121       11        -       10  
+
