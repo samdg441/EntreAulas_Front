@@ -1,517 +1,321 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import {
-  CardHeader,
-  CardContent,
-  CardDescription,
-  CardTitle
-} from '../../components/Card';
-import Card from '../../components/Card';
-import Button from '../../components/Button';
-import Header from '../../components/Header';
-import { User } from '../../types';
-import {
-  Calendar as CalendarIcon,
-  BookOpen,
-  Users,
-  BarChart3,
-  Target,
-  TrendingUp,
-  AlertTriangle,
-  Search,
-  ChevronLeft,
-  ChevronRight
-} from 'lucide-react';
-import { useState, useEffect, useMemo } from 'react';
-import { fetchCoordinatorDashboardSummary, CoordinatorTeacherSummary } from '../../api/coordinador.api';
-import { statsVaciasCoordinador } from './docentes';
-import { promedioVisible } from '../../lib/calificaciones';
-import HelpTooltip from '../../components/HelpTooltip';
-import OnboardingBanner from '../../components/OnboardingBanner';
-
-// Importar el componente Calendar externo
-import Calendar from '../../components/Calendar';
-
-// Importar la imagen de fondo
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { AlertTriangle, ChevronLeft, ChevronRight, Search } from 'lucide-react'
+import Header from '../../components/Header'
+import HelpTooltip from '../../components/HelpTooltip'
+import OnboardingBanner from '../../components/OnboardingBanner'
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones'
+import { fetchCoordinatorDashboardSummary, CoordinatorTeacherSummary } from '../../api/coordinador.api'
+import { usePreferencias } from '../../preferencias/PreferenciasContext'
+import { promedioVisible } from '../../lib/calificaciones'
+import { User } from '../../types'
+import { statsVaciasCoordinador } from './docentes'
+import { UMBRAL_RIESGO, estadoDelDocente, porcentajeEscala } from './gestion-profesores'
 
 interface DashboardCoordinadorProps {
-  user: User;
+  user: User
 }
 
-export default function DashboardCoordinador({ user }: DashboardCoordinadorProps) {
-  const navigate = useNavigate();
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [loadingStats, setLoadingStats] = useState(true);
-  const [searchInput, setSearchInput] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [page, setPage] = useState(1);
-  const [teachers, setTeachers] = useState<CoordinatorTeacherSummary[]>([]);
-  const [stats, setStats] = useState({
-    totalProfesores: 0,
-    totalCursos: 0,
-    promedioEvaluaciones: 0,
-    profesoresEnRiesgo: 0,
-    totalEvaluaciones: 0
-  });
-  const [pagination, setPagination] = useState({ page: 1, pageSize: 8, total: 0, totalPages: 0 });
+function Indicador({
+  etiqueta,
+  ayuda,
+  valor,
+  detalle,
+  cargando,
+  tono = 'neutro',
+  children,
+}: Readonly<{
+  etiqueta: string
+  ayuda: string
+  valor: React.ReactNode
+  detalle: string
+  cargando: boolean
+  tono?: 'neutro' | 'alerta'
+  children?: React.ReactNode
+}>) {
+  return (
+    <div className="bg-white p-5">
+      <dt className="flex items-center gap-1.5 text-small font-medium text-gray-700">
+        {etiqueta}
+        <HelpTooltip texto={ayuda} etiqueta={etiqueta} />
+      </dt>
+      <dd className="mt-2">
+        {cargando ? (
+          <span className="block h-9 w-16 animate-pulse rounded bg-gray-200" aria-hidden="true" />
+        ) : (
+          <span className={`text-display font-semibold ${tono === 'alerta' ? 'text-red-600' : 'text-gray-900'}`}>
+            {valor}
+          </span>
+        )}
+        <span className="mt-1 block text-small text-gray-600">{detalle}</span>
+        {children}
+      </dd>
+    </div>
+  )
+}
 
-  const storedUser = ((): User | null => {
-    try {
-      const u = localStorage.getItem('user');
-      if (!u) return null;
-      const parsed = JSON.parse(u);
-      return {
-        id: parsed.id,
-        name: `${parsed.nombre} ${parsed.apellido}`.trim(),
-        type: (parsed.tipo_usuario as any) ?? 'coordinator',
-        email: parsed.email,
-        roles: parsed.roles || []
-      } as User;
-    } catch {
-      return null;
-    }
-  })();
+/** Barra de 1.0 a 5.0 con una marca en el umbral de riesgo (4.0). */
+function EscalaPromedio({ valor, etiqueta, umbral }: Readonly<{ valor: number; etiqueta: string; umbral: string }>) {
+  const relleno = porcentajeEscala(valor)
+  const marca = porcentajeEscala(UMBRAL_RIESGO)
+  return (
+    <div className="mt-3">
+      <div
+        role="meter"
+        aria-label={etiqueta}
+        aria-valuemin={1}
+        aria-valuemax={5}
+        aria-valuenow={valor || 1}
+        aria-valuetext={`${valor.toFixed(1)} / 5`}
+        className="relative h-2 rounded-full bg-gray-200"
+      >
+        <div
+          className={`h-full rounded-full ${valor >= UMBRAL_RIESGO ? 'bg-green-600' : 'bg-red-600'}`}
+          style={{ width: `${relleno}%` }}
+        />
+        <span className="absolute -top-1 h-4 w-0.5 bg-gray-900" style={{ left: `${marca}%` }} aria-hidden="true" />
+      </div>
+      <p className="mt-1 text-right text-small text-gray-600" style={{ paddingRight: `${100 - marca}%` }}>
+        {umbral}
+      </p>
+    </div>
+  )
+}
 
-  const currentUser = user ?? storedUser ?? { id: '', name: 'Coordinador', type: 'coordinator', email: '', roles: [] };
+export default function DashboardCoordinador({ user }: Readonly<DashboardCoordinadorProps>) {
+  const { t, locale } = usePreferencias()
+  const [loadingStats, setLoadingStats] = useState(true)
+  const [error, setError] = useState(false)
+  const [searchInput, setSearchInput] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
+  const [page, setPage] = useState(1)
+  const [teachers, setTeachers] = useState<CoordinatorTeacherSummary[]>([])
+  const [stats, setStats] = useState(statsVaciasCoordinador())
+  const [pagination, setPagination] = useState({ page: 1, pageSize: 8, total: 0, totalPages: 0 })
 
   useEffect(() => {
     const id = window.setTimeout(() => {
-      setPage(1);
-      setSearchTerm(searchInput.trim());
-    }, 350);
-    return () => window.clearTimeout(id);
-  }, [searchInput]);
+      setPage(1)
+      setSearchTerm(searchInput.trim())
+    }, 350)
+    return () => window.clearTimeout(id)
+  }, [searchInput])
 
   useEffect(() => {
-    const loadSummary = async () => {
+    let activo = true
+    const cargar = async () => {
       try {
-        setLoadingStats(true);
-        const response = await fetchCoordinatorDashboardSummary({
-          page,
-          pageSize: pagination.pageSize,
-          search: searchTerm
-        });
-        setStats(response.stats ?? statsVaciasCoordinador());
-        setTeachers(response.teachers || []);
-        setPagination(response.pagination || { page: 1, pageSize: 8, total: 0, totalPages: 0 });
-      } catch (error) {
-        console.error('Error cargando resumen del coordinador:', error);
-        setTeachers([]);
-        setStats(statsVaciasCoordinador());
+        setLoadingStats(true)
+        setError(false)
+        const respuesta = await fetchCoordinatorDashboardSummary({ page, pageSize: pagination.pageSize, search: searchTerm })
+        if (!activo) return
+        setStats(respuesta.stats ?? statsVaciasCoordinador())
+        setTeachers(respuesta.teachers || [])
+        setPagination(respuesta.pagination || { page: 1, pageSize: 8, total: 0, totalPages: 0 })
+      } catch (e) {
+        console.error('Error cargando resumen del coordinador:', e)
+        if (!activo) return
+        setError(true)
+        setTeachers([])
+        setStats(statsVaciasCoordinador())
       } finally {
-        setLoadingStats(false);
+        if (activo) setLoadingStats(false)
       }
-    };
-    loadSummary();
-  }, [page, pagination.pageSize, searchTerm]);
-
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return '¡Buenos días';
-    if (hour < 18) return '¡Buenas tardes';
-    return '¡Buenas noches';
-  };
-
-  const quickActions = useMemo(() => ([
-    {
-      icon: Users,
-      label: 'Gestionar Profesores',
-      description: 'Ver y administrar profesores',
-      ayuda: 'Lleva al listado de docentes de tu carrera, con sus promedios y el detalle de cada asignatura.',
-      onClick: () => navigate('/profesores/gestionar'),
-      variant: 'default' as const,
-      className: 'bg-red-600 hover:bg-red-700 text-white'
-    },
-    {
-      icon: BookOpen,
-      label: 'Programar Encuestas',
-      description: 'Definir período y fechas para encuestas',
-      ayuda: 'Abre la programación del periodo, las fechas y los cursos en los que se abre la evaluación.',
-      onClick: () => navigate('/surveys/schedule'),
-      variant: 'outline' as const,
-      className: 'border-red-300 text-red-600 hover:bg-red-50'
-    },
-    {
-      icon: BarChart3,
-      label: 'Reportes Generales',
-      description: 'Ver estadísticas de la carrera',
-      ayuda: 'Abre los reportes de calificaciones, tasa de respuesta y docentes en riesgo de tu carrera.',
-      onClick: () => navigate('/reports'),
-      variant: 'outline' as const,
-      className: 'border-red-300 text-red-600 hover:bg-red-50'
-    },
-    {
-      icon: CalendarIcon,
-      label: 'Calendario',
-      description: 'Fechas importantes',
-      ayuda: 'Abre el calendario con la apertura y el cierre de las encuestas de tu carrera.',
-      onClick: () => setShowCalendar(true),
-      variant: 'outline' as const,
-      className: 'border-red-300 text-red-600 hover:bg-red-50'
     }
-  ]), [navigate]);
+    cargar()
+    return () => {
+      activo = false
+    }
+  }, [page, pagination.pageSize, searchTerm])
 
+  const hora = new Date().getHours()
+  const saludo = t(hora < 12 ? 'coord.saludo.manana' : hora < 18 ? 'coord.saludo.tarde' : 'coord.saludo.noche')
+  const primerNombre = (user?.name || '').split(' ')[0] || t('rol.coordinador')
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
-  const promedioGeneral = promedioVisible(stats.promedioEvaluaciones)
-  const riesgoGlobal = promedioGeneral > 0 && promedioGeneral < 4;
+  const promedio = promedioVisible(stats.promedioEvaluaciones)
+  const carreraEnRiesgo = promedio > 0 && promedio < UMBRAL_RIESGO
+  const desde = teachers.length === 0 || pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.pageSize + 1
+  const hasta = teachers.length === 0 || pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.pageSize + teachers.length
 
   return (
-    <div className="min-h-screen bg-gray-50 relative">
-      {/* Fondo fijo que cubre toda la página */}
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-      </div>
-      
-      {/* Overlay más oscuro para mejor contraste */}
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0"></div>
-      
-      {/* Contenido principal */}
-      <div className="relative z-10">
-        {/* Usamos el componente Header */}
-        <Header user={currentUser} />
-        
-        <main className="max-w-[1700px] mx-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
-          {/* Welcome Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardContent className="space-y-3">
-                <h2 className="text-3xl font-semibold text-gray-900">
-                  {getGreeting()}, Coord. {currentUser.name.split(' ')[0]}!
-                </h2>
-                <p className="text-lg text-gray-600">
-                  Panel de coordinación de tu carrera. Supervisa docentes, ventanas de evaluación y códigos QR. El alcance es la carrera, no toda la facultad.
+    <div className="min-h-screen bg-gray-50">
+      <Header user={user} subtitle={t('coord.subtitulo')} />
+
+      <main className="mx-auto max-w-[1400px] space-y-6 px-4 py-6 lg:px-8">
+        <h1 className="text-title font-semibold text-gray-900">
+          {t('coord.saludo', { saludo, nombre: primerNombre })}
+        </h1>
+
+        <OnboardingBanner
+          rol="coordinador"
+          titulo={t('coord.guia.titulo')}
+          pasos={[t('coord.guia.p1'), t('coord.guia.p2'), t('coord.guia.p3')]}
+        />
+
+        <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
+          <div className="min-w-0 space-y-6">
+            <section aria-label={t('coord.metricas')} className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+              <dl className="grid grid-cols-1 gap-px bg-gray-200 sm:grid-cols-2 lg:grid-cols-4">
+                <Indicador
+                  etiqueta={t('coord.m.profesores')}
+                  ayuda={t('coord.m.profesoresAyuda')}
+                  valor={stats.totalProfesores}
+                  detalle={t('coord.m.profesoresDesc')}
+                  cargando={loadingStats}
+                />
+                <Indicador
+                  etiqueta={t('coord.m.cursos')}
+                  ayuda={t('coord.m.cursosAyuda')}
+                  valor={stats.totalCursos}
+                  detalle={t('coord.m.cursosDesc')}
+                  cargando={loadingStats}
+                />
+                <Indicador
+                  etiqueta={t('coord.m.promedio')}
+                  ayuda={t('coord.m.promedioAyuda')}
+                  valor={promedio > 0 ? promedio.toFixed(2) : '—'}
+                  detalle={carreraEnRiesgo ? t('coord.m.promedioRiesgo') : t('coord.m.promedioDesc')}
+                  cargando={loadingStats}
+                  tono={carreraEnRiesgo ? 'alerta' : 'neutro'}
+                >
+                  {!loadingStats && promedio > 0 && (
+                    <EscalaPromedio valor={promedio} etiqueta={t('coord.m.promedio')} umbral={t('coord.m.umbral')} />
+                  )}
+                </Indicador>
+                <Indicador
+                  etiqueta={t('coord.m.riesgo')}
+                  ayuda={t('coord.m.riesgoAyuda')}
+                  valor={stats.profesoresEnRiesgo}
+                  detalle={t('coord.m.riesgoDesc')}
+                  cargando={loadingStats}
+                  tono={stats.profesoresEnRiesgo > 0 ? 'alerta' : 'neutro'}
+                />
+              </dl>
+            </section>
+
+            <section aria-labelledby="resumen-docentes" className="rounded-2xl border border-gray-200 bg-white p-5">
+              <h2 id="resumen-docentes" className="text-subtitle font-semibold text-gray-900">
+                {t('coord.t.titulo')}
+              </h2>
+              <p className="text-small text-gray-600">{t('coord.t.descripcion')}</p>
+
+              <div className="relative mt-4">
+                <label htmlFor="buscar-docente" className="sr-only">
+                  {t('coord.t.buscar')}
+                </label>
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" aria-hidden="true" />
+                <input
+                  id="buscar-docente"
+                  type="search"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  placeholder={t('coord.t.buscar')}
+                  className="min-h-[44px] w-full rounded-xl border border-gray-300 bg-white py-2 pl-9 pr-3 text-body text-gray-900 placeholder:text-gray-500"
+                />
+              </div>
+
+              {error && (
+                <p role="alert" className="mt-4 flex items-center gap-2 rounded-xl bg-red-50 p-3 text-small text-red-800">
+                  <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  {t('com.error')}
                 </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+              )}
 
-          <OnboardingBanner
-            rol="coordinador"
-            pasos={[
-              'Revisa docentes en atención (promedio inferior a 4.0).',
-              'Programa la Encuesta: periodo, fechas y cursos.',
-              'Genera los Codigos QR y notifica a los grupos.',
-            ]}
-          />
-
-          {/* Stats Cards - datos reales de BD */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.2 }}
-            >
-              <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
-                    Total Profesores
-                    <HelpTooltip texto="Docentes activos vinculados a tu carrera. No incluye docentes de otras carreras de la facultad." />
-                  </CardTitle>
-                  <Users className="h-6 w-6 text-green-600 ml-4" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-green-600">
-                    {loadingStats ? (
-                      <div className="animate-pulse bg-green-200 h-8 w-16 rounded"></div>
-                    ) : (
-                      stats.totalProfesores
+              <div className="mt-4 overflow-x-auto rounded-xl border border-gray-200">
+                <table className="w-full text-left text-small">
+                  <caption className="sr-only">{t('coord.t.titulo')}</caption>
+                  <thead className="bg-gray-50 text-gray-700">
+                    <tr>
+                      <th scope="col" className="px-4 py-3 font-semibold">{t('coord.t.docente')}</th>
+                      <th scope="col" className="hidden px-4 py-3 font-semibold 2xl:table-cell">{t('coord.t.correo')}</th>
+                      <th scope="col" className="px-4 py-3 font-semibold">{t('coord.t.evaluaciones')}</th>
+                      <th scope="col" className="px-4 py-3 font-semibold">{t('coord.t.promedio')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {loadingStats && (
+                      <tr>
+                        <td className="px-4 py-6 text-center text-gray-600" colSpan={4}>
+                          {t('com.cargando')}
+                        </td>
+                      </tr>
                     )}
-                  </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
-                    Profesores activos de tu carrera
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.3 }}
-            >
-              <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
-                    Cursos Activos
-                    <HelpTooltip texto="Asignaturas con grupos abiertos en tu carrera. Sirve para estimar cuántas encuestas puedes programar en el periodo." />
-                  </CardTitle>
-                  <BookOpen className="h-6 w-6 text-purple-600 ml-4" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-purple-600">
-                    {loadingStats ? (
-                      <div className="animate-pulse bg-purple-200 h-8 w-16 rounded"></div>
-                    ) : (
-                      stats.totalCursos
+                    {!loadingStats && teachers.length === 0 && (
+                      <tr>
+                        <td className="px-4 py-6 text-center text-gray-600" colSpan={4}>
+                          {t('coord.t.vacia')}
+                        </td>
+                      </tr>
                     )}
-                  </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
-                    Cursos activos de tu carrera
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
+                    {!loadingStats &&
+                      teachers.map((d) => {
+                        const estado = estadoDelDocente(d)
+                        return (
+                          <tr key={d.profesorId} className={`border-t border-gray-200 ${estado === 'riesgo' ? 'bg-red-50' : ''}`}>
+                            <td className="min-w-[11rem] px-4 py-3 font-medium text-gray-900">
+                              <Link
+                                to={`/profesores/gestionar?profesor=${d.profesorId}`}
+                                className="underline decoration-gray-300 underline-offset-4 hover:decoration-red-600"
+                                aria-label={`${t('coord.t.verDetalle')}: ${d.nombre}`}
+                              >
+                                {d.nombre}
+                              </Link>
+                            </td>
+                            <td className="hidden max-w-[14rem] truncate px-4 py-3 text-gray-700 2xl:table-cell" title={d.email}>{d.email || '—'}</td>
+                            <td className="px-4 py-3 text-gray-700">{d.totalEvaluaciones}</td>
+                            <td className="px-4 py-3">
+                              <span
+                                className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 font-semibold ${
+                                  estado === 'riesgo'
+                                    ? 'bg-red-100 text-red-800'
+                                    : estado === 'sinDatos'
+                                      ? 'bg-gray-100 text-gray-700'
+                                      : 'bg-green-100 text-green-800'
+                                }`}
+                              >
+                                {estado === 'sinDatos' ? t('coord.t.sinDatos') : promedioVisible(d.promedio).toFixed(2)}
+                                {estado === 'riesgo' && <span>· {t('coord.t.enRiesgo')}</span>}
+                              </span>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                  </tbody>
+                </table>
+              </div>
 
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.4 }}
-            >
-              <Card className={`shadow-md p-6 border ${riesgoGlobal ? 'bg-red-50 border-red-200' : 'bg-white border-gray-200'}`}>
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
-                    Promedio General
-                    <HelpTooltip texto="Promedio de las evaluaciones de tu carrera en escala de 1.0 a 5.0. Si baja de 4.0, la carrera entra en seguimiento y conviene revisar docentes y comentarios." />
-                  </CardTitle>
-                  {riesgoGlobal
-                    ? <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
-                    : <TrendingUp className="h-6 w-6 text-yellow-600 ml-4" />
-                  }
-                </CardHeader>
-                <CardContent>
-                  <div className={`text-3xl font-bold ${riesgoGlobal ? 'text-red-600' : 'text-yellow-600'}`}>
-                    {loadingStats ? (
-                      <div className="animate-pulse bg-yellow-200 h-8 w-16 rounded"></div>
-                    ) : (
-                      promedioGeneral
-                    )}
-                  </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
-                    {riesgoGlobal ? 'Docente en atención: promedio inferior a 4.0' : 'Promedio general de evaluaciones'}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.5 }}
-            >
-              <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
-                    Docentes en Riesgo
-                    <HelpTooltip
-                      etiqueta="Qué significa en riesgo"
-                      texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
-                    />
-                  </CardTitle>
-                  <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-red-600">
-                    {loadingStats ? (
-                      <div className="animate-pulse bg-red-200 h-8 w-16 rounded"></div>
-                    ) : (
-                      stats.profesoresEnRiesgo
-                    )}
-                  </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">Promedio &lt; 4.0 (con evaluaciones)</p>
-                </CardContent>
-              </Card>
-            </motion.div>
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                <p className="text-small text-gray-600">{t('com.mostrando', { desde, hasta, total: pagination.total })}</p>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={loadingStats || pagination.page <= 1}
+                    className="inline-flex min-h-[40px] items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 text-small font-medium text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+                  >
+                    <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+                    {t('com.anterior')}
+                  </button>
+                  <span className="text-small text-gray-700">
+                    {t('com.pagina', { pagina: pagination.totalPages === 0 ? 0 : pagination.page, total: pagination.totalPages })}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setPage((p) => Math.min(pagination.totalPages || 1, p + 1))}
+                    disabled={loadingStats || pagination.page >= pagination.totalPages}
+                    className="inline-flex min-h-[40px] items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 text-small font-medium text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+                  >
+                    {t('com.siguiente')}
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+            </section>
           </div>
 
-          <Card className="bg-white shadow-md border border-gray-200 p-6">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-2">
-                <Target className="h-5 w-5 text-gray-700" />
-                <CardTitle className="text-2xl text-gray-900">Acciones Rápidas</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Herramientas para gestionar tu actividad como coordinador
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {quickActions.map((action) => (
-                  <div key={action.label} className="relative">
-                    <motion.button
-                      type="button"
-                      onClick={action.onClick}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      className={`w-full rounded-lg border px-4 py-5 pr-8 flex flex-col items-center justify-center gap-2 text-center transition-colors ${
-                        action.variant === 'default'
-                          ? 'bg-red-600 border-red-600 text-white hover:bg-red-700'
-                          : 'bg-white border-red-200 text-red-600 hover:bg-red-50'
-                      }`}
-                    >
-                      <action.icon className="h-7 w-7" />
-                      <span className="font-medium text-base leading-tight">{action.label}</span>
-                      <span className={`text-sm ${action.variant === 'default' ? 'text-white/80' : 'text-gray-500'}`}>
-                        {action.description}
-                      </span>
-                    </motion.button>
-                    <span className="absolute right-2 top-2 z-10">
-                      <HelpTooltip
-                        texto={action.ayuda}
-                        etiqueta={`Qué hace ${action.label}`}
-                        className={action.variant === 'default' ? 'text-white/90 hover:text-white' : 'text-red-600 hover:text-red-800'}
-                      />
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65 }}
-          >
-            <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-2xl text-gray-900">Resumen de docentes</CardTitle>
-                <CardDescription>
-                  Lista paginada de docentes de tu carrera. Promedios menores a 4.0 se muestran resaltados.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="relative">
-                  <Search className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                  <input
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    placeholder="Buscar por nombre o correo..."
-                    className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                  />
-                </div>
-
-                <div className="overflow-auto rounded-lg border border-gray-200">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-gray-50 text-left">
-                        <th className="px-4 py-3">Docente</th>
-                        <th className="px-4 py-3">Correo</th>
-                        <th className="px-4 py-3">Evaluaciones</th>
-                        <th className="px-4 py-3">
-                          <span className="inline-flex items-center gap-1">
-                            Promedio
-                            <HelpTooltip
-                              etiqueta="Cómo se marca el riesgo"
-                              texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
-                            />
-                          </span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {loadingStats ? (
-                        <tr>
-                          <td className="px-4 py-4 text-center text-gray-500" colSpan={4}>
-                            Cargando docentes...
-                          </td>
-                        </tr>
-                      ) : teachers.length === 0 ? (
-                        <tr>
-                          <td className="px-4 py-4 text-center text-gray-500" colSpan={4}>
-                            No se encontraron docentes para el filtro actual.
-                          </td>
-                        </tr>
-                      ) : (
-                        teachers.map((t) => {
-                          const low = t.totalEvaluaciones > 0 && t.promedio < 4;
-                          return (
-                            <tr key={t.profesorId} className={`border-t ${low ? 'bg-red-50' : 'hover:bg-gray-50'}`}>
-                              <td className="px-4 py-3 font-medium text-gray-900">{t.nombre}</td>
-                              <td className="px-4 py-3 text-gray-600">{t.email || '-'}</td>
-                              <td className="px-4 py-3 text-gray-700">{t.totalEvaluaciones}</td>
-                              <td className="px-4 py-3">
-                                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${
-                                  low
-                                    ? 'bg-red-100 text-red-700'
-                                    : t.totalEvaluaciones === 0
-                                      ? 'bg-gray-100 text-gray-600'
-                                      : 'bg-emerald-100 text-emerald-700'
-                                }`}>
-                                  {t.totalEvaluaciones === 0 ? 'Sin datos' : promedioVisible(t.promedio).toFixed(2)}
-                                  {low && (
-                                    <>
-                                      <span>· En riesgo</span>
-                                      <HelpTooltip
-                                        etiqueta="Por qué este docente está en riesgo"
-                                        texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
-                                      />
-                                    </>
-                                  )}
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <p className="text-xs text-gray-500">
-                    Mostrando {(teachers.length === 0 || pagination.total === 0) ? 0 : ((pagination.page - 1) * pagination.pageSize + 1)}
-                    {' - '}
-                    {(teachers.length === 0 || pagination.total === 0) ? 0 : ((pagination.page - 1) * pagination.pageSize + teachers.length)}
-                    {' de '}
-                    {pagination.total}
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setPage((p) => Math.max(1, p - 1))}
-                      disabled={loadingStats || pagination.page <= 1}
-                    >
-                      <ChevronLeft className="h-4 w-4 mr-1" />
-                      Anterior
-                    </Button>
-                    <span className="text-sm text-gray-700">
-                      Página {pagination.totalPages === 0 ? 0 : pagination.page} de {pagination.totalPages}
-                    </span>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setPage((p) => Math.min(pagination.totalPages || 1, p + 1))}
-                      disabled={loadingStats || pagination.page >= pagination.totalPages}
-                    >
-                      Siguiente
-                      <ChevronRight className="h-4 w-4 ml-1" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </main>
-      </div>
-
-      {/* Modal de Calendario */}
-      <AnimatePresence>
-        {showCalendar && <Calendar onClose={() => setShowCalendar(false)} />}
-      </AnimatePresence>
+          <AgendaEvaluaciones key={locale} className="xl:sticky xl:top-24" />
+        </div>
+      </main>
     </div>
-  );
+  )
 }
-
-
