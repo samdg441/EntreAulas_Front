@@ -375,11 +375,14 @@ html[data-text-size='xlarge'] { font-size: 125%; }
   max-width: 1600px !important;
   max-height: 900px !important;
 }
-/* Modo claro: fondo de EntreAulas (el mismo del login) con velo oscuro, detrás de todas las pantallas con sesión.
-   En modo noche se usa el fondo liso oscuro del tema. */
+/* Fondo de EntreAulas detrás de las pantallas con sesión.
+   Los dos modos llevan un velo: el patrón se insinúa y no compite con las tarjetas. */
 html:not(.dark) .fondo-entreaulas {
   background: linear-gradient(rgb(0 0 0 / 0.6), rgb(0 0 0 / 0.6)), url('./assets/fondo.webp') center / cover fixed;
 }
-html:not(.dark) .fondo-entreaulas .min-h-screen.bg-gray-50 {
+html.dark .fondo-entreaulas {
+  background: linear-gradient(rgb(11 18 32 / 0.55), rgb(11 18 32 / 0.55)), url('./assets/fondo_oscuro.webp') center / cover fixed;
+}
+.fondo-entreaulas .min-h-screen.bg-gray-50 {
   background: transparent;
 }
