@@ -1,0 +1,11 @@
+npm notice run entre-aulas-front@0.0.1 npx
+npm notice run 'vitest' run src/test/integration/rediseno-paginacion-carrera.test.tsx
+
+ RUN  v5.0.2 /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  14:08:51
+   Duration  5.28s (tests 54%, environment 16%, import 14%, transform 12%, setup 4%)
+

@@ -1,0 +1,10 @@
+{
+  "summary": { "totalEvaluaciones": 31, "promedio": 3.4, "estudiantesEvaluadores": 25, "totalCursos": 2 },
+  "categories": [
+    { "categoriaId": 1, "nombre": "Dominio del tema", "promedio": 3.6 },
+    { "categoriaId": 2, "nombre": "Metodología", "promedio": 3.1 }
+  ],
+  "courses": [
+    { "cursoId": 7, "codigo": "SIS101", "nombre": "Programación I", "promedio": 3.4, "totalEvaluaciones": 20 }
+  ]
+}

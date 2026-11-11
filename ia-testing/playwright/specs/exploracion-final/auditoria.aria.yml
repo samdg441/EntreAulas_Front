@@ -1,0 +1,105 @@
+- main:
+  - heading "Auditoría de la carrera" [level=1]
+  - paragraph: "Quién hizo qué en tu carrera: programación de encuestas, códigos QR y consultas de reportes."
+  - region "Eventos por acción":
+    - paragraph: Eventos registrados
+    - paragraph: "23"
+    - paragraph: "Último evento: 10/11/2026, 11:05 p. m."
+    - paragraph: Programó una encuesta
+    - paragraph: "6"
+    - paragraph: Generó códigos QR
+    - paragraph: "6"
+    - paragraph: Consultó reportes
+    - paragraph: "6"
+    - paragraph: Consultó un docente
+    - paragraph: "5"
+  - region "Filtros":
+    - heading "Filtros" [level=2]
+    - text: Buscar por persona o detalle
+    - searchbox "Buscar por persona o detalle"
+    - text: Desde
+    - textbox "Desde"
+    - text: Hasta
+    - textbox "Hasta"
+    - text: Acción
+    - combobox "Acción":
+      - option "Todas las acciones" [selected]
+      - option "Programó una encuesta"
+      - option "Generó códigos QR"
+      - option "Consultó reportes"
+      - option "Consultó un docente"
+    - button "Exportar CSV"
+  - region "Auditoría de la carrera":
+    - table "Auditoría de la carrera":
+      - caption: Auditoría de la carrera
+      - rowgroup:
+        - row "Fecha y hora Persona Acción Detalle":
+          - columnheader "Fecha y hora"
+          - columnheader "Persona"
+          - columnheader "Acción"
+          - columnheader "Detalle"
+      - rowgroup:
+        - row "10/11/2026, 11:05 p. m. María Gómez Coordinador Programó una encuesta Periodo 2026-2, del 2026-11-04 al 2026-11-22":
+          - cell "10/11/2026, 11:05 p. m.":
+            - time: 10/11/2026, 11:05 p. m.
+          - cell "María Gómez Coordinador"
+          - cell "Programó una encuesta"
+          - cell "Periodo 2026-2, del 2026-11-04 al 2026-11-22"
+        - row "10/11/2026, 4:05 p. m. David Coordinador Coordinador Generó códigos QR 4 código(s) QR generados":
+          - cell "10/11/2026, 4:05 p. m.":
+            - time: 10/11/2026, 4:05 p. m.
+          - cell "David Coordinador Coordinador"
+          - cell "Generó códigos QR"
+          - cell "4 código(s) QR generados"
+        - row "10/11/2026, 9:05 a. m. David Coordinador Coordinador Consultó reportes Reporte general del periodo 2026-2":
+          - cell "10/11/2026, 9:05 a. m.":
+            - time: 10/11/2026, 9:05 a. m.
+          - cell "David Coordinador Coordinador"
+          - cell "Consultó reportes"
+          - cell "Reporte general del periodo 2026-2"
+        - row "10/11/2026, 2:05 a. m. David Coordinador Coordinador Consultó un docente Estadísticas del docente 4":
+          - cell "10/11/2026, 2:05 a. m.":
+            - time: 10/11/2026, 2:05 a. m.
+          - cell "David Coordinador Coordinador"
+          - cell "Consultó un docente"
+          - cell "Estadísticas del docente 4"
+        - row "9/11/2026, 7:05 p. m. David Coordinador Coordinador Programó una encuesta Periodo 2026-2, del 2026-11-04 al 2026-11-22":
+          - cell "9/11/2026, 7:05 p. m.":
+            - time: 9/11/2026, 7:05 p. m.
+          - cell "David Coordinador Coordinador"
+          - cell "Programó una encuesta"
+          - cell "Periodo 2026-2, del 2026-11-04 al 2026-11-22"
+        - row "9/11/2026, 12:05 p. m. María Gómez Coordinador Generó códigos QR 8 código(s) QR generados":
+          - cell "9/11/2026, 12:05 p. m.":
+            - time: 9/11/2026, 12:05 p. m.
+          - cell "María Gómez Coordinador"
+          - cell "Generó códigos QR"
+          - cell "8 código(s) QR generados"
+        - row "9/11/2026, 5:05 a. m. David Coordinador Coordinador Consultó reportes Reporte general del periodo 2026-2":
+          - cell "9/11/2026, 5:05 a. m.":
+            - time: 9/11/2026, 5:05 a. m.
+          - cell "David Coordinador Coordinador"
+          - cell "Consultó reportes"
+          - cell "Reporte general del periodo 2026-2"
+        - row "8/11/2026, 10:05 p. m. David Coordinador Coordinador Consultó un docente Estadísticas del docente 2":
+          - cell "8/11/2026, 10:05 p. m.":
+            - time: 8/11/2026, 10:05 p. m.
+          - cell "David Coordinador Coordinador"
+          - cell "Consultó un docente"
+          - cell "Estadísticas del docente 2"
+        - row "8/11/2026, 3:05 p. m. David Coordinador Coordinador Programó una encuesta Periodo 2026-2, del 2026-11-04 al 2026-11-22":
+          - cell "8/11/2026, 3:05 p. m.":
+            - time: 8/11/2026, 3:05 p. m.
+          - cell "David Coordinador Coordinador"
+          - cell "Programó una encuesta"
+          - cell "Periodo 2026-2, del 2026-11-04 al 2026-11-22"
+        - row "8/11/2026, 8:05 a. m. David Coordinador Coordinador Generó códigos QR 12 código(s) QR generados":
+          - cell "8/11/2026, 8:05 a. m.":
+            - time: 8/11/2026, 8:05 a. m.
+          - cell "David Coordinador Coordinador"
+          - cell "Generó códigos QR"
+          - cell "12 código(s) QR generados"
+    - paragraph: Mostrando 1 - 10 de 23
+    - button "Anterior" [disabled]
+    - text: Página 1 de 3
+    - button "Siguiente"

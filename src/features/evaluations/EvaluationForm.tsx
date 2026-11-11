@@ -23,8 +23,6 @@ import {
   preguntasSinCalificar,
 } from './evaluacion-docente'
 
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
-
 function agruparPreguntas(preguntas: EvaluationQuestion[]) {
   const bloques: { categoria: string; items: { pregunta: EvaluationQuestion; indice: number }[] }[] = []
   const indicePorCategoria = new Map<string, number>()
@@ -228,17 +226,6 @@ export default function EvaluationForm() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 relative">
-        <div 
-          className="fixed inset-0 z-0"
-          style={{
-            backgroundImage: `url(${fondo})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
-          }}
-        >
-          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-        </div>
         
         <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="bg-white rounded-lg shadow-lg p-8 text-center">
@@ -253,17 +240,6 @@ export default function EvaluationForm() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      </div>
       
       <div className="relative z-10">
         <Header 

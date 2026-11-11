@@ -30,7 +30,8 @@ describe('RQ22 y RQ24 — Dashboard del coordinador (E2E)', () => {
     })
 
   it('RQ22: el promedio general y el de cada docente se ven con dos decimales', () => {
-    cy.contains('Promedio General').parents('[class*="shadow-md"]').first().should('contain', '4.5')
+    // Rediseño: cada indicador es un <dt> (etiqueta) + <dd> (valor) dentro del mismo bloque.
+    cy.contains('dt', 'Promedio general').parent().should('contain', '4.50')
     filaDe('Ana Pérez').should('contain', '4.50')
   })
 

@@ -289,8 +289,6 @@ export default function ScheduleSurveys() {
 
   const backToDashboard = () => navigate('/dashboard-coordinador')
 
-  const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
-
   const mensajeTablaVacia = cursosError
     ? cursosError
     : cursos.length === 0
@@ -335,14 +333,6 @@ export default function ScheduleSurveys() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div className="fixed inset-0 z-0" style={{
-        backgroundImage: `url(${fondo})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}>
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      </div>
 
       <div className="relative z-10">
         <Header user={{ id: storedUser?.id || '', name: `${storedUser?.nombre || ''} ${storedUser?.apellido || ''}`.trim() || 'Coordinador', type: 'coordinator', email: storedUser?.email || '' }} />

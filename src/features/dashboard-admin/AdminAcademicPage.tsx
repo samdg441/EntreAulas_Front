@@ -8,8 +8,6 @@ import { usersApi, FacultadConCarreras } from '../../api/users'
 import { Building2, GraduationCap } from 'lucide-react'
 import { User } from '../../types'
 
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
-
 export default function AdminAcademicPage() {
   const { user: authUser } = useAuth()
   const headerUser: User = {
@@ -48,16 +46,6 @@ export default function AdminAcademicPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0 pointer-events-none" />
 
       <div className="relative z-10">
         <Header

@@ -7,6 +7,7 @@ import Card, {
   CardTitle,
 } from '../../components/Card';
 import Button from '../../components/Button';
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones';
 import Header from '../../components/Header';
 import { User } from '../../types';
 import {
@@ -24,8 +25,6 @@ import Calendar from '../../components/Calendar';
 import EmptyState from '../../components/EmptyState';
 import OnboardingBanner from '../../components/OnboardingBanner';
 import HelpTooltip from '../../components/HelpTooltip';
-
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface DashboardProps {
   user: User;
@@ -505,7 +504,7 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
   const tertiary = getTertiaryStat(type, stats);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 gap-6">
       <StatCard
         title={primary.title}
         value={textoEstadistica(primary.value)}
@@ -614,17 +613,6 @@ function DashboardReady({
 }>) {
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      </div>
 
       <div className="relative z-10">
         <Header user={currentUser} />
@@ -643,14 +631,9 @@ function DashboardReady({
             />
           )}
 
-          <div className="flex flex-col gap-8">
-            <div className="order-1 lg:order-2">
-              <QuickActionsCard actions={userData.quickActions} />
-            </div>
-
-            <div className="order-2 lg:order-1">
-              <StatsGrid type={user.type} stats={userData.stats} />
-            </div>
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+            <StatsGrid type={user.type} stats={userData.stats} />
+            <AgendaEvaluaciones />
           </div>
 
           {user.type === 'student' && (

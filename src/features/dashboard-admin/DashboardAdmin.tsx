@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Card, { CardHeader, CardContent, CardDescription, CardTitle } from '../../components/Card'
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones';
 import Header from '../../components/Header'
 import { User } from '../../types'
 import { usersApi } from '../../api/users'
@@ -14,8 +15,6 @@ import {
 } from 'lucide-react'
 import RoleGuideBanner from '../../components/OnboardingBanner'
 import HelpTooltip from '../../components/HelpTooltip'
-
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
 interface DashboardAdminProps {
   user: User
@@ -142,16 +141,6 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0 pointer-events-none" />
 
       <div className="relative z-10">
         <Header user={currentUser} />
@@ -182,7 +171,8 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
             ]}
           />
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+          <div className="grid grid-cols-1 gap-4">
             {metrics.map((metric) => (
               <Card
                 key={metric.label}
@@ -203,6 +193,8 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
                 <p className="mt-1 text-center text-sm text-gray-500">{metric.hint}</p>
               </Card>
             ))}
+          </div>
+          <AgendaEvaluaciones />
           </div>
 
           <Card className="bg-white/95 shadow-sm border border-gray-200/80 p-5 sm:p-6 lg:p-8">
