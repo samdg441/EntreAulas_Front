@@ -34,7 +34,7 @@ function Indicador({
   children?: React.ReactNode
 }>) {
   return (
-    <div className="bg-white p-5">
+    <div className="rounded-2xl border border-gray-200 bg-white p-5">
       <dt className="flex items-center gap-1.5 text-small font-medium text-gray-700">
         {etiqueta}
         <HelpTooltip texto={ayuda} etiqueta={etiqueta} />
@@ -155,10 +155,10 @@ export default function DashboardCoordinador({ user }: Readonly<DashboardCoordin
           pasos={[t('coord.guia.p1'), t('coord.guia.p2'), t('coord.guia.p3')]}
         />
 
-        <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
-          <div className="min-w-0 space-y-6">
-            <section aria-label={t('coord.metricas')} className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-              <dl className="grid grid-cols-1 gap-px bg-gray-200 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Métricas apiladas a la izquierda y calendario a la derecha; la tabla ocupa todo el ancho debajo. */}
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+            <section aria-label={t('coord.metricas')} className="min-w-0">
+              <dl className="grid grid-cols-1 gap-3">
                 <Indicador
                   etiqueta={t('coord.m.profesores')}
                   ayuda={t('coord.m.profesoresAyuda')}
@@ -195,8 +195,10 @@ export default function DashboardCoordinador({ user }: Readonly<DashboardCoordin
                 />
               </dl>
             </section>
+          <AgendaEvaluaciones key={locale} />
+        </div>
 
-            <section aria-labelledby="resumen-docentes" className="rounded-2xl border border-gray-200 bg-white p-5">
+        <section aria-labelledby="resumen-docentes" className="rounded-2xl border border-gray-200 bg-white p-5">
               <h2 id="resumen-docentes" className="text-subtitle font-semibold text-gray-900">
                 {t('coord.t.titulo')}
               </h2>
@@ -314,10 +316,6 @@ export default function DashboardCoordinador({ user }: Readonly<DashboardCoordin
                 </div>
               </div>
             </section>
-          </div>
-
-          <AgendaEvaluaciones key={locale} className="xl:sticky xl:top-24" />
-        </div>
       </main>
     </div>
   )

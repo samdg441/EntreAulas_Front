@@ -160,7 +160,7 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
                   role="gridcell"
                   aria-current={esHoy ? 'date' : undefined}
                   aria-label={`${fecha}${esHoy ? `, ${t('cal.leyenda.hoy').toLowerCase()}` : ''}, ${t(CLAVE_DIA[situacion])}`}
-                  className={`flex h-10 items-center justify-center text-small ${claseDia(situacion, borde)} ${
+                  className={`flex h-11 items-center justify-center text-small lg:h-14 lg:text-body ${claseDia(situacion, borde)} ${
                     esHoy ? 'ring-2 ring-gray-900 ring-offset-1 ring-offset-white' : ''
                   }`}
                 >
