@@ -87,4 +87,20 @@ describe('AppShell + Sidebar', () => {
 
     expect(screen.getByRole('navigation')).toBeInTheDocument()
   })
+
+  it('el botón de flecha oculta y muestra la barra lateral, y la elección se recuerda', async () => {
+    const usuario = userEvent.setup()
+    montar('/dashboard-coordinador', COORDINADOR)
+    const boton = screen.getByRole('button', { name: 'Ocultar la barra lateral' })
+    expect(boton).toHaveAttribute('aria-expanded', 'true')
+
+    await usuario.click(boton)
+
+    expect(screen.getByRole('button', { name: 'Mostrar la barra lateral' })).toHaveAttribute('aria-expanded', 'false')
+    expect(window.localStorage.getItem('entreaulas.sidebar-colapsada')).toBe('1')
+    expect(screen.getByRole('link', { name: 'Auditoría' })).toHaveAttribute('title', 'Auditoría')
+
+    await usuario.click(screen.getByRole('button', { name: 'Mostrar la barra lateral' }))
+    expect(window.localStorage.getItem('entreaulas.sidebar-colapsada')).toBe('0')
+  })
 })

@@ -12,6 +12,8 @@ export const DICCIONARIO = {
   'shell.abrirMenu': { es: 'Abrir menú de navegación', en: 'Open navigation menu' },
   'shell.cerrarMenu': { es: 'Cerrar menú de navegación', en: 'Close navigation menu' },
   'shell.navegacion': { es: 'Navegación principal', en: 'Main navigation' },
+  'shell.colapsar': { es: 'Ocultar la barra lateral', en: 'Hide the sidebar' },
+  'shell.expandir': { es: 'Mostrar la barra lateral', en: 'Show the sidebar' },
   'shell.menuUsuario': { es: 'Menú de usuario', en: 'User menu' },
   'shell.irInicio': { es: 'Ir al inicio', en: 'Go to home' },
 
