@@ -149,6 +149,26 @@ pipeline {
             }
         }
 
+        stage('Pruebas de accesibilidad y E2E (Cypress)') {
+            steps {
+                sh '''
+                    set -e
+                    docker run --rm --network host \
+                        -v "$WORKSPACE":/work -w /work/e2e \
+                        cypress/included:16.1.1 \
+                        --browser chrome --config baseUrl=http://localhost:3001,video=false \
+                        --spec "cypress/e2e/ui/rediseno-*.cy.ts,cypress/e2e/accessibility/rediseno-*.cy.ts,cypress/e2e/security/rediseno-*.cy.ts" \
+                        || { echo "E2E falló"; exit 1; }
+                '''
+            }
+        }
+
+        stage('Revisión de dependencias') {
+            steps {
+                sh 'npm audit --omit=dev --audit-level=critical || true'
+            }
+        }
+
         stage('Deploy to Vercel') {
             steps {
                 withCredentials([string(credentialsId: 'vercel-deploy-hook-front', variable: 'VERCEL_HOOK')]) {
@@ -196,7 +216,8 @@ pipeline {
             archiveArtifacts(
                 artifacts: [
                     'coverage/lcov.info',
-                    'test-results.xml'
+                    'test-results.xml',
+                    'reports/**'
                 ].join(','),
                 fingerprint: true,
                 allowEmptyArchive: true
