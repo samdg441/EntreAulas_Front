@@ -93,13 +93,16 @@ export default function DashboardCoordinador({ user }: Readonly<DashboardCoordin
   const [stats, setStats] = useState(statsVaciasCoordinador())
   const [pagination, setPagination] = useState({ page: 1, pageSize: 8, total: 0, totalPages: 0 })
 
+  // Solo se reinicia la página si el texto realmente cambió; si no, un clic en "Siguiente" antes de 350 ms se deshacía.
   useEffect(() => {
+    const nueva = searchInput.trim()
+    if (nueva === searchTerm) return
     const id = window.setTimeout(() => {
       setPage(1)
-      setSearchTerm(searchInput.trim())
+      setSearchTerm(nueva)
     }, 350)
     return () => window.clearTimeout(id)
-  }, [searchInput])
+  }, [searchInput, searchTerm])
 
   useEffect(() => {
     let activo = true

@@ -32,13 +32,16 @@ export default function AuditoriaPage() {
 
   const rangoOk = rangoFechasValido(desde, hasta)
 
+  // Solo se reinicia la página si el texto realmente cambió; si no, un clic en "Siguiente" antes de 350 ms se deshacía.
   useEffect(() => {
+    const nueva = busquedaInput.trim()
+    if (nueva === busqueda) return
     const id = window.setTimeout(() => {
       setPage(1)
-      setBusqueda(busquedaInput.trim())
+      setBusqueda(nueva)
     }, 350)
     return () => window.clearTimeout(id)
-  }, [busquedaInput])
+  }, [busquedaInput, busqueda])
 
   const cargar = useCallback(async () => {
     if (!rangoOk) return
