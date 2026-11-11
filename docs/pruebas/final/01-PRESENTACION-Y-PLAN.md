@@ -62,4 +62,4 @@ El diseño visual siguió la guía *frontend-design*: sistema de tokens (colores
 **Criterio de entrada.** Código compila; suites previas verdes; datos simulados. **Criterio de salida.** 100 % de las suites funcionales de F1–F7 verdes; 0 violaciones serias de axe; defectos Alta/Media de mis requisitos corregidos; Quality Gate OK. **Criterio de aceptación.** Cada escenario de `MATRIZ-TRAZABILIDAD-FINAL.csv` en *Pass* o con defecto documentado.
 
 ## 1.4 Matriz de trazabilidad
-Archivos: `Matriz-Casos-y-Escenarios-Final-Juliana.xlsx` (formato de la clase: escenarios, casos y casos detallados), `RTM-EntreAulas-Final.xlsx` y `MATRIZ-TRAZABILIDAD-FINAL.csv`. 36 casos para 11 escenarios; relaciona HU → RF → escenario → caso → herramienta → estado → defecto → evidencia.
+Archivos: `Matriz-Casos-y-Escenarios-Final-Juliana.xlsx` (formato de la clase: escenarios, casos y casos detallados), `RTM-EntreAulas-Final.xlsx` y `MATRIZ-TRAZABILIDAD-FINAL.csv`. 37 casos para 11 escenarios; relaciona HU → RF → escenario → caso → herramienta → estado → defecto → evidencia.

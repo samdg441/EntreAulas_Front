@@ -14,7 +14,7 @@ Equipo Linux (CachyOS, 16 GB), Node 26, Chromium 156. Front en Vite (:3001) y lu
 | Cypress seguridad / API | 8 / 7 | ✔ | — |
 | BDD Gherkin + Screenplay | 6 | 6 ✔ | — |
 | Playwright (agentes) | 25 | 25 ✔ | 7 → 7 → 22 → 25 en 4 iteraciones (fixture sin sesión, defecto real de paginación) |
-| Stagehand | en ejecución local lenta | ver doc de IA | CPU limita |
+| Stagehand (Gemini) | 1 escenario, 3 acciones de IA | ✔ (0 respaldos CSS) | Ollama en CPU no terminó; se usó Gemini |
 | DeepEval | 30 + 3 | **No cumple** (DEF-IA-01/02) | hallazgo |
 | Despliegue Docker | Cypress 64/64, Playwright 25/25 | ✔ | — |
 
