@@ -26,7 +26,7 @@ flowchart TD
   E -- sí --> G([retorna texto])
 ```
 
-Nodos: 7 · aristas: 8 · **V(G) = E − N + 2 = 8 − 7 + 2 = 3 + 2 (condición compuesta `??` y `||`) = 5** (coincide con la herramienta).
+Decisiones: `??`, `if`, `||`, `if` = 4 → **V(G) = 4 + 1 = 5** (coincide con la herramienta). Sobre el grafo simplificado de arriba (sin separar las condiciones compuestas) V = E − N + 2 = 8 − 7 + 2 = 3; la herramienta cuenta además cada operador lógico, que es la medida conservadora.
 Caminos independientes y su caso de prueba:
 
 | # | Camino | Entrada | Resultado | Prueba |
@@ -70,7 +70,7 @@ Caminos: (1) sin fechas, (2) rango válido, (3) desde = hasta (límite), (4) ran
 - Cobertura de líneas del código nuevo: **Back 97.6 %** (`auditoria.ts` 100 %, ramas 100 %); **Front 94.7 %** (ramas 82.6 %). Evidencia: `evidencias/cobertura-*.txt`.
 - Ninguna función supera V(G) = 9 (límite recomendado 10). Las más altas: `cumpleFiltros` 8 → se simplificó en el refactor del TDD (de `if` en cadena a cuatro booleanos).
 - Hallazgo de caja blanca: `registrarComoUsuario` (V = 9) mezcla lectura de usuario, de carrera y escritura; queda como candidata a dividir.
-- Ramas sin cubrir: `auditoria.service.ts` líneas 63-64 (`catch` del `insert`) y 89-90 (error no-42P01 de `listar`); este último sí lo cubre la prueba «error distinto … 500» del servicio con otra ruta.
+- Ramas sin cubrir: `auditoria.service.ts` líneas 63-64 (`catch` del `insert`) y 89-90 (error no-42P01 de `listar`); ambos quedan sin cubrir (se priorizó la ruta feliz y la degradación por tabla ausente).
 
 ## 2. Caja negra
 
