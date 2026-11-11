@@ -504,7 +504,7 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
   const tertiary = getTertiaryStat(type, stats);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 gap-6">
       <StatCard
         title={primary.title}
         value={textoEstadistica(primary.value)}
@@ -631,9 +631,9 @@ function DashboardReady({
             />
           )}
 
-          <div className="flex flex-col gap-8">
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
             <StatsGrid type={user.type} stats={userData.stats} />
-            <AgendaEvaluaciones className="max-w-xl" />
+            <AgendaEvaluaciones />
           </div>
 
           {user.type === 'student' && (

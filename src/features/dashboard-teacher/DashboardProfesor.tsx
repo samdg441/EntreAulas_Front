@@ -290,8 +290,9 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
             ]}
           />
 
-          {/* Stats Cards - Específicas para profesores */}
-          <div id="metricas-profesor" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Métricas apiladas a la izquierda y calendario a la derecha */}
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+          <div id="metricas-profesor" className="grid grid-cols-1 gap-6">
             {/* Calificación Promedio */}
             <motion.div
               variants={cardVariants}
@@ -396,7 +397,8 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
 
           </div>
 
-          <AgendaEvaluaciones className="max-w-xl" />
+          <AgendaEvaluaciones />
+          </div>
 
           {/* Fila inferior: evaluaciones a ancho completo */}
           <motion.div

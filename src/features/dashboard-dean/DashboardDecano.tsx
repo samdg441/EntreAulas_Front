@@ -268,8 +268,9 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
             </div>
           )}
 
-          {/* Stats Cards - Específicas para decanos */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Métricas apiladas a la izquierda y calendario a la derecha */}
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+          <div className="grid grid-cols-1 gap-6">
             {/* Total de Carreras */}
             <motion.div
               variants={cardVariants}
@@ -358,13 +359,10 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
             </motion.div>
 
           </div>
+          <AgendaEvaluaciones />
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Columna principal */}
-            <div className="lg:col-span-2 space-y-8">
-              <AgendaEvaluaciones />
-
-            </div>
+          <div className="grid grid-cols-1 gap-8">
 
             {/* Columna lateral */}
             <div className="space-y-8">
