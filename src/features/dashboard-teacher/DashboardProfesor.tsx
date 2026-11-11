@@ -315,14 +315,14 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               transition={{ delay: 0.2 }}
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-yellow-100 p-6 h-full">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Calificación Promedio
                     <HelpTooltip texto="Promedio de todas las respuestas recibidas, en escala de 1.0 a 5.0. Por debajo de 4.0 es una señal de seguimiento: conviene leer los comentarios del periodo." />
                   </CardTitle>
-                  <Star className="h-6 w-6 text-yellow-600 ml-4" />
+                  <Star className="h-6 w-6 text-yellow-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   {loadingStats ? (
                     <div className="text-3xl font-bold text-gray-400">
                       Cargando...
@@ -332,7 +332,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                       {profesorData.stats.averageRating > 0 ? `${profesorData.stats.averageRating}/5.0` : '0.0/5.0'}
                     </div>
                   )}
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     {loadingStats ? 'Cargando datos...' : 'Calificación promedio'}
                   </p>
                 </CardContent>
@@ -347,14 +347,14 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               transition={{ delay: 0.3 }}
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-green-100 p-6 h-full">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Total Evaluaciones
                     <HelpTooltip texto="Cantidad de encuestas completadas por estudiantes. Un valor bajo con muchos matriculados indica poca participación, no necesariamente una mala calificación." />
                   </CardTitle>
-                  <ClipboardCheck className="h-6 w-6 text-green-600 ml-4" />
+                  <ClipboardCheck className="h-6 w-6 text-green-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   {loadingStats ? (
                     <div className="text-3xl font-bold text-gray-400">
                       Cargando...
@@ -364,7 +364,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                       {profesorData.stats.totalEvaluations || 0}
                     </div>
                   )}
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     {loadingStats ? 'Cargando datos...' : 'Evaluaciones recibidas'}
                   </p>
                 </CardContent>
@@ -379,14 +379,14 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               transition={{ delay: 0.4 }}
             >
               <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-red-100 p-6 h-full">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Carga Académica
                     <HelpTooltip texto="Cursos y grupos asignados en el periodo activo. No mide calificaciones: solo tu carga docente." />
                   </CardTitle>
-                  <BookOpen className="h-6 w-6 text-red-600 ml-4" />
+                  <BookOpen className="h-6 w-6 text-red-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   {loadingStats ? (
                     <div className="text-3xl font-bold text-gray-400">
                       Cargando...
@@ -400,7 +400,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                       </div>
                     </div>
                   )}
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     {loadingStats ? 'Cargando datos...' : 'Asignaciones activas del docente'}
                   </p>
                 </CardContent>
@@ -528,7 +528,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="mb-4 p-4 rounded-lg border border-green-200 bg-green-50">
+                <div className="mb-4 p-4 rounded-lg border border-green-200 bg-green-50 text-center">
                   <p className="text-xs uppercase tracking-wide text-green-700 font-semibold">
                     {selectedCourseFilter === 'all'
                       ? 'Total general'

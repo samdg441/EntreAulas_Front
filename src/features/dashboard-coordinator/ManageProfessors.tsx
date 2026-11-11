@@ -221,22 +221,22 @@ export default function ManageProfessors() {
                       ) : professorStats ? (
                         <>
                           <div className="grid grid-cols-2 gap-3">
-                            <div className="p-4 bg-red-50 border border-red-100 rounded-lg">
+                            <div className="p-4 bg-red-50 border border-red-100 rounded-lg text-center">
                               <BarChart3 className="h-5 w-5 text-red-600 mb-2" />
                               <p className="text-xs text-gray-600">Evaluaciones</p>
                               <p className="text-2xl font-bold text-red-600">{professorStats.summary?.totalEvaluaciones || 0}</p>
                             </div>
-                            <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-lg">
+                            <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-lg text-center">
                               <Star className="h-5 w-5 text-yellow-600 mb-2" />
                               <p className="text-xs text-gray-600">Promedio</p>
                               <p className="text-2xl font-bold text-yellow-600">{professorStats.summary?.promedio || 0}/5</p>
                             </div>
-                            <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                            <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg text-center">
                               <UserIcon className="h-5 w-5 text-blue-600 mb-2" />
                               <p className="text-xs text-gray-600">Evaluadores</p>
                               <p className="text-2xl font-bold text-blue-600">{professorStats.summary?.estudiantesEvaluadores || 0}</p>
                             </div>
-                            <div className="p-4 bg-green-50 border border-green-100 rounded-lg">
+                            <div className="p-4 bg-green-50 border border-green-100 rounded-lg text-center">
                               <BookOpen className="h-5 w-5 text-green-600 mb-2" />
                               <p className="text-xs text-gray-600">Cursos evaluados</p>
                               <p className="text-2xl font-bold text-green-600">{professorStats.summary?.totalCursos || 0}</p>

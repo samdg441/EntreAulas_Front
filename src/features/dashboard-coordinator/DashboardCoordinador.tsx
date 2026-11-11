@@ -220,22 +220,22 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
               transition={{ delay: 0.2 }}
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Total Profesores
                     <HelpTooltip texto="Docentes activos vinculados a tu carrera. No incluye docentes de otras carreras de la facultad." />
                   </CardTitle>
-                  <Users className="h-6 w-6 text-green-600 ml-4" />
+                  <Users className="h-6 w-6 text-green-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   <div className="text-3xl font-bold text-green-600">
                     {loadingStats ? (
-                      <div className="animate-pulse bg-green-200 h-8 w-16 rounded"></div>
+                      <div className="animate-pulse bg-green-200 h-8 w-16 rounded mx-auto"></div>
                     ) : (
                       stats.totalProfesores
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     Profesores activos de tu carrera
                   </p>
                 </CardContent>
@@ -249,22 +249,22 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
               transition={{ delay: 0.3 }}
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Cursos Activos
                     <HelpTooltip texto="Asignaturas con grupos abiertos en tu carrera. Sirve para estimar cuántas encuestas puedes programar en el periodo." />
                   </CardTitle>
-                  <BookOpen className="h-6 w-6 text-purple-600 ml-4" />
+                  <BookOpen className="h-6 w-6 text-purple-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   <div className="text-3xl font-bold text-purple-600">
                     {loadingStats ? (
-                      <div className="animate-pulse bg-purple-200 h-8 w-16 rounded"></div>
+                      <div className="animate-pulse bg-purple-200 h-8 w-16 rounded mx-auto"></div>
                     ) : (
                       stats.totalCursos
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     Cursos activos de tu carrera
                   </p>
                 </CardContent>
@@ -278,25 +278,25 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
               transition={{ delay: 0.4 }}
             >
               <Card className={`shadow-md p-6 border ${riesgoGlobal ? 'bg-red-50 border-red-200' : 'bg-white border-gray-200'}`}>
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Promedio General
                     <HelpTooltip texto="Promedio de las evaluaciones de tu carrera en escala de 1.0 a 5.0. Si baja de 4.0, la carrera entra en seguimiento y conviene revisar docentes y comentarios." />
                   </CardTitle>
                   {riesgoGlobal
-                    ? <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
-                    : <TrendingUp className="h-6 w-6 text-yellow-600 ml-4" />
+                    ? <AlertTriangle className="h-6 w-6 text-red-600" />
+                    : <TrendingUp className="h-6 w-6 text-yellow-600" />
                   }
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   <div className={`text-3xl font-bold ${riesgoGlobal ? 'text-red-600' : 'text-yellow-600'}`}>
                     {loadingStats ? (
-                      <div className="animate-pulse bg-yellow-200 h-8 w-16 rounded"></div>
+                      <div className="animate-pulse bg-yellow-200 h-8 w-16 rounded mx-auto"></div>
                     ) : (
                       promedioGeneral
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     {riesgoGlobal ? 'Docente en atención: promedio inferior a 4.0' : 'Promedio general de evaluaciones'}
                   </p>
                 </CardContent>
@@ -310,25 +310,25 @@ export default function DashboardCoordinador({ user }: DashboardCoordinadorProps
               transition={{ delay: 0.5 }}
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Docentes en Riesgo
                     <HelpTooltip
                       etiqueta="Qué significa en riesgo"
                       texto="Docente con calificación promedio inferior a 4.0/5.0 en el periodo activo. Requiere seguimiento pedagógico o revisión de comentarios de estudiantes."
                     />
                   </CardTitle>
-                  <AlertTriangle className="h-6 w-6 text-red-600 ml-4" />
+                  <AlertTriangle className="h-6 w-6 text-red-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   <div className="text-3xl font-bold text-red-600">
                     {loadingStats ? (
-                      <div className="animate-pulse bg-red-200 h-8 w-16 rounded"></div>
+                      <div className="animate-pulse bg-red-200 h-8 w-16 rounded mx-auto"></div>
                     ) : (
                       stats.profesoresEnRiesgo
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">Promedio &lt; 4.0 (con evaluaciones)</p>
+                  <p className="text-sm text-gray-500 mt-2">Promedio &lt; 4.0 (con evaluaciones)</p>
                 </CardContent>
               </Card>
             </motion.div>

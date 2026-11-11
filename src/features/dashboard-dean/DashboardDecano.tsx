@@ -293,18 +293,18 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
               transition={{ delay: 0.2 }}
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Total de Carreras
                     <HelpTooltip texto="Programas académicos de tu facultad. Cada carrera agrupa sus propios docentes y resultados." />
                   </CardTitle>
-                  <Building2 className="h-6 w-6 text-blue-600 ml-4" />
+                  <Building2 className="h-6 w-6 text-blue-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   <div className="text-3xl font-bold text-blue-600">
                     {loadingCareers ? '...' : decanoData.stats.totalCarreras}
                   </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     Carreras en la facultad
                   </p>
                 </CardContent>
@@ -319,18 +319,18 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
               transition={{ delay: 0.3 }}
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Total de Profesores
                     <HelpTooltip texto="Docentes con asignación vigente en alguna carrera de la facultad. Un cero indica que aún no hay profesores vinculados." />
                   </CardTitle>
-                  <Users className="h-6 w-6 text-green-600 ml-4" />
+                  <Users className="h-6 w-6 text-green-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   <div className="text-3xl font-bold text-green-600">
                     {loadingCareers ? '...' : decanoData.stats.totalProfesores}
                   </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     Profesores en la facultad
                   </p>
                   {!loadingCareers && !errorCarga && decanoData.stats.totalProfesores === 0 && (
@@ -350,14 +350,14 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
               transition={{ delay: 0.4 }}
             >
               <Card className="bg-white shadow-md border border-gray-200 p-6">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-lg font-medium text-gray-900 text-left flex items-center gap-2">
+                <CardHeader className="items-center gap-3 pb-2 text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Promedio General
                     <HelpTooltip texto="Promedio de la facultad en la escala de 1.0 a 5.0. Un docente requiere seguimiento si su calificación queda por debajo de 4.0/5.0." />
                   </CardTitle>
-                  <Award className="h-6 w-6 text-yellow-600 ml-4" />
+                  <Award className="h-6 w-6 text-yellow-600" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   <div className="text-3xl font-bold text-yellow-600">
                     {loadingCareers && '...'}
                     {!loadingCareers && decanoData.stats.promedioEvaluaciones !== null && `${decanoData.stats.promedioEvaluaciones.toFixed(1)}/5.0`}
@@ -365,7 +365,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                       <span className="text-xl text-gray-400">Sin datos</span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 mt-2 text-left">
+                  <p className="text-sm text-gray-500 mt-2">
                     Calificación promedio
                   </p>
                 </CardContent>

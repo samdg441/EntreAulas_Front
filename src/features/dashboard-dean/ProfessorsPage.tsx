@@ -159,17 +159,17 @@ export default function ProfessorsPage({ user }: ProfessorsPageProps) {
             transition={{ delay: 0.1 }}
           >
             <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg font-medium text-gray-900 text-left">
+              <CardHeader className="items-center gap-3 pb-2 text-center">
+                <CardTitle className="flex items-center justify-center text-lg font-medium text-gray-900">
                   Total de Profesores
                 </CardTitle>
-                <Users className="h-6 w-6 text-red-600 ml-4" />
+                <Users className="h-6 w-6 text-red-600" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <div className="text-3xl font-bold text-red-600">
                   {allProfessors.length}
                 </div>
-                <p className="text-sm text-gray-500 mt-2 text-left">
+                <p className="text-sm text-gray-500 mt-2">
                   Profesores activos
                 </p>
               </CardContent>
@@ -183,17 +183,17 @@ export default function ProfessorsPage({ user }: ProfessorsPageProps) {
             transition={{ delay: 0.2 }}
           >
             <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg font-medium text-gray-900 text-left">
+              <CardHeader className="items-center gap-3 pb-2 text-center">
+                <CardTitle className="flex items-center justify-center text-lg font-medium text-gray-900">
                   Total de Carreras
                 </CardTitle>
-                <Building2 className="h-6 w-6 text-green-600 ml-4" />
+                <Building2 className="h-6 w-6 text-green-600" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <div className="text-3xl font-bold text-green-600">
                   {careers.length}
                 </div>
-                <p className="text-sm text-gray-500 mt-2 text-left">
+                <p className="text-sm text-gray-500 mt-2">
                   Carreras con profesores
                 </p>
               </CardContent>
@@ -207,17 +207,17 @@ export default function ProfessorsPage({ user }: ProfessorsPageProps) {
             transition={{ delay: 0.3 }}
           >
             <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg font-medium text-gray-900 text-left">
+              <CardHeader className="items-center gap-3 pb-2 text-center">
+                <CardTitle className="flex items-center justify-center text-lg font-medium text-gray-900">
                   Materias Asignadas
                 </CardTitle>
-                <BookOpen className="h-6 w-6 text-yellow-600 ml-4" />
+                <BookOpen className="h-6 w-6 text-yellow-600" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <div className="text-3xl font-bold text-yellow-600">
                   {allProfessors.reduce((total, prof) => total + (prof.total_materias_asignadas || 0), 0)}
                 </div>
-                <p className="text-sm text-gray-500 mt-2 text-left">
+                <p className="text-sm text-gray-500 mt-2">
                   Total de asignaciones
                 </p>
               </CardContent>
@@ -231,17 +231,17 @@ export default function ProfessorsPage({ user }: ProfessorsPageProps) {
             transition={{ delay: 0.4 }}
           >
             <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg font-medium text-gray-900 text-left">
+              <CardHeader className="items-center gap-3 pb-2 text-center">
+                <CardTitle className="flex items-center justify-center text-lg font-medium text-gray-900">
                   Promedio por Profesor
                 </CardTitle>
-                <GraduationCap className="h-6 w-6 text-purple-600 ml-4" />
+                <GraduationCap className="h-6 w-6 text-purple-600" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <div className="text-3xl font-bold text-purple-600">
                   {allProfessors.length > 0 ? Math.round(allProfessors.reduce((total, prof) => total + (prof.total_materias_asignadas || 0), 0) / allProfessors.length * 10) / 10 : 0}
                 </div>
-                <p className="text-sm text-gray-500 mt-2 text-left">
+                <p className="text-sm text-gray-500 mt-2">
                   Materias por profesor
                 </p>
               </CardContent>

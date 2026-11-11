@@ -142,17 +142,17 @@ export default function CareerSubjectsPage({ user }: CareerSubjectsPageProps) {
             transition={{ delay: 0.1 }}
           >
             <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg font-medium text-gray-900 text-left">
+              <CardHeader className="items-center gap-3 pb-2 text-center">
+                <CardTitle className="flex items-center justify-center text-lg font-medium text-gray-900">
                   Total de Carreras
                 </CardTitle>
-                <Building2 className="h-6 w-6 text-university-red ml-4" />
+                <Building2 className="h-6 w-6 text-university-red" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <div className="text-3xl font-bold text-university-red">
                   {careers.length}
                 </div>
-                <p className="text-sm text-gray-500 mt-2 text-left">
+                <p className="text-sm text-gray-500 mt-2">
                   Carreras en la facultad
                 </p>
               </CardContent>
@@ -166,17 +166,17 @@ export default function CareerSubjectsPage({ user }: CareerSubjectsPageProps) {
             transition={{ delay: 0.2 }}
           >
             <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg font-medium text-gray-900 text-left">
+              <CardHeader className="items-center gap-3 pb-2 text-center">
+                <CardTitle className="flex items-center justify-center text-lg font-medium text-gray-900">
                   Total de Materias
                 </CardTitle>
-                <BookOpen className="h-6 w-6 text-green-600 ml-4" />
+                <BookOpen className="h-6 w-6 text-green-600" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <div className="text-3xl font-bold text-green-600">
                   {Object.values(careerSubjects).flat().length}
                 </div>
-                <p className="text-sm text-gray-500 mt-2 text-left">
+                <p className="text-sm text-gray-500 mt-2">
                   Materias disponibles
                 </p>
               </CardContent>
@@ -190,17 +190,17 @@ export default function CareerSubjectsPage({ user }: CareerSubjectsPageProps) {
             transition={{ delay: 0.3 }}
           >
             <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg font-medium text-gray-900 text-left">
+              <CardHeader className="items-center gap-3 pb-2 text-center">
+                <CardTitle className="flex items-center justify-center text-lg font-medium text-gray-900">
                   Promedio por Carrera
                 </CardTitle>
-                <BarChart3 className="h-6 w-6 text-yellow-600 ml-4" />
+                <BarChart3 className="h-6 w-6 text-yellow-600" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <div className="text-3xl font-bold text-yellow-600">
                   {careers.length > 0 ? Math.round(Object.values(careerSubjects).flat().length / careers.length) : 0}
                 </div>
-                <p className="text-sm text-gray-500 mt-2 text-left">
+                <p className="text-sm text-gray-500 mt-2">
                   Materias por carrera
                 </p>
               </CardContent>
@@ -214,17 +214,17 @@ export default function CareerSubjectsPage({ user }: CareerSubjectsPageProps) {
             transition={{ delay: 0.4 }}
           >
             <Card className="bg-white shadow-md border border-gray-200 p-6">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg font-medium text-gray-900 text-left">
+              <CardHeader className="items-center gap-3 pb-2 text-center">
+                <CardTitle className="flex items-center justify-center text-lg font-medium text-gray-900">
                   Carreras Activas
                 </CardTitle>
-                <GraduationCap className="h-6 w-6 text-purple-600 ml-4" />
+                <GraduationCap className="h-6 w-6 text-purple-600" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <div className="text-3xl font-bold text-purple-600">
                   {careers.filter(c => careerSubjects[c.id.toString()]?.length > 0).length}
                 </div>
-                <p className="text-sm text-gray-500 mt-2 text-left">
+                <p className="text-sm text-gray-500 mt-2">
                   Con materias asignadas
                 </p>
               </CardContent>
