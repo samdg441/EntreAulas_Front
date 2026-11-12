@@ -153,8 +153,9 @@ export function rutaActiva(secciones: SeccionNav[], rutaActual: string): string 
   return mejor
 }
 
-/** Rutas donde no se muestra la barra lateral: acceso, flujos de evaluación y errores. */
-const SIN_BARRA = ['/login', '/forgot-password', '/reset-password', '/forbidden', '/qr-evaluacion', '/evaluate/form', '/evaluate/goodbye']
+/** Rutas donde no se muestra la barra lateral: acceso, entrada por QR, despedida y errores.
+   Responder la encuesta (/evaluate/form) sí lleva barra y el control de tono. */
+const SIN_BARRA = ['/login', '/forgot-password', '/reset-password', '/forbidden', '/qr-evaluacion', '/evaluate/goodbye']
 export function mostrarBarraLateral(ruta: string): boolean {
   return !SIN_BARRA.some((r) => ruta === r || ruta.startsWith(`${r}/`))
 }

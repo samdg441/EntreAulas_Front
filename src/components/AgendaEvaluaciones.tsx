@@ -1,4 +1,5 @@
-import { useEffect, useId, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { CalendarClock, ChevronLeft, ChevronRight } from 'lucide-react'
 import { getVentanasEvaluacion, type VentanaEvaluacion } from '../api/periodos.api'
 import { usePreferencias } from '../preferencias/PreferenciasContext'
@@ -52,6 +53,7 @@ function claseDia(estado: EstadoDia, borde: { izq: boolean; der: boolean }): str
 /** Calendario del mes con la ventana de evaluación como una franja continua, y la lista de fechas próximas. */
 export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy: hoyProp, className = '' }: Readonly<AgendaProps>) {
   const { t, locale } = usePreferencias()
+  const reducir = useReducedMotion()
   const hoy = useMemo(() => hoyProp ?? new Date(), [hoyProp])
   const [mes, setMes] = useState(() => new Date(hoy.getFullYear(), hoy.getMonth(), 1))
   const [ventanas, setVentanas] = useState<VentanaEvaluacion[]>([])
@@ -74,7 +76,11 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
     }
   }, [cargar, hoy])
 
-  const cambiarMes = (delta: number) => setMes((m) => new Date(m.getFullYear(), m.getMonth() + delta, 1))
+  const direccion = useRef(1)
+  const cambiarMes = (delta: number) => {
+    direccion.current = delta
+    setMes((m) => new Date(m.getFullYear(), m.getMonth() + delta, 1))
+  }
   const nombreMes = mes.toLocaleDateString(locale, { month: 'long', year: 'numeric' })
   const semanas = useMemo(() => {
     const celdas = celdasDelMes(mes)
@@ -133,7 +139,17 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
         </button>
       </div>
 
-      <div className="mt-2" role="grid" aria-label={t('cal.dias', { mes: nombreMes })}>
+      <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={`${mes.getFullYear()}-${mes.getMonth()}`}
+        className="mt-2"
+        role="grid"
+        aria-label={t('cal.dias', { mes: nombreMes })}
+        initial={reducir ? false : { opacity: 0, x: direccion.current * 18 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={reducir ? { opacity: 1, x: 0 } : { opacity: 0, x: direccion.current * -18 }}
+        transition={{ duration: reducir ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div role="row" className="grid grid-cols-7">
           {dias.map((d, i) => (
             <div key={d} role="columnheader" className="py-1 text-center text-small font-medium text-gray-500">
@@ -170,7 +186,8 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
             })}
           </div>
         ))}
-      </div>
+      </motion.div>
+      </AnimatePresence>
 
       <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-small text-gray-700">
         <li className="flex items-center gap-2">

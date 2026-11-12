@@ -288,7 +288,11 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                 </CardHeader>
                 <CardContent className="text-center">
                   <div className="text-3xl font-bold text-blue-600">
-                    {loadingCareers ? '...' : decanoData.stats.totalCarreras}
+                    {loadingCareers ? (
+                      <span className="mx-auto block h-9 w-16 animate-pulse rounded bg-gray-200" aria-hidden="true" />
+                    ) : (
+                      decanoData.stats.totalCarreras
+                    )}
                   </div>
                   <p className="text-sm text-gray-500 mt-2">
                     Carreras en la facultad
@@ -314,7 +318,11 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                 </CardHeader>
                 <CardContent className="text-center">
                   <div className="text-3xl font-bold text-green-600">
-                    {loadingCareers ? '...' : decanoData.stats.totalProfesores}
+                    {loadingCareers ? (
+                      <span className="mx-auto block h-9 w-16 animate-pulse rounded bg-gray-200" aria-hidden="true" />
+                    ) : (
+                      decanoData.stats.totalProfesores
+                    )}
                   </div>
                   <p className="text-sm text-gray-500 mt-2">
                     Profesores en la facultad
@@ -345,7 +353,9 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                 </CardHeader>
                 <CardContent className="text-center">
                   <div className="text-3xl font-bold text-yellow-600">
-                    {loadingCareers && '...'}
+                    {loadingCareers && (
+                      <span className="mx-auto block h-9 w-24 animate-pulse rounded bg-gray-200" aria-hidden="true" />
+                    )}
                     {!loadingCareers && decanoData.stats.promedioEvaluaciones !== null && `${decanoData.stats.promedioEvaluaciones.toFixed(1)}/5.0`}
                     {!loadingCareers && decanoData.stats.promedioEvaluaciones === null && (
                       <span className="text-xl text-gray-400">Sin datos</span>
@@ -407,14 +417,16 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
                             <ChevronRight className="h-4 w-4 text-gray-400" />
                           </div>
                         ))
+                    ) : loadingCareers ? (
+                      <div className="space-y-3" aria-hidden="true">
+                        <div className="h-14 animate-pulse rounded-lg bg-gray-200" />
+                        <div className="h-14 animate-pulse rounded-lg bg-gray-200" />
+                        <div className="h-14 animate-pulse rounded-lg bg-gray-200" />
+                      </div>
                     ) : (
                       <EmptyState
-                        titulo={loadingCareers ? 'Cargando carreras' : 'Sin carreras para mostrar'}
-                        descripcion={
-                          loadingCareers
-                            ? 'Estamos consultando la facultad.'
-                            : 'No hay carreras con datos en este momento. Revisa Reportes o vuelve a intentar.'
-                        }
+                        titulo="Sin carreras para mostrar"
+                        descripcion="No hay carreras con datos en este momento. Revisa Reportes o vuelve a intentar."
                       />
                     )}
                   </div>

@@ -4,6 +4,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import AppShell from '../../components/shell/AppShell'
+import Header from '../../components/Header'
 import { AuthProvider } from '../../context/AuthContext'
 import { PreferenciasProvider } from '../../preferencias/PreferenciasContext'
 import { sembrarSesion } from '../helpers/render'
@@ -60,6 +61,29 @@ describe('AppShell + Sidebar', () => {
     expect(within(nav).queryByRole('link', { name: 'Auditoría' })).not.toBeInTheDocument()
     expect(within(nav).queryByRole('link', { name: 'Gestión de profesores' })).not.toBeInTheDocument()
     expect(within(nav).getByRole('link', { name: 'Evaluar docentes' })).toBeInTheDocument()
+  })
+
+  it('responder la encuesta mantiene la barra y el control de tono', () => {
+    simularMatchMedia(false)
+    window.localStorage.clear()
+    sembrarSesion(ESTUDIANTE)
+    render(
+      <MemoryRouter initialEntries={['/evaluate/form']}>
+        <PreferenciasProvider>
+          <AuthProvider>
+            <Routes>
+              <Route element={<AppShell />}>
+                <Route path="/evaluate/form" element={<Header title="Evaluación docente" />} />
+              </Route>
+            </Routes>
+          </AuthProvider>
+        </PreferenciasProvider>
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('navigation', { name: 'Navegación principal' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Evaluar docentes' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Preferencias de visualización' })).toBeInTheDocument()
   })
 
   it('en /login no se dibuja la barra lateral ni el enlace de salto', () => {

@@ -91,12 +91,12 @@ describe('rutaActiva', () => {
 })
 
 describe('mostrarBarraLateral', () => {
-  it.each(['/login', '/forgot-password', '/reset-password', '/forbidden', '/qr-evaluacion', '/evaluate/form', '/evaluate/goodbye'])(
+  it.each(['/login', '/forgot-password', '/reset-password', '/forbidden', '/qr-evaluacion', '/evaluate/goodbye'])(
     'oculta la barra en %s',
     (ruta) => expect(mostrarBarraLateral(ruta)).toBe(false)
   )
 
-  it.each(['/dashboard-coordinador', '/auditoria', '/evaluate/selection', '/profile'])('muestra la barra en %s', (ruta) =>
+  it.each(['/dashboard-coordinador', '/auditoria', '/evaluate/selection', '/evaluate/form', '/profile'])('muestra la barra en %s', (ruta) =>
     expect(mostrarBarraLateral(ruta)).toBe(true)
   )
 })
