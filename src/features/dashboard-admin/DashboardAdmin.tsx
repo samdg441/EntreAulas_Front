@@ -162,7 +162,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
 
           <RoleGuideBanner
             storageKey="guide_dismissed_admin"
-            titulo="¿Cómo gestionar la plataforma?"
+            titulo="¿Cómo gestionar la plataforma ?"
             pasos={[
               { titulo: 'Usuarios y roles', detalle: 'Administra cuentas de estudiantes, docentes y directivos.' },
               { titulo: 'Estructura académica', detalle: 'Configura facultades, carreras y asignaturas activas.' },
