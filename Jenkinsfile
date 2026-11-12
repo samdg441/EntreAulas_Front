@@ -178,13 +178,30 @@ pipeline {
                             exit 1
                         fi
                     fi
+                    # La corrida anterior, como root, dejó videos y capturas ilegibles.
+                    # El workspace es de Jenkins: al borrar reports, esta corrida puede recrearlo.
+                    docker run --rm --user root \
+                        -v jenkins_home:/var/jenkins_home \
+                        -e WORKSPACE="$WORKSPACE" \
+                        node:22-bookworm-slim \
+                        sh -c 'rm -rf "$WORKSPACE/reports" "$WORKSPACE/e2e/cypress/downloads"'
+                    # axe-core vive en e2e/, no en el npm ci del front. Sin el binario de Cypress: ya está en la imagen.
+                    docker run --rm \
+                        --user "$(id -u):$(id -g)" \
+                        -e HOME=/tmp \
+                        -e CYPRESS_INSTALL_BINARY=0 \
+                        -v jenkins_home:/var/jenkins_home \
+                        -w "$WORKSPACE/e2e" \
+                        node:22-bookworm-slim \
+                        npm ci
                     docker run --rm --network host \
                         --user "$(id -u):$(id -g)" \
                         -e HOME=/tmp \
+                        -e CYPRESS_VIDEO=false \
                         -v jenkins_home:/var/jenkins_home \
                         -w "$WORKSPACE/e2e" \
                         cypress/included:16.1.1 \
-                        --browser chrome --config baseUrl=http://localhost:3001,video=false \
+                        --browser chrome --config baseUrl=http://localhost:3001 \
                         --spec "cypress/e2e/ui/rediseno-*.cy.ts,cypress/e2e/accessibility/rediseno-*.cy.ts,cypress/e2e/security/rediseno-*.cy.ts"
                 '''
             }
