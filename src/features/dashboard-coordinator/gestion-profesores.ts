@@ -53,6 +53,21 @@ export function filtrarYOrdenar(
   return [...lista].sort(comparadores[opciones.orden])
 }
 
+/** La página siguiente a la última repite la última. Se queda una sola ficha por id. */
+export function docentesSinRepetir(paginas: DocenteResumen[][]): DocenteResumen[] {
+  const vistos = new Set<string>()
+  const salida: DocenteResumen[] = []
+  for (const pagina of paginas) {
+    for (const docente of pagina) {
+      const id = String(docente.id)
+      if (vistos.has(id)) continue
+      vistos.add(id)
+      salida.push(docente)
+    }
+  }
+  return salida
+}
+
 export function iniciales(nombre: string): string {
   const partes = nombre.trim().split(/\s+/).filter(Boolean)
   if (partes.length === 0) return '?'

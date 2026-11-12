@@ -34,7 +34,7 @@ function Indicador({
   children?: React.ReactNode
 }>) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5">
+    <div className="marca-rojo rounded-2xl border border-gray-200 bg-white p-5">
       <dt className="flex items-center gap-1.5 text-small font-medium text-gray-700">
         {etiqueta}
         <HelpTooltip texto={ayuda} etiqueta={etiqueta} />

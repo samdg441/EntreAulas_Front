@@ -23,7 +23,6 @@ import {
 } from 'react-icons/fa'
 
 // Importación de assets
-import fondoImg from '../../assets/fondo.webp'
 import logoUniversidadImg from '../../assets/logo_conciencia.webp'
 
 export default function Login() {
@@ -123,17 +122,7 @@ export default function Login() {
   }
 
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center p-4 bg-gray-100"
-      style={{
-        backgroundImage: `url(${fondoImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
-    >
-      {/* Overlay más oscuro para mejor contraste */}
-      <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      
+    <div className="fondo-entreaulas flex min-h-screen items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -226,13 +226,18 @@ export default function EvaluationForm() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 relative">
-        
-        <div className="relative z-10 flex items-center justify-center min-h-screen">
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-university-red mx-auto mb-4"></div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Cargando preguntas de evaluación</h2>
-            <p className="text-gray-600">Obteniendo preguntas específicas para tu carrera...</p>
-          </div>
+        <div className="relative z-10">
+          <Header
+            title="Evaluación Docente - Paso 2 de 2"
+            subtitle="Evalúa el desempeño del profesor"
+          />
+          <main className="flex min-h-[60vh] items-center justify-center p-6">
+            <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-university-red mx-auto mb-4"></div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Cargando preguntas de evaluación</h2>
+              <p className="text-gray-600">Obteniendo preguntas específicas para tu carrera...</p>
+            </div>
+          </main>
         </div>
       </div>
     );

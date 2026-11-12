@@ -9,6 +9,7 @@ export type IconoNav =
   | 'perfil'
   | 'docentes'
   | 'encuestas'
+  | 'programar'
   | 'reportes'
   | 'resultados'
   | 'auditoria'
@@ -62,7 +63,7 @@ const NAVEGACION: Record<RolNav, SeccionNav[]> = {
     },
     {
       clave: 'nav.sec.encuestas',
-      enlaces: [{ clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'encuestas' }],
+      enlaces: [{ clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'programar' }],
     },
     {
       clave: 'nav.sec.reportes',
@@ -106,7 +107,7 @@ const NAVEGACION: Record<RolNav, SeccionNav[]> = {
       clave: 'nav.sec.encuestas',
       enlaces: [
         { clave: 'nav.encuestasAdmin', ruta: '/admin/surveys', icono: 'encuestas' },
-        { clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'encuestas' },
+        { clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'programar' },
       ],
     },
     { clave: 'nav.sec.reportes', enlaces: [{ clave: 'nav.reportesGenerales', ruta: '/reports', icono: 'reportes' }] },
@@ -153,8 +154,9 @@ export function rutaActiva(secciones: SeccionNav[], rutaActual: string): string 
   return mejor
 }
 
-/** Rutas donde no se muestra la barra lateral: acceso, flujos de evaluación y errores. */
-const SIN_BARRA = ['/login', '/forgot-password', '/reset-password', '/forbidden', '/qr-evaluacion', '/evaluate/form', '/evaluate/goodbye']
+/** Rutas donde no se muestra la barra lateral: acceso, entrada por QR, despedida y errores.
+   Responder la encuesta (/evaluate/form) sí lleva barra y el control de tono. */
+const SIN_BARRA = ['/login', '/forgot-password', '/reset-password', '/forbidden', '/qr-evaluacion', '/evaluate/goodbye']
 export function mostrarBarraLateral(ruta: string): boolean {
   return !SIN_BARRA.some((r) => ruta === r || ruta.startsWith(`${r}/`))
 }

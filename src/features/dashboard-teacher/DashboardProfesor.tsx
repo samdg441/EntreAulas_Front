@@ -300,7 +300,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               animate="visible"
               transition={{ delay: 0.2 }}
             >
-              <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-yellow-100 p-6 h-full">
+              <Card className="marca-rojo bg-white/95 backdrop-blur-sm shadow-lg border border-yellow-100 p-6 h-full">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Calificación Promedio
@@ -310,17 +310,13 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                 </CardHeader>
                 <CardContent className="text-center">
                   {loadingStats ? (
-                    <div className="text-3xl font-bold text-gray-400">
-                      Cargando...
-                    </div>
+                    <div className="mx-auto h-9 w-24 animate-pulse rounded bg-gray-200" aria-hidden="true" />
                   ) : (
                     <div className="text-3xl font-bold text-yellow-800 tracking-tight">
                       {profesorData.stats.averageRating > 0 ? `${profesorData.stats.averageRating}/5.0` : '0.0/5.0'}
                     </div>
                   )}
-                  <p className="text-sm text-gray-500 mt-2">
-                    {loadingStats ? 'Cargando datos...' : 'Calificación promedio'}
-                  </p>
+                  <p className="text-sm text-gray-500 mt-2">Calificación promedio</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -332,7 +328,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               animate="visible"
               transition={{ delay: 0.3 }}
             >
-              <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-green-100 p-6 h-full">
+              <Card className="marca-rojo bg-white/95 backdrop-blur-sm shadow-lg border border-green-100 p-6 h-full">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Total Evaluaciones
@@ -342,17 +338,13 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                 </CardHeader>
                 <CardContent className="text-center">
                   {loadingStats ? (
-                    <div className="text-3xl font-bold text-gray-400">
-                      Cargando...
-                    </div>
+                    <div className="mx-auto h-9 w-16 animate-pulse rounded bg-gray-200" aria-hidden="true" />
                   ) : (
                     <div className="text-3xl font-bold text-green-600 tracking-tight">
                       {profesorData.stats.totalEvaluations || 0}
                     </div>
                   )}
-                  <p className="text-sm text-gray-500 mt-2">
-                    {loadingStats ? 'Cargando datos...' : 'Evaluaciones recibidas'}
-                  </p>
+                  <p className="text-sm text-gray-500 mt-2">Evaluaciones recibidas</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -364,7 +356,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               animate="visible"
               transition={{ delay: 0.4 }}
             >
-              <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-red-100 p-6 h-full">
+              <Card className="marca-rojo bg-white/95 backdrop-blur-sm shadow-lg border border-red-100 p-6 h-full">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Carga Académica
@@ -374,9 +366,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                 </CardHeader>
                 <CardContent className="text-center">
                   {loadingStats ? (
-                    <div className="text-3xl font-bold text-gray-400">
-                      Cargando...
-                    </div>
+                    <div className="mx-auto h-9 w-40 animate-pulse rounded bg-gray-200" aria-hidden="true" />
                   ) : (
                     <div className="space-y-2">
                       <div className="text-2xl font-bold text-red-600 tracking-tight">
@@ -386,9 +376,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                       </div>
                     </div>
                   )}
-                  <p className="text-sm text-gray-500 mt-2">
-                    {loadingStats ? 'Cargando datos...' : 'Asignaciones activas del docente'}
-                  </p>
+                  <p className="text-sm text-gray-500 mt-2">Asignaciones activas del docente</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -521,8 +509,10 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
                 )}
                 <div className="space-y-4">
                   {loadingStats ? (
-                    <div className="text-center py-8 text-gray-500">
-                      Cargando evaluaciones...
+                    <div className="space-y-3 py-2" aria-hidden="true">
+                      <div className="h-16 animate-pulse rounded-lg bg-gray-200" />
+                      <div className="h-16 animate-pulse rounded-lg bg-gray-200" />
+                      <div className="h-16 animate-pulse rounded-lg bg-gray-200" />
                     </div>
                   ) : statsError ? (
                     <div role="alert" className="text-center py-8 text-red-800">
