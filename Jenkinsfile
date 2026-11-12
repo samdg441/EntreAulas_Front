@@ -63,6 +63,14 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
+                sh '''
+                    set -e
+                    # Cypress, si corre como root, deja esta carpeta ilegible para el scanner.
+                    docker run --rm --user root \
+                        -v jenkins_home:/var/jenkins_home \
+                        node:22-bookworm-slim \
+                        rm -rf "$WORKSPACE/e2e/cypress/downloads"
+                '''
                 script {
                     def scannerHome = tool(
                         name: 'SonarScanner',
@@ -171,6 +179,8 @@ pipeline {
                         fi
                     fi
                     docker run --rm --network host \
+                        --user "$(id -u):$(id -g)" \
+                        -e HOME=/tmp \
                         -v jenkins_home:/var/jenkins_home \
                         -w "$WORKSPACE/e2e" \
                         cypress/included:16.1.1 \
