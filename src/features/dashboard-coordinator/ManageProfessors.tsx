@@ -10,6 +10,7 @@ import {
   contarPorEstado,
   estadoDelDocente,
   filtrarYOrdenar,
+  docentesSinRepetir,
   iniciales,
   porcentajeEscala,
   type DocenteResumen,
@@ -80,21 +81,30 @@ export default function ManageProfessors() {
       setCargando(true)
       setErrorLista(false)
       try {
-        const paginas = await Promise.all([
-          fetchCoordinatorDashboardSummary({ page: 1, pageSize: 50 }),
-          fetchCoordinatorDashboardSummary({ page: 2, pageSize: 50 }),
-        ])
+        const primera = await fetchCoordinatorDashboardSummary({ page: 1, pageSize: 50 })
+        if (!activo) return
+        const totalPages = Math.min(Math.max(primera.pagination?.totalPages ?? 1, 1), 10)
+        const resto =
+          totalPages > 1
+            ? await Promise.all(
+                Array.from({ length: totalPages - 1 }, (_, i) =>
+                  fetchCoordinatorDashboardSummary({ page: i + 2, pageSize: 50 })
+                )
+              )
+            : []
         if (!activo) return
         setDocentes(
-          paginas
-            .flatMap((p) => p.teachers || [])
-            .map((p) => ({
-              id: p.profesorId,
-              nombre: p.nombre || '—',
-              email: p.email || '',
-              promedio: Number(p.promedio) || 0,
-              totalEvaluaciones: Number(p.totalEvaluaciones) || 0,
-            }))
+          docentesSinRepetir(
+            [primera, ...resto].map((p) =>
+              (p.teachers || []).map((t) => ({
+                id: t.profesorId,
+                nombre: t.nombre || '—',
+                email: t.email || '',
+                promedio: Number(t.promedio) || 0,
+                totalEvaluaciones: Number(t.totalEvaluaciones) || 0,
+              }))
+            )
+          )
         )
       } catch (e) {
         console.error('Error cargando los docentes de la carrera:', e)
@@ -152,7 +162,7 @@ export default function ManageProfessors() {
 
         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)]">
           {/* Lista: en móvil se oculta cuando hay un docente elegido. */}
-          <section aria-labelledby="titulo-lista" className={`${seleccionado ? 'hidden lg:block' : ''} min-w-0 rounded-2xl border border-gray-200 bg-white`}>
+          <section aria-labelledby="titulo-lista" className={`${seleccionado ? 'hidden lg:block' : ''} min-w-0 rounded-2xl border border-red-100 bg-white shadow-[0_10px_28px_rgb(227_6_19/0.08)]`}>
             <div className="space-y-3 border-b border-gray-200 p-4">
               <h2 id="titulo-lista" className="text-subtitle font-semibold text-gray-900">
                 {t('gp.lista')}
@@ -178,8 +188,8 @@ export default function ManageProfessors() {
                     role="radio"
                     aria-checked={filtro === valor}
                     onClick={() => setFiltro(valor)}
-                    className={`min-h-[36px] rounded-full border px-3 text-small font-medium transition-colors ${
-                      filtro === valor ? 'border-red-600 bg-red-600 text-white' : 'border-gray-300 bg-white text-gray-800 hover:bg-gray-100'
+                    className={`marca-rojo min-h-[36px] rounded-full border px-3 text-small font-medium ${
+                      filtro === valor ? 'border-red-600 bg-red-600 text-white' : 'border-gray-300 bg-white text-gray-800'
                     }`}
                   >
                     {t(clave)} <span>({cuentas[valor]})</span>
@@ -227,7 +237,7 @@ export default function ManageProfessors() {
                         type="button"
                         onClick={() => elegir(String(d.id))}
                         aria-current={activo ? 'true' : undefined}
-                        className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${activo ? 'bg-red-50' : 'hover:bg-gray-50'}`}
+                        className={`marca-rojo flex w-full items-center gap-3 border border-transparent px-4 py-3 text-left ${activo ? 'bg-red-50' : ''}`}
                       >
                         <span
                           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy-700 text-small font-semibold text-white"
@@ -259,7 +269,7 @@ export default function ManageProfessors() {
           </section>
 
           {/* Detalle */}
-          <section aria-labelledby="titulo-detalle" className={`${seleccionado ? '' : 'hidden lg:block'} min-w-0 rounded-2xl border border-gray-200 bg-white p-5 lg:sticky lg:top-24`}>
+          <section aria-labelledby="titulo-detalle" className={`${seleccionado ? '' : 'hidden lg:block'} min-w-0 rounded-2xl border border-red-100 bg-white p-5 shadow-[0_14px_36px_rgb(227_6_19/0.10)] lg:sticky lg:top-24`}>
             {!seleccionado ? (
               <div className="py-12 text-center">
                 <GraduationCap className="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" />
@@ -279,7 +289,7 @@ export default function ManageProfessors() {
 
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-3">
-                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-navy-700 text-subtitle font-semibold text-white" aria-hidden="true">
+                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-navy-700 text-subtitle font-semibold text-white ring-2 ring-red-600 ring-offset-2 ring-offset-white" aria-hidden="true">
                       {iniciales(seleccionado.nombre)}
                     </span>
                     <div className="min-w-0">
@@ -311,7 +321,7 @@ export default function ManageProfessors() {
                       <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-small font-medium text-red-800">{t('gp.riesgoAviso')}</p>
                     )}
 
-                    <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-gray-200 bg-gray-200 sm:grid-cols-4">
+                    <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-red-100 bg-red-100 shadow-[0_8px_20px_rgb(227_6_19/0.08)] sm:grid-cols-4">
                       <Dato etiqueta={t('gp.evaluaciones')} valor={resumen?.totalEvaluaciones || 0} />
                       <Dato etiqueta={t('gp.promedio')} valor={`${resumen?.promedio || 0}/5`} />
                       <Dato etiqueta={t('gp.evaluadores')} valor={resumen?.estudiantesEvaluadores || 0} />
@@ -342,9 +352,9 @@ export default function ManageProfessors() {
                       {cursos.length === 0 ? (
                         <p className="mt-2 text-small text-gray-600">{t('gp.sinCursos')}</p>
                       ) : (
-                        <ul className="mt-2 divide-y divide-gray-200 rounded-xl border border-gray-200">
+                        <ul className="mt-2 divide-y divide-red-50 rounded-xl border border-red-100">
                           {cursos.map((c) => (
-                            <li key={c.cursoId} className="flex items-center justify-between gap-3 px-4 py-3">
+                            <li key={c.cursoId} className="marca-rojo flex items-center justify-between gap-3 border border-transparent px-4 py-3">
                               <div className="min-w-0">
                                 <p className="truncate text-body font-medium text-gray-900">{c.codigo ? `${c.codigo} · ` : ''}{c.nombre}</p>
                                 <p className="text-small text-gray-600">{t('gp.evaluacionesN', { n: c.totalEvaluaciones })}</p>

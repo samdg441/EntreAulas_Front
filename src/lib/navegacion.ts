@@ -9,6 +9,7 @@ export type IconoNav =
   | 'perfil'
   | 'docentes'
   | 'encuestas'
+  | 'programar'
   | 'reportes'
   | 'resultados'
   | 'auditoria'
@@ -62,7 +63,7 @@ const NAVEGACION: Record<RolNav, SeccionNav[]> = {
     },
     {
       clave: 'nav.sec.encuestas',
-      enlaces: [{ clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'encuestas' }],
+      enlaces: [{ clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'programar' }],
     },
     {
       clave: 'nav.sec.reportes',
@@ -106,7 +107,7 @@ const NAVEGACION: Record<RolNav, SeccionNav[]> = {
       clave: 'nav.sec.encuestas',
       enlaces: [
         { clave: 'nav.encuestasAdmin', ruta: '/admin/surveys', icono: 'encuestas' },
-        { clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'encuestas' },
+        { clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'programar' },
       ],
     },
     { clave: 'nav.sec.reportes', enlaces: [{ clave: 'nav.reportesGenerales', ruta: '/reports', icono: 'reportes' }] },

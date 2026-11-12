@@ -386,3 +386,19 @@ html.dark .fondo-entreaulas {
 .fondo-entreaulas .min-h-screen.bg-gray-50 {
   background: transparent;
 }
+
+/* Lo elegido o lo que está bajo el puntero se marca con el rojo de la marca. */
+.marca-rojo {
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.marca-rojo:hover,
+.marca-rojo:focus-visible {
+  border-color: #e30613;
+  box-shadow: 0 0 0 1px rgb(227 6 19 / 0.45), 0 10px 22px rgb(227 6 19 / 0.14);
+}
+.marca-rojo[aria-current='true'],
+.marca-rojo[aria-current='page'],
+.marca-rojo[aria-checked='true'] {
+  border-color: #e30613;
+  box-shadow: 0 0 0 1px #e30613, 0 10px 24px rgb(227 6 19 / 0.18);
+}

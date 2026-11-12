@@ -300,7 +300,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               animate="visible"
               transition={{ delay: 0.2 }}
             >
-              <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-yellow-100 p-6 h-full">
+              <Card className="marca-rojo bg-white/95 backdrop-blur-sm shadow-lg border border-yellow-100 p-6 h-full">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Calificación Promedio
@@ -328,7 +328,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               animate="visible"
               transition={{ delay: 0.3 }}
             >
-              <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-green-100 p-6 h-full">
+              <Card className="marca-rojo bg-white/95 backdrop-blur-sm shadow-lg border border-green-100 p-6 h-full">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Total Evaluaciones
@@ -356,7 +356,7 @@ export default function DashboardProfesor({ user }: DashboardProfesorProps) {
               animate="visible"
               transition={{ delay: 0.4 }}
             >
-              <Card className="bg-white/95 backdrop-blur-sm shadow-lg border border-red-100 p-6 h-full">
+              <Card className="marca-rojo bg-white/95 backdrop-blur-sm shadow-lg border border-red-100 p-6 h-full">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Carga Académica

@@ -139,4 +139,13 @@ describe('ManageProfessors', () => {
 
     expect(await screen.findByRole('alert')).toHaveTextContent('No pudimos cargar la información')
   })
+
+  it('con una sola página no vuelve a pedir los mismos docentes', async () => {
+    renderConPreferencias(<ManageProfessors />)
+    await within(lista()).findByRole('button', { name: /Ana Pérez/ })
+
+    expect(fetchResumen).toHaveBeenCalledWith({ page: 1, pageSize: 50 })
+    expect(fetchResumen).not.toHaveBeenCalledWith({ page: 2, pageSize: 50 })
+    expect(within(lista()).getAllByRole('button', { name: /Ana Pérez/ })).toHaveLength(1)
+  })
 })

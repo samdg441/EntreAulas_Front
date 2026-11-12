@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Building2,
   CalendarClock,
+  CalendarPlus,
   ClipboardCheck,
   FileBarChart,
   Home,
@@ -29,6 +30,7 @@ const ICONOS: Record<IconoNav, LucideIcon> = {
   perfil: UserCircle,
   docentes: Users,
   encuestas: CalendarClock,
+  programar: CalendarPlus,
   reportes: FileBarChart,
   resultados: BarChart3,
   auditoria: ScrollText,
@@ -140,10 +142,10 @@ export default function Sidebar({ abierto, onCerrar }: Readonly<SidebarProps>) {
                         aria-current={esActiva ? 'page' : undefined}
                         title={colapsado ? t(enlace.clave) : undefined}
                         aria-label={colapsado ? t(enlace.clave) : undefined}
-                        className={`relative flex min-h-[44px] items-center gap-3 rounded-lg px-3 py-2 text-body transition-colors ${colapsado ? 'lg:justify-center lg:px-0' : ''} ${
+                        className={`marca-rojo relative flex min-h-[44px] items-center gap-3 rounded-lg border border-transparent px-3 py-2 text-body ${colapsado ? 'lg:justify-center lg:px-0' : ''} ${
                           esActiva
                             ? 'bg-red-50 font-semibold text-red-700'
-                            : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                            : 'text-gray-700 hover:text-gray-900'
                         }`}
                       >
                         {esActiva && (

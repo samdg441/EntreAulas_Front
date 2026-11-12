@@ -5,6 +5,7 @@ import {
   estadoDelDocente,
   filtrarYOrdenar,
   iniciales,
+  docentesSinRepetir,
   porcentajeEscala,
   type DocenteResumen,
 } from '../../../features/dashboard-coordinator/gestion-profesores'
@@ -92,6 +93,14 @@ describe('iniciales', () => {
     ['  luisa   fernanda ', 'LF'],
     ['', '?'],
   ])('"%s" → %s', (nombre, esperado) => expect(iniciales(nombre)).toBe(esperado))
+})
+
+describe('docentesSinRepetir', () => {
+  it('se queda con la primera ficha de cada id cuando la página siguiente repite la anterior', () => {
+    const ana = d(1, 'Ana', 4.6, 20)
+    const luis = d(2, 'Luis', 3.2, 4)
+    expect(docentesSinRepetir([[ana, luis], [ana, luis]])).toEqual([ana, luis])
+  })
 })
 
 describe('porcentajeEscala (escala 1.0–5.0)', () => {

@@ -181,7 +181,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
             {metrics.map((metric) => (
               <Card
                 key={metric.label}
-                className="bg-white/95 border border-gray-200/80 shadow-sm transition-all hover:shadow-md p-5 sm:p-6"
+                className="marca-rojo bg-white/95 border border-gray-200/80 shadow-sm p-5 sm:p-6"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-2">
@@ -231,7 +231,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
                     key={mod.path}
                     type="button"
                     onClick={() => navigate(mod.path)}
-                    className="group flex h-full flex-col rounded-xl border border-gray-200/80 bg-white p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-red-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="group marca-rojo flex h-full flex-col rounded-xl border border-gray-200/80 bg-white p-5 text-left shadow-sm focus:outline-none"
                   >
                     <span className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${mod.iconClass}`}>
                       <mod.icon className="h-5 w-5" aria-hidden="true" />

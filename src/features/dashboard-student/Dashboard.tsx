@@ -503,7 +503,7 @@ function StatCard({
 }>) {
   return (
     <motion.div variants={cardVariants} initial="hidden" animate="visible" transition={{ delay }}>
-      <Card className="bg-white shadow-sm hover:shadow-md transition-all border border-gray-200/80 p-6">
+      <Card className="marca-rojo bg-white shadow-sm hover:shadow-md border border-gray-200/80 p-6">
         <CardHeader className="items-center gap-3 pb-2 text-center">
           <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
             {title}

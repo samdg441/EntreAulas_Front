@@ -278,7 +278,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
               animate="visible"
               transition={{ delay: 0.2 }}
             >
-              <Card className="bg-white shadow-md border border-gray-200 p-6">
+              <Card className="marca-rojo bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Total de Carreras
@@ -308,7 +308,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
               animate="visible"
               transition={{ delay: 0.3 }}
             >
-              <Card className="bg-white shadow-md border border-gray-200 p-6">
+              <Card className="marca-rojo bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Total de Profesores
@@ -343,7 +343,7 @@ export default function DashboardDecano({ user }: DashboardDecanoProps) {
               animate="visible"
               transition={{ delay: 0.4 }}
             >
-              <Card className="bg-white shadow-md border border-gray-200 p-6">
+              <Card className="marca-rojo bg-white shadow-md border border-gray-200 p-6">
                 <CardHeader className="items-center gap-3 pb-2 text-center">
                   <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
                     Promedio General
