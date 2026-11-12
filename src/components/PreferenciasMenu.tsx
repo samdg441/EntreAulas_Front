@@ -88,11 +88,12 @@ export default function PreferenciasMenu({ className = '' }: Readonly<{ classNam
       </button>
 
       {abierto && (
-        <div
+        <dialog
+          open
           id={`${uid}-panel`}
-          role="dialog"
           aria-label={t('pref.titulo')}
-          className="absolute right-0 top-full z-50 mt-2 w-[min(20rem,calc(100vw-2rem))] space-y-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-xl"
+          style={{ position: 'absolute', inset: 'auto', margin: 0, right: 0, top: '100%' }}
+          className="z-50 mt-2 w-[min(20rem,calc(100vw-2rem))] space-y-4 rounded-2xl border border-gray-200 bg-white p-4 text-gray-900 shadow-xl"
         >
           <h2 className="text-subtitle font-semibold text-gray-900">{t('pref.titulo')}</h2>
 
@@ -125,7 +126,7 @@ export default function PreferenciasMenu({ className = '' }: Readonly<{ classNam
           </Grupo>
 
           <p className="text-small text-gray-500">{t('pref.ayuda')}</p>
-        </div>
+        </dialog>
       )}
     </div>
   )

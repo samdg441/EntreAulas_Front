@@ -16,6 +16,12 @@ interface DashboardCoordinadorProps {
   user: User
 }
 
+function claseDelEstado(estado: ReturnType<typeof estadoDelDocente>): string {
+  if (estado === 'riesgo') return 'bg-red-100 text-red-800'
+  if (estado === 'sinDatos') return 'bg-gray-100 text-gray-700'
+  return 'bg-green-100 text-green-800'
+}
+
 function Indicador({
   etiqueta,
   ayuda,
@@ -60,15 +66,10 @@ function EscalaPromedio({ valor, etiqueta, umbral }: Readonly<{ valor: number; e
   const marca = porcentajeEscala(UMBRAL_RIESGO)
   return (
     <div className="mt-3">
-      <div
-        role="meter"
-        aria-label={etiqueta}
-        aria-valuemin={1}
-        aria-valuemax={5}
-        aria-valuenow={valor || 1}
-        aria-valuetext={`${valor.toFixed(1)} / 5`}
-        className="relative h-2 rounded-full bg-gray-200"
-      >
+      <meter className="sr-only" min={1} max={5} value={valor || 1} aria-label={etiqueta}>
+        {`${valor.toFixed(1)} / 5`}
+      </meter>
+      <div aria-hidden="true" className="relative h-2 rounded-full bg-gray-200">
         <div
           className={`h-full rounded-full ${valor >= UMBRAL_RIESGO ? 'bg-green-600' : 'bg-red-600'}`}
           style={{ width: `${relleno}%` }}
@@ -132,7 +133,10 @@ export default function DashboardCoordinador({ user }: Readonly<DashboardCoordin
   }, [page, pagination.pageSize, searchTerm])
 
   const hora = new Date().getHours()
-  const saludo = t(hora < 12 ? 'coord.saludo.manana' : hora < 18 ? 'coord.saludo.tarde' : 'coord.saludo.noche')
+  let claveSaludo: 'coord.saludo.manana' | 'coord.saludo.tarde' | 'coord.saludo.noche' = 'coord.saludo.noche'
+  if (hora < 12) claveSaludo = 'coord.saludo.manana'
+  else if (hora < 18) claveSaludo = 'coord.saludo.tarde'
+  const saludo = t(claveSaludo)
   const primerNombre = (user?.name || '').split(' ')[0] || t('rol.coordinador')
 
   const promedio = promedioVisible(stats.promedioEvaluaciones)
@@ -270,13 +274,7 @@ export default function DashboardCoordinador({ user }: Readonly<DashboardCoordin
                             <td className="px-4 py-3 text-gray-700">{d.totalEvaluaciones}</td>
                             <td className="px-4 py-3">
                               <span
-                                className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 font-semibold ${
-                                  estado === 'riesgo'
-                                    ? 'bg-red-100 text-red-800'
-                                    : estado === 'sinDatos'
-                                      ? 'bg-gray-100 text-gray-700'
-                                      : 'bg-green-100 text-green-800'
-                                }`}
+                                className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 font-semibold ${claseDelEstado(estado)}`}
                               >
                                 {estado === 'sinDatos' ? t('coord.t.sinDatos') : promedioVisible(d.promedio).toFixed(2)}
                                 {estado === 'riesgo' && <span>· {t('coord.t.enRiesgo')}</span>}

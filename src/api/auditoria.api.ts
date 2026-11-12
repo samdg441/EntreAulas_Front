@@ -7,7 +7,7 @@ export interface EventoAuditoria {
   actorId: string
   actorNombre: string
   actorRol: string
-  accion: AccionAuditoria | string
+  accion: string
   entidad: string
   entidadId: string | null
   detalle: string

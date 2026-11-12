@@ -7,9 +7,12 @@ export function rangoFechasValido(desde: string, hasta: string): boolean {
 
 /** Evita que Excel ejecute una celda como fórmula (CSV injection): prefija con comilla las que empiezan por = + - @. */
 export function celdaCsvSegura(valor: unknown): string {
-  let texto = String(valor ?? '')
+  let texto = ''
+  if (typeof valor === 'string') texto = valor
+  else if (typeof valor === 'number' || typeof valor === 'boolean' || typeof valor === 'bigint') texto = String(valor)
   if (/^[=+\-@\t\r]/.test(texto)) texto = `'${texto}`
-  return /[",\n\r]/.test(texto) ? `"${texto.replace(/"/g, '""')}"` : texto
+  if (!/[",\n\r]/.test(texto)) return texto
+  return `"${texto.replace(/"/g, '""')}"`
 }
 
 export function eventosACsv(

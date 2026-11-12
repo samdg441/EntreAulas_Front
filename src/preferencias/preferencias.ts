@@ -64,6 +64,6 @@ export function esTemaOscuro(tema: Tema, sistemaOscuro: boolean): boolean {
 export function aplicarPreferencias(prefs: Preferencias, sistemaOscuro: boolean, raiz: HTMLElement = document.documentElement) {
   raiz.classList.toggle('dark', esTemaOscuro(prefs.tema, sistemaOscuro))
   raiz.lang = prefs.idioma
-  if (prefs.tamano === 'standard') raiz.removeAttribute('data-text-size')
-  else raiz.setAttribute('data-text-size', prefs.tamano)
+  if (prefs.tamano === 'standard') delete raiz.dataset.textSize
+  else raiz.dataset.textSize = prefs.tamano
 }
