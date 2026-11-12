@@ -153,12 +153,28 @@ pipeline {
             steps {
                 sh '''
                     set -e
+                    # La imagen no está en el agente. Si Docker Desktop pierde el DNS de
+                    # production.cloudfront.docker.com, el primer pull falla: se reintenta.
+                    if ! docker image inspect cypress/included:16.1.1 >/dev/null 2>&1; then
+                        descargada=0
+                        for attempt in 1 2 3 4 5; do
+                            echo "Descargando cypress/included:16.1.1 (intento $attempt)"
+                            if docker pull cypress/included:16.1.1; then
+                                descargada=1
+                                break
+                            fi
+                            sleep 15
+                        done
+                        if [ "$descargada" != 1 ]; then
+                            echo "No se pudo descargar la imagen de Cypress."
+                            exit 1
+                        fi
+                    fi
                     docker run --rm --network host \
                         -v "$WORKSPACE":/work -w /work/e2e \
                         cypress/included:16.1.1 \
                         --browser chrome --config baseUrl=http://localhost:3001,video=false \
-                        --spec "cypress/e2e/ui/rediseno-*.cy.ts,cypress/e2e/accessibility/rediseno-*.cy.ts,cypress/e2e/security/rediseno-*.cy.ts" \
-                        || { echo "E2E falló"; exit 1; }
+                        --spec "cypress/e2e/ui/rediseno-*.cy.ts,cypress/e2e/accessibility/rediseno-*.cy.ts,cypress/e2e/security/rediseno-*.cy.ts"
                 '''
             }
         }
