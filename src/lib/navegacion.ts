@@ -34,6 +34,14 @@ const CUENTA: SeccionNav = {
   enlaces: [{ clave: 'nav.perfil', ruta: '/profile', icono: 'perfil' }],
 }
 
+function sec(clave: Clave, ...enlaces: EnlaceNav[]): SeccionNav {
+  return { clave, enlaces }
+}
+
+function ir(clave: Clave, ruta: string, icono: IconoNav): EnlaceNav {
+  return { clave, ruta, icono }
+}
+
 const NAVEGACION: Record<RolNav, SeccionNav[]> = {
   estudiante: [
     { clave: 'nav.sec.principal', enlaces: [{ clave: 'nav.inicio', ruta: '/dashboard-estudiante', icono: 'inicio' }] },
@@ -94,23 +102,19 @@ const NAVEGACION: Record<RolNav, SeccionNav[]> = {
     CUENTA,
   ],
   admin: [
-    { clave: 'nav.sec.principal', enlaces: [{ clave: 'nav.inicio', ruta: '/dashboard-admin', icono: 'inicio' }] },
-    {
-      clave: 'nav.sec.administracion',
-      enlaces: [
-        { clave: 'nav.usuarios', ruta: '/admin/users', icono: 'usuarios' },
-        { clave: 'nav.academico', ruta: '/admin/academic', icono: 'academico' },
-        { clave: 'nav.qr', ruta: '/admin/qr', icono: 'qr' },
-      ],
-    },
-    {
-      clave: 'nav.sec.encuestas',
-      enlaces: [
-        { clave: 'nav.encuestasAdmin', ruta: '/admin/surveys', icono: 'encuestas' },
-        { clave: 'nav.programarEncuestas', ruta: '/surveys/schedule', icono: 'programar' },
-      ],
-    },
-    { clave: 'nav.sec.reportes', enlaces: [{ clave: 'nav.reportesGenerales', ruta: '/reports', icono: 'reportes' }] },
+    sec('nav.sec.principal', ir('nav.inicio', '/dashboard-admin', 'inicio')),
+    sec(
+      'nav.sec.administracion',
+      ir('nav.usuarios', '/admin/users', 'usuarios'),
+      ir('nav.academico', '/admin/academic', 'academico'),
+      ir('nav.qr', '/admin/qr', 'qr'),
+    ),
+    sec(
+      'nav.sec.encuestas',
+      ir('nav.encuestasAdmin', '/admin/surveys', 'encuestas'),
+      ir('nav.programarEncuestas', '/surveys/schedule', 'programar'),
+    ),
+    sec('nav.sec.reportes', ir('nav.reportesGenerales', '/reports', 'reportes')),
     CUENTA,
   ],
 }

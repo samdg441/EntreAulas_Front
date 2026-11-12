@@ -89,7 +89,11 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
   const dias = nombresDiasSemana(locale)
   const diasLargos = nombresDiasSemana(locale, 'long')
 
-  const cuando = (n: number) => (n === 0 ? t('cal.cuando.hoy') : n === 1 ? t('cal.cuando.manana') : t('cal.cuando.dias', { n }))
+  const cuando = (n: number) => {
+    if (n === 0) return t('cal.cuando.hoy')
+    if (n === 1) return t('cal.cuando.manana')
+    return t('cal.cuando.dias', { n })
+  }
 
   const proximas = useMemo(
     () =>
@@ -159,10 +163,16 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
             </div>
           ))}
         </div>
-        {semanas.map((semana, w) => (
-          <div key={`semana-${w}`} role="row" className="mt-1 grid grid-cols-7">
-            {semana.map((dia, columna) => {
-              if (!dia) return <div key={`vacio-${w}-${columna}`} role="gridcell" aria-hidden="true" />
+        {semanas.map((semana) => {
+          const claveFila = semana.map((dia) => (dia ? dia.toISOString().slice(0, 10) : 'x')).join('-')
+          let hueco = 0
+          return (
+            <div key={claveFila} role="row" className="mt-1 grid grid-cols-7">
+              {semana.map((dia, columna) => {
+                if (!dia) {
+                  hueco += 1
+                  return <div key={`vacio-${hueco}`} role="gridcell" aria-hidden="true" />
+                }
               const situacion = estadoDelDia(dia, ventanas)
               const esHoy = mismoDia(dia, hoy)
               const borde = {
@@ -170,12 +180,14 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
                 der: situacion === 'fin' || columna === 6 || estadoDelDia(new Date(dia.getFullYear(), dia.getMonth(), dia.getDate() + 1), ventanas) === 'normal',
               }
               const fecha = dia.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' })
+              const marcaHoy = esHoy ? `, ${t('cal.leyenda.hoy').toLowerCase()}` : ''
+              const marcaDia = t(CLAVE_DIA[situacion])
               return (
                 <div
                   key={dia.toISOString()}
                   role="gridcell"
                   aria-current={esHoy ? 'date' : undefined}
-                  aria-label={`${fecha}${esHoy ? `, ${t('cal.leyenda.hoy').toLowerCase()}` : ''}, ${t(CLAVE_DIA[situacion])}`}
+                  aria-label={`${fecha}${marcaHoy}, ${marcaDia}`}
                   className={`flex h-11 items-center justify-center text-small lg:h-14 lg:text-body ${claseDia(situacion, borde)} ${
                     esHoy ? 'ring-2 ring-gray-900 ring-offset-1 ring-offset-white' : ''
                   }`}
@@ -184,8 +196,9 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
                 </div>
               )
             })}
-          </div>
-        ))}
+            </div>
+          )
+        })}
       </motion.div>
       </AnimatePresence>
 
@@ -204,9 +217,9 @@ export default function AgendaEvaluaciones({ cargar = getVentanasEvaluacion, hoy
         <h3 className="text-body font-semibold text-gray-900">{t('cal.proximasFechas')}</h3>
         {estado === 'cargando' && <p className="mt-2 text-small text-gray-600">{t('cal.cargando')}</p>}
         {estado === 'error' && (
-          <p role="status" className="mt-2 text-small text-red-700">
+          <output className="mt-2 block text-small text-red-700">
             {t('cal.error')}
-          </p>
+          </output>
         )}
         {estado === 'listo' && proximas.length === 0 && (
           <div className="mt-2">

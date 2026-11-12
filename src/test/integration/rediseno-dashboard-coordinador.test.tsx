@@ -53,8 +53,8 @@ describe('DashboardCoordinador', () => {
 
     const medidor = await screen.findByRole('meter', { name: 'Promedio general' })
 
-    expect(medidor).toHaveAttribute('aria-valuenow', '4.12')
-    expect(medidor).toHaveAttribute('aria-valuemax', '5')
+    expect(medidor).toHaveAttribute('value', '4.12')
+    expect(medidor).toHaveAttribute('max', '5')
   })
 
   it('ya no hay "Acciones rápidas": esos accesos viven en la barra lateral', async () => {

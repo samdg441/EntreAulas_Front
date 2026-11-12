@@ -40,8 +40,15 @@ export function filtrarYOrdenar(
   // Los que no tienen evaluaciones van al final al ordenar por promedio: su 0 no es un promedio real.
   const conPromedio = (d: DocenteResumen) => (d.totalEvaluaciones > 0 ? d.promedio : Number.NaN)
   const porPromedio = (a: DocenteResumen, b: DocenteResumen, signo: 1 | -1) => {
-    const [x, y] = [conPromedio(a), conPromedio(b)]
-    if (Number.isNaN(x) || Number.isNaN(y)) return Number.isNaN(x) === Number.isNaN(y) ? 0 : Number.isNaN(x) ? 1 : -1
+    const x = conPromedio(a)
+    const y = conPromedio(b)
+    const xVacio = Number.isNaN(x)
+    const yVacio = Number.isNaN(y)
+    if (xVacio || yVacio) {
+      if (xVacio === yVacio) return 0
+      if (xVacio) return 1
+      return -1
+    }
     return (x - y) * signo
   }
   const comparadores: Record<OrdenDocentes, (a: DocenteResumen, b: DocenteResumen) => number> = {

@@ -32,6 +32,15 @@ function coordinatorExcelHeader(key: string): string {
   return k.replace(/_/g, ' ').replace(/\s+/g, ' ').trim().toUpperCase()
 }
 
+function anchosDeColumna(columns: string[], safeRows: any[]) {
+  return columns.map((col) => {
+    const label = coordinatorExcelHeader(col)
+    const sample = safeRows.slice(0, 200).map((row) => String(row?.[col] ?? ''))
+    const maxContent = Math.max(label.length, ...sample.map((s) => s.length), 8)
+    return { wch: Math.min(48, Math.max(10, maxContent + 2)) }
+  })
+}
+
 function categoryColumnSortIndex(key: string): number {
   const n = normalizeCoordinatorKey(key)
   if (n.includes('SABER') && n.includes('ESPECIFICO')) return 10
@@ -95,12 +104,7 @@ export function exportCoordinatorReportExcel(rows: any[], filename = 'reporte-co
   const lastRow = Math.max(1, dataRows.length + 1)
   mainSheet['!autofilter'] = { ref: `A1:${lastCol}${lastRow}` }
   mainSheet['!freeze'] = { xSplit: 0, ySplit: 1 }
-  mainSheet['!cols'] = columns.map((col) => {
-    const label = coordinatorExcelHeader(col)
-    const sample = safeRows.slice(0, 200).map((row) => String(row?.[col] ?? ''))
-    const maxContent = Math.max(label.length, ...sample.map((s) => s.length), 8)
-    return { wch: Math.min(48, Math.max(10, maxContent + 2)) }
-  })
+  mainSheet['!cols'] = anchosDeColumna(columns, safeRows)
 
   const docentes = Array.from(
     new Set(safeRows.map((row) => String(row?.DOCENTE || '').trim()).filter(Boolean))
@@ -126,12 +130,7 @@ export function exportCoordinatorReportExcel(rows: any[], filename = 'reporte-co
   const queryLastRow = Math.max(queryHeaderRow, queryHeaderRow + dataRows.length)
   querySheet['!autofilter'] = { ref: `A${queryHeaderRow}:${lastCol}${queryLastRow}` }
   querySheet['!freeze'] = { xSplit: 0, ySplit: queryHeaderRow }
-  querySheet['!cols'] = columns.map((col) => {
-    const label = coordinatorExcelHeader(col)
-    const sample = safeRows.slice(0, 200).map((row) => String(row?.[col] ?? ''))
-    const maxContent = Math.max(label.length, ...sample.map((s) => s.length), 8)
-    return { wch: Math.min(48, Math.max(10, maxContent + 2)) }
-  })
+  querySheet['!cols'] = anchosDeColumna(columns, safeRows)
 
   XLSX.utils.book_append_sheet(workbook, mainSheet, 'Evaluaciones')
   XLSX.utils.book_append_sheet(workbook, querySheet, 'Consulta')

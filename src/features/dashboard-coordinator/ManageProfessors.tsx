@@ -35,19 +35,25 @@ const ORDENES: { valor: OrdenDocentes; clave: Clave }[] = [
 /** Barra horizontal de 1.0 a 5.0 con la marca del umbral de riesgo. */
 function BarraPromedio({ valor, etiqueta }: Readonly<{ valor: number; etiqueta: string }>) {
   return (
-    <div
-      role="meter"
-      aria-label={etiqueta}
-      aria-valuemin={1}
-      aria-valuemax={5}
-      aria-valuenow={valor || 1}
-      aria-valuetext={`${valor.toFixed(2)} / 5`}
-      className="relative h-2 rounded-full bg-gray-200"
-    >
-      <div className={`h-full rounded-full ${valor < UMBRAL_RIESGO ? 'bg-red-600' : 'bg-green-600'}`} style={{ width: `${porcentajeEscala(valor)}%` }} />
+    <div className="relative h-2 rounded-full bg-gray-200">
+      <meter className="sr-only" min={1} max={5} value={valor || 1} aria-label={etiqueta}>
+        {`${valor.toFixed(2)} / 5`}
+      </meter>
+      <div aria-hidden="true" className={`h-full rounded-full ${valor < UMBRAL_RIESGO ? 'bg-red-600' : 'bg-green-600'}`} style={{ width: `${porcentajeEscala(valor)}%` }} />
       <span className="absolute -top-0.5 h-3 w-0.5 bg-gray-900" style={{ left: `${porcentajeEscala(UMBRAL_RIESGO)}%` }} aria-hidden="true" />
     </div>
   )
+}
+
+interface StatsDocente {
+  summary?: {
+    promedio?: number
+    totalEvaluaciones?: number
+    estudiantesEvaluadores?: number
+    totalCursos?: number
+  }
+  categories?: Array<{ categoriaId: string | number; nombre: string; promedio: number }>
+  courses?: Array<{ cursoId: number; codigo?: string; nombre: string; promedio: number; totalEvaluaciones: number }>
 }
 
 function Dato({ etiqueta, valor }: Readonly<{ etiqueta: string; valor: React.ReactNode }>) {
@@ -71,7 +77,7 @@ export default function ManageProfessors() {
   const [orden, setOrden] = useState<OrdenDocentes>('nombre')
   const [seleccionadoId, setSeleccionadoId] = useState<string | null>(params.get('profesor'))
   const [periodo, setPeriodo] = useState(params.get('period') || PERIODOS[0])
-  const [stats, setStats] = useState<any | null>(null)
+  const [stats, setStats] = useState<StatsDocente | null>(null)
   const [cargandoStats, setCargandoStats] = useState(false)
   const [errorStats, setErrorStats] = useState(false)
 
