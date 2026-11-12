@@ -171,7 +171,8 @@ pipeline {
                         fi
                     fi
                     docker run --rm --network host \
-                        -v "$WORKSPACE":/work -w /work/e2e \
+                        -v jenkins_home:/var/jenkins_home \
+                        -w "$WORKSPACE/e2e" \
                         cypress/included:16.1.1 \
                         --browser chrome --config baseUrl=http://localhost:3001,video=false \
                         --spec "cypress/e2e/ui/rediseno-*.cy.ts,cypress/e2e/accessibility/rediseno-*.cy.ts,cypress/e2e/security/rediseno-*.cy.ts"
