@@ -17,8 +17,6 @@ import { getApiErrorMessage } from '../../lib/apiError'
 import { limitesPeriodoAcademico } from '../../lib/periodo-academico'
 import HelpTooltip from '../../components/HelpTooltip'
 
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
-
 export default function AdminQrPage() {
   const navigate = useNavigate()
   const { user: authUser } = useAuth()
@@ -286,17 +284,6 @@ export default function AdminQrPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60 pointer-events-none" />
-      </div>
 
       <div className="relative z-10">
         <Header user={headerUser} />

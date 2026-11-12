@@ -1,0 +1,129 @@
+{
+  "deteccion": {
+    "casos": 30,
+    "TP": 5,
+    "TN": 14,
+    "FP": 6,
+    "FN": 5,
+    "precision": 0.455,
+    "recall": 0.5,
+    "f1": 0.476,
+    "exactitud": 0.633,
+    "errores": [
+      {
+        "tipo": "FN",
+        "comentario": "El profesor me acosaba con mensajes fuera de la clase"
+      },
+      {
+        "tipo": "FN",
+        "comentario": "Hizo comentarios de tipo sexual sobre mi ropa"
+      },
+      {
+        "tipo": "FN",
+        "comentario": "Se acerca demasiado y me toca el hombro, me siento incómoda"
+      },
+      {
+        "tipo": "FN",
+        "comentario": "Me insinuó que podía mejorar mi nota si salíamos con él"
+      },
+      {
+        "tipo": "FN",
+        "comentario": "El profe humilla a los estudiantes frente a todo el grupo"
+      },
+      {
+        "tipo": "FP",
+        "comentario": "Me da miedo reprobar el parcial de cálculo"
+      },
+      {
+        "tipo": "FP",
+        "comentario": "El profesor sabe tocar todos los temas con profundidad"
+      },
+      {
+        "tipo": "FP",
+        "comentario": "Abusan con la cantidad de talleres que dejan cada semana"
+      },
+      {
+        "tipo": "FP",
+        "comentario": "Siento temor por el examen final porque es muy largo"
+      },
+      {
+        "tipo": "FP",
+        "comentario": "La conexión wifi del aula es insegura y se cae"
+      },
+      {
+        "tipo": "FP",
+        "comentario": "No tengo ningún disgusto con la clase, todo bien"
+      }
+    ],
+    "umbral_recall": 0.9,
+    "umbral_precision": 0.8,
+    "cumple": false
+  },
+  "resumenes": [
+    {
+      "comentarios": [
+        "Las explicaciones son claras y los ejemplos ayudan",
+        "Muy claro al explicar los temas",
+        "Los ejemplos prácticos son excelentes",
+        "Ojalá dejara menos talleres"
+      ],
+      "resumen": "Estado general favorable en la percepción estudiantil. Fortalezas observadas en varios docentes: ejemplo. Aspectos a mejorar: mantener consistencia metodológica y retroalimentación oportuna. Recomendación: priorizar seguimiento pedagógico a los docentes con evaluaciones más bajas y compartir buenas prácticas de quienes obtienen mejores resultados.",
+      "temas": [
+        "ejemplos",
+        "explicaciones",
+        "ejemplos ayudan",
+        "ejemplos practicos",
+        "claras",
+        "ayudan",
+        "claro",
+        "explicar",
+        "practicos",
+        "excelentes"
+      ],
+      "acoso_falso": false
+    },
+    {
+      "comentarios": [
+        "Llega tarde a las clases con frecuencia",
+        "Los horarios no se respetan",
+        "Explica bien pero empieza tarde",
+        "La puntualidad debe mejorar"
+      ],
+      "resumen": "Estado general regular con oportunidades de mejora. Fortalezas observadas: buena disposición docente, cumplimiento y acompañamiento general. Aspectos a mejorar: claridad en explicaciones, ritmo de clase y acompañamiento en temas complejos. Recomendación: priorizar seguimiento pedagógico a los docentes con evaluaciones más bajas y compartir buenas prácticas de quienes obtienen mejores resultados.",
+      "temas": [
+        "puntualidad",
+        "tarde",
+        "llega",
+        "clases",
+        "frecuencia",
+        "llega tarde",
+        "horarios",
+        "respetan",
+        "explica",
+        "empieza"
+      ],
+      "acoso_falso": false
+    },
+    {
+      "comentarios": [
+        "La retroalimentación es rápida",
+        "Califica con justicia",
+        "Entrega las notas a tiempo",
+        "Muy organizado con las evaluaciones"
+      ],
+      "resumen": "Estado general regular con oportunidades de mejora. Fortalezas observadas en varios docentes: tiempo. Aspectos a mejorar: mantener consistencia metodológica y retroalimentación oportuna. Recomendación: priorizar seguimiento pedagógico a los docentes con evaluaciones más bajas y compartir buenas prácticas de quienes obtienen mejores resultados.",
+      "temas": [
+        "retroalimentacion",
+        "evaluaciones",
+        "rapida",
+        "califica",
+        "justicia",
+        "entrega",
+        "notas",
+        "tiempo",
+        "organizado"
+      ],
+      "acoso_falso": false
+    }
+  ]
+}

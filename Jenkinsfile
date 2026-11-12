@@ -63,6 +63,14 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
+                sh '''
+                    set -e
+                    # Cypress, si corre como root, deja esta carpeta ilegible para el scanner.
+                    docker run --rm --user root \
+                        -v jenkins_home:/var/jenkins_home \
+                        node:22-bookworm-slim \
+                        rm -rf "$WORKSPACE/e2e/cypress/downloads"
+                '''
                 script {
                     def scannerHome = tool(
                         name: 'SonarScanner',
@@ -149,6 +157,62 @@ pipeline {
             }
         }
 
+        stage('Pruebas de accesibilidad y E2E (Cypress)') {
+            steps {
+                sh '''
+                    set -e
+                    # La imagen no está en el agente. Si Docker Desktop pierde el DNS de
+                    # production.cloudfront.docker.com, el primer pull falla: se reintenta.
+                    if ! docker image inspect cypress/included:16.1.1 >/dev/null 2>&1; then
+                        descargada=0
+                        for attempt in 1 2 3 4 5; do
+                            echo "Descargando cypress/included:16.1.1 (intento $attempt)"
+                            if docker pull cypress/included:16.1.1; then
+                                descargada=1
+                                break
+                            fi
+                            sleep 15
+                        done
+                        if [ "$descargada" != 1 ]; then
+                            echo "No se pudo descargar la imagen de Cypress."
+                            exit 1
+                        fi
+                    fi
+                    # La corrida anterior, como root, dejó videos y capturas ilegibles.
+                    # El workspace es de Jenkins: al borrar reports, esta corrida puede recrearlo.
+                    docker run --rm --user root \
+                        -v jenkins_home:/var/jenkins_home \
+                        -e WORKSPACE="$WORKSPACE" \
+                        node:22-bookworm-slim \
+                        sh -c 'rm -rf "$WORKSPACE/reports" "$WORKSPACE/e2e/cypress/downloads"'
+                    # axe-core vive en e2e/, no en el npm ci del front. Sin el binario de Cypress: ya está en la imagen.
+                    docker run --rm \
+                        --user "$(id -u):$(id -g)" \
+                        -e HOME=/tmp \
+                        -e CYPRESS_INSTALL_BINARY=0 \
+                        -v jenkins_home:/var/jenkins_home \
+                        -w "$WORKSPACE/e2e" \
+                        node:22-bookworm-slim \
+                        npm ci
+                    docker run --rm --network host \
+                        --user "$(id -u):$(id -g)" \
+                        -e HOME=/tmp \
+                        -e CYPRESS_VIDEO=false \
+                        -v jenkins_home:/var/jenkins_home \
+                        -w "$WORKSPACE/e2e" \
+                        cypress/included:16.1.1 \
+                        --browser chrome --config baseUrl=http://localhost:3001 \
+                        --spec "cypress/e2e/ui/rediseno-*.cy.ts,cypress/e2e/accessibility/rediseno-*.cy.ts,cypress/e2e/security/rediseno-*.cy.ts"
+                '''
+            }
+        }
+
+        stage('Revisión de dependencias') {
+            steps {
+                sh 'npm audit --omit=dev --audit-level=critical || true'
+            }
+        }
+
         stage('Deploy to Vercel') {
             steps {
                 withCredentials([string(credentialsId: 'vercel-deploy-hook-front', variable: 'VERCEL_HOOK')]) {
@@ -196,7 +260,8 @@ pipeline {
             archiveArtifacts(
                 artifacts: [
                     'coverage/lcov.info',
-                    'test-results.xml'
+                    'test-results.xml',
+                    'reports/**'
                 ].join(','),
                 fingerprint: true,
                 allowEmptyArchive: true

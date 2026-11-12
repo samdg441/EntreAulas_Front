@@ -1,3 +1,5 @@
+@import '@fontsource-variable/schibsted-grotesk';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -167,8 +169,8 @@
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: rgb(var(--c-gray-50));
+    color: rgb(var(--c-gray-900));
   }
 }
 
@@ -177,28 +179,23 @@
  */
 @layer base {
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    /* Escala estándar: título 1.75 · subtítulo 1.25 · texto 1 · pequeño 0.875 (ver tailwind.config.js). */
     h1 {
-      font-size: 1.5rem;
-      font-weight: 500;
-      line-height: 1.5;
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 2.25rem;
     }
 
     h2 {
       font-size: 1.25rem;
-      font-weight: 500;
-      line-height: 1.5;
+      font-weight: 600;
+      line-height: 1.75rem;
     }
 
-    h3 {
-      font-size: 1.125rem;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-    h4 {
+    h3, h4 {
       font-size: 1rem;
-      font-weight: 500;
-      line-height: 1.5;
+      font-weight: 600;
+      line-height: 1.5rem;
     }
 
     p {
@@ -227,9 +224,46 @@
   }
 }
 
+/* Tamaño de texto elegido por la persona (Preferencias → Tamaño de texto). Todo el diseño usa rem. */
 html {
-  font-size: var(--font-size);
+  font-size: 100%;
+  font-family: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  -webkit-text-size-adjust: 100%;
 }
+html[data-text-size='small'] { font-size: 87.5%; }
+html[data-text-size='large'] { font-size: 112.5%; }
+html[data-text-size='xlarge'] { font-size: 125%; }
+
+/* Foco visible para quien navega con teclado (WCAG 2.4.7). */
+:focus-visible {
+  outline: 2px solid #E30613;
+  outline-offset: 2px;
+}
+.dark :focus-visible { outline-color: #FF8A93; }
+
+/* Sin movimiento si la persona lo pidió en su sistema (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enlace para saltar la navegación (WCAG 2.4.1). */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: #E30613;
+  color: #fff;
+  font-weight: 600;
+}
+.skip-link:focus { top: 0.75rem; }
 
 /* Animaciones personalizadas */
 @keyframes slideInFromLeft {
@@ -340,4 +374,31 @@ html {
   height: 90% !important;
   max-width: 1600px !important;
   max-height: 900px !important;
+}
+/* Fondo de EntreAulas detrás de las pantallas con sesión.
+   Los dos modos llevan un velo: el patrón se insinúa y no compite con las tarjetas. */
+html:not(.dark) .fondo-entreaulas {
+  background: linear-gradient(rgb(0 0 0 / 0.6), rgb(0 0 0 / 0.6)), url('./assets/fondo.webp') center / cover fixed;
+}
+html.dark .fondo-entreaulas {
+  background: linear-gradient(rgb(11 18 32 / 0.55), rgb(11 18 32 / 0.55)), url('./assets/fondo_oscuro.webp') center / cover fixed;
+}
+.fondo-entreaulas .min-h-screen.bg-gray-50 {
+  background: transparent;
+}
+
+/* Lo elegido o lo que está bajo el puntero se marca con el rojo de la marca. */
+.marca-rojo {
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.marca-rojo:hover,
+.marca-rojo:focus-visible {
+  border-color: #e30613;
+  box-shadow: 0 0 0 1px rgb(227 6 19 / 0.45), 0 10px 22px rgb(227 6 19 / 0.14);
+}
+.marca-rojo[aria-current='true'],
+.marca-rojo[aria-current='page'],
+.marca-rojo[aria-checked='true'] {
+  border-color: #e30613;
+  box-shadow: 0 0 0 1px #e30613, 0 10px 24px rgb(227 6 19 / 0.18);
 }

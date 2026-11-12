@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { usePreferencias } from '../preferencias/PreferenciasContext';
 import { getDashboardPathForUser } from '../features/auth/dashboard-path';
 import { User, LogOut, Shield, GraduationCap, Crown, UserCircle } from 'lucide-react';
 import Button from './Button';
@@ -40,6 +41,7 @@ function otrosDashboards(roles: string[], rolActual: string) {
 
 export default function UserMenu() {
   const { user, logout, switchUserRole } = useAuth();
+  const { t } = usePreferencias();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -91,8 +93,11 @@ export default function UserMenu() {
         size="icon"
         onClick={() => setIsOpen(!isOpen)}
         className="relative"
+        aria-label={t('shell.menuUsuario')}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
       >
-        <User className="h-5 w-5" />
+        <User className="h-5 w-5" aria-hidden="true" />
       </Button>
 
       <AnimatePresence>

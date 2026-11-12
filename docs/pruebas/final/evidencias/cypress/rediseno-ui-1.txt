@@ -1,0 +1,352 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config video=false --spec cypress/e2e/ui/rediseno-*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.13.0 (/usr/bin/node)                                                       │
+  │ Specs:          4 found (rediseno-auditoria.cy.ts, rediseno-dashboard-coordinador.cy.ts, redis │
+  │                 eno-gestion-profesores.cy.ts, rediseno-preferencias.cy.ts)                     │
+  │ Searched:       cypress/e2e/ui/rediseno-*.cy.ts                                                │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rediseno-auditoria.cy.ts                                                        (1 of 4)
+
+
+  Rediseño — Vista de auditoría (UI)
+    escenarios exitosos
+      ✓ lista los eventos con fecha, persona, acción y detalle (3844ms)
+      ✓ el resumen indica el total y cuántos eventos hay por acción (1548ms)
+      (Attempt 1 of 2) filtrar por acción pide ese filtro al servidor y reduce la tabla
+      1) filtrar por acción pide ese filtro al servidor y reduce la tabla
+      ✓ exporta un CSV con los eventos visibles y neutraliza las fórmulas (1825ms)
+    escenarios alternativos
+      ✓ un rango de fechas invertido avisa y no consulta al servidor (1635ms)
+      ✓ "Limpiar filtros" restablece la acción elegida (1549ms)
+      ✓ en inglés toda la vista cambia de idioma (1588ms)
+    escenarios de error
+      ✓ sin eventos muestra un estado vacío que explica cuándo aparecen (1251ms)
+      ✓ si la tabla de auditoría aún no existe lo explica en lugar de mostrar una tabla vacía (1198ms)
+      ✓ un error 500 se anuncia con role="alert" (1241ms)
+      ✓ solo el coordinador entra: un estudiante es enviado a /forbidden (1019ms)
+
+
+  10 passing (38s)
+  1 failing
+
+  1) Rediseño — Vista de auditoría (UI)
+       escenarios exitosos
+         filtrar por acción pide ese filtro al servidor y reduce la tabla:
+     AssertionError: Timed out retrying after 8000ms: expected { page: '1', pageSize: '10' } to have property 'accion'
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rediseno-auditoria.cy.ts:32:49)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        11                                                                               │
+  │ Passing:      10                                                                               │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     38 seconds                                                                       │
+  │ Spec Ran:     rediseno-auditoria.cy.ts                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-auditoria.cy.ts/Rediseño — Vista de auditoría (UI)                
+     -- escenarios exitosos -- filtrar por acción pide ese filtro al servidor y reduc               
+     e la tabla (failed).png                                                                        
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-auditoria.cy.ts/Rediseño — Vista de auditoría (UI)                
+     -- escenarios exitosos -- filtrar por acción pide ese filtro al servidor y reduc               
+     e la tabla (failed) (attempt 2).png                                                            
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/rediseno-auditoria.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rediseno-dashboard-coordinador.cy.ts                                            (2 of 4)
+
+
+  Rediseño — Dashboard del coordinador (UI)
+    escenarios exitosos
+      ✓ muestra los cuatro indicadores de la carrera (3074ms)
+      ✓ la barra lateral agrupa las rutas del coordinador por secciones (1557ms)
+      ✓ el calendario marca la apertura y el cierre de la evaluación programada (1304ms)
+      ✓ desde la barra lateral se llega a la auditoría y la opción queda activa (2646ms)
+      ✓ el nombre del docente enlaza a su detalle (1611ms)
+    escenarios alternativos
+      ✓ ya no hay tarjetas de "Acciones rápidas": viven en la barra lateral (1329ms)
+      (Attempt 1 of 2) en móvil la barra lateral se abre con el botón de menú y se cierra con Escape
+      1) en móvil la barra lateral se abre con el botón de menú y se cierra con Escape
+      (Attempt 1 of 2) un solo clic en "Hoy" del calendario vuelve al mes actual
+      2) un solo clic en "Hoy" del calendario vuelve al mes actual
+    escenarios de error
+      ✓ si el servidor falla, muestra una alerta y deja la pantalla usable (3574ms)
+      ✓ si falla el calendario avisa sin interrumpir (role=status) y el resto sigue disponible (2669ms)
+
+
+  8 passing (58s)
+  2 failing
+
+  1) Rediseño — Dashboard del coordinador (UI)
+       escenarios alternativos
+         en móvil la barra lateral se abre con el botón de menú y se cierra con Escape:
+     AssertionError: Timed out retrying after 8000ms: expected '<nav.flex-1.space-y-5.overflow-y-auto.px-3.pb-6.pt-2>' not to be 'visible'
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rediseno-dashboard-coordinador.cy.ts:65:55)
+
+  2) Rediseño — Dashboard del coordinador (UI)
+       escenarios alternativos
+         un solo clic en "Hoy" del calendario vuelve al mes actual:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Mes siguiente' within the selector: 'button' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rediseno-dashboard-coordinador.cy.ts:75:9)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        10                                                                               │
+  │ Passing:      8                                                                                │
+  │ Failing:      2                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  4                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     57 seconds                                                                       │
+  │ Spec Ran:     rediseno-dashboard-coordinador.cy.ts                                             │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-dashboard-coordinador.cy.ts/Rediseño — Dashboard de               
+     l coordinador (UI) -- escenarios alternativos -- en móvil la barra lateral se ab               
+     re con el botón de menú y se cierra con Escape (failed).png                                    
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-dashboard-coordinador.cy.ts/Rediseño — Dashboard de               
+     l coordinador (UI) -- escenarios alternativos -- en móvil la barra lateral se ab               
+     re con el botón de menú y se cierra con Escape (failed) (attempt 2).png                        
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-dashboard-coordinador.cy.ts/Rediseño — Dashboard de               
+     l coordinador (UI) -- escenarios alternativos -- un solo clic en Hoy del calenda               
+     rio vuelve al mes actual (failed).png                                                          
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-dashboard-coordinador.cy.ts/Rediseño — Dashboard de               
+     l coordinador (UI) -- escenarios alternativos -- un solo clic en Hoy del calenda               
+     rio vuelve al mes actual (failed) (attempt 2).png                                              
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/rediseno-dashboard-coordinador.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rediseno-gestion-profesores.cy.ts                                               (3 of 4)
+
+
+  Rediseño — Gestión de profesores (UI)
+    escenarios exitosos
+      ✓ lista a los docentes de la carrera con su promedio (3105ms)
+      ✓ al elegir un docente muestra sus estadísticas por categoría y por curso (1638ms)
+      (Attempt 1 of 2) el filtro "En riesgo" deja solo a los docentes con promedio menor a 4.0
+      1) el filtro "En riesgo" deja solo a los docentes con promedio menor a 4.0
+    escenarios alternativos
+      (Attempt 1 of 2) la búsqueda ignora tildes y mayúsculas
+      2) la búsqueda ignora tildes y mayúsculas
+      ✓ ordenar por promedio (menor primero) pone primero al de menor promedio (1407ms)
+      ✓ abre al docente indicado en la URL (?profesor=) (2626ms)
+      ✓ cambiar el periodo vuelve a pedir las estadísticas de ese periodo (2738ms)
+    escenarios de error
+      ✓ una búsqueda sin resultados muestra el estado vacío con ayuda (1472ms)
+      ✓ si fallan las estadísticas avisa y no muestra datos inventados (1339ms)
+
+
+  7 passing (55s)
+  2 failing
+
+  1) Rediseño — Gestión de profesores (UI)
+       escenarios exitosos
+         el filtro "En riesgo" deja solo a los docentes con promedio menor a 4.0:
+     AssertionError: Timed out retrying after 8000ms: Expected not to find content: 'Ana Pérez' within the element: <section..rounded-2xl.border.border-gray-200.bg-white> and with the selector: 'button' but continuously found it.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rediseno-gestion-profesores.cy.ts:33:46)
+
+  2) Rediseño — Gestión de profesores (UI)
+       escenarios alternativos
+         la búsqueda ignora tildes y mayúsculas:
+
+      AssertionError: Timed out retrying after 8000ms: Too many elements found. Found '5', expected '1'.
+      + expected - actual
+
+      -5
+      +1
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rediseno-gestion-profesores.cy.ts:42:32)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        9                                                                                │
+  │ Passing:      7                                                                                │
+  │ Failing:      2                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  4                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     55 seconds                                                                       │
+  │ Spec Ran:     rediseno-gestion-profesores.cy.ts                                                │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-gestion-profesores.cy.ts/Rediseño — Gestión de prof               
+     esores (UI) -- escenarios exitosos -- el filtro En riesgo deja solo a los docent               
+     es con promedio menor a 4.0 (failed).png                                                       
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-gestion-profesores.cy.ts/Rediseño — Gestión de prof               
+     esores (UI) -- escenarios exitosos -- el filtro En riesgo deja solo a los docent               
+     es con promedio menor a 4.0 (failed) (attempt 2).png                                           
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-gestion-profesores.cy.ts/Rediseño — Gestión de prof               
+     esores (UI) -- escenarios alternativos -- la búsqueda ignora tildes y mayúsculas               
+      (failed).png                                                                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-gestion-profesores.cy.ts/Rediseño — Gestión de prof               
+     esores (UI) -- escenarios alternativos -- la búsqueda ignora tildes y mayúsculas               
+      (failed) (attempt 2).png                                                                      
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/rediseno-gestion-profesores.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rediseno-preferencias.cy.ts                                                     (4 of 4)
+
+
+  Rediseño — Preferencias de visualización (UI)
+    ✓ modo noche: aplica la clase dark, cambia el fondo y se recuerda al recargar (4306ms)
+    ✓ idioma: pasa a inglés (menú, indicadores y calendario) y recarga conservando la elección (3304ms)
+    ✓ tamaño de texto: cada nivel cambia el tamaño de letra base y "Estándar" lo restablece (1949ms)
+    ✓ tipografía estándar: los títulos, subtítulos y textos usan solo cinco tamaños (1311ms)
+    (Attempt 1 of 2) la elección de noche, inglés y letra grande sobrevive a navegar a otra pantalla
+    1) la elección de noche, inglés y letra grande sobrevive a navegar a otra pantalla
+    (Attempt 1 of 2) en móvil (390 px) no hay desplazamiento horizontal con letra muy grande
+    2) en móvil (390 px) no hay desplazamiento horizontal con letra muy grande
+
+
+  4 passing (36s)
+  2 failing
+
+  1) Rediseño — Preferencias de visualización (UI)
+       la elección de noche, inglés y letra grande sobrevive a navegar a otra pantalla:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Grande' within the selector: '[role="radio"]' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rediseno-preferencias.cy.ts:66:7)
+
+  2) Rediseño — Preferencias de visualización (UI)
+       en móvil (390 px) no hay desplazamiento horizontal con letra muy grande:
+
+      AssertionError: expected 378 to be at most 376
+      + expected - actual
+
+      -378
+      +376
+      
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rediseno-preferencias.cy.ts:81:55)
+      at getRet (http://localhost:3001/__cypress/runner/cypress_runner.js:120751:20)
+      at tryCatcher (http://localhost:3001/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (http://localhost:3001/__cypress/runner/cypress_runner.js:4288:29)
+      at Context.thenFn (http://localhost:3001/__cypress/runner/cypress_runner.js:120763:66)
+      at Context.then (http://localhost:3001/__cypress/runner/cypress_runner.js:121014:21)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      4                                                                                │
+  │ Failing:      2                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  4                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     36 seconds                                                                       │
+  │ Spec Ran:     rediseno-preferencias.cy.ts                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-preferencias.cy.ts/Rediseño — Preferencias de visua               
+     lización (UI) -- la elección de noche, inglés y letra grande sobrevive a navegar               
+      a otra pantalla (failed).png                                                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-preferencias.cy.ts/Rediseño — Preferencias de visua               
+     lización (UI) -- la elección de noche, inglés y letra grande sobrevive a navegar               
+      a otra pantalla (failed) (attempt 2).png                                                      
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-preferencias.cy.ts/Rediseño — Preferencias de visua               
+     lización (UI) -- en móvil (390 px) no hay desplazamiento horizontal con letra mu               
+     y grande (failed).png                                                                          
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/rediseno-preferencias.cy.ts/Rediseño — Preferencias de visua               
+     lización (UI) -- en móvil (390 px) no hay desplazamiento horizontal con letra mu               
+     y grande (failed) (attempt 2).png                                                              
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/rediseno-preferencias.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✖  rediseno-auditoria.cy.ts                 00:38       11       10        1        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  rediseno-dashboard-coordinador.cy.t      00:57       10        8        2        -        - │
+  │    s                                                                                           │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  rediseno-gestion-profesores.cy.ts        00:55        9        7        2        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  rediseno-preferencias.cy.ts              00:36        6        4        2        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  4 of 4 failed (100%)                     03:07       36       29        7        -        -  
+

@@ -1,0 +1,277 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config baseUrl=http://localhost:3002,video=false --spec cypress/e2e/regression/rq27-materias-estudiante.cy.ts,cypress/e2e/ui/rq1-registro-admin.cy.ts,cypress/e2e/ui/rq10-rq31.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.13.0 (/usr/bin/node)                                                       │
+  │ Specs:          3 found (regression/rq27-materias-estudiante.cy.ts, ui/rq1-registro-admin.cy.t │
+  │                 s, ui/rq10-rq31.cy.ts)                                                         │
+  │ Searched:       cypress/e2e/regression/rq27-materias-estudiante.cy.ts, cypress/e2e/ui/rq1-regi │
+  │                 stro-admin.cy.ts, cypress/e2e/ui/rq10-rq31.cy.ts                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  regression/rq27-materias-estudiante.cy.ts                                       (1 of 3)
+
+
+  RQ27 — Relación estudiante–materia (E2E)
+    (Attempt 1 of 2) el estudiante ve el curso, el grupo y el docente de su materia
+    1) el estudiante ve el curso, el grupo y el docente de su materia
+
+  RQ27 — Lista vacía y sin sesión (E2E)
+    (Attempt 1 of 2) Regresión RQ27: sin materias matriculadas la lista queda vacía
+    2) Regresión RQ27: sin materias matriculadas la lista queda vacía
+    ✓ Regresión RQ27: sin sesión no muestra las materias (971ms)
+
+  RQ27 — Materias cuando el back falla (E2E)
+    (Attempt 1 of 2) un 500 deja la lista vacía y no inventa una materia
+    3) un 500 deja la lista vacía y no inventa una materia
+
+
+  1 passing (1m)
+  3 failing
+
+  1) RQ27 — Relación estudiante–materia (E2E)
+       el estudiante ve el curso, el grupo y el docente de su materia:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Relación estudiante–materia del periodo actual' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq27-materias-estudiante.cy.ts:23:66)
+
+  2) RQ27 — Lista vacía y sin sesión (E2E)
+       Regresión RQ27: sin materias matriculadas la lista queda vacía:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'No tienes materias matriculadas este semestre.' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq27-materias-estudiante.cy.ts:48:66)
+
+  3) RQ27 — Materias cuando el back falla (E2E)
+       un 500 deja la lista vacía y no inventa una materia:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'No tienes materias matriculadas este semestre.' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/regression/rq27-materias-estudiante.cy.ts:71:66)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      3                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  6                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     1 minute, 2 seconds                                                              │
+  │ Spec Ran:     regression/rq27-materias-estudiante.cy.ts                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Relación es               
+     tudiante–materia (E2E) -- el estudiante ve el curso, el grupo y el docente de su               
+      materia (failed).png                                                                          
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Relación es               
+     tudiante–materia (E2E) -- el estudiante ve el curso, el grupo y el docente de su               
+      materia (failed) (attempt 2).png                                                              
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Lista vacía               
+      y sin sesión (E2E) -- Regresión RQ27 sin materias matriculadas la lista queda v               
+     acía (failed).png                                                                              
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Lista vacía               
+      y sin sesión (E2E) -- Regresión RQ27 sin materias matriculadas la lista queda v               
+     acía (failed) (attempt 2).png                                                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Materias cu               
+     ando el back falla (E2E) -- un 500 deja la lista vacía y no inventa una materia                
+     (failed).png                                                                                   
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/regression/rq27-materias-estudiante.cy.ts/RQ27 — Materias cu               
+     ando el back falla (E2E) -- un 500 deja la lista vacía y no inventa una materia                
+     (failed) (attempt 2).png                                                                       
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/regression/rq27-materias-estudiante.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq1-registro-admin.cy.ts                                                     (2 of 3)
+
+
+  RQ1 — UI: registro de usuarios desde el administrador
+    escenarios exitosos
+      ✓ crea un estudiante: correo con dominio de estudiante, nombre en mayúsculas y fila nueva (4560ms)
+      ✓ crea un profesor: el dominio cambia a udemedellin.edu.co (2651ms)
+    escenarios alternativos
+      ✓ si se escribe el correo completo, el front se queda solo con el usuario [DEF-FE-12] (2587ms)
+      ✓ cancelar cierra el formulario sin llamar al back (1249ms)
+    escenarios de error
+      ✓ correo duplicado: el mensaje del back se muestra y el modal sigue abierto (2989ms)
+      ✓ contraseña sin mayúscula: se rechaza antes de llamar al back (2090ms)
+      ✓ contraseña sin número: se rechaza antes de llamar al back (2112ms)
+      ✓ contraseña sin carácter especial: se rechaza antes de llamar al back (2112ms)
+    control de acceso
+      (Attempt 1 of 2) un estudiante no puede entrar a la administración de usuarios
+      1) un estudiante no puede entrar a la administración de usuarios
+      ✓ sin sesión, /admin/users redirige al login (956ms)
+
+
+  9 passing (40s)
+  1 failing
+
+  1) RQ1 — UI: registro de usuarios desde el administrador
+       control de acceso
+         un estudiante no puede entrar a la administración de usuarios:
+     AssertionError: Timed out retrying after 8000ms: Expected to find content: 'Acceso no permitido' but never did.
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq1-registro-admin.cy.ts:129:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        10                                                                               │
+  │ Passing:      9                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     40 seconds                                                                       │
+  │ Spec Ran:     ui/rq1-registro-admin.cy.ts                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq1-registro-admin.cy.ts/RQ1 — UI registro de usuarios de               
+     sde el administrador -- control de acceso -- un estudiante no puede entrar a la                
+     administración de usuarios (failed).png                                                        
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq1-registro-admin.cy.ts/RQ1 — UI registro de usuarios de               
+     sde el administrador -- control de acceso -- un estudiante no puede entrar a la                
+     administración de usuarios (failed) (attempt 2).png                                            
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq1-registro-admin.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ui/rq10-rq31.cy.ts                                                              (3 of 3)
+
+
+  RQ10 — estadísticas del estudiante
+    ✓ Eva ve completadas, pendientes y cursos (4383ms)
+    ✓ Lía ve las tres estadísticas en cero (2353ms)
+
+  RQ11 — enviar la evaluación
+    (Attempt 1 of 2) guarda la evaluación y muestra la despedida
+    1) guarda la evaluación y muestra la despedida
+    (Attempt 1 of 2) rechaza el comentario repetido y se queda en el formulario
+    2) rechaza el comentario repetido y se queda en el formulario
+
+  RQ13 — gestionar usuarios
+    ✓ crea un estudiante y no muestra la contraseña (7654ms)
+    ✓ rechaza un correo ya registrado (7269ms)
+    ✓ no deja crear con una clave sin mayúscula (4508ms)
+    ✓ actualiza el nombre de Eva (3994ms)
+    ✓ desactiva a otro usuario (3768ms)
+    ✓ no permite que el administrador se desactive (3945ms)
+    ✓ deja la tabla vacía si la búsqueda no coincide (4814ms)
+
+  RQ29 RQ30 RQ31 — resúmenes y alerta de acoso
+    ✓ el docente ve el resumen de sus comentarios y no la alerta (3845ms)
+    ✓ el coordinador ve el resumen de la carrera y la alerta de acoso (4064ms)
+    ✓ el decano ve que no hay comentarios suficientes y no hay alerta (4084ms)
+
+
+  12 passing (2m)
+  2 failing
+
+  1) RQ11 — enviar la evaluación
+       guarda la evaluación y muestra la despedida:
+     AssertionError: Timed out retrying after 8000ms: Expected to find element: `.space-y-4`, but never found it. Queried from:
+
+              > cy.contains(Claridad Expositiva)
+      at enviarEvaluacion (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq10-rq31.cy.ts:125:37)
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq10-rq31.cy.ts:156:4)
+
+  2) RQ11 — enviar la evaluación
+       rechaza el comentario repetido y se queda en el formulario:
+     AssertionError: Timed out retrying after 8000ms: Expected to find element: `.space-y-4`, but never found it. Queried from:
+
+              > cy.contains(Claridad Expositiva)
+      at enviarEvaluacion (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq10-rq31.cy.ts:125:37)
+      at Context.eval (webpack://entre-aulas-front-e2e/./cypress/e2e/ui/rq10-rq31.cy.ts:162:4)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        14                                                                               │
+  │ Passing:      12                                                                               │
+  │ Failing:      2                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  4                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     1 minute, 52 seconds                                                             │
+  │ Spec Ran:     ui/rq10-rq31.cy.ts                                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq10-rq31.cy.ts/RQ11 — enviar la evaluación -- guarda la                
+     evaluación y muestra la despedida (failed).png                                                 
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq10-rq31.cy.ts/RQ11 — enviar la evaluación -- guarda la                
+     evaluación y muestra la despedida (failed) (attempt 2).png                                     
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq10-rq31.cy.ts/RQ11 — enviar la evaluación -- rechaza el               
+      comentario repetido y se queda en el formulario (failed).png                                  
+  -  /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/     (1280x633)
+     cypress/screenshots/ui/rq10-rq31.cy.ts/RQ11 — enviar la evaluación -- rechaza el               
+      comentario repetido y se queda en el formulario (failed) (attempt 2).png                      
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/ui/rq10-rq31.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✖  regression/rq27-materias-estudiante      01:02        4        1        3        -        - │
+  │    .cy.ts                                                                                      │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  ui/rq1-registro-admin.cy.ts              00:40       10        9        1        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  ui/rq10-rq31.cy.ts                       01:52       14       12        2        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  3 of 3 failed (100%)                     03:35       28       22        6        -        -  
+

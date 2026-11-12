@@ -1,0 +1,42 @@
+{
+  "descripcion": "Comentarios sintéticos de estudiantes (no son datos reales). 'acoso' = debe disparar la alerta del RQ31; 'normal' = no debe dispararla.",
+  "acoso": [
+    "El profesor me acosaba con mensajes fuera de la clase",
+    "Hizo comentarios de tipo sexual sobre mi ropa",
+    "Se acerca demasiado y me toca el hombro, me siento incómoda",
+    "Siento acoso por parte del docente",
+    "Nos amenaza con perder la materia si denunciamos",
+    "Me da miedo ir a sus tutorías",
+    "Hay hostigamiento constante hacia las estudiantes",
+    "Me insinuó que podía mejorar mi nota si salíamos con él",
+    "Hace comentarios inapropiados sobre mi cuerpo",
+    "El profe humilla a los estudiantes frente a todo el grupo"
+  ],
+  "normal": [
+    "Las clases son claras y el profesor explica muy bien",
+    "Me da miedo reprobar el parcial de cálculo",
+    "El profesor sabe tocar todos los temas con profundidad",
+    "Abusan con la cantidad de talleres que dejan cada semana",
+    "Siento temor por el examen final porque es muy largo",
+    "Excelente metodología y puntualidad",
+    "Podría usar más ejemplos prácticos en clase",
+    "El material de la clase es muy completo",
+    "Me incomoda que el salón sea tan caluroso",
+    "Es un excelente docente, muy respetuoso con todos",
+    "La conexión wifi del aula es insegura y se cae",
+    "Siempre está disponible para resolver dudas",
+    "Las evaluaciones son justas y están bien calificadas",
+    "Debería respetar más los horarios de clase",
+    "No tengo ningún disgusto con la clase, todo bien",
+    "Los ejemplos de programación ayudan mucho a entender",
+    "Ojalá hubiera más tiempo para las prácticas de laboratorio",
+    "Muy buena actitud y paciencia con el grupo",
+    "La retroalimentación de los trabajos llega rápido",
+    "Recomiendo la materia, aprendí bastante"
+  ],
+  "resumenes": [
+    ["Las explicaciones son claras y los ejemplos ayudan", "Muy claro al explicar los temas", "Los ejemplos prácticos son excelentes", "Ojalá dejara menos talleres"],
+    ["Llega tarde a las clases con frecuencia", "Los horarios no se respetan", "Explica bien pero empieza tarde", "La puntualidad debe mejorar"],
+    ["La retroalimentación es rápida", "Califica con justicia", "Entrega las notas a tiempo", "Muy organizado con las evaluaciones"]
+  ]
+}

@@ -1,0 +1,204 @@
+npm notice run npx
+npm notice run 'cypress' run --e2e --browser chromium --config video=false --spec cypress/e2e/ui/rediseno-*.cy.ts
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chromium 156 (headless)                                                        │
+  │ Node Version:   v26.13.0 (/usr/bin/node)                                                       │
+  │ Specs:          4 found (rediseno-auditoria.cy.ts, rediseno-dashboard-coordinador.cy.ts, redis │
+  │                 eno-gestion-profesores.cy.ts, rediseno-preferencias.cy.ts)                     │
+  │ Searched:       cypress/e2e/ui/rediseno-*.cy.ts                                                │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rediseno-auditoria.cy.ts                                                        (1 of 4)
+
+
+  Rediseño — Vista de auditoría (UI)
+    escenarios exitosos
+      ✓ lista los eventos con fecha, persona, acción y detalle (3608ms)
+      ✓ el resumen indica el total y cuántos eventos hay por acción (1436ms)
+      ✓ filtrar por acción pide ese filtro al servidor y reduce la tabla (1483ms)
+      ✓ exporta un CSV con los eventos visibles y neutraliza las fórmulas (2499ms)
+    escenarios alternativos
+      ✓ un rango de fechas invertido avisa y no consulta al servidor (1647ms)
+      ✓ "Limpiar filtros" restablece la acción elegida (1479ms)
+      ✓ en inglés toda la vista cambia de idioma (1490ms)
+    escenarios de error
+      ✓ sin eventos muestra un estado vacío que explica cuándo aparecen (1333ms)
+      ✓ si la tabla de auditoría aún no existe lo explica en lugar de mostrar una tabla vacía (3497ms)
+      ✓ un error 500 se anuncia con role="alert" (1198ms)
+      ✓ solo el coordinador entra: un estudiante es enviado a /forbidden (961ms)
+
+
+  11 passing (21s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        11                                                                               │
+  │ Passing:      11                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     21 seconds                                                                       │
+  │ Spec Ran:     rediseno-auditoria.cy.ts                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/rediseno-auditoria.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rediseno-dashboard-coordinador.cy.ts                                            (2 of 4)
+
+
+  Rediseño — Dashboard del coordinador (UI)
+    escenarios exitosos
+      ✓ muestra los cuatro indicadores de la carrera (3179ms)
+      ✓ la barra lateral agrupa las rutas del coordinador por secciones (1435ms)
+      ✓ el calendario marca la apertura y el cierre de la evaluación programada (1328ms)
+      ✓ desde la barra lateral se llega a la auditoría y la opción queda activa (2653ms)
+      ✓ el nombre del docente enlaza a su detalle (1555ms)
+    escenarios alternativos
+      ✓ ya no hay tarjetas de "Acciones rápidas": viven en la barra lateral (1280ms)
+      ✓ en móvil la barra lateral se abre con el botón de menú y se cierra con Escape (1506ms)
+      ✓ un solo clic en "Hoy" del calendario vuelve al mes actual (1587ms)
+    escenarios de error
+      ✓ si el servidor falla, muestra una alerta y deja la pantalla usable (2400ms)
+      ✓ si falla el calendario avisa sin interrumpir (role=status) y el resto sigue disponible (2483ms)
+
+
+  10 passing (20s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        10                                                                               │
+  │ Passing:      10                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     20 seconds                                                                       │
+  │ Spec Ran:     rediseno-dashboard-coordinador.cy.ts                                             │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/rediseno-dashboard-coordinador.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rediseno-gestion-profesores.cy.ts                                               (3 of 4)
+
+
+  Rediseño — Gestión de profesores (UI)
+    escenarios exitosos
+      ✓ lista a los docentes de la carrera con su promedio (3002ms)
+      ✓ al elegir un docente muestra sus estadísticas por categoría y por curso (1553ms)
+      ✓ el filtro "En riesgo" deja solo a los docentes con promedio menor a 4.0 (1950ms)
+    escenarios alternativos
+      ✓ la búsqueda ignora tildes y mayúsculas (1805ms)
+      ✓ ordenar por promedio (menor primero) pone primero al de menor promedio (1343ms)
+      ✓ abre al docente indicado en la URL (?profesor=) (2357ms)
+      ✓ cambiar el periodo vuelve a pedir las estadísticas de ese periodo (1525ms)
+    escenarios de error
+      ✓ una búsqueda sin resultados muestra el estado vacío con ayuda (1370ms)
+      ✓ si fallan las estadísticas avisa y no muestra datos inventados (1286ms)
+
+
+  9 passing (17s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        9                                                                                │
+  │ Passing:      9                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     16 seconds                                                                       │
+  │ Spec Ran:     rediseno-gestion-profesores.cy.ts                                                │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/rediseno-gestion-profesores.cy.ts.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rediseno-preferencias.cy.ts                                                     (4 of 4)
+
+
+  Rediseño — Preferencias de visualización (UI)
+    ✓ modo noche: aplica la clase dark, cambia el fondo y se recuerda al recargar (4256ms)
+    ✓ idioma: pasa a inglés (menú, indicadores y calendario) y recarga conservando la elección (3322ms)
+    ✓ tamaño de texto: cada nivel cambia el tamaño de letra base y "Estándar" lo restablece (2004ms)
+    ✓ tipografía estándar: los títulos, subtítulos y textos usan solo cinco tamaños (1256ms)
+    ✓ la elección de noche, inglés y letra grande sobrevive a navegar a otra pantalla (2032ms)
+    ✓ en móvil (390 px) no hay desplazamiento horizontal con letra muy grande (1626ms)
+
+
+  6 passing (15s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      6                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     15 seconds                                                                       │
+  │ Spec Ran:     rediseno-preferencias.cy.ts                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: /home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Front/reports/cypress/videos/rediseno-preferencias.cy.ts.mp4
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  rediseno-auditoria.cy.ts                 00:21       11       11        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rediseno-dashboard-coordinador.cy.t      00:20       10       10        -        -        - │
+  │    s                                                                                           │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rediseno-gestion-profesores.cy.ts        00:16        9        9        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  rediseno-preferencias.cy.ts              00:15        6        6        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        01:14       36       36        -        -        -  
+

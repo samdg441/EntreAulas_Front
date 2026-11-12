@@ -1,0 +1,5 @@
+    at startTests (file:///home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Back/node_modules/@vitest/runner/dist/index.js:1271:3)
+    at startTests (file:///home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Back/node_modules/@vitest/runner/dist/index.js:1271:3)
+    at startTests (file:///home/julianaf/Escritorio/proyectos/github/entre-aulas/EntreAulas_Back/node_modules/@vitest/runner/dist/index.js:1271:3)
+ Test Files  87 passed (87)
+      Tests  1115 passed (1115)

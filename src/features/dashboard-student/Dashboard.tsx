@@ -7,6 +7,7 @@ import Card, {
   CardTitle,
 } from '../../components/Card';
 import Button from '../../components/Button';
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones';
 import Header from '../../components/Header';
 import { User } from '../../types';
 import {
@@ -24,8 +25,6 @@ import Calendar from '../../components/Calendar';
 import EmptyState from '../../components/EmptyState';
 import OnboardingBanner from '../../components/OnboardingBanner';
 import HelpTooltip from '../../components/HelpTooltip';
-
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href;
 
 interface DashboardProps {
   user: User;
@@ -358,14 +357,39 @@ function Shell({ children }: Readonly<{ children: React.ReactNode }>) {
   );
 }
 
+function Hueso({ className }: Readonly<{ className: string }>) {
+  return <div className={`animate-pulse rounded-lg bg-gray-200 ${className}`} aria-hidden="true" />
+}
+
 function DashboardLoading({ user }: Readonly<{ user: User }>) {
   return (
     <Shell>
       <Header user={user} />
-      <main className="max-w-[1700px] mx-auto p-6 lg:p-8 flex items-center justify-center min-h-[60vh]">
-        <div className="text-center">
-          <div className="inline-block h-10 w-10 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
-          <p className="mt-4 text-gray-700">Cargando tu panel...</p>
+      <main className="max-w-[1700px] mx-auto space-y-6 p-4 sm:space-y-8 sm:p-6 lg:p-8" aria-busy="true">
+        <p className="sr-only">Cargando tu panel...</p>
+        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <Hueso className="h-8 w-72 max-w-full" />
+          <Hueso className="mt-3 h-5 w-[28rem] max-w-full" />
+        </div>
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+          <div className="grid grid-cols-1 gap-6">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                <Hueso className="mx-auto h-5 w-36" />
+                <Hueso className="mx-auto mt-4 h-9 w-16" />
+                <Hueso className="mx-auto mt-3 h-4 w-44" />
+              </div>
+            ))}
+          </div>
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+            <Hueso className="h-6 w-48" />
+            <Hueso className="mt-4 h-72 w-full" />
+          </div>
+        </div>
+        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <Hueso className="h-6 w-40" />
+          <Hueso className="mt-4 h-16 w-full" />
+          <Hueso className="mt-3 h-16 w-full" />
         </div>
       </main>
     </Shell>
@@ -479,7 +503,7 @@ function StatCard({
 }>) {
   return (
     <motion.div variants={cardVariants} initial="hidden" animate="visible" transition={{ delay }}>
-      <Card className="bg-white shadow-sm hover:shadow-md transition-all border border-gray-200/80 p-6">
+      <Card className="marca-rojo bg-white shadow-sm hover:shadow-md border border-gray-200/80 p-6">
         <CardHeader className="items-center gap-3 pb-2 text-center">
           <CardTitle className="flex items-center justify-center gap-2 text-lg font-medium text-gray-900">
             {title}
@@ -505,7 +529,7 @@ function StatsGrid({ type, stats }: Readonly<{ type: User['type']; stats: Record
   const tertiary = getTertiaryStat(type, stats);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 gap-6">
       <StatCard
         title={primary.title}
         value={textoEstadistica(primary.value)}
@@ -614,17 +638,6 @@ function DashboardReady({
 }>) {
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-      </div>
 
       <div className="relative z-10">
         <Header user={currentUser} />
@@ -643,14 +656,9 @@ function DashboardReady({
             />
           )}
 
-          <div className="flex flex-col gap-8">
-            <div className="order-1 lg:order-2">
-              <QuickActionsCard actions={userData.quickActions} />
-            </div>
-
-            <div className="order-2 lg:order-1">
-              <StatsGrid type={user.type} stats={userData.stats} />
-            </div>
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+            <StatsGrid type={user.type} stats={userData.stats} />
+            <AgendaEvaluaciones />
           </div>
 
           {user.type === 'student' && (

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Card, { CardHeader, CardContent, CardDescription, CardTitle } from '../../components/Card'
+import AgendaEvaluaciones from '../../components/AgendaEvaluaciones';
 import Header from '../../components/Header'
 import { User } from '../../types'
 import { usersApi } from '../../api/users'
@@ -14,8 +15,6 @@ import {
 } from 'lucide-react'
 import RoleGuideBanner from '../../components/OnboardingBanner'
 import HelpTooltip from '../../components/HelpTooltip'
-
-const fondo = new URL('../../assets/fondo.webp', import.meta.url).href
 
 interface DashboardAdminProps {
   user: User
@@ -142,16 +141,6 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-60 z-0 pointer-events-none" />
 
       <div className="relative z-10">
         <Header user={currentUser} />
@@ -173,7 +162,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
 
           <RoleGuideBanner
             storageKey="guide_dismissed_admin"
-            titulo="¿Cómo gestionar la plataforma?"
+            titulo="¿Cómo gestionar la plataforma ?"
             pasos={[
               { titulo: 'Usuarios y roles', detalle: 'Administra cuentas de estudiantes, docentes y directivos.' },
               { titulo: 'Estructura académica', detalle: 'Configura facultades, carreras y asignaturas activas.' },
@@ -182,11 +171,17 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
             ]}
           />
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,1fr)]">
+          <motion.div
+            className="grid grid-cols-1 gap-4"
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
             {metrics.map((metric) => (
               <Card
                 key={metric.label}
-                className="bg-white/95 border border-gray-200/80 shadow-sm transition-all hover:shadow-md p-5 sm:p-6"
+                className="marca-rojo bg-white/95 border border-gray-200/80 shadow-sm p-5 sm:p-6"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-2">
@@ -198,13 +193,30 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
                   </span>
                 </div>
                 <p className="mt-3 text-center text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
-                  {loadingStats ? '…' : metric.value === null ? '—' : metric.value}
+                  {loadingStats ? (
+                    <span className="mx-auto block h-9 w-16 animate-pulse rounded bg-gray-200" aria-hidden="true" />
+                  ) : (
+                    metric.value === null ? '—' : metric.value
+                  )}
                 </p>
                 <p className="mt-1 text-center text-sm text-gray-500">{metric.hint}</p>
               </Card>
             ))}
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <AgendaEvaluaciones />
+          </motion.div>
           </div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          >
           <Card className="bg-white/95 shadow-sm border border-gray-200/80 p-5 sm:p-6 lg:p-8">
             <CardHeader className="px-0 pt-0 pb-4">
               <CardTitle className="text-2xl text-gray-900">Módulos administrativos</CardTitle>
@@ -219,7 +231,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
                     key={mod.path}
                     type="button"
                     onClick={() => navigate(mod.path)}
-                    className="group flex h-full flex-col rounded-xl border border-gray-200/80 bg-white p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-red-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="group marca-rojo flex h-full flex-col rounded-xl border border-gray-200/80 bg-white p-5 text-left shadow-sm focus:outline-none"
                   >
                     <span className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${mod.iconClass}`}>
                       <mod.icon className="h-5 w-5" aria-hidden="true" />
@@ -231,6 +243,7 @@ export default function DashboardAdmin({ user }: DashboardAdminProps) {
               </div>
             </CardContent>
           </Card>
+          </motion.div>
         </main>
       </div>
     </div>
