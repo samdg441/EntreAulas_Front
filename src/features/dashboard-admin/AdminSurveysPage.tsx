@@ -14,6 +14,7 @@ import {
   CreateSurveyQuestionPayload,
 } from '../../api/surveys.api'
 import { User } from '../../types'
+import { corregirPregunta, datosDePregunta } from './preguntas-encuesta'
 import { ClipboardPlus, Pencil, Trash2, X } from 'lucide-react'
 
 const QUESTION_TYPES = [
@@ -43,6 +44,8 @@ export default function AdminSurveysPage() {
   const [vista, setVista] = useState<Vista>('menu')
   const [encuestaActiva, setEncuestaActiva] = useState<SurveyCategory | null>(null)
   const [dialogoPregunta, setDialogoPregunta] = useState(false)
+  /** null: el diálogo agrega una pregunta; un id: corrige esa pregunta (RF-ENC-33). */
+  const [editandoId, setEditandoId] = useState<number | null>(null)
 
   const [form, setForm] = useState<CreateSurveyQuestionPayload>({
     categoria_id: 0,
@@ -93,7 +96,7 @@ export default function AdminSurveysPage() {
   const volverAlMenu = () => {
     setVista('menu')
     setEncuestaActiva(null)
-    setDialogoPregunta(false)
+    cerrarDialogo()
     setError(null)
     setSuccess(null)
   }
@@ -125,8 +128,15 @@ export default function AdminSurveysPage() {
     setVista('preguntas')
   }
 
+  const cerrarDialogo = () => {
+    setDialogoPregunta(false)
+    setEditandoId(null)
+    setError(null)
+  }
+
   const abrirPregunta = () => {
     if (!encuestaActiva) return
+    setEditandoId(null)
     setForm((prev) => ({
       ...prev,
       categoria_id: encuestaActiva.id,
@@ -135,6 +145,14 @@ export default function AdminSurveysPage() {
       orden: preguntasDeLaEncuesta.length + 1,
     }))
     setError(null)
+    setDialogoPregunta(true)
+  }
+
+  const abrirEdicion = (pregunta: SurveyQuestion) => {
+    setForm(datosDePregunta(pregunta))
+    setEditandoId(pregunta.id)
+    setError(null)
+    setSuccess(null)
     setDialogoPregunta(true)
   }
 
@@ -221,6 +239,28 @@ export default function AdminSurveysPage() {
     } finally {
       setSaving(false)
     }
+  }
+
+  const handleUpdate = async (e: FormEvent) => {
+    e.preventDefault()
+    if (editandoId === null) return
+    setSaving(true)
+    setError(null)
+    setSuccess(null)
+    const resultado = await corregirPregunta(
+      surveysApi,
+      editandoId,
+      { ...form, id_carrera: form.id_carrera || null },
+      questions
+    )
+    setSaving(false)
+    if (!resultado.ok) {
+      setError(resultado.error)
+      return
+    }
+    setSuccess('Pregunta actualizada')
+    cerrarDialogo()
+    await loadAll()
   }
 
   const handleDeactivate = async (id: number) => {
@@ -429,7 +469,17 @@ export default function AdminSurveysPage() {
                               <Badge variant="outline">{q.categoria?.nombre || encuestaActiva.nombre}</Badge>
                             </td>
                             <td className="px-4 py-3 capitalize">{q.tipo_pregunta}</td>
-                            <td className="px-4 py-3 text-right">
+                            <td className="px-4 py-3 text-right space-x-2 whitespace-nowrap">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="inline-flex items-center gap-1"
+                                aria-label={`Editar pregunta ${q.texto_pregunta}`}
+                                onClick={() => abrirEdicion(q)}
+                              >
+                                <Pencil className="h-3.5 w-3.5" aria-hidden="true" />
+                                Editar
+                              </Button>
                               <Button
                                 size="sm"
                                 variant="outline"
@@ -469,13 +519,15 @@ export default function AdminSurveysPage() {
           >
             <button
               type="button"
-              onClick={() => { setDialogoPregunta(false); setError(null) }}
+              onClick={cerrarDialogo}
               aria-label="Cerrar"
               className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
-            <h2 id="titulo-dialogo-pregunta" className="text-xl font-semibold text-gray-900 mb-1">Agregar pregunta</h2>
+            <h2 id="titulo-dialogo-pregunta" className="text-xl font-semibold text-gray-900 mb-1">
+              {editandoId === null ? 'Agregar pregunta' : 'Editar pregunta'}
+            </h2>
             <p className="text-sm text-gray-600 mb-4">
               Esta pregunta queda en {encuestaActiva?.nombre}.
             </p>
@@ -484,7 +536,7 @@ export default function AdminSurveysPage() {
                 {error}
               </p>
             )}
-            <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={editandoId === null ? handleCreate : handleUpdate} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="encuesta-tipo" className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
                 <select
@@ -545,8 +597,10 @@ export default function AdminSurveysPage() {
                 <span>Pregunta obligatoria</span>
               </label>
               <div className="md:col-span-2 flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => { setDialogoPregunta(false); setError(null) }}>Cancelar</Button>
-                <Button type="submit" disabled={saving || loading}>{saving ? 'Guardando…' : 'Guardar pregunta'}</Button>
+                <Button type="button" variant="outline" onClick={cerrarDialogo}>Cancelar</Button>
+                <Button type="submit" disabled={saving || loading}>
+                  {saving ? 'Guardando…' : editandoId === null ? 'Guardar pregunta' : 'Guardar cambios de la pregunta'}
+                </Button>
               </div>
             </form>
           </div>

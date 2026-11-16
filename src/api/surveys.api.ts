@@ -60,6 +60,14 @@ export const surveysApi = {
     return data.category
   },
 
+  updateQuestion: async (id: number, payload: CreateSurveyQuestionPayload): Promise<SurveyQuestion> => {
+    const { data } = await apiClient.put<{ success: boolean; data: SurveyQuestion }>(
+      `/api/evaluations/questions/${id}`,
+      payload
+    )
+    return data.data
+  },
+
   deactivateQuestion: async (id: number) => {
     const { data } = await apiClient.delete(`/api/evaluations/questions/${id}`)
     return data
