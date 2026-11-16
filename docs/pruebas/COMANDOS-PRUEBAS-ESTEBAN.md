@@ -199,8 +199,6 @@ CYPRESS_RECORD_KEY=<record-key> npx cypress run --e2e --browser chrome --record 
 # PowerShell:  $env:CYPRESS_RECORD_KEY="<record-key>"; npx cypress run --e2e --browser chrome --record --tag esteban,punto-14 --config '{\"specPattern\":[\"cypress/e2e/studio/esteban-prompt.cy.ts\",\"cypress/e2e/ui/rf-enc-not-eval.cy.ts\"]}'
 ```
 
-**Studio AI** (interactivo): ejecute `npx cypress open`, elija E2E y Chrome, abra `ui/rf-enc-not-eval.cy.ts`, pulse **Edit in Studio** en una prueba, recorra la pantalla y pulse **Save**.
-
 ### Healenium (anexo: probado y descartado)
 
 ```bash
