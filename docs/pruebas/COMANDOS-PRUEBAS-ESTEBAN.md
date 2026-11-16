@@ -58,7 +58,8 @@ ollama pull qwen2.5:7b
 | 14 | Revisor de IA (pruebas deterministas) | `cd EntreAulas_Back && npx vitest run src/test/unit/evaluaciones/revisor-preguntas.test.ts` | 18/18 |
 | 14 | DeepEval | `python EntreAulas_Front/ia-testing/deepeval/esteban/evaluar_revisor.py --version=v3 --sin-juez` | Exactitud 0,842 |
 | 14 | Stagehand | `cd EntreAulas_Front/stagehand && npm run test:esteban` | 13 pasos, 6 respaldos |
-| 14 | Healenium (control) | `cd EntreAulas_Front/healenium && PAGINA=despues npm run test:esteban:control` | 2/2 reparados |
+| 14 | Cypress Cloud + `cy.prompt` | `cd EntreAulas_Front/e2e && npm run cy:prompt:esteban` | 6/6 (con sesión de Cypress Cloud) |
+| 14 | Healenium (anexo, descartado) | `cd EntreAulas_Front/healenium && PAGINA=despues npm run test:esteban:control` | 2/2 reparados en el control |
 | 15 | Defectos DEF-51 a DEF-53 | `cd EntreAulas_Back && npx vitest run --config vitest.defects.config.mts src/test/defects/DEF-51-53-errores-de-preguntas.test.ts` | 7/7 |
 | — | Suites completas | `cd EntreAulas_Front && npm test` · `cd EntreAulas_Back && npx vitest run` | 860/860 · 1131/1131 |
 
@@ -183,7 +184,24 @@ HEADLESS=true CHROME_PATH="C:\Program Files\Google\Chrome\Application\chrome.exe
 
 Las capturas y las métricas de tokens quedan en `stagehand/reports/esteban-*.png` y `stagehand/reports/esteban-*.json`.
 
-### Healenium
+### Cypress Cloud + `cy.prompt`
+
+Requiere haber iniciado sesión en Cypress Cloud desde la app (`npx cypress open`, luego **Log in**) o grabar la corrida. El proyecto es `frajcp`.
+
+```bash
+cd EntreAulas_Front/e2e
+
+# Local (usa la sesión de Cloud de la app)
+npm run cy:prompt:esteban
+
+# Grabado en Cypress Cloud, junto con el spec de interfaz del punto 7
+CYPRESS_RECORD_KEY=<record-key> npx cypress run --e2e --browser chrome --record --tag esteban,punto-14   --config '{"specPattern":["cypress/e2e/studio/esteban-prompt.cy.ts","cypress/e2e/ui/rf-enc-not-eval.cy.ts"]}'
+# PowerShell:  $env:CYPRESS_RECORD_KEY="<record-key>"; npx cypress run --e2e --browser chrome --record --tag esteban,punto-14 --config '{\"specPattern\":[\"cypress/e2e/studio/esteban-prompt.cy.ts\",\"cypress/e2e/ui/rf-enc-not-eval.cy.ts\"]}'
+```
+
+**Studio AI** (interactivo): ejecute `npx cypress open`, elija E2E y Chrome, abra `ui/rf-enc-not-eval.cy.ts`, pulse **Edit in Studio** en una prueba, recorra la pantalla y pulse **Save**.
+
+### Healenium (anexo: probado y descartado)
 
 ```bash
 cd EntreAulas_Front/healenium

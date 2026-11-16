@@ -13,6 +13,8 @@ const requireDelFront = createRequire(path.resolve(__dirname, '..', 'package.jso
  * Cypress 16: valores públicos → expose; secretos → CYPRESS_* leídos con cy.env().
  */
 export default defineConfig({
+  /** Proyecto en Cypress Cloud (grabación de corridas y cy.prompt). La record key va en CYPRESS_RECORD_KEY, nunca aquí. */
+  projectId: 'frajcp',
   e2e: {
     baseUrl: 'http://localhost:3001',
     specPattern: [
