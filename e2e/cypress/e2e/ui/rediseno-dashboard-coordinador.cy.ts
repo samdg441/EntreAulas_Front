@@ -89,12 +89,12 @@ describe('Rediseño — Dashboard del coordinador (UI)', () => {
       cy.contains('a', 'Auditoría').should('be.visible')
     })
 
-    it('si falla el calendario avisa sin interrumpir (role=status) y el resto sigue disponible', () => {
+    it('si falla el calendario avisa sin interrumpir y el resto sigue disponible', () => {
       cy.intercept({ pathname: '/api/periodos/evaluacion' }, { statusCode: 500, body: {} }).as('sinFechas')
       cy.visitarConSesion('/dashboard-coordinador', coordinador)
 
       cy.wait('@sinFechas')
-      cy.get('[role="status"]').should('contain', 'No pudimos cargar las fechas de evaluación')
+      cy.get('output').should('contain', 'No pudimos cargar las fechas de evaluación')
       cy.contains('dt', 'Profesores').should('be.visible')
     })
   })
