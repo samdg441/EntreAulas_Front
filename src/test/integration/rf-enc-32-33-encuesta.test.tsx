@@ -11,6 +11,8 @@ vi.mock('../../api/surveys.api', () => ({
     listCategories: vi.fn(),
     listQuestions: vi.fn(),
     createQuestion: vi.fn(),
+    createCategory: vi.fn(),
+    updateCategory: vi.fn(),
     deactivateQuestion: vi.fn(),
   },
 }))
@@ -31,6 +33,11 @@ const admin = {
   tipo_usuario: 'admin',
 }
 
+async function abrirDocencia(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(await screen.findByRole('button', { name: 'Editar encuesta' }))
+  await user.click(await screen.findByRole('button', { name: 'Docencia' }))
+}
+
 describe('RF-ENC — Pantalla de creación de la encuesta', () => {
   beforeEach(() => {
     vi.mocked(surveysApi.listCategories).mockResolvedValue([{ id: 1, nombre: 'Docencia' }])
@@ -39,6 +46,7 @@ describe('RF-ENC — Pantalla de creación de la encuesta', () => {
       facultades: [{ id: 1, nombre: 'Ingenierías', carreras: [{ id: 4, nombre: 'Sistemas' }] }],
     })
     vi.mocked(surveysApi.createQuestion).mockReset()
+    vi.mocked(surveysApi.createCategory).mockReset()
     vi.mocked(surveysApi.deactivateQuestion).mockReset()
   })
 
@@ -48,12 +56,14 @@ describe('RF-ENC — Pantalla de creación de la encuesta', () => {
     const user = userEvent.setup()
     vi.mocked(surveysApi.createQuestion).mockResolvedValue({ id: 8 })
     renderConSesion(<AdminSurveysPage />, { user: admin })
+    await abrirDocencia(user)
     expect(await screen.findByText('Aún no hay preguntas activas')).toBeInTheDocument()
 
     // Cuando registra el texto de la pregunta
     // Act
-    await user.type(screen.getByLabelText('Texto de la pregunta'), '¿Explica con claridad?')
     await user.click(screen.getByRole('button', { name: 'Agregar pregunta' }))
+    await user.type(screen.getByLabelText('Texto de la pregunta'), '¿Explica con claridad?')
+    await user.click(screen.getByRole('button', { name: 'Guardar pregunta' }))
 
     // Entonces el sistema la guarda y confirma
     // Assert
@@ -75,16 +85,43 @@ describe('RF-ENC — Pantalla de creación de la encuesta', () => {
     // Arrange
     const user = userEvent.setup()
     renderConSesion(<AdminSurveysPage />, { user: admin })
+    await abrirDocencia(user)
     await screen.findByText('Aún no hay preguntas activas')
 
     // Cuando intenta agregarla
     // Act
-    await user.type(screen.getByLabelText('Texto de la pregunta'), '   ')
     await user.click(screen.getByRole('button', { name: 'Agregar pregunta' }))
+    await user.type(screen.getByLabelText('Texto de la pregunta'), '   ')
+    await user.click(screen.getByRole('button', { name: 'Guardar pregunta' }))
 
     // Entonces no llama al servicio y explica qué falta
     // Assert
     expect(await screen.findByText('Completa categoría y texto de la pregunta')).toBeInTheDocument()
+    expect(surveysApi.createQuestion).not.toHaveBeenCalled()
+  })
+
+  it('RF-ENC-32: el administrador crea una encuesta con nombre', async () => {
+    // Dado que el banco no tiene encuestas nuevas
+    // Arrange
+    const user = userEvent.setup()
+    vi.mocked(surveysApi.createCategory).mockResolvedValue({ id: 3, nombre: 'Evaluación de cierre', orden: 2 })
+    renderConSesion(<AdminSurveysPage />, { user: admin })
+    await screen.findByRole('button', { name: 'Crear encuesta' })
+
+    // Cuando guarda la encuesta
+    // Act
+    await user.click(screen.getByRole('button', { name: 'Crear encuesta' }))
+    await user.type(screen.getByLabelText('Nombre de la encuesta'), 'Evaluación de cierre')
+    await user.click(screen.getByRole('button', { name: 'Guardar encuesta' }))
+
+    // Entonces el sistema la registra aparte de las preguntas
+    // Assert
+    await waitFor(() =>
+      expect(surveysApi.createCategory).toHaveBeenCalledWith(
+        expect.objectContaining({ nombre: 'Evaluación de cierre', orden: 2 })
+      )
+    )
+    expect(await screen.findByText('Encuesta agregada')).toBeInTheDocument()
     expect(surveysApi.createQuestion).not.toHaveBeenCalled()
   })
 
@@ -106,6 +143,7 @@ describe('RF-ENC — Pantalla de creación de la encuesta', () => {
     ])
     vi.mocked(surveysApi.deactivateQuestion).mockResolvedValue({ success: true })
     renderConSesion(<AdminSurveysPage />, { user: admin })
+    await abrirDocencia(user)
     expect(await screen.findByText('¿Explica con claridad?')).toBeInTheDocument()
 
     // Cuando el administrador la retira
@@ -136,6 +174,7 @@ describe('RF-ENC — Pantalla de creación de la encuesta', () => {
       response: { data: { error: 'No se pudo desactivar la pregunta' } },
     })
     renderConSesion(<AdminSurveysPage />, { user: admin })
+    await abrirDocencia(user)
     await screen.findByText('¿Explica con claridad?')
 
     // Cuando intenta retirarla

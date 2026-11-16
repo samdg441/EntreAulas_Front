@@ -12,7 +12,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
 import { guardarVentanaEvaluacion } from '../../api/periodos.api'
 import { getApiErrorMessage } from '../../lib/apiError'
-import { limitesPeriodoAcademico } from '../../lib/periodo-academico'
+import { codigoPeriodoActual, limitesPeriodoAcademico } from '../../lib/periodo-academico'
 import HelpTooltip from '../../components/HelpTooltip'
 
 interface CursoGrupo {
@@ -38,7 +38,7 @@ export default function ScheduleSurveys() {
 
   const [form, setForm] = useState({
     careerId: '',
-    period: '',
+    period: codigoPeriodoActual(),
     startDate: '',
     endDate: '',
     target: 'all',
@@ -360,7 +360,7 @@ export default function ScheduleSurveys() {
                   </div>
                   <div>
                     <label htmlFor="survey-period" className="block text-sm font-medium text-gray-700 mb-2">Período</label>
-                    <input id="survey-period" name="period" value={form.period} onChange={handleChange} placeholder="2025-1" required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+                    <input id="survey-period" name="period" value={form.period} onChange={handleChange} placeholder="AAAA-1" required className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500" />
                   </div>
 
                   <div>

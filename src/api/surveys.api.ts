@@ -50,6 +50,16 @@ export const surveysApi = {
     return data
   },
 
+  createCategory: async (payload: { nombre: string; descripcion?: string; orden: number }) => {
+    const { data } = await apiClient.post<{ category: SurveyCategory }>('/api/evaluations/categories', payload)
+    return data.category
+  },
+
+  updateCategory: async (id: number, payload: { nombre: string; descripcion?: string; orden: number }) => {
+    const { data } = await apiClient.put<{ category: SurveyCategory }>(`/api/evaluations/categories/${id}`, payload)
+    return data.category
+  },
+
   deactivateQuestion: async (id: number) => {
     const { data } = await apiClient.delete(`/api/evaluations/questions/${id}`)
     return data
