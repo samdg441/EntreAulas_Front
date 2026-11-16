@@ -1,0 +1,287 @@
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts (2 tests | 2 failed) 19ms
+   ❯ RF-ENC-33 — surveysApi.updateQuestion (2)
+     × hace PUT a /api/evaluations/questions/:id con los datos y devuelve la pregunta 7ms
+     × propaga el error del servidor para que la pantalla lo muestre 9ms
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts (16 tests | 14 failed) 33ms
+   ❯ RF-ENC-33 — Corregir una pregunta de la encuesta (16)
+     ❯ validarPregunta — reglas antes de llamar al servidor (8)
+       × rechaza un texto en blanco 5ms
+       × rechaza el orden 0 3ms
+       × rechaza el orden -3 1ms
+       × rechaza el orden 1.5 1ms
+       × rechaza el orden NaN 1ms
+       × rechaza un texto repetido en la misma encuesta, sin importar mayúsculas ni espacios 1ms
+     ❯ corregirPregunta — interacción con el servidor (7)
+       × envía una sola vez el PUT con el id y el texto recortado (mock) 1ms
+       × devuelve la pregunta que confirma el servidor (stub) 4ms
+       × no toca el servidor si los datos son inválidos (dummy) 2ms
+       × no llama al servidor si no hubo cambios (spy sobre el fake) 2ms
+       × el banco queda con el texto corregido (fake) 2ms
+       × muestra el mensaje del servidor cuando el PUT falla (stub con error) 1ms
+       × usa un mensaje propio si el servidor no explica el error (stub de red) 1ms
+     ❯ datosDePregunta — precargar el diálogo de edición (1)
+       × copia solo los campos editables 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza un texto en blanco
+AssertionError: expected null to be a string
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:112:27
+    110|       // Entonces pide completar el texto
+    111|       // Assert
+    112|       expect(error).to.be.a('string').and.equal(MENSAJES_PREGUNTA.text…
+       |                           ^
+    113|     })
+    114|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza el orden 0
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza el orden -3
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza el orden 1.5
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza el orden NaN
+AssertionError: expected null to equal ''
+
+- Expected:
+""
+
++ Received:
+null
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:126:24
+    124|       // Entonces explica la regla del orden
+    125|       // Assert
+    126|       expect(error).to.equal(MENSAJES_PREGUNTA.ordenInvalido)
+       |                        ^
+    127|     })
+    128|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza un texto repetido en la misma encuesta, sin importar mayúsculas ni espacios
+AssertionError: expected null to equal ''
+
+- Expected:
+""
+
++ Received:
+null
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:140:24
+    138|       // Entonces avisa que está repetida
+    139|       // Assert
+    140|       expect(error).to.equal(MENSAJES_PREGUNTA.duplicada)
+       |                        ^
+    141|     })
+    142|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > envía una sola vez el PUT con el id y el texto recortado (mock)
+AssertionError: expected "vi.fn()" to be called once, but got 0 times
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:175:30
+    173|       // Entonces el mock recibió exactamente la llamada esperada
+    174|       // Assert
+    175|       expect(updateQuestion).toHaveBeenCalledOnce()
+       |                              ^
+    176|       expect(updateQuestion).toHaveBeenCalledWith(
+    177|         8,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > devuelve la pregunta que confirma el servidor (stub)
+AssertionError: expected { ok: false, error: 'no implementado' } to have deep property 'ok' of true, but got false
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:194:54
+    192|       // Entonces el resultado trae la pregunta del servidor
+    193|       // Assert
+    194|       expect(resultado).to.be.an('object').that.deep.includes({ ok: tr…
+       |                                                      ^
+    195|     })
+    196|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > no toca el servidor si los datos son inválidos (dummy)
+AssertionError: expected { ok: false, error: 'no implementado' } to deeply equal { ok: false, error: '' }
+
+- Expected
++ Received
+
+  {
+-   "error": "",
++   "error": "no implementado",
+    "ok": false,
+  }
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:208:33
+    206|       // Entonces se rechaza localmente, sin excepción del dummy
+    207|       // Assert
+    208|       expect(resultado).to.deep.equal({ ok: false, error: MENSAJES_PRE…
+       |                                 ^
+    209|     })
+    210|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > no llama al servidor si no hubo cambios (spy sobre el fake)
+AssertionError: expected { ok: false, error: 'no implementado' } to have property 'ok' of true, but got false
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:223:33
+    221|       // Assert
+    222|       expect(espia).not.toHaveBeenCalled()
+    223|       expect(resultado).to.have.property('ok', true)
+       |                                 ^
+    224|     })
+    225|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > el banco queda con el texto corregido (fake)
+AssertionError: expected 'El docente explica con claridad' to equal 'El docente explica con ejemplos'
+
+Expected: "El docente explica con ejemplos"
+Received: "El docente explica con claridad"
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:239:15
+    237|       expect(banco.preguntas.find((p) => p.id === 8))
+    238|         .to.have.property('texto_pregunta')
+    239|         .that.equals('El docente explica con ejemplos')
+       |               ^
+    240|       expect(banco.preguntas.map((p) => p.texto_pregunta)).to.include(…
+    241|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > muestra el mensaje del servidor cuando el PUT falla (stub con error)
+AssertionError: expected { ok: false, error: 'no implementado' } to deeply equal { ok: false, …(1) }
+
+- Expected
++ Received
+
+  {
+-   "error": "Pregunta no encontrada",
++   "error": "no implementado",
+    "ok": false,
+  }
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:256:33
+    254|       // Entonces el error del servidor llega a la pantalla
+    255|       // Assert
+    256|       expect(resultado).to.deep.equal({ ok: false, error: 'Pregunta no…
+       |                                 ^
+    257|     })
+    258|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > usa un mensaje propio si el servidor no explica el error (stub de red)
+AssertionError: expected { ok: false, error: 'no implementado' } to deeply equal { ok: false, error: '' }
+
+- Expected
++ Received
+
+  {
+-   "error": "",
++   "error": "no implementado",
+    "ok": false,
+  }
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:270:33
+    268|       // Entonces se muestra un mensaje entendible
+    269|       // Assert
+    270|       expect(resultado).to.deep.equal({ ok: false, error: MENSAJES_PRE…
+       |                                 ^
+    271|     })
+    272|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > datosDePregunta — precargar el diálogo de edición > copia solo los campos editables
+AssertionError: expected {} to deeply equal { categoria_id: 1, …(6) }
+
+- Expected
++ Received
+
+- {
+-   "categoria_id": 1,
+-   "descripcion": "",
+-   "id_carrera": 4,
+-   "obligatoria": true,
+-   "orden": 1,
+-   "texto_pregunta": "El docente explica con claridad",
+-   "tipo_pregunta": "likert",
+- }
++ {}
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:287:18
+    285|       // Assert
+    286|       expect(datos)
+    287|         .to.deep.equal({
+       |                  ^
+    288|           categoria_id: 1,
+    289|           texto_pregunta: 'El docente explica con claridad',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts > RF-ENC-33 — surveysApi.updateQuestion > hace PUT a /api/evaluations/questions/:id con los datos y devuelve la pregunta
+Error: no implementado
+ ❯ Object.updateQuestion src/api/surveys.api.ts:64:11
+     62|
+     63|   updateQuestion: async (_id: number, _payload: CreateSurveyQuestionPa…
+     64|     throw new Error('no implementado')
+       |           ^
+     65|   },
+     66|
+ ❯ src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts:35:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts > RF-ENC-33 — surveysApi.updateQuestion > propaga el error del servidor para que la pantalla lo muestre
+AssertionError: expected Error: no implementado to be { response: { status: 400, …(1) } } // Object.is equality
+
+- Expected
++ Received
+
+- {
+-   "response": {
+-     "data": {
+-       "message": "El texto de la pregunta es obligatorio.",
+-     },
+-     "status": 400,
+-   },
++ Error {
++   "message": "no implementado",
+  }
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts:60:25
+     58|     // Entonces la promesa se rechaza con el mismo error
+     59|     // Assert
+     60|     await expect(promesa).rejects.toBe(error)
+       |                         ^
+     61|   })
+     62| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  16 failed | 2 passed (18)
+   Start at  12:26:13
+   Duration  2.18s (environment 69%, setup 24%, transform 4%, tests 1%, worker 1%, import 1%)
+
