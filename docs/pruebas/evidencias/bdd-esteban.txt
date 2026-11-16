@@ -1,0 +1,144 @@
+
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chrome 157 (headless)                                                          │
+  │ Node Version:   v24.14.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          3 found (esteban-creacion-de-encuestas.feature, esteban-notificaciones.feature │
+  │                 , esteban-seleccion-de-encuesta.feature)                                       │
+  │ Searched:       C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAula │
+  │                 s_Front\e2e\cypress\features\esteban-*.feature                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  esteban-creacion-de-encuestas.feature                                           (1 of 3)
+
+
+  Creación de encuestas
+    √ Ada crea una encuesta nueva (7049ms)
+    √ Una encuesta sin nombre no se guarda (3754ms)
+    √ Ada agrega una pregunta a una encuesta existente (4225ms)
+    √ Ada corrige el texto de una pregunta (4084ms)
+    √ Una corrección inválida no llega al servidor (example #1) (3899ms)
+    √ Una corrección inválida no llega al servidor (example #2) (4738ms)
+    √ El servidor rechaza la corrección y el texto anterior se conserva (4063ms)
+    √ Ada retira una pregunta y deja de ofrecerse (3244ms)
+
+
+  8 passing (35s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      8                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     35 seconds                                                                       │
+  │ Spec Ran:     esteban-creacion-de-encuestas.feature                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\reports\cypress\bdd\videos\esteban-creacion-de-encuestas.feature.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  esteban-notificaciones.feature                                                  (2 of 3)
+
+
+  Notificaciones de la ventana de evaluación
+    √ La campana anuncia el estado de la ventana (example #1) (4951ms)
+    √ La campana anuncia el estado de la ventana (example #2) (4340ms)
+    √ La campana anuncia el estado de la ventana (example #3) (2896ms)
+    √ Marcar todas como leídas quita el pendiente de la campana (3105ms)
+    √ Sin ventanas programadas la campana no inventa avisos (3251ms)
+
+
+  5 passing (19s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        5                                                                                │
+  │ Passing:      5                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     18 seconds                                                                       │
+  │ Spec Ran:     esteban-notificaciones.feature                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\reports\cypress\bdd\videos\esteban-notificaciones.feature.mp4
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  esteban-seleccion-de-encuesta.feature                                           (3 of 3)
+
+
+  Selección de la encuesta a usar
+    √ Eva elige docente, materia y grupo y pasa a la evaluación (5350ms)
+    √ El buscador deja solo la materia que coincide (4329ms)
+    √ Un docente ya evaluado no se puede volver a elegir (4020ms)
+    √ Si el servicio de docentes falla, Eva puede reintentar (3936ms)
+
+
+  4 passing (18s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      4                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     17 seconds                                                                       │
+  │ Spec Ran:     esteban-seleccion-de-encuesta.feature                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\reports\cypress\bdd\videos\esteban-seleccion-de-encuesta.feature.mp4
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  esteban-creacion-de-encuestas.featu      00:35        8        8        -        -        - │
+  │    re                                                                                          │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  esteban-notificaciones.feature           00:18        5        5        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  esteban-seleccion-de-encuesta.featu      00:17        4        4        -        -        - │
+  │    re                                                                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        01:12       17       17        -        -        -  
+
