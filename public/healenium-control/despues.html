@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Control Healenium — después</title></head>
+<body>
+  <!-- El diálogo pasa a <dialog> y el grupo a <button>, como en el refactor del punto 13. -->
+  <main class="contenedor">
+    <dialog open class="control-dialogo" aria-labelledby="titulo">
+      <h2 id="titulo">Editar pregunta</h2>
+      <label>Texto de la pregunta <input class="control-texto" value="El docente explica con claridad"></label>
+      <button type="submit" class="control-guardar">Guardar cambios de la pregunta</button>
+    </dialog>
+    <section class="control-grupos">
+      <button type="button" class="control-grupo" aria-pressed="false"><span>Grupo 01</span></button>
+    </section>
+  </main>
+</body></html>

@@ -1,0 +1,19 @@
+{
+  "corrida": "c1-base",
+  "pagina": "antes",
+  "servidor": "http://localhost:8085/wd/hub",
+  "pasos": [
+    {
+      "paso": "dialogo",
+      "localizador": "By(css selector, div.control-dialogo)",
+      "resultado": "ok",
+      "elemento": "div"
+    },
+    {
+      "paso": "grupo",
+      "localizador": "By(xpath, //div[@class=\"control-grupo\"][.//span[contains(.,\"Grupo 01\")]])",
+      "resultado": "ok",
+      "elemento": "div"
+    }
+  ]
+}

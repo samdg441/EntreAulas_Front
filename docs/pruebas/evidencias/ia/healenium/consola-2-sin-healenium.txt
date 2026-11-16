@@ -1,0 +1,9 @@
+Corrida 2-sin-healenium: front http://host.docker.internal:3001 · servidor http://localhost:4444/wd/hub
+  ✓ RF-ENC-33: abrir «Editar encuesta»
+  ✓ RF-ENC-33: elegir la encuesta Docencia
+  ✓ RF-ENC-33: pulsar «Editar» en la pregunta
+  ✗ RF-ENC-33: ver el diálogo de la pregunta: no such element: Unable to locate element: {"method":"css selector","selector":"div[role="dialog"]"}
+  ✓ RF-EVAL-11: elegir a Ana Ruiz
+  ✓ RF-EVAL-12: elegir Bases de datos
+  ✗ RF-EVAL-12: elegir el grupo 01: no such element: Unable to locate element: {"method":"xpath","selector":"//div[@aria-disabled="false"][.//span[contains(.,"Grupo 01")]]"}
+Corrida 2-sin-healenium: 5/7 pasos ok

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "L1",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 412
+  },
+  {
+    "id": "L2",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 290
+  },
+  {
+    "id": "L3",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 295
+  },
+  {
+    "id": "L4",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 402
+  },
+  {
+    "id": "L5",
+    "problemas": [],
+    "sugerencia": "El docente entrega las notas de los parciales en las fechas acordadas.",
+    "explicacion": "No hay término vago, unión de dos ideas, elogio ni negación.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 809
+  },
+  {
+    "id": "A1",
+    "problemas": [
+      "ambigua"
+    ],
+    "sugerencia": "El material del curso se relaciona con los temas del programa.",
+    "explicacion": "«adecuado» no dice qué se observa.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 872
+  },
+  {
+    "id": "A2",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 343
+  },
+  {
+    "id": "A3",
+    "problemas": [
+      "ambigua"
+    ],
+    "sugerencia": "La metodología del curso promueve el aprendizaje.",
+    "explicacion": "«buena» es un término vago sin conducta observable.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 861
+  },
+  {
+    "id": "D1",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 317
+  },
+  {
+    "id": "D2",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 339
+  },
+  {
+    "id": "D3",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 714
+  },
+  {
+    "id": "S1",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 348
+  },
+  {
+    "id": "S2",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 287
+  },
+  {
+    "id": "S3",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 740
+  },
+  {
+    "id": "N1",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 703
+  },
+  {
+    "id": "N2",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 306
+  },
+  {
+    "id": "N3",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 706
+  },
+  {
+    "id": "C1",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 294
+  },
+  {
+    "id": "I1",
+    "error": "El revisor de IA no está disponible en este momento.",
+    "ms": 274
+  }
+]

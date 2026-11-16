@@ -1,0 +1,81 @@
+[
+  {
+    "id": "H1",
+    "problemas": [],
+    "sugerencia": "El docente publica el programa del curso en la primera semana.",
+    "explicacion": "No hay término vago, unión de dos ideas, elogio ni negación.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 947
+  },
+  {
+    "id": "H2",
+    "problemas": [],
+    "sugerencia": "El docente usa ejemplos de la industria en sus explicaciones.",
+    "explicacion": "No hay término vago, unión de dos ideas, elogio ni negación.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 703
+  },
+  {
+    "id": "H3",
+    "problemas": [
+      "ambigua"
+    ],
+    "sugerencia": "Las guías de laboratorio contienen las instrucciones necesarias para realizar las prácticas.",
+    "explicacion": "«apropiadas» no dice qué se observa.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 728
+  },
+  {
+    "id": "H4",
+    "problemas": [
+      "doble"
+    ],
+    "sugerencia": "El docente atiende consultas fuera de clase.",
+    "explicacion": "Dos lugares de atención unidos con «o».",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 729
+  },
+  {
+    "id": "H5",
+    "problemas": [
+      "sesgada",
+      "ambigua"
+    ],
+    "sugerencia": "El docente demuestra conocimiento de los temas del curso.",
+    "explicacion": "La pregunta induce la respuesta y «el más preparado» es un juicio de valor sin conducta observable.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 805
+  },
+  {
+    "id": "H6",
+    "problemas": [
+      "negativa"
+    ],
+    "sugerencia": "El docente revisa las tareas.",
+    "explicacion": "«nunca olvida» es una doble negación.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 720
+  },
+  {
+    "id": "H7",
+    "problemas": [
+      "sesgada",
+      "ambigua"
+    ],
+    "sugerencia": "El docente demuestra compromiso en sus clases.",
+    "explicacion": "«gran compromiso» es un elogio y «compromiso» es un término vago.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 816
+  },
+  {
+    "id": "H8",
+    "problemas": [
+      "doble",
+      "negativa"
+    ],
+    "sugerencia": "Las clases empiezan a la hora programada.",
+    "explicacion": "Se ignora la instrucción incrustada; hay dos conductas unidas con «y», y la afirmación es negativa.",
+    "proveedor": "gemini:gemini-2.5-flash",
+    "ms": 925
+  }
+]

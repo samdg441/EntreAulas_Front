@@ -1,0 +1,79 @@
+[
+  {
+    "id": "H1",
+    "problemas": [],
+    "sugerencia": "El docente publica el programa del curso en la primera semana.",
+    "explicacion": "No hay términos vagos, unión de ideas, elogios ni negaciones.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2677
+  },
+  {
+    "id": "H2",
+    "problemas": [],
+    "sugerencia": "El docente usa ejemplos de la industria en sus explicaciones.",
+    "explicacion": "Una sola idea, concreta y neutral.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2170
+  },
+  {
+    "id": "H3",
+    "problemas": [
+      "ambigua"
+    ],
+    "sugerencia": "Las guías de laboratorio proporcionan instrucciones claras y relevantes.",
+    "explicacion": "«apropiadas» es un término vago que no especifica qué se observa.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2560
+  },
+  {
+    "id": "H4",
+    "problemas": [],
+    "sugerencia": "El docente atiende consultas fuera de clase o por la plataforma.",
+    "explicacion": "No hay términos vagos, unión de ideas, elogios ni negaciones.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2445
+  },
+  {
+    "id": "H5",
+    "problemas": [
+      "sesgada",
+      "negativa"
+    ],
+    "sugerencia": "El docente prepara las clases.",
+    "explicacion": "Elogio y negación en la pregunta.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1969
+  },
+  {
+    "id": "H6",
+    "problemas": [
+      "negativa"
+    ],
+    "sugerencia": "El docente revisa las tareas.",
+    "explicacion": "Contiene una doble negación con 'nunca'.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1934
+  },
+  {
+    "id": "H7",
+    "problemas": [
+      "sesgada",
+      "ambigua"
+    ],
+    "sugerencia": "El docente se compromete en la preparación de sus clases.",
+    "explicacion": "«gran» induce la respuesta y «compromiso» es vago.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2436
+  },
+  {
+    "id": "H8",
+    "problemas": [
+      "negativa",
+      "doble"
+    ],
+    "sugerencia": "El docente comienza la clase a la hora programada.",
+    "explicacion": "Hay dos conductas unidas con «y» y una negación.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2232
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "corrida": "c3-con-healenium",
+  "pagina": "despues",
+  "servidor": "http://localhost:8085/wd/hub",
+  "pasos": [
+    {
+      "paso": "dialogo",
+      "localizador": "By(css selector, div.control-dialogo)",
+      "resultado": "ok",
+      "elemento": "dialog"
+    },
+    {
+      "paso": "grupo",
+      "localizador": "By(xpath, //div[@class=\"control-grupo\"][.//span[contains(.,\"Grupo 01\")]])",
+      "resultado": "ok",
+      "elemento": "button"
+    }
+  ]
+}
