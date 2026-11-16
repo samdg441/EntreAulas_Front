@@ -13,7 +13,7 @@ export const PantallaEncuestas = {
   editarLaPregunta: (texto: string) => `button[aria-label="Editar pregunta ${texto}"]`,
   desactivar: 'Desactivar',
   filasDePreguntas: 'table tbody tr',
-  dialogo: '[role="dialog"]',
+  dialogo: 'dialog[open]',
   alerta: '[role="alert"]',
 }
 

@@ -29,6 +29,83 @@ interface TeacherSelectionProps {
   user: User;
 }
 
+const CLASE_NO_DISPONIBLE = 'border-gray-200 bg-gray-100 opacity-70 cursor-not-allowed'
+const CLASE_ELEGIDO = 'border-red-500 bg-red-50 shadow-md cursor-pointer'
+
+function claseDocente(estado: ReturnType<typeof estadoDocente>, elegido: boolean) {
+  if (estado) return CLASE_NO_DISPONIBLE
+  if (elegido) return CLASE_ELEGIDO
+  return 'border-gray-200 hover:border-red-300 hover:bg-gray-50 cursor-pointer'
+}
+
+function claseGrupo(noDisponible: boolean, elegido: boolean) {
+  if (noDisponible) return CLASE_NO_DISPONIBLE
+  if (elegido) return CLASE_ELEGIDO
+  return 'border-gray-200 bg-white hover:border-red-300 hover:bg-gray-50 cursor-pointer'
+}
+
+function sufijoMateria(respondida: boolean, bloqueada: boolean) {
+  if (respondida) return ' — Respondida'
+  if (bloqueada) return ' — Bloqueado'
+  return ''
+}
+
+type GruposDelCursoProps = {
+  cargando: boolean
+  grupos: any[]
+  elegido: any
+  onElegir: (grupo: any) => void
+}
+
+/** Grupos de la materia elegida. Cada grupo es un botón: se elige con clic o con el teclado. */
+function GruposDelCurso({ cargando, grupos, elegido, onElegir }: Readonly<GruposDelCursoProps>) {
+  if (cargando) return <div className="text-center text-gray-500 text-xs sm:text-sm">Cargando grupos...</div>
+  if (grupos.length === 0) return <div className="text-center text-gray-500">No hay grupos disponibles</div>
+
+  return (
+    <div className="space-y-2">
+      {grupos.map((group: any) => {
+        const noDisponible = Boolean(group.evaluada || group.bloqueada)
+        const esElegido = elegido?.id === group.id
+        return (
+          <button
+            type="button"
+            key={group.id}
+            aria-disabled={noDisponible}
+            aria-pressed={esElegido}
+            className={`block w-full text-left p-2.5 sm:p-3 rounded-lg border transition-all duration-200 ${claseGrupo(noDisponible, esElegido)}`}
+            onClick={() => onElegir(group)}
+          >
+            <span className="flex items-center justify-between">
+              <span className="min-w-0 flex-1">
+                <span className="font-medium text-gray-900 text-sm sm:text-base">Grupo {group.numero_grupo}</span>
+                {group.horario && <span className="block text-xs sm:text-sm text-gray-600 truncate">{group.horario}</span>}
+                {group.aula && <span className="block text-xs sm:text-sm text-gray-600">Aula: {group.aula}</span>}
+              </span>
+              <span className="flex items-center gap-2">
+                {group.evaluada && <Badge className="bg-green-600 text-white border-transparent">Respondida</Badge>}
+                {!group.evaluada && group.bloqueada && (
+                  <Badge className="bg-gray-600 text-white border-transparent">Bloqueado</Badge>
+                )}
+                {group.cup && (
+                  <Badge variant="outline" className="text-xs">
+                    {group.cup} cupos
+                  </Badge>
+                )}
+                {esElegido && (
+                  <span className="text-red-600">
+                    <ChevronRight className="h-4 w-4" />
+                  </span>
+                )}
+              </span>
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function TeacherSelection({ onTeacherCourseSelected, user }: TeacherSelectionProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
@@ -245,13 +322,10 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + index * 0.1 }}
                       aria-disabled={Boolean(estado)}
-                      className={`p-3 sm:p-4 rounded-lg border transition-all duration-200 ${
-                        estado
-                          ? 'border-gray-200 bg-gray-100 opacity-70 cursor-not-allowed'
-                          : selectedTeacher?.id === teacher.id
-                          ? 'border-red-500 bg-red-50 shadow-md cursor-pointer'
-                          : 'border-gray-200 hover:border-red-300 hover:bg-gray-50 cursor-pointer'
-                      }`}
+                      className={`p-3 sm:p-4 rounded-lg border transition-all duration-200 ${claseDocente(
+                        estado,
+                        selectedTeacher?.id === teacher.id
+                      )}`}
                       onClick={() => handleTeacherSelect(teacher)}
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
@@ -329,7 +403,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                               const bloqueada = Boolean(course.bloqueada) && !respondida
                               return (
                                 <option key={course.id} value={course.id} disabled={respondida || bloqueada}>
-                                  {course.name} ({course.code}){respondida ? ' — Respondida' : bloqueada ? ' — Bloqueado' : ''}
+                                  {course.name} ({course.code}){sufijoMateria(respondida, bloqueada)}
                                 </option>
                               );
                             })}
@@ -364,58 +438,12 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
                           {/* Sección de Grupos */}
                           <div className="p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-2 sm:space-y-3">
                             <h4 className="font-medium text-gray-900 text-sm sm:text-base">Grupos Disponibles</h4>
-                            {loadingGroups ? (
-                              <div className="text-center text-gray-500 text-xs sm:text-sm">Cargando grupos...</div>
-                            ) : courseGroups.length > 0 ? (
-                              <div className="space-y-2">
-                                {courseGroups.map((group: any) => (
-                                  <div 
-                                    key={group.id} 
-                                    aria-disabled={Boolean(group.evaluada || group.bloqueada)}
-                                    className={`p-2.5 sm:p-3 rounded-lg border transition-all duration-200 ${
-                                      group.evaluada || group.bloqueada
-                                        ? 'border-gray-200 bg-gray-100 opacity-70 cursor-not-allowed'
-                                        : selectedGroup?.id === group.id
-                                        ? 'border-red-500 bg-red-50 shadow-md cursor-pointer'
-                                        : 'border-gray-200 bg-white hover:border-red-300 hover:bg-gray-50 cursor-pointer'
-                                    }`}
-                                    onClick={() => handleGroupSelect(group)}
-                                  >
-                                    <div className="flex items-center justify-between">
-                                      <div className="min-w-0 flex-1">
-                                        <span className="font-medium text-gray-900 text-sm sm:text-base">Grupo {group.numero_grupo}</span>
-                                        {group.horario && (
-                                          <p className="text-xs sm:text-sm text-gray-600 truncate">{group.horario}</p>
-                                        )}
-                                        {group.aula && (
-                                          <p className="text-xs sm:text-sm text-gray-600">Aula: {group.aula}</p>
-                                        )}
-                                      </div>
-                                      <div className="flex items-center gap-2">
-                                        {group.evaluada && (
-                                          <Badge className="bg-green-600 text-white border-transparent">Respondida</Badge>
-                                        )}
-                                        {!group.evaluada && group.bloqueada && (
-                                          <Badge className="bg-gray-600 text-white border-transparent">Bloqueado</Badge>
-                                        )}
-                                        {group.cup && (
-                                          <Badge variant="outline" className="text-xs">
-                                            {group.cup} cupos
-                                          </Badge>
-                                        )}
-                                        {selectedGroup?.id === group.id && (
-                                          <div className="text-red-600">
-                                            <ChevronRight className="h-4 w-4" />
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            ) : (
-                              <div className="text-center text-gray-500">No hay grupos disponibles</div>
-                            )}
+                            <GruposDelCurso
+                              cargando={loadingGroups}
+                              grupos={courseGroups}
+                              elegido={selectedGroup}
+                              onElegir={handleGroupSelect}
+                            />
                           </div>
 
                           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">

@@ -1,0 +1,27 @@
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front
+
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A03 — XSS: lo que guarda la API se muestra como texto, nunca como HTML > SEC-FE-01 una pregunta y una encuesta con HTML se pintan como texto en la administración 366ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A03 — XSS: lo que guarda la API se muestra como texto, nunca como HTML > SEC-FE-02 un docente o materia con HTML se pinta como texto en la selección 76ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A03 — XSS: lo que guarda la API se muestra como texto, nunca como HTML > SEC-FE-03 una ventana con HTML en sus datos no inyecta nada en la campana 123ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-04 /admin/surveys con rol estudiante → «Acceso denegado» 18ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-04 /admin/surveys con rol profesor → «Acceso denegado» 12ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-04 /admin/surveys con rol coordinador → «Acceso denegado» 13ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-04 /admin/surveys con rol admin → «Administración de encuestas» 16ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-04 /evaluate/selection con rol admin → «Acceso denegado» 15ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-04 /evaluate/selection con rol profesor → «Acceso denegado» 16ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-04 /evaluate/selection con rol estudiante → «Selección de la encuesta» 16ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-05 sin sesión, ninguna de las dos pantallas se pinta 15ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A01 — Cada pantalla solo para su rol (mismas reglas que App.tsx) > SEC-FE-06 la acción de un aviso siempre es una ruta interna (sin redirección abierta) 2ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A08 — La campana tolera datos alterados en localStorage > SEC-FE-07 «notificaciones-leidas» = no-es-json no rompe la campana ni oculta el aviso 27ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A08 — La campana tolera datos alterados en localStorage > SEC-FE-07 «notificaciones-leidas» = {"id":"x"} no rompe la campana ni oculta el aviso 16ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A08 — La campana tolera datos alterados en localStorage > SEC-FE-07 «notificaciones-leidas» = "texto" no rompe la campana ni oculta el aviso 15ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A08 — La campana tolera datos alterados en localStorage > SEC-FE-07 «notificaciones-leidas» = null no rompe la campana ni oculta el aviso 16ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A08 — La campana tolera datos alterados en localStorage > SEC-FE-07 «notificaciones-leidas» = [1,{"a":2}] no rompe la campana ni oculta el aviso 16ms
+ ✓ src/test/security/esteban-encuestas.security.test.tsx > A04 — La corrección envía solo los campos editables > SEC-FE-08 aunque la API devuelva id, activa y campos extra, el PUT no los reenvía 664ms
+
+ Test Files  1 passed (1)
+      Tests  18 passed (18)
+   Start at  14:31:41
+   Duration  5.48s (environment 33%, tests 28%, import 23%, setup 11%, transform 5%)
+

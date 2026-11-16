@@ -272,6 +272,9 @@ export default function AdminSurveysPage() {
     }
   }
 
+  let textoGuardarPregunta = editandoId === null ? 'Guardar pregunta' : 'Guardar cambios de la pregunta'
+  if (saving) textoGuardarPregunta = 'Guardando…'
+
   const aviso = (
     <>
       {error && !dialogoPregunta && (
@@ -511,11 +514,11 @@ export default function AdminSurveysPage() {
 
       {dialogoPregunta && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <div
-            role="dialog"
+          <dialog
+            open
             aria-modal="true"
             aria-labelledby="titulo-dialogo-pregunta"
-            className="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative"
+            className="relative m-0 border-0 text-inherit bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6"
           >
             <button
               type="button"
@@ -599,11 +602,11 @@ export default function AdminSurveysPage() {
               <div className="md:col-span-2 flex justify-end gap-2">
                 <Button type="button" variant="outline" onClick={cerrarDialogo}>Cancelar</Button>
                 <Button type="submit" disabled={saving || loading}>
-                  {saving ? 'Guardando…' : editandoId === null ? 'Guardar pregunta' : 'Guardar cambios de la pregunta'}
+                  {textoGuardarPregunta}
                 </Button>
               </div>
             </form>
-          </div>
+          </dialog>
         </div>
       )}
     </div>

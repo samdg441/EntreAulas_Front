@@ -1,0 +1,9 @@
+# SonarQube 26.9 — EntreAulas_Front — 2026-11-16 14:56
+## Quality Gate
+{"projectStatus":{"status":"OK","conditions":[{"status":"OK","metricKey":"new_coverage","comparator":"LT","errorThreshold":"90","actualValue":"91.3"},{"status":"OK","metricKey":"new_duplicated_lines_density","comparator":"GT","errorThreshold":"2","actualValue":"0.0"},{"status":"OK","metricKey":"new_software_quality_maintainability_remediation_effort","comparator":"GT","errorThreshold":"90","actualValue":"0"},{"status":"OK","metricKey":"new_violations","comparator":"GT","errorThreshold":"0","actualValue":"0"}],"ignoredConditions":false,"period":{"mode":"PREVIOUS_VERSION","date":"2026-09-28T22:40:31+0000","parameter":"not provided"},"caycStatus":"over-compliant"}}
+## Métricas
+{"component":{"key":"EntreAulas_Front","name":"EntreAulas_Front","qualifier":"TRK","measures":[{"metric":"coverage","value":"92.9","bestValue":false},{"metric":"bugs","value":"0","bestValue":true},{"metric":"reliability_rating","value":"1.0","bestValue":true},{"metric":"code_smells","value":"4","bestValue":false},{"metric":"duplicated_lines_density","value":"0.0","bestValue":true},{"metric":"security_rating","value":"1.0","bestValue":true},{"metric":"ncloc","value":"6135"},{"metric":"vulnerabilities","value":"0","bestValue":true},{"metric":"security_hotspots","value":"0","bestValue":true},{"metric":"security_review_rating","value":"1.0","bestValue":true},{"metric":"sqale_rating","value":"1.0","bestValue":true}]}}
+## Hotspots de seguridad
+{"errors":[{"msg":"Insufficient privileges"}]}
+## Vulnerabilidades abiertas
+{"total":0,"p":1,"ps":100,"paging":{"pageIndex":1,"pageSize":100,"total":0},"effortTotal":0,"issues":[],"components":[],"facets":[]}

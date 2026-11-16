@@ -126,7 +126,7 @@ describe('RF-ENC-33 — Corregir el texto de una pregunta', () => {
 
   function editar(texto: string) {
     cy.get('button[aria-label="Editar pregunta El docente explica con claridad"]').click()
-    cy.get('[role="dialog"]').within(() => {
+    cy.get('dialog[open]').within(() => {
       cy.contains('h2', 'Editar pregunta').should('be.visible')
       cy.contains('label', 'Texto de la pregunta').parent().find('input')
         .should('have.value', 'El docente explica con claridad')
@@ -157,7 +157,7 @@ describe('RF-ENC-33 — Corregir el texto de una pregunta', () => {
     })
     cy.wait('@recarga')
     cy.contains('Pregunta actualizada').should('be.visible')
-    cy.get('[role="dialog"]').should('not.exist')
+    cy.get('dialog[open]').should('not.exist')
     cy.contains('td', 'El docente explica con ejemplos').should('be.visible')
   })
 
@@ -169,7 +169,7 @@ describe('RF-ENC-33 — Corregir el texto de una pregunta', () => {
 
     editar('  el DOCENTE llega a tiempo ')
 
-    cy.get('[role="dialog"]').within(() => {
+    cy.get('dialog[open]').within(() => {
       cy.get('[role="alert"]').should('have.text', 'Ya hay una pregunta con ese texto en esta encuesta')
     })
     cy.get('@corregir').should('not.have.been.called')
@@ -187,7 +187,7 @@ describe('RF-ENC-33 — Corregir el texto de una pregunta', () => {
     editar('El docente explica con ejemplos')
 
     cy.wait('@corregir').its('response.statusCode').should('eq', 400)
-    cy.get('[role="dialog"]')
+    cy.get('dialog[open]')
       .should('be.visible')
       .find('[role="alert"]')
       .should('contain.text', 'El texto de la pregunta es obligatorio.')
