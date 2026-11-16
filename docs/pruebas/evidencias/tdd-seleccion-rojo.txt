@@ -1,0 +1,33 @@
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front
+
+ ❯ src/test/unit/evaluaciones/rf-eval-11-12-seleccion.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-eval-11-12-seleccion.test.ts [ src/test/unit/evaluaciones/rf-eval-11-12-seleccion.test.ts ]
+Error: Failed to resolve import "../../../features/evaluations/seleccion-encuesta" from "src/test/unit/evaluaciones/rf-eval-11-12-seleccion.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/src/test/unit/evaluaciones/rf-eval-11-12-seleccion.test.ts:9:7
+  6  |    puedeElegirCurso,
+  7  |    puedeElegirDocente
+  8  |  } from "../../../features/evaluations/seleccion-encuesta";
+     |          ^
+  9  |  function materia(parcial = {}) {
+  10 |    return {
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:29250:43
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:29247:14
+ ❯ normalizeUrl node_modules/vite/dist/node/chunks/config.js:27370:18
+ ❯ node_modules/vite/dist/node/chunks/config.js:27428:32
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27396:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:29048:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/config.js:22914:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  11:42:28
+   Duration  2.22s (environment 73%, setup 26%, worker 1%, transform 1%)
+

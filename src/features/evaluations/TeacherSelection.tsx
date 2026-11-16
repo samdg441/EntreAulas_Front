@@ -12,23 +12,7 @@ import Button from '../../components/Button';
 import Badge from '../../components/Badge';
 import Header from '../../components/Header';
 import { Teacher, Course, User } from '../../types';
-
-function cursoEvaluado(course: Course) {
-  if (course.evaluada) return true
-  const groups = course.groups || []
-  return groups.length > 0 && groups.every((group) => group.evaluada)
-}
-
-function docenteEvaluado(teacher: Teacher) {
-  return teacher.courses.length > 0 && teacher.courses.every(cursoEvaluado)
-}
-
-function estadoDocente(teacher: Teacher): 'respondida' | 'bloqueado' | null {
-  if (teacher.courses.length === 0) return null
-  if (docenteEvaluado(teacher)) return 'respondida'
-  if (teacher.courses.every((course) => course.bloqueada || cursoEvaluado(course))) return 'bloqueado'
-  return null
-}
+import { cursoEvaluado, estadoDocente, filtrarDocentes, puedeContinuar, puedeElegirCurso, puedeElegirDocente } from './seleccion-encuesta'
 import { fetchTeachersWithCourses, fetchCourseGroups } from '../../api/teachers'
 import { 
   Search, 
@@ -82,21 +66,13 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
 
   useEffect(() => cargarDocentes(), [])
 
-  const filteredTeachers = useMemo(() => {
-    const source = teachers
-    if (!searchTerm) return source;
-    return source.filter(teacher =>
-      teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.courses.some(course => 
-        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.code.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  }, [searchTerm, teachers]);
+  const filteredTeachers = useMemo(
+    () => filtrarDocentes(teachers, searchTerm),
+    [searchTerm, teachers]
+  );
 
   const handleTeacherSelect = (teacher: Teacher) => {
-    if (estadoDocente(teacher)) return
+    if (!puedeElegirDocente(teacher)) return
     console.log('🔍 handleTeacherSelect called with teacher:', teacher);
     console.log('🔍 Teacher courses:', teacher.courses);
     setSelectedTeacher(teacher);
@@ -122,7 +98,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
     });
     console.log('🔍 Found course:', course);
     
-    if (course && (cursoEvaluado(course) || course.bloqueada)) return
+    if (course && !puedeElegirCurso(course)) return
 
     if (course) {
       console.log('✅ Setting selectedCourse and loading groups...');
@@ -159,7 +135,7 @@ export default function TeacherSelection({ onTeacherCourseSelected, user }: Teac
   };
 
   const handleContinue = () => {
-    if (selectedGroup?.evaluada || (selectedCourse && cursoEvaluado(selectedCourse))) return
+    if (!puedeContinuar(selectedTeacher, selectedCourse, selectedGroup)) return
     if (selectedTeacher && selectedCourse && selectedGroup) {
       onTeacherCourseSelected(selectedTeacher, selectedCourse);
       navigate('/evaluate/form', { 
