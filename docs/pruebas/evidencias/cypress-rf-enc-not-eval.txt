@@ -1,0 +1,80 @@
+
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chrome 157 (headless)                                                          │
+  │ Node Version:   v24.14.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          1 found (rf-enc-not-eval.cy.ts)                                                │
+  │ Searched:       C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAula │
+  │                 s_Front\e2e\cypress\e2e\ui\rf-enc-not-eval.cy.ts                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rf-enc-not-eval.cy.ts                                                           (1 of 1)
+
+
+  RF-ENC-32 — Creación de la encuesta
+    √ guarda una encuesta nueva y confirma (3075ms)
+    √ agrega una pregunta a una encuesta ya creada (2736ms)
+    √ no guarda la encuesta si el nombre está en blanco (1323ms)
+
+  RF-ENC-33 — Corrección o retiro de una pregunta
+    √ desactiva una pregunta y deja de ofrecerla (2110ms)
+    √ si el retiro falla, la pregunta sigue en la tabla (1441ms)
+
+  RF-ENC-33 — Corregir el texto de una pregunta
+    √ corrige el texto, envía el PUT y la tabla muestra el nuevo texto (1843ms)
+    √ alternativo: un texto repetido en la encuesta se rechaza sin llamar al servidor (1652ms)
+    √ error: si el back responde 400, el mensaje aparece en el diálogo y no se cierra (1625ms)
+
+  RF-EVAL-11, RF-EVAL-12 y RF-ACA-27 — Elegir la encuesta
+    √ elige docente, materia y grupo y sigue a la evaluación (1799ms)
+    √ el buscador deja solo la materia que coincide (1657ms)
+    √ un docente ya respondido no se puede elegir y un fallo de carga se puede reintentar (2231ms)
+
+  RF-NOT-34 y RF-NOT-35 — Notificaciones de la ventana
+    √ con la ventana abierta el estudiante ve el aviso y la acción de evaluar (1010ms)
+    √ marcar todas como leídas quita el pendiente (817ms)
+    √ sin ventanas la campana dice que no hay notificaciones (1028ms)
+
+
+  14 passing (25s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        14                                                                               │
+  │ Passing:      14                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     25 seconds                                                                       │
+  │ Spec Ran:     rf-enc-not-eval.cy.ts                                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\reports\cypress\videos\rf-enc-not-eval.cy.ts.mp4
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  rf-enc-not-eval.cy.ts                    00:25       14       14        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        00:25       14       14        -        -        -  
+

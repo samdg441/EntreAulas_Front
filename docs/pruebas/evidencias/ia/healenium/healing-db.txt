@@ -1,0 +1,4 @@
+original | reparado | score | success_healing | create_date
+{"type": "By.xpath", "value": "//div[@class=\"control-grupo\"][.//span[contains(.,\"Grupo 01\")]]"} | {"type": "By.cssSelector", "value": "button.control-grupo"} | 0.629 | t | 2026-11-16 20:29:33.064885
+{"type": "By.cssSelector", "value": "div.control-dialogo"} | {"type": "By.cssSelector", "value": "dialog"} | 0.648 | t | 2026-11-16 20:29:32.538951
+(2 rows)

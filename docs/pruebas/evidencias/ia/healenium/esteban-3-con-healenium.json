@@ -1,0 +1,52 @@
+{
+  "corrida": "3-con-healenium",
+  "front": "http://host.docker.internal:3001",
+  "servidor": "http://localhost:8085/wd/hub",
+  "fecha": "2026-11-16T20:21:49.182Z",
+  "pasos": [
+    {
+      "paso": "RF-ENC-33: abrir «Editar encuesta»",
+      "localizador": "By(css selector, button[aria-label=\"Editar encuesta\"])",
+      "resultado": "ok",
+      "ms": 298
+    },
+    {
+      "paso": "RF-ENC-33: elegir la encuesta Docencia",
+      "localizador": "By(css selector, button[aria-label=\"Docencia\"])",
+      "resultado": "ok",
+      "ms": 383
+    },
+    {
+      "paso": "RF-ENC-33: pulsar «Editar» en la pregunta",
+      "localizador": "By(css selector, button[aria-label=\"Editar pregunta El docente explica con claridad\"])",
+      "resultado": "ok",
+      "ms": 418
+    },
+    {
+      "paso": "RF-ENC-33: ver el diálogo de la pregunta",
+      "localizador": "By(css selector, div[role=\"dialog\"])",
+      "resultado": "falla",
+      "detalle": "Failed to find element using By.cssSelector: div[role=\"dialog\"]",
+      "ms": 780
+    },
+    {
+      "paso": "RF-EVAL-11: elegir a Ana Ruiz",
+      "localizador": "By(xpath, //h3[contains(.,\"Ana Ruiz\")])",
+      "resultado": "ok",
+      "ms": 350
+    },
+    {
+      "paso": "RF-EVAL-12: elegir Bases de datos",
+      "localizador": "By(css selector, select)",
+      "resultado": "ok",
+      "ms": 396
+    },
+    {
+      "paso": "RF-EVAL-12: elegir el grupo 01",
+      "localizador": "By(xpath, //div[@aria-disabled=\"false\"][.//span[contains(.,\"Grupo 01\")]])",
+      "resultado": "falla",
+      "detalle": "Failed to find element using By.xpath: //div[@aria-disabled=\"false\"][.//span[contains(.,\"Grupo 01\")]]",
+      "ms": 326
+    }
+  ]
+}

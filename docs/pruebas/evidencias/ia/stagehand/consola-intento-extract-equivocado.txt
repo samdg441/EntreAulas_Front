@@ -1,0 +1,106 @@
+Back simulado escuchando en http://localhost:3000
+[stagehand] INFO stagehand.init
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón que abre el selector de tipo de usuario"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":769,"completionTokens":57,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":3554,"resultCount":1}
+  observe ✔ 1: Encuentra el botón que abre el selector de tipo de usuario [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[1]/button[1]/div[1]]
+  act ✔ click en Encuentra el botón que abre el selector de tipo de usuario
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra la opción Administrador en el selector de tipo de usuario"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":902,"completionTokens":46,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2895,"resultCount":1}
+  observe ✔ 1: Administrador [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[1]/div[1]/button[5]]
+  act ✔ click en Administrador
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el campo de correo institucional"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":900,"completionTokens":50,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2933,"resultCount":1}
+  observe ✔ 1: textbox: Correo institucional [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[2]/div[1]]
+  act ✘ act no pudo ejecutar textbox: Correo institucional: Failed to perform act: Failed to fill element (unsupported-element) → siguiente candidata
+  respaldo ⚙ el modelo no ubicó el <input> de el campo de correo institucional: fill determinístico en input[type="email"]
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el campo de contraseña"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":784,"completionTokens":45,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2658,"resultCount":1}
+  observe ✔ 1: Contraseña [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[3]/div[1]/div[1]/svg[1]]
+  act ✘ act no pudo ejecutar Contraseña: Failed to perform act: Could not find an element for the given xPath(s): xpath=/html[1] → siguiente candidata
+  respaldo ⚙ el modelo no ubicó el <input> de el campo de contraseña: fill determinístico en input[type="password"]
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón de enviar el inicio de sesión"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":812,"completionTokens":48,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2830,"resultCount":1}
+  observe ✔ 1: Iniciar sesión como Administrador [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[4]/button[1]]
+  act ✔ click en Iniciar sesión como Administrador
+✔ Ada inicia sesión como administradora (act) (16 s)
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón para crear una encuesta nueva"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":1282,"completionTokens":50,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2845,"resultCount":1}
+  observe ✔ 1: button: Crear encuesta [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/button[1]/span[1]]
+  act ✔ click en button: Crear encuesta
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el campo de texto Nombre de la encuesta"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":1290,"completionTokens":49,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2616,"resultCount":1}
+  observe ✔ 1: Nombre de la encuesta [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[2]/form[1]/div[1]/label[1]]
+  act ✘ act no pudo ejecutar Nombre de la encuesta: Failed to perform act: Failed to fill element (unsupported-element) → siguiente candidata
+  respaldo ⚙ el modelo no ubicó el <input> de el campo de texto Nombre de la encuesta: fill determinístico en form input
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón Guardar encuesta"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":1305,"completionTokens":47,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2407,"resultCount":1}
+  observe ✔ 1: Guardar encuesta [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[2]/form[1]/div[3]/button[1]]
+  act ✔ click en Guardar encuesta
+✔ RF-ENC-32: crear la encuesta (act + fill) (8 s)
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón Agregar pregunta"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":1553,"completionTokens":53,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2708,"resultCount":1}
+  observe ✔ 1: Encuentra el botón Agregar pregunta [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[2]/div[2]/button[1]]
+  act ✔ click en Encuentra el botón Agregar pregunta
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el campo de texto Texto de la pregunta dentro del diálogo"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":2153,"completionTokens":49,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":3343,"resultCount":1}
+  observe ✔ 1: Texto de la pregunta [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/dialog[1]/form[1]/div[2]/div[1]/input[1]//div[1]/div[1]/div[1]]
+  act ✘ act no pudo ejecutar Texto de la pregunta: Failed to perform act: Could not find an element for the given xPath(s): xpat → siguiente candidata
+  respaldo ⚙ el modelo no ubicó el <input> de el campo de texto Texto de la pregunta dentro del diálogo: fill determinístico en dialog input[required]:not([type="number"])
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón Guardar pregunta del diálogo"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":2171,"completionTokens":48,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2635,"resultCount":1}
+  observe ✔ 1: Guardar pregunta [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/dialog[1]/form[1]/div[6]/button[2]]
+  act ✔ click en Guardar pregunta
+✔ RF-ENC-32: agregar una pregunta (act + fill) (9 s)
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón Editar de la pregunta \"El docente llega a tiempo a clase\" en la tabla"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":1704,"completionTokens":70,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":3483,"resultCount":1}
+  observe ✔ 1: Encuentra el botón Editar de la pregunta 'El docente llega a tiempo a clase' en la tabla [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[2]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[5]/button[1]]
+  act ✔ click en Encuentra el botón Editar de la pregunta 'El docente llega a tiempo a clase' en la tabla
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el campo de texto Texto de la pregunta dentro del diálogo"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":2290,"completionTokens":69,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":4488,"resultCount":1}
+  observe ✔ 1: finds the text input element for the question text within the dialog [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/dialog[1]/form[1]/div[3]/div[1]/div[1]/input[1]]
+  act ✔ fill en finds the text input element for the question text within the dialog (valor oculto)
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón Guardar cambios de la pregunta"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":2290,"completionTokens":51,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2774,"resultCount":1}
+  observe ✔ 1: Guardar cambios de la pregunta [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[2]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[5]/button[1]]
+  act ✔ click en Guardar cambios de la pregunta
+  act ⚠ Guardar cambios de la pregunta: la página no cambió como se esperaba → siguiente candidata
+  respaldo ⚙ el modelo no encontró «Encuentra el botón Guardar cambios de la pregunta»: clic determinístico en dialog button[type="submit"]
+✔ RF-ENC-33: corregir el texto de la pregunta (act + fill) (19 s)
+[stagehand] INFO Starting extraction using an accessibility snapshot {"category":"extraction","instruction":"Extrae el texto de cada pregunta que aparece en la tabla de preguntas de la encuesta"}
+[stagehand] INFO Extraction completed successfully {"category":"extraction","promptTokens":1776,"completionTokens":55,"inferenceTimeMs":3069}
+✔ RF-ENC-33: leer la tabla de preguntas (extract + Zod) (3 s)
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón Desactivar de la pregunta en la tabla"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":1699,"completionTokens":48,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2492,"resultCount":1}
+  observe ✔ 1: Desactivar [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[2]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[5]/button[2]]
+  act ✔ click en Desactivar
+✔ RF-ENC-33: retirar la pregunta (act) (3 s)
+Evidencia: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\stagehand\reports\esteban-encuestas-ollama.png
+Métricas: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\stagehand\reports\esteban-encuestas-ollama.json
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el campo de correo institucional"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":852,"completionTokens":55,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":3141,"resultCount":1}
+  observe ✔ 1: Encuentra el campo de correo institucional [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[2]/div[1]/input[1]]
+  act ✔ fill en Encuentra el campo de correo institucional (valor oculto)
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el campo de contraseña"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":873,"completionTokens":47,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":2808,"resultCount":1}
+  observe ✔ 1: Contraseña [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[3]/div[1]/input[1]]
+  act ✔ fill en Contraseña (valor oculto)
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón de enviar el inicio de sesión"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":902,"completionTokens":51,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":3032,"resultCount":1}
+  observe ✔ 1: Iniciar sesión como Estudiante [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[4]/button[1]]
+  act ✔ click en Iniciar sesión como Estudiante
+✔ Eva inicia sesión como estudiante (act) (10 s)
+[stagehand] INFO Starting observation {"category":"observation","instruction":"Encuentra el botón de notificaciones (campana) del encabezado"}
+[stagehand] INFO Observation completed {"category":"observation","promptTokens":1305,"completionTokens":51,"reasoningTokens":0,"cachedInputTokens":0,"inferenceTimeMs":3511,"resultCount":1}
+  observe ✔ 1: Notificaciones (1 sin leer) [xpath=/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/header[1]/div[2]/div[2]/button[1]]
+  act ✔ click en Notificaciones (1 sin leer)
+✔ RF-NOT-34/35: abrir la campana (act) (4 s)
+[stagehand] INFO Starting extraction using an accessibility snapshot {"category":"extraction","instruction":"Extrae el título del aviso de evaluación docente y el texto del botón de acción que aparece en el panel de notificaciones"}
+[stagehand] INFO Extraction completed successfully {"category":"extraction","promptTokens":1765,"completionTokens":83,"inferenceTimeMs":5575}
+✔ RF-NOT-34: leer el aviso (extract + Zod) (6 s)
+[stagehand] INFO stagehand.close
+La prueba falló: Error: RF-NOT-34: el aviso debe anunciar la ventana abierta
+Esperado: Evaluación docente abierta
+Actual: Evaluación docente - Paso 1 de 2
+    at assertIncludes (C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\stagehand\src\assert.ts:3:11)
+    at runEsteban (C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\stagehand\src\esteban-scenario.ts:124:5)
+exit=1

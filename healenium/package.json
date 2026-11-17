@@ -7,7 +7,9 @@
     "down": "docker compose down",
     "logs": "docker compose logs -f hlm-proxy",
     "typecheck": "tsc --noEmit",
-    "test": "tsx tests/rq6-rq17.e2e.ts"
+    "test": "tsx tests/rq6-rq17.e2e.ts",
+    "test:esteban": "tsx tests/esteban-encuestas.e2e.ts",
+    "test:esteban:control": "tsx tests/esteban-control.e2e.ts"
   },
   "devDependencies": {
     "@types/selenium-webdriver": "^4.35.7",

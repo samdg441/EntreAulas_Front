@@ -1,0 +1,191 @@
+[
+  {
+    "id": "L1",
+    "problemas": [],
+    "sugerencia": "El docente explica con claridad los temas de la clase.",
+    "explicacion": "Una sola idea, concreta y neutral.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 10215
+  },
+  {
+    "id": "L2",
+    "problemas": [],
+    "sugerencia": "El docente llega puntual a las clases.",
+    "explicacion": "Una sola idea, concreta y neutral.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1855
+  },
+  {
+    "id": "L3",
+    "problemas": [],
+    "sugerencia": "El docente responde las dudas de los estudiantes durante la clase.",
+    "explicacion": "Una sola idea, concreta y neutral.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1916
+  },
+  {
+    "id": "L4",
+    "problemas": [
+      "doble"
+    ],
+    "sugerencia": "Las evaluaciones evalúan los temas vistos en clase.",
+    "explicacion": "Dos conductas unidas con «a». Se cambia «corresponden» por «evalúan» para clarificar.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2478
+  },
+  {
+    "id": "L5",
+    "problemas": [],
+    "sugerencia": "El docente entrega las notas de los parciales en las fechas acordadas.",
+    "explicacion": "Una sola idea, concreta y neutral.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1927
+  },
+  {
+    "id": "A1",
+    "problemas": [
+      "ambigua"
+    ],
+    "sugerencia": "El material del curso cubre los temas del programa asignado.",
+    "explicacion": "«adecuado» no especifica qué se observa.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1871
+  },
+  {
+    "id": "A2",
+    "problemas": [
+      "ambigua"
+    ],
+    "sugerencia": "El docente explica los conceptos de manera clara en algunas ocasiones.",
+    "explicacion": "«a veces» y «bien» son términos vagos sin conducta específica.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2314
+  },
+  {
+    "id": "A3",
+    "problemas": [
+      "ambigua"
+    ],
+    "sugerencia": "La metodología del curso incluye actividades prácticas y teóricas relevantes.",
+    "explicacion": "«buena» no especifica qué aspectos son buenos.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2138
+  },
+  {
+    "id": "D1",
+    "problemas": [
+      "doble"
+    ],
+    "sugerencia": "El docente responde los correos rápidamente.",
+    "explicacion": "Dos conductas unidas con «y».",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1707
+  },
+  {
+    "id": "D2",
+    "problemas": [
+      "doble"
+    ],
+    "sugerencia": "Las clases son dinámicas.",
+    "explicacion": "Se evalúa a dos sujetos con un único adjetivo positivo, lo que no constituye doble.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2157
+  },
+  {
+    "id": "D3",
+    "problemas": [
+      "doble",
+      "ambigua",
+      "sesgada"
+    ],
+    "sugerencia": "El docente domina la materia y devuelve los trabajos corregidos.",
+    "explicacion": "Dos conductas unidas con «y»; «motiva a participar» es vago; se añade la segunda conducta para corregir la ambigüedad y la sesgada.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 3389
+  },
+  {
+    "id": "S1",
+    "problemas": [
+      "sesgada",
+      "ambigua"
+    ],
+    "sugerencia": "El docente prepara clases detalladas y bien estructuradas.",
+    "explicacion": "Se quita la evaluación subjetiva 'excelente' y se especifica una conducta observable.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2630
+  },
+  {
+    "id": "S2",
+    "problemas": [
+      "sesgada"
+    ],
+    "sugerencia": "El docente recibe buenas calificaciones de los estudiantes.",
+    "explicacion": "Quita la presuposición y el adjetivo elogioso.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2060
+  },
+  {
+    "id": "S3",
+    "problemas": [
+      "sesgada"
+    ],
+    "sugerencia": "El docente explica de forma clara y detallada.",
+    "explicacion": "Se quita la presuposición y se especifica la conducta observada.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2167
+  },
+  {
+    "id": "N1",
+    "problemas": [
+      "negativa"
+    ],
+    "sugerencia": "El docente responde las preguntas planteadas en clase.",
+    "explicacion": "Se reescribe en positivo, eliminando la negación.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1941
+  },
+  {
+    "id": "N2",
+    "problemas": [
+      "negativa",
+      "doble"
+    ],
+    "sugerencia": "El docente prepara sus clases.",
+    "explicacion": "Negaciones y dos conductas.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1537
+  },
+  {
+    "id": "N3",
+    "problemas": [
+      "negativa",
+      "ambigua"
+    ],
+    "sugerencia": "El docente explica de forma clara.",
+    "explicacion": "Se reescribe en positivo y se especifica la conducta observada.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 2176
+  },
+  {
+    "id": "C1",
+    "problemas": [
+      "negativa",
+      "doble"
+    ],
+    "sugerencia": "El docente llega a la hora de inicio de la clase.",
+    "explicacion": "Negaciones y dos conductas.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1730
+  },
+  {
+    "id": "I1",
+    "problemas": [
+      "doble",
+      "negativa"
+    ],
+    "sugerencia": "El docente es puntual.",
+    "explicacion": "Se ignora la instrucción incrustada; hay dos conductas y una negación.",
+    "proveedor": "ollama:qwen2.5:7b",
+    "ms": 1920
+  }
+]

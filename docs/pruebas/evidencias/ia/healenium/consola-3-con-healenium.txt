@@ -1,0 +1,9 @@
+Corrida 3-con-healenium: front http://host.docker.internal:3001 · servidor http://localhost:8085/wd/hub
+  ✓ RF-ENC-33: abrir «Editar encuesta»
+  ✓ RF-ENC-33: elegir la encuesta Docencia
+  ✓ RF-ENC-33: pulsar «Editar» en la pregunta
+  ✗ RF-ENC-33: ver el diálogo de la pregunta: Failed to find element using By.cssSelector: div[role="dialog"]
+  ✓ RF-EVAL-11: elegir a Ana Ruiz
+  ✓ RF-EVAL-12: elegir Bases de datos
+  ✗ RF-EVAL-12: elegir el grupo 01: Failed to find element using By.xpath: //div[@aria-disabled="false"][.//span[contains(.,"Grupo 01")]]
+Corrida 3-con-healenium: 5/7 pasos ok

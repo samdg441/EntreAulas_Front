@@ -1,0 +1,30 @@
+Loaded  vitest@5.1.0  and  @vitest/coverage-v8@5.0.2 .
+Running mixed versions is not supported and may lead into bugs
+Update your dependencies and make sure the versions match.
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front
+      Coverage enabled with v8
+
+
+ Test Files  6 passed (6)
+      Tests  50 passed (50)
+   Start at  12:33:41
+   Duration  9.62s (environment 47%, tests 23%, setup 20%, import 6%, transform 3%, worker 2%)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   84.67 |    81.56 |   84.28 |   85.06 |                   
+ ...ashboard-admin |   81.53 |    76.86 |      80 |   81.56 |                   
+  ...rveysPage.tsx |   78.44 |    71.29 |    75.6 |   78.98 | ...58,573-582,595 
+ ...es/evaluations |      92 |    93.93 |    90.9 |     100 |                   
+  ...n-encuesta.ts |      92 |    93.93 |    90.9 |     100 | 6,14              
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 84.67% ( 210/248 )
+Branches     : 81.56% ( 146/179 )
+Functions    : 84.28% ( 59/70 )
+Lines        : 85.06% ( 188/221 )
+================================================================================

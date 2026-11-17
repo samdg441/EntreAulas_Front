@@ -1,0 +1,27 @@
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front
+
+ ✓ src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts > RF-ENC-33 — surveysApi.updateQuestion > hace PUT a /api/evaluations/questions/:id con los datos y devuelve la pregunta 4ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts > RF-ENC-33 — surveysApi.updateQuestion > propaga el error del servidor para que la pantalla lo muestre 2ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > acepta una corrección válida 3ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza un texto en blanco 1ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza el orden 0 0ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza el orden -3 0ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza el orden 1.5 0ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza el orden NaN 0ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > rechaza un texto repetido en la misma encuesta, sin importar mayúsculas ni espacios 0ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > validarPregunta — reglas antes de llamar al servidor > permite el mismo texto si está en otra encuesta o si es la misma pregunta 1ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > envía una sola vez el PUT con el id y el texto recortado (mock) 3ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > devuelve la pregunta que confirma el servidor (stub) 1ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > no toca el servidor si los datos son inválidos (dummy) 1ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > no llama al servidor si no hubo cambios (spy sobre el fake) 1ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > el banco queda con el texto corregido (fake) 1ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > muestra el mensaje del servidor cuando el PUT falla (stub con error) 1ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > corregirPregunta — interacción con el servidor > usa un mensaje propio si el servidor no explica el error (stub de red) 1ms
+ ✓ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts > RF-ENC-33 — Corregir una pregunta de la encuesta > datosDePregunta — precargar el diálogo de edición > copia solo los campos editables 1ms
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  12:26:34
+   Duration  2.13s (environment 69%, setup 26%, transform 3%, worker 1%, tests 1%, import 1%)
+

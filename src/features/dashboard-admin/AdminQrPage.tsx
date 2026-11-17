@@ -14,7 +14,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
 import { guardarVentanaEvaluacion } from '../../api/periodos.api'
 import { getApiErrorMessage } from '../../lib/apiError'
-import { limitesPeriodoAcademico } from '../../lib/periodo-academico'
+import { codigoPeriodoActual, limitesPeriodoAcademico } from '../../lib/periodo-academico'
 import HelpTooltip from '../../components/HelpTooltip'
 
 export default function AdminQrPage() {
@@ -29,7 +29,7 @@ export default function AdminQrPage() {
 
   const [facultades, setFacultades] = useState<FacultadConCarreras[]>([])
   const [careerId, setCareerId] = useState('')
-  const [period, setPeriod] = useState('')
+  const [period, setPeriod] = useState(codigoPeriodoActual)
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [grupos, setGrupos] = useState<GrupoConProfesor[]>([])
@@ -327,7 +327,7 @@ export default function AdminQrPage() {
                       id="admin-qr-periodo"
                       value={period}
                       onChange={(e) => setPeriod(e.target.value)}
-                      placeholder="2026-1"
+                      placeholder="AAAA-1"
                       className="w-full p-3 lg:p-4 lg:text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>

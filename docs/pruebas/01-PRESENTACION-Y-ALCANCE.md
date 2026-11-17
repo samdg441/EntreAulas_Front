@@ -63,7 +63,7 @@ Los módulos de este alcance son los de la encuesta y los de su aviso. El de aut
 
 | Módulo | Dónde está | Qué hace en este alcance |
 |---|---|---|
-| Encuestas (front) | `src/features/dashboard-admin/AdminSurveysPage.tsx`, `src/api/surveys.api.ts` | Crear, listar y desactivar preguntas |
+| Encuestas (front) | `src/features/dashboard-admin/AdminSurveysPage.tsx`, `src/api/surveys.api.ts` | Crear, listar, corregir y desactivar preguntas |
 | Encuestas (back) | `src/modules/evaluations/evaluations.routes.ts` | `GET/POST /questions`, `PUT/DELETE /questions/:id`, `GET /categories` |
 | Selección | `src/features/evaluations/TeacherSelection.tsx`, ruta `/evaluate/selection` | Elegir docente, materia y grupo de la encuesta vigente |
 | Notificaciones | `src/lib/notificaciones.ts`, `src/components/NotificationDropdown.tsx` | Armar la lista y mostrarla en el encabezado |

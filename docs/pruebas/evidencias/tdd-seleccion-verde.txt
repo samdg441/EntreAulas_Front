@@ -1,0 +1,9 @@
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  11:42:55
+   Duration  2.76s (environment 71%, setup 24%, transform 4%, worker 1%, import 1%)
+

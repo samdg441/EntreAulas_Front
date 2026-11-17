@@ -1,0 +1,20 @@
+=== M1 seleccion-encuesta.ts: puedeElegirCurso ignora 'evaluada'
+ src/features/evaluations/seleccion-encuesta.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+      Tests  16 passed (16)
+=== M2 notificaciones.ts: el aviso urgente pasa de <= 2 a <= 0 días
+ src/lib/notificaciones.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+     × R-NOT-02: a un día del cierre el aviso es urgente 9ms
+      Tests  1 failed | 15 passed (16)
+=== M3 evaluations.controller.ts: vuelve a usar Number.parseInt para el id
+ src/modules/evaluations/evaluations.controller.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+R-DEF-49: un id «1.5» no corrige la pregunta 1 13ms
+      Tests  1 failed | 14 passed (15)
+    (M1 sobrevive: la opción ya está deshabilitada por cursoEvaluado() en la línea 331; la guarda de la línea 101 es una segunda barrera inalcanzable desde la pantalla = mutante equivalente)
+=== M4 seleccion-encuesta.ts: el buscador deja de buscar por código de materia
+ src/features/evaluations/seleccion-encuesta.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+     × R-SEL-04: el buscador filtra por código de materia 163ms
+      Tests  1 failed | 15 passed (16)

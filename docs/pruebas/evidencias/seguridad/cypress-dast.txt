@@ -1,0 +1,71 @@
+
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Electron 146 (headless) (deprecated)                                           │
+  │ Node Version:   v24.14.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          1 found (esteban-seguridad-api.cy.ts)                                          │
+  │ Searched:       C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAula │
+  │                 s_Front\e2e\cypress\e2e\security\esteban-seguridad-api.cy.ts                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Warning: The Electron browser is deprecated as a test browser and will be removed in a future version of Cypress.
+
+Switch to Chrome or another installed browser to avoid a breaking change when you upgrade.
+
+Read more about supported browsers: https://on.cypress.io/launching-browsers
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  esteban-seguridad-api.cy.ts                                                     (1 of 1)
+
+
+  Punto 13 — DAST de la API de encuestas
+    A05 — Cabeceras y configuración
+      √ SEC-D-01 las respuestas llevan las cabeceras de helmet y no anuncian Express (184ms)
+      √ SEC-D-02 CORS frente a un origen extraño (se registra lo que responde el servidor) (54ms)
+      √ SEC-D-03 un JSON mal formado responde 400 en JSON y sin stack (126ms)
+      √ SEC-D-04 un cuerpo de más de 100 KB se rechaza con 413 y sin stack (63ms)
+    A07 — Tokens falsificados
+      √ SEC-D-05 alg none, otra clave y basura en Authorization → 401 sin detalles de la librería (113ms)
+    A03 — Inyección en la ruta sin sesión
+      √ SEC-D-06 PUT /api/evaluations/questions/8 OR 1=1 sin token → 401 o 404, sin filtrar errores de base (44ms)
+      √ SEC-D-06 PUT /api/evaluations/questions/8;DROP TABLE preguntas_evaluacion sin token → 401 o 404, sin filtrar errores de base (39ms)
+      √ SEC-D-06 PUT /api/evaluations/questions/../../users sin token → 401 o 404, sin filtrar errores de base (43ms)
+      √ SEC-D-06 PUT /api/evaluations/questions/%00 sin token → 401 o 404, sin filtrar errores de base (43ms)
+
+
+  9 passing (1s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        9                                                                                │
+  │ Passing:      9                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     1 second                                                                         │
+  │ Spec Ran:     esteban-seguridad-api.cy.ts                                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  esteban-seguridad-api.cy.ts              00:01        9        9        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        00:01        9        9        -        -        -  
+

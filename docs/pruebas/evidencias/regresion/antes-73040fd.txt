@@ -1,0 +1,25 @@
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/AppData/Local/Temp/claude/9951f54a1ab541f1/da13202b-4645-425e-bb18-e7107de34d2a/scratchpad/front-base
+
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Creación de encuestas (RF-ENC-32, RF-ENC-33) > R-ENC-01: crear una encuesta la registra y confirma 665ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Creación de encuestas (RF-ENC-32, RF-ENC-33) > R-ENC-02: una encuesta sin nombre no se envía 262ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Creación de encuestas (RF-ENC-32, RF-ENC-33) > R-ENC-03: agregar una pregunta envía sus datos y confirma 708ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Creación de encuestas (RF-ENC-32, RF-ENC-33) > R-ENC-04: una pregunta en blanco no se envía 465ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Creación de encuestas (RF-ENC-32, RF-ENC-33) > R-ENC-05: retirar una pregunta la quita de la tabla 260ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Creación de encuestas (RF-ENC-32, RF-ENC-33) > R-ENC-06: si el retiro falla, la pregunta sigue y se informa el error 236ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Selección de la encuesta (RF-EVAL-11, RF-EVAL-12, RF-ACA-27) > R-SEL-01: elegir docente, materia y grupo lleva al formulario 292ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Selección de la encuesta (RF-EVAL-11, RF-EVAL-12, RF-ACA-27) > R-SEL-02: un docente con todo respondido aparece como «Respondida» y no se selecciona 65ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Selección de la encuesta (RF-EVAL-11, RF-EVAL-12, RF-ACA-27) > R-SEL-03: una materia ya evaluada queda deshabilitada en la lista 87ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Selección de la encuesta (RF-EVAL-11, RF-EVAL-12, RF-ACA-27) > R-SEL-04: el buscador filtra por código de materia 160ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Selección de la encuesta (RF-EVAL-11, RF-EVAL-12, RF-ACA-27) > R-SEL-05: si falla la carga de docentes se ofrece reintentar 38ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Notificaciones de la ventana (RF-NOT-34, RF-NOT-35) > R-NOT-01: con la ventana abierta el estudiante recibe el aviso y la acción de evaluar 22ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Notificaciones de la ventana (RF-NOT-34, RF-NOT-35) > R-NOT-02: a un día del cierre el aviso es urgente 1ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Notificaciones de la ventana (RF-NOT-34, RF-NOT-35) > R-NOT-03: antes de abrir anuncia la próxima evaluación sin acción 1ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Notificaciones de la ventana (RF-NOT-34, RF-NOT-35) > R-NOT-04: sin ventanas no hay avisos 0ms
+ ✓ src/test/regression/esteban-encuestas-seleccion-notificaciones.regresion.test.tsx > Regresión — Notificaciones de la ventana (RF-NOT-34, RF-NOT-35) > R-NOT-05: marcar todas como leídas quita el pendiente de la campana 138ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  14:08:44
+   Duration  7.36s (tests 48%, environment 21%, import 15%, transform 9%, setup 7%)
+

@@ -1,0 +1,1206 @@
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front
+
+ ❯ src/test/integration/rf-enc-32-33-encuesta.test.tsx (8 tests | 3 failed) 3129ms
+   ❯ RF-ENC — Pantalla de creación de la encuesta (8)
+     ❯ RF-ENC-33: corregir el texto de una pregunta (TDD) (3)
+       × abre el diálogo con los datos de la pregunta y guarda la corrección 247ms
+       × no envía el PUT si el texto queda repetido en la encuesta 252ms
+       × si el servidor rechaza la corrección, muestra su mensaje y el diálogo sigue abierto 235ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/integration/rf-enc-32-33-encuesta.test.tsx > RF-ENC — Pantalla de creación de la encuesta > RF-ENC-33: corregir el texto de una pregunta (TDD) > abre el diálogo con los datos de la pregunta y guarda la corrección
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Editar pregunta ¿Explica con claridad?"
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  <header
+    class="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-4 py-4 sm:py-6 lg:py-1 relative z-30"
+    style="opacity: 0.6034504360766733; transform: translateY(0.02929066455737757px) translateZ(0);"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Ir al inicio":
+  <img
+    alt="Logo Universidad de Medellín"
+    aria-label="Ir al inicio"
+    class="h-16 w-16 sm:h-20 sm:w-20 lg:h-[120px] lg:w-auto object-contain cursor-pointer select-none"
+    role="button"
+    src="/src/assets/logo_conciencia.webp"
+    tabindex="0"
+    title="Ir al inicio"
+  />
+
+  Name "Notificaciones":
+  <button
+    aria-label="Notificaciones"
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+    tabindex="0"
+  />
+
+  Name "Menú de usuario":
+  <button
+    aria-expanded="false"
+    aria-haspopup="menu"
+    aria-label="Menú de usuario"
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+    tabindex="0"
+  />
+
+  Name "← Volver al menú":
+  <button
+    class="text-sm lg:text-base text-red-600 hover:underline text-left"
+    type="button"
+  />
+
+  Name "Guardar cambios":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 px-4 py-2 "
+    tabindex="0"
+    type="submit"
+  />
+
+  Name "Agregar pregunta":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 "
+    tabindex="0"
+    type="button"
+  />
+
+  Name "Desactivar":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-9 rounded-md px-3 inline-flex items-center gap-1 border-red-200 text-red-600"
+    tabindex="0"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "EntreAulas":
+  <h1
+    class="text-sm sm:text-lg lg:text-xl font-semibold text-gray-900"
+  />
+
+  Name "Encuestas":
+  <h2
+    class="text-xl font-semibold text-gray-900 text-center"
+  />
+
+  Name "Encuestas":
+  <h2
+    class="text-xl font-semibold text-gray-900"
+  />
+
+  Name "Docencia":
+  <h3
+    class="text-2xl font-semibold leading-none tracking-tight text-2xl lg:text-3xl text-gray-900 mt-1"
+  />
+
+  Name "Preguntas":
+  <h3
+    class="text-2xl font-semibold leading-none tracking-tight text-xl lg:text-3xl text-gray-900"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="text-xs sm:text-sm lg:text-base text-gray-600"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-center mt-1"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-base lg:text-lg"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-base lg:text-lg"
+  />
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  <main
+    class="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8 lg:space-y-10"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Nombre de la encuesta":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-3 pr-3 border-gray-300"
+    id="nombre-de-la-encuesta"
+    required=""
+    value="Docencia"
+  />
+
+  Name "Descripción de la encuesta":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-3 pr-3 border-gray-300"
+    id="descripción-de-la-encuesta"
+    value=""
+  />
+
+  --------------------------------------------------
+  table:
+
+  Name "":
+  <table
+    class="min-w-full text-sm lg:text-base"
+  />
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  <thead
+    class="bg-gray-100 text-left text-gray-700"
+  />
+
+  Name "":
+  <tbody />
+
+  --------------------------------------------------
+  row:
+
+  Name "Orden Pregunta Encuesta Tipo Acciones":
+  <tr />
+
+  Name "1 ¿Explica con claridad? Docencia likert Desactivar":
+  <tr
+    class="border-t border-gray-100"
+  />
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "Orden":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Pregunta":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Encuesta":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Tipo":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Acciones":
+  <th
+    class="px-4 py-3 text-right"
+  />
+
+  --------------------------------------------------
+  cell:
+
+  Name "1":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "¿Explica con claridad?":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "Docencia":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "likert":
+  <td
+    class="px-4 py-3 capitalize"
+  />
+
+  Name "Desactivar":
+  <td
+    class="px-4 py-3 text-right"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen bg-gray-50 relative"
+    >
+      <div
+        class="relative z-10"
+      >
+        <header
+          class="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-4 py-4 sm:py-6 lg:py-1 relative z-30"
+          style="opacity: 0.6034504360766733; transform: translateY(0.02929066455737757px) translateZ(0);"
+        >
+          <div
+            class="w-full"
+          >
+            <div
+              class="flex items-center justify-between w-full"
+            >
+              <div
+                class="flex items-center gap-2 sm:gap-3"
+              >
+                <img
+                  alt="Logo Universidad de Medellín"
+                  aria-label="Ir al inicio"
+                  class="h-16 w-16 sm:h-20 sm:w-20 lg:h-[120px] lg:w-auto object-contain cursor-pointer select-none"
+                  role="button"
+                  src="/src/assets/logo_conciencia.webp"
+                  tabindex="0"
+                  title="Ir al inicio"
+                />
+                <div
+                  class="hidden sm:block"
+                >
+                  <h1
+                    class="text-sm sm:text-lg lg:text-xl font-semibold text-gray-900"
+                  >
+                    EntreAulas
+                  </h1>
+                  <p
+                    class="text-xs sm:text-sm lg:text-base text-gray-600"
+                  >
+                    Universidad de Medellín
+                  </p>
+                </div>
+              </div>
+              <div
+                class="hidden lg:flex flex-col items-center flex-1 mx-4"
+              >
+                <h2
+                  class="text-xl font-semibold text-gray-900 text-center"
+                >
+                  Encuestas
+                </h2>
+                <p
+                  class="text-sm text-gray-600 text-center mt-1"
+                >
+                  Crear o editar una encuesta y luego sus preguntas
+                </p>
+              </div>
+              <div
+                class="flex items-center gap-2 sm:gap-4 relative z-40"
+              >
+                <div
+                  class="relative"
+                >
+                  <button
+                    aria-label="Notificaciones"
+                    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+                    tabindex="0"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-bell h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10.268 21a2 2 0 0 0 3.464 0"
+                      />
+                      <path
+                        d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="relative"
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="menu"
+                    aria-label="Menú de usuario"
+                    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+                    tabindex="0"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-user h-5 w-5"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                      />
+                      <circle
+                        cx="12"
+                        cy="7"
+                        r="4"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+     ...
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/integration/rf-enc-32-33-encuesta.test.tsx:217:31
+    215|       // Cuando la edita y guarda
+    216|       // Act
+    217|       await user.click(screen.getByRole('button', { name: 'Editar preg…
+       |                               ^
+    218|       const texto = screen.getByLabelText('Texto de la pregunta')
+    219|       expect(texto).toHaveValue('¿Explica con claridad?')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/test/integration/rf-enc-32-33-encuesta.test.tsx > RF-ENC — Pantalla de creación de la encuesta > RF-ENC-33: corregir el texto de una pregunta (TDD) > no envía el PUT si el texto queda repetido en la encuesta
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Editar pregunta ¿Explica con claridad?"
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  <header
+    class="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-4 py-4 sm:py-6 lg:py-1 relative z-30"
+    style="opacity: 0.5545227420967421; transform: translateY(-1.0062491676515222px) translateZ(0);"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Ir al inicio":
+  <img
+    alt="Logo Universidad de Medellín"
+    aria-label="Ir al inicio"
+    class="h-16 w-16 sm:h-20 sm:w-20 lg:h-[120px] lg:w-auto object-contain cursor-pointer select-none"
+    role="button"
+    src="/src/assets/logo_conciencia.webp"
+    tabindex="0"
+    title="Ir al inicio"
+  />
+
+  Name "Notificaciones":
+  <button
+    aria-label="Notificaciones"
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+    tabindex="0"
+  />
+
+  Name "Menú de usuario":
+  <button
+    aria-expanded="false"
+    aria-haspopup="menu"
+    aria-label="Menú de usuario"
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+    tabindex="0"
+  />
+
+  Name "← Volver al menú":
+  <button
+    class="text-sm lg:text-base text-red-600 hover:underline text-left"
+    type="button"
+  />
+
+  Name "Guardar cambios":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 px-4 py-2 "
+    tabindex="0"
+    type="submit"
+  />
+
+  Name "Agregar pregunta":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 "
+    tabindex="0"
+    type="button"
+  />
+
+  Name "Desactivar":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-9 rounded-md px-3 inline-flex items-center gap-1 border-red-200 text-red-600"
+    tabindex="0"
+  />
+
+  Name "Desactivar":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-9 rounded-md px-3 inline-flex items-center gap-1 border-red-200 text-red-600"
+    tabindex="0"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "EntreAulas":
+  <h1
+    class="text-sm sm:text-lg lg:text-xl font-semibold text-gray-900"
+  />
+
+  Name "Encuestas":
+  <h2
+    class="text-xl font-semibold text-gray-900 text-center"
+  />
+
+  Name "Encuestas":
+  <h2
+    class="text-xl font-semibold text-gray-900"
+  />
+
+  Name "Docencia":
+  <h3
+    class="text-2xl font-semibold leading-none tracking-tight text-2xl lg:text-3xl text-gray-900 mt-1"
+  />
+
+  Name "Preguntas":
+  <h3
+    class="text-2xl font-semibold leading-none tracking-tight text-xl lg:text-3xl text-gray-900"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="text-xs sm:text-sm lg:text-base text-gray-600"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-center mt-1"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-base lg:text-lg"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-base lg:text-lg"
+  />
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  <main
+    class="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8 lg:space-y-10"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Nombre de la encuesta":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-3 pr-3 border-gray-300"
+    id="nombre-de-la-encuesta"
+    required=""
+    value="Docencia"
+  />
+
+  Name "Descripción de la encuesta":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-3 pr-3 border-gray-300"
+    id="descripción-de-la-encuesta"
+    value=""
+  />
+
+  --------------------------------------------------
+  table:
+
+  Name "":
+  <table
+    class="min-w-full text-sm lg:text-base"
+  />
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  <thead
+    class="bg-gray-100 text-left text-gray-700"
+  />
+
+  Name "":
+  <tbody />
+
+  --------------------------------------------------
+  row:
+
+  Name "Orden Pregunta Encuesta Tipo Acciones":
+  <tr />
+
+  Name "1 ¿Explica con claridad? Docencia likert Desactivar":
+  <tr
+    class="border-t border-gray-100"
+  />
+
+  Name "2 ¿Llega a tiempo? Docencia likert Desactivar":
+  <tr
+    class="border-t border-gray-100"
+  />
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "Orden":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Pregunta":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Encuesta":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Tipo":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Acciones":
+  <th
+    class="px-4 py-3 text-right"
+  />
+
+  --------------------------------------------------
+  cell:
+
+  Name "1":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "¿Explica con claridad?":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "Docencia":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "likert":
+  <td
+    class="px-4 py-3 capitalize"
+  />
+
+  Name "Desactivar":
+  <td
+    class="px-4 py-3 text-right"
+  />
+
+  Name "2":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "¿Llega a tiempo?":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "Docencia":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "likert":
+  <td
+    class="px-4 py-3 capitalize"
+  />
+
+  Name "Desactivar":
+  <td
+    class="px-4 py-3 text-right"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen bg-gray-50 relative"
+    >
+      <div
+        class="relative z-10"
+      >
+        <header
+          class="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-4 py-4 sm:py-6 lg:py-1 relative z-30"
+          style="opacity: 0.5545227420967421; transform: translateY(-1.0062491676515222px) translateZ(0);"
+        >
+          <div
+            class="w-full"
+          >
+            <div
+              class="flex items-center justify-between w-full"
+            >
+              <div
+                class="flex items-center gap-2 sm:gap-3"
+              >
+                <img
+                  alt="Logo Universidad de Medellín"
+                  aria-label="Ir al inicio"
+                  class="h-16 w-16 sm:h-20 sm:w-20 lg:h-[120px] lg:w-auto object-contain cursor-pointer select-none"
+                  role="button"
+                  src="/src/assets/logo_conciencia.webp"
+                  tabindex="0"
+                  title="Ir al inicio"
+                />
+                <div
+                  class="hidden sm:block"
+                >
+                  <h1
+                    class="text-sm sm:text-lg lg:text-xl font-semibold text-gray-900"
+                  >
+                    EntreAulas
+                  </h1>
+                  <p
+                    class="text-xs sm:text-sm lg:text-base text-gray-600"
+                  >
+                    Universidad de Medellín
+                  </p>
+                </div>
+              </div>
+              <div
+                class="hidden lg:flex flex-col items-center flex-1 mx-4"
+              >
+                <h2
+                  class="text-xl font-semibold text-gray-900 text-center"
+                >
+                  Encuestas
+                </h2>
+                <p
+                  class="text-sm text-gray-600 text-center mt-1"
+                >
+                  Crear o editar una encuesta y luego sus preguntas
+                </p>
+              </div>
+              <div
+                class="flex items-center gap-2 sm:gap-4 relative z-40"
+              >
+                <div
+                  class="relative"
+                >
+                  <button
+                    aria-label="Notificaciones"
+                    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+                    tabindex="0"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-bell h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10.268 21a2 2 0 0 0 3.464 0"
+                      />
+                      <path
+                        d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="relative"
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="menu"
+                    aria-label="Menú de usuario"
+                    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+                    tabindex="0"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-user h-5 w-5"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                      />
+                      <circle
+                        cx="12"
+                        cy="7"
+                        r="4"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+     ...
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/integration/rf-enc-32-33-encuesta.test.tsx:250:31
+    248|       // Cuando pone en la 8 el texto de la 9
+    249|       // Act
+    250|       await user.click(screen.getByRole('button', { name: 'Editar preg…
+       |                               ^
+    251|       const texto = screen.getByLabelText('Texto de la pregunta')
+    252|       await user.clear(texto)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/test/integration/rf-enc-32-33-encuesta.test.tsx > RF-ENC — Pantalla de creación de la encuesta > RF-ENC-33: corregir el texto de una pregunta (TDD) > si el servidor rechaza la corrección, muestra su mensaje y el diálogo sigue abierto
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Editar pregunta ¿Explica con claridad?"
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  <header
+    class="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-4 py-4 sm:py-6 lg:py-1 relative z-30"
+    style="opacity: 0.5141579793926212; transform: translateY(-1.8164108088764246px) translateZ(0);"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Ir al inicio":
+  <img
+    alt="Logo Universidad de Medellín"
+    aria-label="Ir al inicio"
+    class="h-16 w-16 sm:h-20 sm:w-20 lg:h-[120px] lg:w-auto object-contain cursor-pointer select-none"
+    role="button"
+    src="/src/assets/logo_conciencia.webp"
+    tabindex="0"
+    title="Ir al inicio"
+  />
+
+  Name "Notificaciones":
+  <button
+    aria-label="Notificaciones"
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+    tabindex="0"
+  />
+
+  Name "Menú de usuario":
+  <button
+    aria-expanded="false"
+    aria-haspopup="menu"
+    aria-label="Menú de usuario"
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+    tabindex="0"
+  />
+
+  Name "← Volver al menú":
+  <button
+    class="text-sm lg:text-base text-red-600 hover:underline text-left"
+    type="button"
+  />
+
+  Name "Guardar cambios":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 px-4 py-2 "
+    tabindex="0"
+    type="submit"
+  />
+
+  Name "Agregar pregunta":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 "
+    tabindex="0"
+    type="button"
+  />
+
+  Name "Desactivar":
+  <button
+    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-9 rounded-md px-3 inline-flex items-center gap-1 border-red-200 text-red-600"
+    tabindex="0"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "EntreAulas":
+  <h1
+    class="text-sm sm:text-lg lg:text-xl font-semibold text-gray-900"
+  />
+
+  Name "Encuestas":
+  <h2
+    class="text-xl font-semibold text-gray-900 text-center"
+  />
+
+  Name "Encuestas":
+  <h2
+    class="text-xl font-semibold text-gray-900"
+  />
+
+  Name "Docencia":
+  <h3
+    class="text-2xl font-semibold leading-none tracking-tight text-2xl lg:text-3xl text-gray-900 mt-1"
+  />
+
+  Name "Preguntas":
+  <h3
+    class="text-2xl font-semibold leading-none tracking-tight text-xl lg:text-3xl text-gray-900"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="text-xs sm:text-sm lg:text-base text-gray-600"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-center mt-1"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-base lg:text-lg"
+  />
+
+  Name "":
+  <p
+    class="text-sm text-gray-600 text-base lg:text-lg"
+  />
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  <main
+    class="max-w-6xl xl:max-w-[92rem] mx-auto p-6 lg:p-10 space-y-8 lg:space-y-10"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Nombre de la encuesta":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-3 pr-3 border-gray-300"
+    id="nombre-de-la-encuesta"
+    required=""
+    value="Docencia"
+  />
+
+  Name "Descripción de la encuesta":
+  <input
+    class="w-full py-2 border rounded-lg bg-white outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm pl-3 pr-3 border-gray-300"
+    id="descripción-de-la-encuesta"
+    value=""
+  />
+
+  --------------------------------------------------
+  table:
+
+  Name "":
+  <table
+    class="min-w-full text-sm lg:text-base"
+  />
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  <thead
+    class="bg-gray-100 text-left text-gray-700"
+  />
+
+  Name "":
+  <tbody />
+
+  --------------------------------------------------
+  row:
+
+  Name "Orden Pregunta Encuesta Tipo Acciones":
+  <tr />
+
+  Name "1 ¿Explica con claridad? Docencia likert Desactivar":
+  <tr
+    class="border-t border-gray-100"
+  />
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "Orden":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Pregunta":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Encuesta":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Tipo":
+  <th
+    class="px-4 py-3"
+  />
+
+  Name "Acciones":
+  <th
+    class="px-4 py-3 text-right"
+  />
+
+  --------------------------------------------------
+  cell:
+
+  Name "1":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "¿Explica con claridad?":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "Docencia":
+  <td
+    class="px-4 py-3"
+  />
+
+  Name "likert":
+  <td
+    class="px-4 py-3 capitalize"
+  />
+
+  Name "Desactivar":
+  <td
+    class="px-4 py-3 text-right"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen bg-gray-50 relative"
+    >
+      <div
+        class="relative z-10"
+      >
+        <header
+          class="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-4 py-4 sm:py-6 lg:py-1 relative z-30"
+          style="opacity: 0.5141579793926212; transform: translateY(-1.8164108088764246px) translateZ(0);"
+        >
+          <div
+            class="w-full"
+          >
+            <div
+              class="flex items-center justify-between w-full"
+            >
+              <div
+                class="flex items-center gap-2 sm:gap-3"
+              >
+                <img
+                  alt="Logo Universidad de Medellín"
+                  aria-label="Ir al inicio"
+                  class="h-16 w-16 sm:h-20 sm:w-20 lg:h-[120px] lg:w-auto object-contain cursor-pointer select-none"
+                  role="button"
+                  src="/src/assets/logo_conciencia.webp"
+                  tabindex="0"
+                  title="Ir al inicio"
+                />
+                <div
+                  class="hidden sm:block"
+                >
+                  <h1
+                    class="text-sm sm:text-lg lg:text-xl font-semibold text-gray-900"
+                  >
+                    EntreAulas
+                  </h1>
+                  <p
+                    class="text-xs sm:text-sm lg:text-base text-gray-600"
+                  >
+                    Universidad de Medellín
+                  </p>
+                </div>
+              </div>
+              <div
+                class="hidden lg:flex flex-col items-center flex-1 mx-4"
+              >
+                <h2
+                  class="text-xl font-semibold text-gray-900 text-center"
+                >
+                  Encuestas
+                </h2>
+                <p
+                  class="text-sm text-gray-600 text-center mt-1"
+                >
+                  Crear o editar una encuesta y luego sus preguntas
+                </p>
+              </div>
+              <div
+                class="flex items-center gap-2 sm:gap-4 relative z-40"
+              >
+                <div
+                  class="relative"
+                >
+                  <button
+                    aria-label="Notificaciones"
+                    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+                    tabindex="0"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-bell h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10.268 21a2 2 0 0 0 3.464 0"
+                      />
+                      <path
+                        d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="relative"
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="menu"
+                    aria-label="Menú de usuario"
+                    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white bg-opacity-90 text-gray-900 hover:bg-gray-100 shadow-md h-10 w-10 relative"
+                    tabindex="0"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-user h-5 w-5"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                      />
+                      <circle
+                        cx="12"
+                        cy="7"
+                        r="4"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+     ...
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/integration/rf-enc-32-33-encuesta.test.tsx:276:31
+    274|       // Cuando guarda la corrección
+    275|       // Act
+    276|       await user.click(screen.getByRole('button', { name: 'Editar preg…
+       |                               ^
+    277|       await user.type(screen.getByLabelText('Texto de la pregunta'), '…
+    278|       await user.click(screen.getByRole('button', { name: 'Guardar cam…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 5 passed (8)
+   Start at  12:27:35
+   Duration  6.63s (tests 49%, import 21%, environment 19%, setup 7%, transform 3%)
+

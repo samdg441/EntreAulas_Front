@@ -1,0 +1,114 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "exceljs": {
+      "name": "exceljs",
+      "severity": "moderate",
+      "isDirect": true,
+      "via": [
+        "uuid"
+      ],
+      "effects": [],
+      "range": ">=3.5.0",
+      "nodes": [
+        "node_modules/exceljs"
+      ],
+      "fixAvailable": true
+    },
+    "uuid": {
+      "name": "uuid",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1119441,
+          "name": "uuid",
+          "dependency": "uuid",
+          "title": "uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided",
+          "url": "https://github.com/advisories/GHSA-w5hq-g745-h8pq",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-787",
+            "CWE-1285"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+          },
+          "range": "<11.1.1"
+        }
+      ],
+      "effects": [
+        "exceljs"
+      ],
+      "range": "<11.1.1",
+      "nodes": [
+        "node_modules/uuid"
+      ],
+      "fixAvailable": true
+    },
+    "xlsx": {
+      "name": "xlsx",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1108110,
+          "name": "xlsx",
+          "dependency": "xlsx",
+          "title": "Prototype Pollution in sheetJS",
+          "url": "https://github.com/advisories/GHSA-4r6h-8v6p-xvw6",
+          "severity": "high",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 7.8,
+            "vectorString": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+          },
+          "range": "<0.19.3"
+        },
+        {
+          "source": 1108111,
+          "name": "xlsx",
+          "dependency": "xlsx",
+          "title": "SheetJS Regular Expression Denial of Service (ReDoS)",
+          "url": "https://github.com/advisories/GHSA-5pgg-2g8v-p4x9",
+          "severity": "high",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<0.20.2"
+        }
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/xlsx"
+      ],
+      "fixAvailable": false
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 2,
+      "high": 1,
+      "critical": 0,
+      "total": 3
+    },
+    "dependencies": {
+      "prod": 297,
+      "dev": 908,
+      "optional": 112,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 1217
+    }
+  }
+}

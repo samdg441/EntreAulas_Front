@@ -1,0 +1,79 @@
+
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Electron 146 (headless) (deprecated)                                           │
+  │ Node Version:   v24.14.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          1 found (rf-enc-not-eval-api.cy.ts)                                            │
+  │ Searched:       C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAula │
+  │                 s_Front\e2e\cypress\e2e\api\rf-enc-not-eval-api.cy.ts                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Warning: The Electron browser is deprecated as a test browser and will be removed in a future version of Cypress.
+
+Switch to Chrome or another installed browser to avoid a breaking change when you upgrade.
+
+Read more about supported browsers: https://on.cypress.io/launching-browsers
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rf-enc-not-eval-api.cy.ts                                                       (1 of 1)
+
+
+  RF-ENC / RF-EVAL / RF-NOT — API real
+    sin credenciales
+      √ GET /api/evaluations/questions → 401 NO_TOKEN (144ms)
+      √ GET /api/evaluations/categories → 401 NO_TOKEN (39ms)
+      √ POST /api/evaluations/questions → 401 NO_TOKEN (74ms)
+      √ PUT /api/evaluations/questions/1 → 401 NO_TOKEN (35ms)
+      √ DELETE /api/evaluations/questions/1 → 401 NO_TOKEN (32ms)
+      √ POST /api/evaluations/categories → 401 NO_TOKEN (35ms)
+      √ GET /api/teachers → 401 NO_TOKEN (34ms)
+      √ GET /api/periodos/evaluacion → 401 NO_TOKEN (37ms)
+    con un token falsificado
+      √ RF-ENC-33: un JWT sin firma (alg none) no puede corregir preguntas (42ms)
+      √ RF-ENC-33: un JWT firmado con otra clave no puede retirar preguntas (55ms)
+    con el coordinador de pruebas (CYPRESS_TOKEN_COORDINADOR)
+      - RF-ENC-32: lista preguntas activas con el contrato { success, data[] }
+      - RF-ENC-32: lista las encuestas (categorías)
+      - RF-ENC-32: crear sin texto ni orden → 400 Datos incompletos
+      - DEF-48: corregir con texto en blanco → 400 y no se guarda
+      - DEF-49: un id que no es entero positivo → 400
+      - RF-NOT-34: las ventanas de evaluación traen fechas ISO para armar el aviso
+
+
+  10 passing (895ms)
+  6 pending
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        16                                                                               │
+  │ Passing:      10                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      6                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     rf-enc-not-eval-api.cy.ts                                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  rf-enc-not-eval-api.cy.ts                900ms       16       10        -        6        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        900ms       16       10        -        6        -  
+

@@ -1,0 +1,134 @@
+[INFO]  Bootstrapper: Retrieving info from "package.json" file
+[INFO]  Bootstrapper: Platform: win32 x64
+[INFO]  Bootstrapper: Server URL: http://localhost:9000
+[INFO]  Bootstrapper: Using SonarScanner for NPM (@sonar/scan)
+[INFO]  Bootstrapper: Version: 5.0.0
+[INFO]  Bootstrapper: SonarQube server version: 26.9.0
+[INFO]  Bootstrapper: JRE provisioning is supported
+[INFO]  Bootstrapper: Using JRE from the cache
+[INFO]  ScannerEngine: Starting SonarScanner Engine...
+[INFO]  ScannerEngine: Java 21.0.11 Eclipse Adoptium (64-bit)
+[INFO]  ScannerEngine: Load global settings
+[INFO]  ScannerEngine: Load global settings (done) | time=143ms
+[INFO]  ScannerEngine: Server id: 147B411E-AaDFp1fOoqK8w0yAo94w
+[INFO]  ScannerEngine: Loading required plugins
+[INFO]  ScannerEngine: Load plugins index
+[INFO]  ScannerEngine: Load plugins index (done) | time=24ms
+[INFO]  ScannerEngine: Load/download plugins
+[INFO]  ScannerEngine: Load/download plugins (done) | time=38ms
+[INFO]  ScannerEngine: Process project properties
+[INFO]  ScannerEngine: Process project properties (done) | time=21ms
+[INFO]  ScannerEngine: Project key: EntreAulas_Front
+[INFO]  ScannerEngine: Base dir: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front
+[INFO]  ScannerEngine: Working dir: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\.scannerwork
+[INFO]  ScannerEngine: Load project settings for component key: 'EntreAulas_Front'
+[INFO]  ScannerEngine: Load project settings for component key: 'EntreAulas_Front' (done) | time=25ms
+[INFO]  ScannerEngine: Load quality profiles
+[INFO]  ScannerEngine: Load quality profiles (done) | time=138ms
+[INFO]  ScannerEngine: Load active rules
+[INFO]  ScannerEngine: Load active rules (done) | time=576ms
+[INFO]  ScannerEngine: Load analysis cache
+[INFO]  ScannerEngine: Load analysis cache | time=44ms
+[INFO]  ScannerEngine: Preprocessing files...
+[INFO]  ScannerEngine: 1 language detected in 122 preprocessed files (done) | time=672ms
+[INFO]  ScannerEngine: 56 files ignored because of inclusion/exclusion patterns
+[INFO]  ScannerEngine: 9 directories skipped because of exclusion patterns (content not counted)
+[INFO]  ScannerEngine: 0 files ignored because of scm ignore settings
+[INFO]  ScannerEngine: Loading plugins for detected languages
+[INFO]  ScannerEngine: Load/download plugins
+[INFO]  ScannerEngine: Load/download plugins (done) | time=9ms
+[INFO]  ScannerEngine: Load project repositories
+[INFO]  ScannerEngine: Load project repositories (done) | time=291ms
+[INFO]  ScannerEngine: Indexing files...
+[INFO]  ScannerEngine: Project configuration:
+[INFO]  ScannerEngine:   Included sources: src/features/dashboard-admin/AdminUsersPage.tsx, src/features/dashboard-admin/gestionar-usuarios.ts, src/lib/validation.ts, src/features/auth/login-flow.ts, src/features/auth/Login.tsx, src/context/AuthContext.tsx, src/features/auth/password-reset-flow.ts, src/api/passwordReset.ts, src/features/auth/ForgotPassword.tsx, src/features/auth/auth-recovery-layout.tsx, src/features/auth/ResetPassword.tsx, src/features/auth/dashboard-path.ts, src/features/evaluations/qr-validacion.ts, src/features/evaluations/qr-entrada.ts, src/features/evaluations/evaluacion-docente.ts, src/features/evaluations/resumen-ia.ts, src/features/evaluations/alerta-acoso.ts, src/features/dashboard-student/estudiante-stats.ts, src/features/dashboard-student/estudiante-materias.ts, src/lib/calificaciones.ts, src/features/dashboard-coordinator/docentes.ts, src/utils/reporte-exportacion.ts, src/utils/aviso-descarga.ts, src/lib/notificaciones.ts, src/components/NotificationDropdown.tsx, src/features/dashboard-admin/AdminSurveysPage.tsx, src/features/dashboard-admin/preguntas-encuesta.ts, src/features/evaluations/seleccion-encuesta.ts, src/features/evaluations/TeacherSelection.tsx, src/lib/navegacion.ts, src/lib/calendario.ts, src/preferencias/preferencias.ts, src/preferencias/PreferenciasContext.tsx, src/i18n/diccionario.ts, src/components/AgendaEvaluaciones.tsx, src/components/PreferenciasMenu.tsx, src/components/shell/AppShell.tsx, src/components/shell/Sidebar.tsx, src/features/dashboard-coordinator/DashboardCoordinador.tsx, src/features/dashboard-coordinator/ManageProfessors.tsx, src/features/dashboard-coordinator/AuditoriaPage.tsx, src/features/dashboard-coordinator/auditoria.ts, src/features/dashboard-coordinator/gestion-profesores.ts, src/api/auditoria.api.ts
+[INFO]  ScannerEngine:   Excluded sources: **/node_modules/**, **/dist/**, coverage/**/*.html, coverage/**/*.css, coverage/**/*.js, **/build/**, src/test/unit/**/*.test.ts, src/test/integration/**/*.test.tsx, src/test/regression/**/*.test.ts, src/test/api/**/*.test.ts, src/test/security/**/*.test.ts, src/test/security/**/*.test.tsx, src/test/performance/**/*.test.ts
+[INFO]  ScannerEngine:   Included tests: src/test/unit/**/*.test.ts, src/test/integration/**/*.test.tsx, src/test/regression/**/*.test.ts, src/test/api/**/*.test.ts, src/test/security/**/*.test.ts, src/test/security/**/*.test.tsx, src/test/performance/**/*.test.ts
+[INFO]  ScannerEngine:   Excluded sources for coverage: src/test/**, **/*.test.ts, **/*.test.tsx, **/*.d.ts
+[INFO]  ScannerEngine:   Excluded sources for duplication: src/i18n/diccionario.ts
+[INFO]  ScannerEngine: 122 files indexed (done) | time=89ms
+[INFO]  ScannerEngine: Quality profile for ts: Sonar way
+[INFO]  ScannerEngine: ------------- Run sensors on module EntreAulas_Front
+[INFO]  ScannerEngine: Load metrics repository
+[INFO]  ScannerEngine: Load metrics repository (done) | time=70ms
+[INFO]  ScannerEngine: Sensor IaC YAML File Type Classification Sensor [iac]
+[INFO]  ScannerEngine: Sensor IaC YAML File Type Classification Sensor [iac] (done) | time=6ms
+[INFO]  ScannerEngine: Sensor IaC hadolint report Sensor [iac]
+[INFO]  ScannerEngine: Sensor IaC hadolint report Sensor [iac] (done) | time=0ms
+[INFO]  ScannerEngine: Sensor Java Config Sensor [iac]
+[INFO]  ScannerEngine: There are no files to be analyzed for the Java language
+[INFO]  ScannerEngine: Sensor Java Config Sensor [iac] (done) | time=2ms
+[INFO]  ScannerEngine: Sensor IaC Docker Sensor [iac]
+[INFO]  ScannerEngine: There are no files to be analyzed for the Docker language
+[INFO]  ScannerEngine: Sensor IaC Docker Sensor [iac] (done) | time=3ms
+[INFO]  ScannerEngine: Sensor JavaScript/TypeScript Coverage [javascript]
+[INFO]  ScannerEngine: Analysing [C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\coverage\lcov.info]
+[WARN]  ScannerEngine: Could not resolve 63 file paths in [C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\coverage\lcov.info]
+[WARN]  ScannerEngine: First unresolved path: src/App.tsx (Run in DEBUG mode to get full list of unresolved paths)
+[INFO]  ScannerEngine: Sensor JavaScript/TypeScript Coverage [javascript] (done) | time=485ms
+[INFO]  ScannerEngine: Sensor TextAndSecretsSensor [text]
+[INFO]  ScannerEngine: Available processors: 16
+[INFO]  ScannerEngine: Using 16 threads for analysis.
+[INFO]  ScannerEngine: Start fetching files for the text and secrets analysis
+[INFO]  ScannerEngine: Using Git CLI to retrieve dirty files
+[INFO]  ScannerEngine: Retrieving language associated files and files included via "sonar.text.inclusions" that are tracked by git
+[INFO]  ScannerEngine: Starting the text and secrets analysis
+[INFO]  ScannerEngine: 122 source files to be analyzed for the text and secrets analysis
+[INFO]  ScannerEngine: 122/122 source files have been analyzed for the text and secrets analysis
+[INFO]  ScannerEngine: Sensor TextAndSecretsSensor [text] (done) | time=947ms
+[INFO]  ScannerEngine: ------------- Run sensors on project
+[INFO]  ScannerEngine: Sensor JavaScript/TypeScript/CSS analysis [javascript]
+[INFO]  ScannerEngine: Detected os: Windows 11 arch: amd64 alpine: false. Platform: WIN_X64
+[INFO]  ScannerEngine: Deploy location C:\Users\Esteban Arias\.sonar\js\node-runtime, tagetRuntime: C:\Users\Esteban Arias\.sonar\js\node-runtime\node.exe,  version: C:\Users\Esteban Arias\.sonar\js\node-runtime\version.txt
+[INFO]  ScannerEngine: Using embedded Node.js runtime.
+[INFO]  ScannerEngine: Using Node.js executable: 'C:\Users\Esteban Arias\.sonar\js\node-runtime\node.exe'.
+[INFO]  ScannerEngine: Memory configuration: OS (15734 MB), Node.js (4288 MB).
+[INFO]  ScannerEngine: gRPC analyze-project server listening on 127.0.0.1:53513
+[INFO]  ScannerEngine: Plugin version: [13.8.0.44569]
+[INFO]  ScannerEngine: Found 7 tsconfig.json file(s): [C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/e2e/tsconfig.json, C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/healenium/tsconfig.json, C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/ia-testing/playwright/tsconfig.json, C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/screenplay-selenium/tsconfig.json, C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/screenplay/tsconfig.json, C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/stagehand/tsconfig.json, C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/tsconfig.json]
+[INFO]  ScannerEngine: 122 source files to be analyzed
+[INFO]  ScannerEngine: Creating TypeScript(6.0.3) program with configuration file C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/e2e/tsconfig.json [lib: lib.es2020.d.ts, lib.dom.d.ts]
+[INFO]  ScannerEngine: No files to analyze from tsconfig C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/e2e/tsconfig.json
+[INFO]  ScannerEngine: Creating TypeScript(6.0.3) program with configuration file C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/healenium/tsconfig.json [lib: lib.es2023.d.ts, lib.dom.d.ts]
+[INFO]  ScannerEngine: No files to analyze from tsconfig C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/healenium/tsconfig.json
+[INFO]  ScannerEngine: Creating TypeScript(6.0.3) program with configuration file C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/ia-testing/playwright/tsconfig.json [lib: lib.es2024.d.ts, lib.dom.d.ts]
+[INFO]  ScannerEngine: No files to analyze from tsconfig C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/ia-testing/playwright/tsconfig.json
+[INFO]  ScannerEngine: Creating TypeScript(6.0.3) program with configuration file C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/screenplay-selenium/tsconfig.json [lib: lib.es2022.d.ts, lib.dom.d.ts]
+[INFO]  ScannerEngine: No files to analyze from tsconfig C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/screenplay-selenium/tsconfig.json
+[INFO]  ScannerEngine: Creating TypeScript(6.0.3) program with configuration file C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/screenplay/tsconfig.json [lib: lib.es2022.d.ts, lib.dom.d.ts]
+[INFO]  ScannerEngine: No files to analyze from tsconfig C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/screenplay/tsconfig.json
+[INFO]  ScannerEngine: Creating TypeScript(6.0.3) program with configuration file C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/stagehand/tsconfig.json [lib: lib.es2024.d.ts, lib.dom.d.ts]
+[INFO]  ScannerEngine: No files to analyze from tsconfig C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/stagehand/tsconfig.json
+[INFO]  ScannerEngine: Creating TypeScript(6.0.3) program with configuration file C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/tsconfig.json [lib: lib.es2020.d.ts, lib.dom.d.ts, lib.dom.iterable.d.ts]
+[INFO]  ScannerEngine: Discovered referenced tsconfig: C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/tsconfig.node.json
+[INFO]  ScannerEngine: Analyzing 122 file(s) from tsconfig C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/tsconfig.json (581 total files in program)
+[INFO]  ScannerEngine: 122/122 source files have been analyzed
+[INFO]  ScannerEngine: Hit the cache for 0 out of 122
+[INFO]  ScannerEngine: Miss the cache for 122 out of 122: ANALYSIS_MODE_INELIGIBLE [122/122]
+[INFO]  ScannerEngine: Sensor JavaScript/TypeScript/CSS analysis [javascript] (done) | time=37983ms
+[INFO]  ScannerEngine: Sensor IaC Project Sensor [iac]
+[INFO]  ScannerEngine: Sensor IaC Project Sensor [iac] (done) | time=2ms
+[INFO]  ScannerEngine: Sensor Zero Coverage Sensor
+[INFO]  ScannerEngine: Sensor Zero Coverage Sensor (done) | time=3ms
+[INFO]  ScannerEngine: ------------- Gather SCA dependencies on project
+[INFO]  ScannerEngine: Dependency analysis skipped
+[INFO]  ScannerEngine: SCM Publisher SCM provider for this project is: git
+[INFO]  ScannerEngine: SCM Publisher 3 source files to be analyzed
+[INFO]  ScannerEngine: SCM Publisher 0/3 source files have been analyzed (done) | time=584ms
+[WARN]  ScannerEngine: Missing blame information for the following files:
+[WARN]  ScannerEngine:   * src/features/evaluations/TeacherSelection.tsx
+[WARN]  ScannerEngine:   * src/features/dashboard-admin/AdminSurveysPage.tsx
+[WARN]  ScannerEngine:   * src/test/security/esteban-encuestas.security.test.tsx
+[WARN]  ScannerEngine: This may lead to missing/broken features in SonarQube
+[INFO]  ScannerEngine: CPD Executor 1 file had no CPD blocks
+[INFO]  ScannerEngine: CPD Executor Calculating CPD for 42 files
+[INFO]  ScannerEngine: CPD Executor CPD calculation finished (done) | time=87ms
+[INFO]  ScannerEngine: SCM revision ID '2e39b9ebcf2bfd9eeea752451d9b3c9e792afd41'
+[INFO]  ScannerEngine: Analysis report generated in 395ms, dir size=1.7 MB
+[INFO]  ScannerEngine: Analysis report compressed in 2510ms, zip size=790.9 kB
+[INFO]  ScannerEngine: Analysis report uploaded in 126ms
+[INFO]  ScannerEngine: ANALYSIS SUCCESSFUL, you can find the results at: http://localhost:9000/dashboard?id=EntreAulas_Front
+[INFO]  ScannerEngine: Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+[INFO]  ScannerEngine: More about the report processing at http://localhost:9000/api/ce/task?id=ae4d41fa-2af9-410d-a062-0c49870eaee5
+[INFO]  ScannerEngine: Analysis total time: 48.654 s
+[INFO]  ScannerEngine: SonarScanner Engine completed successfully

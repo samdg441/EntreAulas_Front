@@ -1,0 +1,67 @@
+
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.1                                                                         │
+  │ Browser:        Chrome 157 (headless)                                                          │
+  │ Node Version:   v24.14.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          1 found (esteban-prompt.cy.ts)                                                 │
+  │ Searched:       cypress/e2e/studio/esteban-prompt.cy.ts                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  esteban-prompt.cy.ts                                                            (1 of 1)
+
+
+  cy.prompt — Creación de encuestas (RF-ENC-32, RF-ENC-33)
+    √ RF-ENC-32: crea una encuesta nueva (3532ms)
+    √ RF-ENC-33: corrige el texto de una pregunta (3130ms)
+    √ RF-ENC-33: si el back rechaza la corrección, el mensaje aparece y el diálogo sigue abierto (16010ms)
+
+  cy.prompt — Selección de la encuesta (RF-EVAL-11, RF-EVAL-12, RF-ACA-27)
+    √ RF-EVAL-11/12: elige docente, materia y grupo y llega al formulario (2678ms)
+    √ RF-ACA-27: el buscador deja solo la materia que coincide (1498ms)
+
+  cy.prompt — Notificaciones (RF-NOT-34, RF-NOT-35)
+    √ la campana anuncia la ventana abierta y se puede marcar como leída (2123ms)
+
+
+  6 passing (29s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      6                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        true                                                                             │
+  │ Duration:     29 seconds                                                                       │
+  │ Spec Ran:     esteban-prompt.cy.ts                                                             │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Video)
+
+  -  Video output: C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\reports\cypress\videos\esteban-prompt.cy.ts.mp4
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  esteban-prompt.cy.ts                     00:29        6        6        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        00:29        6        6        -        -        -  
+

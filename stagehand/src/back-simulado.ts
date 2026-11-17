@@ -33,10 +33,25 @@ const EVENTOS_AUDITORIA = [
   { id: 1, actorId: 'u', actorNombre: 'Carlos Coordinador', actorRol: 'coordinador', accion: 'consultar_docente', entidad: 'profesor', entidadId: '2', detalle: 'Estadísticas del docente 2', creadoEn: hace(50) },
 ]
 
+export type EncuestaSimulada = { id: number; nombre: string; descripcion: string; orden: number }
+export type PreguntaSimulada = {
+  id: number
+  categoria_id: number
+  texto_pregunta: string
+  tipo_pregunta: string
+  obligatoria: boolean
+  orden: number
+  activa: boolean
+  id_carrera: number | null
+}
+
 export type BackSimulado = {
   cuentas: Cuenta[]
   tokens: Token[]
   correos: Array<{ para: string; enlace: string }>
+  /** Creación de encuestas (RF-ENC-32, RF-ENC-33), con estado: lo que el escenario guarda queda aquí. */
+  encuestas: EncuestaSimulada[]
+  preguntas: PreguntaSimulada[]
   cerrar(): Promise<void>
 }
 
@@ -54,6 +69,8 @@ export async function levantarBackSimulado(puerto = Number(process.env.BACK_SIMU
   const cuentas: Cuenta[] = Object.values(CUENTAS).map((c) => ({ ...c }))
   const tokens: Token[] = []
   const correos: BackSimulado['correos'] = []
+  const encuestas: EncuestaSimulada[] = [{ id: 1, nombre: 'Docencia', descripcion: '', orden: 1 }]
+  const preguntas: PreguntaSimulada[] = []
 
   const servidor: Server = createServer(async (req, res) => {
     const url = new URL(req.url ?? '/', `http://localhost:${puerto}`)
@@ -208,6 +225,48 @@ export async function levantarBackSimulado(puerto = Number(process.env.BACK_SIMU
     if (ruta.startsWith('/api/ai/summarize/by-faculty')) {
       return responder(200, { summary: 'No hay comentarios suficientes en la facultad.', topics: [], textsCount: 0, analysisSource: 'open_text', acosoDetectado: false })
     }
+    // ── Creación de encuestas (RF-ENC-32, RF-ENC-33) — punto 14, Esteban ──
+    if (ruta === '/api/users/academic-structure') return responder(200, { facultades: [] })
+    if (req.method === 'GET' && ruta === '/api/evaluations/categories') return responder(200, { categories: encuestas })
+    if (req.method === 'POST' && ruta === '/api/evaluations/categories') {
+      const nombre = String(cuerpo.nombre ?? '').trim()
+      if (!nombre) return responder(400, { error: 'El nombre de la encuesta es obligatorio.' })
+      const nueva = { id: encuestas.length + 1, nombre, descripcion: String(cuerpo.descripcion ?? ''), orden: encuestas.length + 1 }
+      encuestas.push(nueva)
+      return responder(201, { category: nueva })
+    }
+    if (req.method === 'GET' && ruta === '/api/evaluations/questions') {
+      return responder(200, { success: true, data: preguntas.filter((p) => p.activa) })
+    }
+    if (req.method === 'POST' && ruta === '/api/evaluations/questions') {
+      const texto = String(cuerpo.texto_pregunta ?? '').trim()
+      if (!texto) return responder(400, { success: false, error: 'Datos incompletos' })
+      const nueva: PreguntaSimulada = {
+        id: preguntas.length + 1,
+        categoria_id: Number(cuerpo.categoria_id),
+        texto_pregunta: texto,
+        tipo_pregunta: String(cuerpo.tipo_pregunta ?? 'likert'),
+        obligatoria: Boolean(cuerpo.obligatoria),
+        orden: Number(cuerpo.orden ?? 1),
+        activa: true,
+        id_carrera: null,
+      }
+      preguntas.push(nueva)
+      return responder(201, { success: true, data: nueva })
+    }
+    const idPregunta = ruta.match(/^\/api\/evaluations\/questions\/(\d+)$/)?.[1]
+    if (idPregunta && (req.method === 'PUT' || req.method === 'DELETE')) {
+      const pregunta = preguntas.find((p) => p.id === Number(idPregunta))
+      if (!pregunta) return responder(404, { success: false, message: 'Pregunta no encontrada' })
+      if (req.method === 'DELETE') {
+        pregunta.activa = false
+        return responder(200, { success: true, message: 'Pregunta desactivada exitosamente' })
+      }
+      const texto = String(cuerpo.texto_pregunta ?? '').trim()
+      if (!texto) return responder(400, { success: false, message: 'El texto de la pregunta es obligatorio.' })
+      pregunta.texto_pregunta = texto
+      return responder(200, { success: true, data: pregunta })
+    }
     if (req.method === 'PUT' && /^\/api\/users\/[^/]+$/.test(ruta)) return responder(200, { ok: true })
     if (req.method === 'DELETE' && /^\/api\/users\/[^/]+$/.test(ruta)) {
       const id = ruta.split('/').pop()
@@ -227,6 +286,8 @@ export async function levantarBackSimulado(puerto = Number(process.env.BACK_SIMU
     cuentas,
     tokens,
     correos,
+    encuestas,
+    preguntas,
     cerrar: () => new Promise<void>((resolve) => servidor.close(() => resolve())),
   }
 }

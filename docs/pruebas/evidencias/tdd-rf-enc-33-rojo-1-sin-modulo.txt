@@ -1,0 +1,64 @@
+
+ RUN  v5.1.0 C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front
+
+ ❯ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts (0 test)
+ ❯ src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts (2 tests | 2 failed) 9ms
+   ❯ RF-ENC-33 — surveysApi.updateQuestion (2)
+     × hace PUT a /api/evaluations/questions/:id con los datos y devuelve la pregunta 5ms
+     × propaga el error del servidor para que la pantalla lo muestre 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts [ src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts ]
+Error: Failed to resolve import "../../../features/dashboard-admin/preguntas-encuesta" from "src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/Esteban Arias/Documents/Proyectos Sistemas/EntreAulas-RealG/EntreAulas_Front/src/test/unit/evaluaciones/rf-enc-33-corregir-pregunta.test.ts:10:7
+  5  |    datosDePregunta,
+  6  |    validarPregunta
+  7  |  } from "../../../features/dashboard-admin/preguntas-encuesta";
+     |          ^
+  8  |  function pregunta(parcial = {}) {
+  9  |    return {
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:29250:43
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:29247:14
+ ❯ normalizeUrl node_modules/vite/dist/node/chunks/config.js:27370:18
+ ❯ node_modules/vite/dist/node/chunks/config.js:27428:32
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27396:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:29048:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/config.js:22914:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts > RF-ENC-33 — surveysApi.updateQuestion > hace PUT a /api/evaluations/questions/:id con los datos y devuelve la pregunta
+TypeError: surveysApi.updateQuestion is not a function
+ ❯ src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts:35:40
+     33|     // Cuando se llama al cliente
+     34|     // Act
+     35|     const resultado = await surveysApi.updateQuestion(8, datos)
+       |                                        ^
+     36|
+     37|     // Entonces la petición es la del contrato y se devuelve `data`
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts > RF-ENC-33 — surveysApi.updateQuestion > propaga el error del servidor para que la pantalla lo muestre
+TypeError: surveysApi.updateQuestion is not a function
+ ❯ src/test/unit/evaluaciones/rf-enc-33-surveys-api.test.ts:51:32
+     49|     // Cuando se llama al cliente
+     50|     // Act
+     51|     const promesa = surveysApi.updateQuestion(8, {
+       |                                ^
+     52|       categoria_id: 1,
+     53|       texto_pregunta: '',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed (2)
+   Start at  12:25:54
+   Duration  3.51s (environment 71%, setup 25%, transform 3%, worker 1%)
+

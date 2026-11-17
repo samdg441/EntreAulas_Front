@@ -1,0 +1,19 @@
+{
+  "corrida": "c2-sin-healenium",
+  "pagina": "despues",
+  "servidor": "http://localhost:4444/wd/hub",
+  "pasos": [
+    {
+      "paso": "dialogo",
+      "localizador": "By(css selector, div.control-dialogo)",
+      "resultado": "falla",
+      "detalle": "no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\"div.control-dialogo\"}"
+    },
+    {
+      "paso": "grupo",
+      "localizador": "By(xpath, //div[@class=\"control-grupo\"][.//span[contains(.,\"Grupo 01\")]])",
+      "resultado": "falla",
+      "detalle": "no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//div[@class=\"control-grupo\"][.//span[contains(.,\"Grupo 01\")]]\"}"
+    }
+  ]
+}

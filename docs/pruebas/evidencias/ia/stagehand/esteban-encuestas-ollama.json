@@ -1,0 +1,53 @@
+{
+  "nombre": "esteban-encuestas-ollama",
+  "fecha": "2026-11-16T20:49:47.734Z",
+  "url": "http://localhost:3001/admin/surveys",
+  "metrics": {
+    "actPromptTokens": 0,
+    "actCompletionTokens": 0,
+    "actReasoningTokens": 0,
+    "actCachedInputTokens": 0,
+    "actInferenceTimeMs": 0,
+    "extractPromptTokens": 1776,
+    "extractCompletionTokens": 55,
+    "extractReasoningTokens": 0,
+    "extractCachedInputTokens": 0,
+    "extractInferenceTimeMs": 3202,
+    "observePromptTokens": 21904,
+    "observeCompletionTokens": 777,
+    "observeReasoningTokens": 0,
+    "observeCachedInputTokens": 0,
+    "observeInferenceTimeMs": 44055,
+    "totalPromptTokens": 23680,
+    "totalCompletionTokens": 832,
+    "totalReasoningTokens": 0,
+    "totalCachedInputTokens": 0,
+    "totalInferenceTimeMs": 47257
+  },
+  "encuestas": [
+    {
+      "id": 1,
+      "nombre": "Docencia",
+      "descripcion": "",
+      "orden": 1
+    },
+    {
+      "id": 2,
+      "nombre": "Evaluación de cierre",
+      "descripcion": "",
+      "orden": 2
+    }
+  ],
+  "preguntas": [
+    {
+      "id": 1,
+      "categoria_id": 2,
+      "texto_pregunta": "El docente inicia la clase a la hora programada",
+      "tipo_pregunta": "likert",
+      "obligatoria": true,
+      "orden": 1,
+      "activa": false,
+      "id_carrera": null
+    }
+  ]
+}

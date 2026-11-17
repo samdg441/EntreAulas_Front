@@ -1,0 +1,89 @@
+{
+  "nombre": "esteban-seleccion-ollama",
+  "fecha": "2026-11-16T20:50:25.022Z",
+  "url": "http://localhost:3001/evaluate/form",
+  "metrics": {
+    "actPromptTokens": 0,
+    "actCompletionTokens": 0,
+    "actReasoningTokens": 0,
+    "actCachedInputTokens": 0,
+    "actInferenceTimeMs": 0,
+    "extractPromptTokens": 2455,
+    "extractCompletionTokens": 122,
+    "extractReasoningTokens": 0,
+    "extractCachedInputTokens": 0,
+    "extractInferenceTimeMs": 7079,
+    "observePromptTokens": 34070,
+    "observeCompletionTokens": 1259,
+    "observeReasoningTokens": 0,
+    "observeCachedInputTokens": 0,
+    "observeInferenceTimeMs": 75265,
+    "totalPromptTokens": 36525,
+    "totalCompletionTokens": 1381,
+    "totalReasoningTokens": 0,
+    "totalCachedInputTokens": 0,
+    "totalInferenceTimeMs": 82344
+  },
+  "tiempos": [
+    {
+      "paso": "Ada inicia sesión como administradora (act)",
+      "segundos": 15
+    },
+    {
+      "paso": "RF-ENC-32: crear la encuesta (act + fill)",
+      "segundos": 8
+    },
+    {
+      "paso": "RF-ENC-32: agregar una pregunta (act + fill)",
+      "segundos": 9
+    },
+    {
+      "paso": "RF-ENC-33: corregir el texto de la pregunta (act + fill)",
+      "segundos": 20
+    },
+    {
+      "paso": "RF-ENC-33: leer la tabla de preguntas (extract + Zod)",
+      "segundos": 3
+    },
+    {
+      "paso": "RF-ENC-33: retirar la pregunta (act)",
+      "segundos": 2
+    },
+    {
+      "paso": "Eva inicia sesión como estudiante (act)",
+      "segundos": 9
+    },
+    {
+      "paso": "RF-NOT-34/35: abrir la campana (act)",
+      "segundos": 3
+    },
+    {
+      "paso": "RF-NOT-34: leer el aviso (extract + Zod)",
+      "segundos": 4
+    },
+    {
+      "paso": "RF-NOT-35: marcar todas como leídas (act)",
+      "segundos": 4
+    },
+    {
+      "paso": "RF-EVAL-11: elegir a la docente (act)",
+      "segundos": 4
+    },
+    {
+      "paso": "RF-EVAL-12: elegir la materia (observe + selectOption)",
+      "segundos": 4
+    },
+    {
+      "paso": "RF-EVAL-12: elegir el grupo y continuar (act)",
+      "segundos": 9
+    }
+  ],
+  "respaldosDeterministicos": [
+    "el campo de correo institucional",
+    "el campo de contraseña",
+    "Encuentra el botón para crear una encuesta nueva",
+    "el campo de texto Nombre de la encuesta",
+    "el campo de texto Texto de la pregunta dentro del diálogo",
+    "Encuentra el botón Guardar cambios de la pregunta"
+  ]
+}

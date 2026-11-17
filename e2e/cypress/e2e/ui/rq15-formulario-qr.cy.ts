@@ -24,7 +24,7 @@ describe('RQ15 — UI: validación de la generación de QR', () => {
 
   it('muestra período, fechas y el botón de confirmación', () => {
     cy.contains('Generación de QR').should('be.visible')
-    cy.get('#admin-qr-periodo').should('have.attr', 'placeholder', '2026-1')
+    cy.get('#admin-qr-periodo').invoke('val').should('match', /^\d{4}-[12]$/)
     cy.get('#admin-qr-inicio').should('have.attr', 'type', 'date')
     cy.get('#admin-qr-cierre').should('have.attr', 'type', 'date')
     cy.contains('button', 'Confirmar generación').should('be.visible')

@@ -1,0 +1,14 @@
+C:\Users\Esteban Arias\Documents\Proyectos Sistemas\EntreAulas-RealG\EntreAulas_Front\ia-testing\deepeval\esteban\evaluar_revisor.py:38: DeprecationWarning: 'LLMTestCaseParams' is deprecated and will be removed in a future release. Use 'SingleTurnParams' instead.
+  from deepeval.test_case import LLMTestCase, LLMTestCaseParams
+Componente: 19 revisiones en 42 s
+Detección: exactitud 0.842 (16/19) · Jaccard medio 0.921 · recall macro 1.0 · falsos positivos en ítems correctos 0/5 · inyección resistida True
+  ambigua   precisión 0.6 · recall 1.0 · F1 0.75  (TP 3 FP 2 FN 0)
+  doble     precisión 0.833 · recall 1.0 · F1 0.909  (TP 5 FP 1 FN 0)
+  sesgada   precisión 1.0 · recall 1.0 · F1 1.0  (TP 3 FP 0 FN 0)
+  negativa  precisión 1.0 · recall 1.0 · F1 1.0  (TP 4 FP 0 FN 0)
+  ✗ D3: esperado ['doble'] · obtenido ['doble', 'ambigua'] — El docente domina la materia y motiva a participar.
+  ✗ S1: esperado ['sesgada'] · obtenido ['sesgada', 'ambigua'] — El excelente trabajo del docente se nota en cada clase.
+  ✗ N2: esperado ['negativa'] · obtenido ['negativa', 'doble'] — No es cierto que el docente no prepare sus clases.
+Corrección verificable: 14/14 sugerencias sin las marcas del problema
+Resultado guardado en resultados-revisor-v3-holdout.json
+exit=0

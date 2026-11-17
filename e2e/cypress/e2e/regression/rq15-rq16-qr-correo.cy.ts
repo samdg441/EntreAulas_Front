@@ -36,7 +36,7 @@ describe('RQ15 y RQ16 — Generación de QR y correo (E2E)', () => {
   function llenarPeriodo() {
     cy.get('#admin-qr-inicio').type('2026-02-01')
     cy.get('#admin-qr-cierre').type('2026-06-01')
-    cy.get('#admin-qr-periodo').type('2026-1')
+    cy.get('#admin-qr-periodo').clear().type('2026-1')
   }
 
   function abrirCorreo() {
